@@ -68,6 +68,13 @@ export const getProfile = async (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const result = await authService.updateProfile(req.user.id, req.body);
+    await logAction({
+      user: req.user,
+      action: "UPDATE",
+      entity: "User",
+      entityId: req.user.id,
+      req,
+    });
     res.status(200).json(result);
   } catch (error) {
     console.error("Update profile error:", error);
@@ -94,6 +101,13 @@ export const changePassword = async (req, res) => {
       currentPassword,
       newPassword,
     );
+    await logAction({
+      user: req.user,
+      action: "PASSWORD_CHANGE",
+      entity: "User",
+      entityId: req.user.id,
+      req,
+    });
 
     res.status(200).json(result);
   } catch (error) {
@@ -106,13 +120,21 @@ export const changePassword = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-  await logAction({
-    user: req.user,
-    action: "LOGOUT",
-    entity: "User",
-    entityId: req.user._id,
-    req,
-  });
+  try {
+    await logAction({
+      user: req.user,
+      action: "LOGOUT",
+      entity: "User",
+      entityId: req.user._id,
+      req,
+    });
 
-  res.json({ message: "Logged out" });
+    res.json({ message: "Logged out" });
+  } catch (error) {
+    console.error("Logout error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Logout failed",
+    });
+  }
 };

@@ -29,9 +29,10 @@ export const loginUser = async ({ email, password }) => {
 
   user.lastLogin = new Date();
   await user.save();
-
+  const userResponse = user.toObject();
+  delete userResponse.password;
   return {
-    user,
+    user: userResponse,
     token: generateToken(user),
   };
 };
@@ -62,8 +63,8 @@ export const updateProfile = async (userId, updateData) => {
     throw new Error("User not found");
   }
 
-  if (fullName) user.fullName = fullName;
-  if (phone) user.phone = phone;
+  if (fullName !== undefined) user.fullName = fullName;
+  if (phone !== undefined) user.phone = phone;
   if (demographic) {
     user.demographic = { ...user.demographic, ...demographic };
   }
@@ -92,10 +93,16 @@ export const changePassword = async (userId, currentPassword, newPassword) => {
   if (!user) {
     throw new Error("User not found");
   }
+  if (!newPassword || newPassword.length < 8) {
+    throw new Error("New password must be at least 8 characters");
+  }
 
   const isPasswordMatch = await user.comparePassword(currentPassword);
   if (!isPasswordMatch) {
     throw new Error("Current password is incorrect");
+  }
+  if (currentPassword === newPassword) {
+    throw new Error("New password must be different from current password");
   }
 
   user.password = newPassword;
