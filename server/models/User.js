@@ -24,16 +24,28 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
 
-    phone: String,
-
     profilePicture: {
-      type: String,
-      default: "/default-avatar.png",
+      type: {
+        url: String,
+        public_id: String,
+        name: String,
+        size: Number,
+        mimeType: String,
+        isImage: Boolean,
+      },
+      default: {
+        url: "uploads/default-profile.png",
+        public_id: null,
+        name: "Default profile",
+        size: 0,
+        mimeType: "image/png",
+        isImage: true,
+      },
     },
 
     role: {
       type: String,
-      enum: ["user", "staff", "manager", "admin", "super_admin"],
+      enum: ["user", "staff", "admin", "super_admin"],
       default: "user",
     },
 
@@ -48,6 +60,12 @@ const userSchema = new mongoose.Schema(
         "trainer",
         "hr_officer",
         "innovation_officer",
+        "advisor",
+        "supervisor",
+        "intern",
+        "innovator",
+        "startup",
+        "trainee",
       ],
     },
 
@@ -91,7 +109,17 @@ const userSchema = new mongoose.Schema(
     },
 
     isActive: { type: Boolean, default: true },
-    isVerified: { type: Boolean, default: false },
+
+    emailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    emailVerificationToken: String,
+    emailVerificationExpires: Date,
+
+    passwordResetToken: String,
+    passwordResetExpires: Date,
+
     lastLogin: Date,
     registrationDate: { type: Date, default: Date.now },
 
@@ -138,10 +166,6 @@ userSchema.methods.getProfiles = async function () {
     profiles[p.key] = results[i];
   });
   return profiles;
-};
-
-userSchema.methods.hasProfile = function (type) {
-  return !!this[`${type}Profile`];
 };
 
 export default mongoose.model("User", userSchema);
