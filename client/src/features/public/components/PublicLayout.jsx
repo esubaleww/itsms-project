@@ -1,0 +1,458 @@
+import { Outlet, Link, useNavigate, NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "../../../hooks/useAuth";
+import {
+  Menu,
+  X,
+  ChevronDown,
+  User,
+  LogOut,
+  LayoutDashboard,
+  Settings,
+  Briefcase,
+  Newspaper,
+  Mail,
+  Phone,
+  MapPin,
+  Facebook,
+  Twitter,
+  Linkedin,
+  Github,
+  ArrowRight,
+} from "lucide-react";
+const itsmsLogo =
+  "https://res.cloudinary.com/dlqn1qugq/image/upload/q_auto/f_auto/v1776159724/itsms-logo_w1jyzl.jpg";
+
+const PublicLayout = () => {
+  const { user, isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.style.paddingRight = "0px";
+    } else {
+      document.body.style.overflow = "unset";
+      document.body.style.paddingRight = "0px";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+      document.body.style.paddingRight = "0px";
+    };
+  }, [isMobileMenuOpen]);
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+    setIsUserMenuOpen(false);
+  };
+
+  const navLinks = [
+    { to: "/services/browse", label: "Services", icon: Briefcase },
+    { to: "/news", label: "News", icon: Newspaper },
+    { to: "/contact", label: "Contact", icon: Mail },
+  ];
+
+  const footerLinks = {
+    quickLinks: [
+      { to: "/services/browse", label: "Services" },
+      { to: "applications/apply/internship", label: "Internship Program" },
+      { to: "applications/apply/startup", label: "Startup Program" },
+      { to: "/news", label: "News & Updates" },
+    ],
+    support: [
+      { to: "/faq", label: "FAQ" },
+      { to: "/help", label: "Help Center" },
+      { to: "/terms", label: "Terms of Use" },
+      { to: "/privacy", label: "Privacy Policy" },
+    ],
+    contact: {
+      address: "Bahir Dar, Ethiopia",
+      email: "info@itsms.gov.et",
+      phone: "+251-582-123456",
+    },
+  };
+
+  const socialLinks = [
+    { icon: Facebook, href: "#", label: "Facebook" },
+    { icon: Twitter, href: "#", label: "Twitter" },
+    { icon: Linkedin, href: "#", label: "LinkedIn" },
+    { icon: Github, href: "#", label: "GitHub" },
+  ];
+
+  return (
+    <div className="min-h-screen flex flex-col bg-linear-to-br from-slate-800 via-slate-700 to-slate-600">
+      {/* Header */}
+      <header
+        className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-linear-to-br from-slate-800/95 via-slate-700/95 to-slate-600/95 backdrop-blur-md border-b border-slate-600/50 shadow-xl"
+            : "bg-linear-to-b from-slate-800/20 via-transparent to-transparent"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16 lg:h-20">
+            {/* Logo - Circular with dim effect */}
+            <Link
+              to="/"
+              className="flex items-center gap-2 group"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <div className="relative">
+                {/* Subtle glow ring */}
+                <div className="absolute inset-0 rounded-full bg-emerald-500/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                {/* Circular logo container */}
+                <div className="relative rounded-full overflow-hidden bg-slate-600/50 backdrop-blur-sm border border-slate-400/50 shadow-md">
+                  <img
+                    src={itsmsLogo}
+                    alt="ITSMS - Amhara Innovation and Technology Bureau"
+                    className="size-12 brightness-75 contrast-95 group-hover:brightness-100 group-hover:contrast-100 transition-all duration-300"
+                  />
+                </div>
+              </div>
+
+              {/* Bureau name next to logo */}
+              <span className="hidden sm:inline-block text-sm font-medium text-gray-200 group-hover:text-white transition-colors duration-300">
+                ITSMS
+              </span>
+            </Link>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  className={({ isActive }) =>
+                    `text-sm font-medium transition-colors ${
+                      isActive
+                        ? "text-emerald-400"
+                        : "text-gray-200 hover:text-white"
+                    }`
+                  }
+                >
+                  {link.label}
+                </NavLink>
+              ))}
+            </nav>
+
+            {/* Desktop Auth Section */}
+            <div className="hidden md:flex items-center gap-3">
+              {isAuthenticated ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-700/50 border border-slate-600 hover:bg-slate-700 transition group"
+                  >
+                    <div className="w-8 h-8 bg-linear-to-r from-emerald-500 to-teal-700 rounded-full flex items-center justify-center">
+                      <span className="text-white text-sm font-medium">
+                        {user?.fullName?.charAt(0)?.toUpperCase() || "U"}
+                      </span>
+                    </div>
+                    <span className="text-sm text-gray-200 hidden lg:inline">
+                      {user?.fullName?.split(" ")[0]}
+                    </span>
+                    <ChevronDown className="w-4 h-4 text-gray-400" />
+                  </button>
+
+                  <AnimatePresence>
+                    {isUserMenuOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute right-0 mt-2 w-56 bg-slate-800 rounded-xl shadow-2xl border border-slate-700 overflow-hidden z-50"
+                      >
+                        <div className="p-3 border-b border-slate-700 bg-slate-800/90">
+                          <p className="text-white font-medium text-sm">
+                            {user?.fullName}
+                          </p>
+                          <p className="text-xs text-gray-400 mt-0.5">
+                            {user?.email}
+                          </p>
+                        </div>
+                        <div className="py-1">
+                          <Link
+                            to="/dashboard"
+                            onClick={() => setIsUserMenuOpen(false)}
+                            className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:bg-slate-700 transition flex items-center gap-2"
+                          >
+                            <LayoutDashboard className="w-4 h-4" />
+                            Dashboard
+                          </Link>
+                          <Link
+                            to="/profile"
+                            onClick={() => setIsUserMenuOpen(false)}
+                            className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:bg-slate-700 transition flex items-center gap-2"
+                          >
+                            <User className="w-4 h-4" />
+                            Profile Settings
+                          </Link>
+                          <Link
+                            to="/settings"
+                            onClick={() => setIsUserMenuOpen(false)}
+                            className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:bg-slate-700 transition flex items-center gap-2"
+                          >
+                            <Settings className="w-4 h-4" />
+                            Account Settings
+                          </Link>
+                          <div className="border-t border-slate-700 my-1" />
+                          <button
+                            onClick={handleLogout}
+                            className="w-full px-4 py-2 text-left text-sm text-red-400 hover:bg-slate-700 transition flex items-center gap-2"
+                          >
+                            <LogOut className="w-4 h-4" />
+                            Sign Out
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <>
+                  <Link to="/login">
+                    <button className="px-4 py-2 text-gray-200 hover:text-white transition text-sm font-medium">
+                      Sign In
+                    </button>
+                  </Link>
+                  <Link to="/register">
+                    <button className="px-5 py-2 bg-linear-to-r from-emerald-600 to-teal-600 text-white rounded-lg hover:from-emerald-500 hover:to-teal-500 transition text-sm font-medium shadow-lg shadow-emerald-500/20">
+                      Get Started
+                    </button>
+                  </Link>
+                </>
+              )}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg bg-slate-700/50 border border-slate-600 text-gray-200"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ type: "tween", duration: 0.3 }}
+            className="fixed inset-0 z-40 bg-slate-800 pt-20 px-4 md:hidden"
+          >
+            <div className="space-y-4">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:bg-slate-700 transition"
+                >
+                  <link.icon className="w-5 h-5" />
+                  <span>{link.label}</span>
+                </Link>
+              ))}
+              <div className="border-t border-slate-700 my-4 pt-4">
+                {isAuthenticated ? (
+                  <>
+                    <div className="flex items-center gap-3 p-3">
+                      <div className="w-10 h-10 bg-linear-to-r from-emerald-500 to-teal-700 rounded-full flex items-center justify-center">
+                        <span className="text-white font-medium">
+                          {user?.fullName?.charAt(0)?.toUpperCase() || "U"}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-white font-medium">
+                          {user?.fullName}
+                        </p>
+                        <p className="text-xs text-gray-400">{user?.email}</p>
+                      </div>
+                    </div>
+                    <Link
+                      to="/dashboard"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:bg-slate-700 transition"
+                    >
+                      <LayoutDashboard className="w-5 h-5" />
+                      Dashboard
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-3 p-3 rounded-lg text-red-400 hover:bg-slate-700 transition"
+                    >
+                      <LogOut className="w-5 h-5" />
+                      Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <div className="space-y-2">
+                    <Link
+                      to="/login"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-center p-3 rounded-lg border border-slate-600 text-gray-300 hover:bg-slate-700 transition"
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      to="/register"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-center p-3 rounded-lg bg-linear-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-500 hover:to-teal-500 transition"
+                    >
+                      Get Started
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Main Content */}
+      <main className="flex-1">
+        <Outlet />
+      </main>
+
+      {/* Footer */}
+      <footer className="relative bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 border-t border-slate-700/50">
+        <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-emerald-500/40 to-transparent" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Brand Section - Circular logo in footer */}
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="group relative rounded-full overflow-hidden bg-slate-600/50 backdrop-blur-sm border border-slate-400/50 shadow-md">
+                  <img
+                    src={itsmsLogo}
+                    alt="ITSMS - Amhara Innovation and Technology Bureau"
+                    className="size-12 brightness-75 contrast-95 group-hover:brightness-100 group-hover:contrast-100 transition-all duration-300"
+                  />
+                </div>
+                <div>
+                  <span className="text-white font-semibold">ITSMS</span>
+                  <p className="text-xs text-gray-400">Amhara Region</p>
+                </div>
+              </div>
+              <p className="text-gray-300 text-sm mb-4">
+                Innovation and Technology Service Management System - Empowering
+                innovation in the Amhara Region.
+              </p>
+              <div className="flex gap-3">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 bg-slate-700 rounded-lg flex items-center justify-center text-gray-400 hover:text-emerald-400 hover:bg-slate-600 transition"
+                    aria-label={social.label}
+                  >
+                    <social.icon className="w-4 h-4" />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h4 className="text-white font-semibold mb-4">Quick Links</h4>
+              <ul className="space-y-2">
+                {footerLinks.quickLinks.map((link) => (
+                  <li key={link.to}>
+                    <Link
+                      to={link.to}
+                      className="text-gray-400 hover:text-emerald-400 transition text-sm flex items-center gap-1 group"
+                    >
+                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition" />
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Support */}
+            <div>
+              <h4 className="text-white font-semibold mb-4">Support</h4>
+              <ul className="space-y-2">
+                {footerLinks.support.map((link) => (
+                  <li key={link.to}>
+                    <Link
+                      to={link.to}
+                      className="text-gray-400 hover:text-emerald-400 transition text-sm flex items-center gap-1 group"
+                    >
+                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition" />
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h4 className="text-white font-semibold mb-4">Contact Us</h4>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3 text-gray-400 text-sm">
+                  <MapPin className="w-4 h-4 text-emerald-400 mt-0.5" />
+                  <span>{footerLinks.contact.address}</span>
+                </li>
+                <li className="flex items-center gap-3 text-gray-400 text-sm">
+                  <Mail className="w-4 h-4 text-emerald-400" />
+                  <a
+                    href={`mailto:${footerLinks.contact.email}`}
+                    className="hover:text-emerald-400 transition"
+                  >
+                    {footerLinks.contact.email}
+                  </a>
+                </li>
+                <li className="flex items-center gap-3 text-gray-400 text-sm">
+                  <Phone className="w-4 h-4 text-emerald-400" />
+                  <a
+                    href={`tel:${footerLinks.contact.phone}`}
+                    className="hover:text-emerald-400 transition"
+                  >
+                    {footerLinks.contact.phone}
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Copyright */}
+          <div className="border-t border-slate-700 mt-8 pt-8 text-center">
+            <p className="text-gray-500 text-sm">
+              &copy; {new Date().getFullYear()} Amhara National Regional State
+              Innovation and Technology Bureau. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default PublicLayout;
