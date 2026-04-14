@@ -1,4 +1,3 @@
-// utils/auditLogger.js
 import AuditLog from "../models/AuditLog.js";
 
 export const logAction = async ({
@@ -23,6 +22,6 @@ export const logAction = async ({
       userAgent: req?.headers["user-agent"],
     });
   } catch (err) {
-    console.error("Audit log failed:", err.message);
+    console.error("Audit log failed:", err);
   }
 };

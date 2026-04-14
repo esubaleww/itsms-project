@@ -9,14 +9,53 @@ export const register = async (req, res) => {
       user: data.user,
       action: "CREATE",
       entity: "User",
-      entityId: data.user._id,
+      entityId: data.user.id,
       req,
     });
 
     res.status(201).json(data);
   } catch (err) {
     res.status(400).json({
+      success: false,
       message: err.message,
+    });
+  }
+};
+
+export const verifyEmail = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const result = await authService.verifyEmail(token);
+    res.json({
+      success: true,
+      message:
+        result.message || "Email verified successfully! You can now log in.",
+    });
+  } catch (error) {
+    console.error("Verify email error:", error);
+    res.status(400).json({
+      success: false,
+      message: error.message || "Invalid or expired verification token",
+    });
+  }
+};
+
+export const resendVerification = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email || typeof email !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Valid email is required",
+      });
+    }
+
+    const result = await authService.resendVerification(email);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
     });
   }
 };
@@ -29,7 +68,7 @@ export const login = async (req, res) => {
       user: data.user,
       action: "LOGIN",
       entity: "User",
-      entityId: data.user._id,
+      entityId: data.user.id,
       req,
     });
 
@@ -46,15 +85,44 @@ export const login = async (req, res) => {
       req,
     });
 
-    res.status(400).json({
+    res.status(401).json({
+      success: false,
       message: err.message,
+    });
+  }
+};
+
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const result = await authService.forgotPassword({ email });
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    const result = await authService.resetPassword(token, password);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
     });
   }
 };
 
 export const getProfile = async (req, res) => {
   try {
-    const result = await authService.getProfile(req.user.id);
+    const result = await authService.getProfile(req.user._id);
     res.status(200).json(result);
   } catch (error) {
     console.error("Get profile error:", error);
@@ -68,13 +136,6 @@ export const getProfile = async (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const result = await authService.updateProfile(req.user.id, req.body);
-    await logAction({
-      user: req.user,
-      action: "UPDATE",
-      entity: "User",
-      entityId: req.user.id,
-      req,
-    });
     res.status(200).json(result);
   } catch (error) {
     console.error("Update profile error:", error);
@@ -101,13 +162,6 @@ export const changePassword = async (req, res) => {
       currentPassword,
       newPassword,
     );
-    await logAction({
-      user: req.user,
-      action: "PASSWORD_CHANGE",
-      entity: "User",
-      entityId: req.user.id,
-      req,
-    });
 
     res.status(200).json(result);
   } catch (error) {
@@ -120,21 +174,13 @@ export const changePassword = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-  try {
-    await logAction({
-      user: req.user,
-      action: "LOGOUT",
-      entity: "User",
-      entityId: req.user._id,
-      req,
-    });
+  await logAction({
+    user: req.user,
+    action: "LOGOUT",
+    entity: "User",
+    entityId: req.user._id,
+    req,
+  });
 
-    res.json({ message: "Logged out" });
-  } catch (error) {
-    console.error("Logout error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Logout failed",
-    });
-  }
+  res.json({ success: true, message: "Logged out successfully" });
 };
