@@ -34,7 +34,6 @@ export const sendEmail = async (to, subject, templateName, data) => {
   }
 };
 
-// Specific email functions
 export const sendVerificationEmail = (to, fullName, token) => {
   return sendEmail(to, "Verify Your Email Address", "verification", {
     fullName,
@@ -148,7 +147,6 @@ export const sendTaskAssignedEmail = (
   });
 };
 
-// Director → Team Lead
 export const sendRequestAssignedToTeam = (
   to,
   fullName,
@@ -185,7 +183,6 @@ export const sendRequestAssignedToTeam = (
   );
 };
 
-// Director → Staff (promote to team lead)
 export const sendPromotedToTeamLead = (
   to,
   fullName,
@@ -209,7 +206,6 @@ export const sendPromotedToTeamLead = (
   );
 };
 
-// Member → Team Lead
 export const sendTaskStatusUpdated = (
   to,
   fullName,

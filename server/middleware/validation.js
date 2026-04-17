@@ -30,11 +30,7 @@ export const validateEnum = (field, allowedValues) => {
   };
 };
 
-/**
- * Global error handler for MongoDB errors
- */
 export const handleValidationErrors = (err, req, res, next) => {
-  // Handle invalid ObjectId
   if (err.name === "CastError" && err.kind === "ObjectId") {
     return res.status(400).json({
       success: false,
@@ -42,7 +38,6 @@ export const handleValidationErrors = (err, req, res, next) => {
     });
   }
 
-  // Handle duplicate key
   if (err.code === 11000) {
     const field = Object.keys(err.keyPattern)[0];
     return res.status(409).json({

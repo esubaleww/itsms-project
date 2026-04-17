@@ -1,0 +1,122 @@
+import { motion } from "framer-motion";
+import {
+  User,
+  Mail,
+  Phone,
+  Award,
+  Star,
+  CheckCircle,
+  Clock,
+} from "lucide-react";
+
+const TeamMembersList = ({ members, detailed = false }) => {
+  if (!members || members.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <User className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+        <p className="text-gray-400">No team members</p>
+        <p className="text-sm text-gray-500 mt-1">
+          Members will appear here when added to your team
+        </p>
+      </div>
+    );
+  }
+
+  if (!detailed) {
+    return (
+      <div className="divide-y divide-gray-700">
+        {members.map((member, idx) => (
+          <div key={idx} className="p-4 hover:bg-gray-700/30 transition">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-linear-to-r from-emerald-500/20 to-teal-700/20 rounded-full flex items-center justify-center">
+                <span className="text-white font-medium">
+                  {member.fullName?.charAt(0) || "?"}
+                </span>
+              </div>
+              <div className="flex-1">
+                <p className="font-medium text-white">{member.fullName}</p>
+                <p className="text-xs text-gray-400 capitalize">
+                  {member.position || "Team Member"}
+                </p>
+              </div>
+              <div className="flex items-center gap-1">
+                {member.activeTasks > 0 && (
+                  <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full">
+                    {member.activeTasks} tasks
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {members.map((member, idx) => (
+        <motion.div
+          key={idx}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: idx * 0.05 }}
+          className="bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-700 hover:border-gray-600 transition-all p-4"
+        >
+          <div className="flex items-start gap-3">
+            <div className="w-12 h-12 bg-linear-to-r from-emerald-500 to-teal-700 rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-lg">
+                {member.fullName?.charAt(0) || "?"}
+              </span>
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-white">{member.fullName}</h3>
+              <p className="text-xs text-gray-400 capitalize">
+                {member.position || "Team Member"}
+              </p>
+              <div className="flex items-center gap-2 mt-2">
+                {member.email && (
+                  <a
+                    href={`mailto:${member.email}`}
+                    className="text-gray-500 hover:text-emerald-400 transition"
+                  >
+                    <Mail className="w-3 h-3" />
+                  </a>
+                )}
+                {member.phone && (
+                  <a
+                    href={`tel:${member.phone}`}
+                    className="text-gray-500 hover:text-emerald-400 transition"
+                  >
+                    <Phone className="w-3 h-3" />
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-3 pt-3 border-t border-gray-700">
+            <div className="flex justify-between text-xs">
+              <span className="text-gray-500">Tasks Completed</span>
+              <span className="text-emerald-400">
+                {member.completedTasks || 0}
+              </span>
+            </div>
+            <div className="flex justify-between text-xs mt-1">
+              <span className="text-gray-500">In Progress</span>
+              <span className="text-blue-400">{member.activeTasks || 0}</span>
+            </div>
+            <div className="mt-2 w-full bg-gray-600 rounded-full h-1">
+              <div
+                className="bg-emerald-500 h-1 rounded-full"
+                style={{ width: `${member.completionRate || 0}%` }}
+              />
+            </div>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
+export default TeamMembersList;
