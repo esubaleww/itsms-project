@@ -1,9 +1,73 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap");
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", sans-serif;
+  --font-heading: "Poppins", sans-serif;
+
+  /* Design system tokens */
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #334155;
+  --color-text-muted: #4b5563;
+  --color-accent: #2563eb;
+  --color-accent-teal: #14b8a6;
 }
+
+/* ── Global base ─────────────────────────────────────────── */
+body {
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Shared button system ────────────────────────────────── */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 12px 28px;
+  border-radius: 999px;
+  border: 2px solid #2563eb;
+  background: transparent;
+  color: #2563eb;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-outline:hover {
+  background: #2563eb;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+}
+
+.btn-filled {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 12px 28px;
+  border-radius: 999px;
+  border: 2px solid #2563eb;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+}
+.btn-filled:hover {
+  background: transparent;
+  color: #2563eb;
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* ── Utility ─────────────────────────────────────────────── */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -14,7 +78,6 @@
     transform: translateY(0);
   }
 }
-
 .animate-fadeIn {
   animation: fadeIn 0.2s ease-out;
 }

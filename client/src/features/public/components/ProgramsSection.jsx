@@ -58,7 +58,7 @@ const programs = [
 
 export default function ProgramsSection({ isAuthenticated, onApply }) {
   return (
-    <section className="py-24 bg-linear-to-b from-slate-800 via-slate-700/50 to-slate-800">
+    <section className="py-24 bg-[#fcf5f8]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -67,16 +67,16 @@ export default function ProgramsSection({ isAuthenticated, onApply }) {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full mb-4">
-            <Trophy className="w-4 h-4 text-emerald-400" />
-            <span className="text-sm text-emerald-400 font-medium">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-[#E5E7EB] rounded-full mb-4 shadow-sm">
+            <Trophy className="w-4 h-4 text-[#2563eb]" />
+            <span className="text-sm text-[#374151] font-medium">
               Our Programs
             </span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#111827] mb-4">
             Choose Your Path
           </h2>
-          <p className="text-lg text-slate-300 max-w-2xl mx-auto">
+          <p className="text-lg text-[#374151] max-w-2xl mx-auto">
             Select from our innovative programs designed to foster growth,
             learning, and technological advancement.
           </p>
@@ -94,7 +94,7 @@ export default function ProgramsSection({ isAuthenticated, onApply }) {
               whileHover={{ y: -8 }}
               className="group relative"
             >
-              <div className="relative bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700 overflow-hidden hover:border-slate-600 transition-all duration-300 h-full flex flex-col">
+              <div className="relative bg-white rounded-2xl border border-[#E5E7EB] overflow-hidden hover:border-[#2563eb]/30 transition-all duration-300 h-full flex flex-col shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
                 {/* Image Section */}
                 <div className="relative h-48 overflow-hidden">
                   <img
@@ -122,10 +122,10 @@ export default function ProgramsSection({ isAuthenticated, onApply }) {
                 </div>
 
                 <div className="p-6 flex-1 flex flex-col">
-                  <h3 className="text-xl font-bold text-white mb-3">
+                  <h3 className="text-xl font-bold text-[#111827] mb-3">
                     {program.title}
                   </h3>
-                  <p className="text-slate-300 text-sm mb-4 leading-relaxed">
+                  <p className="text-[#374151] text-sm mb-4 leading-relaxed">
                     {program.description}
                   </p>
 
@@ -138,7 +138,7 @@ export default function ProgramsSection({ isAuthenticated, onApply }) {
                         <CheckCircle
                           className={`w-4 h-4 text-${program.color}-400`}
                         />
-                        <span className="text-slate-300">{benefit}</span>
+                        <span className="text-[#374151]">{benefit}</span>
                       </div>
                     ))}
                   </div>
