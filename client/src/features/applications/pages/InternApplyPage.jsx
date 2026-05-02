@@ -62,26 +62,26 @@ const InternApplyPage = () => {
 
   if (user?.profiles?.intern) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center py-12 px-4">
+      <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center py-12 px-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="max-w-md w-full bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700 p-8 text-center"
+          className="max-w-md w-full bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-2xl border border-[#E5E7EB] p-8 text-center"
         >
           <div className="w-20 h-20 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <AlertCircle className="w-10 h-10 text-yellow-400" />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-2">
+          <h2 className="text-2xl font-bold text-[#0f172a] mb-2">
             Already Applied!
           </h2>
-          <p className="text-gray-400 mb-6">
+          <p className="text-[#4b5563] mb-6">
             You have already submitted an internship application. Our team is
             reviewing your application. You will be notified once there's an
             update.
           </p>
           <button
             onClick={() => navigate("/dashboard")}
-            className="px-6 py-2 bg-linear-to-r from-emerald-500 to-teal-700 text-white rounded-lg hover:from-emerald-600 hover:to-teal-800 transition flex items-center justify-center gap-2 mx-auto"
+            className="px-6 py-2 bg-[#2563eb] text-[#0f172a] rounded-lg hover:from-emerald-600 hover:to-teal-800 transition flex items-center justify-center gap-2 mx-auto"
           >
             Back to Dashboard
             <ArrowRight className="w-4 h-4" />
@@ -218,20 +218,20 @@ const InternApplyPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 py-12 px-4">
+    <div className="min-h-screen bg-[#F9FAFB] py-12 px-4">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <div className="inline-flex items-center justify-center p-3 bg-linear-to-r from-emerald-500 to-teal-700 rounded-2xl mb-4">
-            <Briefcase className="w-8 h-8 text-white" />
+          <div className="inline-flex items-center justify-center p-3 bg-[#2563eb] rounded-2xl mb-4">
+            <Briefcase className="w-8 h-8 text-[#0f172a]" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold text-[#0f172a] mb-2">
             Internship Application
           </h1>
-          <p className="text-gray-400">
+          <p className="text-[#4b5563]">
             Join our team and start your journey in innovation and technology
           </p>
         </motion.div>
@@ -247,8 +247,8 @@ const InternApplyPage = () => {
                   <div
                     className={`relative w-12 h-12 rounded-full flex items-center justify-center mx-auto transition-all duration-300 ${
                       isActive
-                        ? "bg-linear-to-r from-emerald-500 to-teal-700 text-white shadow-lg"
-                        : "bg-gray-700 text-gray-400"
+                        ? "bg-[#2563eb] text-[#0f172a] shadow-lg"
+                        : "bg-white text-[#4b5563]"
                     }`}
                   >
                     {isCompleted ? (
@@ -259,7 +259,7 @@ const InternApplyPage = () => {
                   </div>
                   <p
                     className={`text-xs mt-2 font-medium ${
-                      isActive ? "text-emerald-400" : "text-gray-500"
+                      isActive ? "text-[#2563eb]" : "text-[#64748b]"
                     }`}
                   >
                     {step.title}
@@ -268,9 +268,9 @@ const InternApplyPage = () => {
               );
             })}
           </div>
-          <div className="relative w-full bg-gray-700 rounded-full h-2">
+          <div className="relative w-full bg-white rounded-full h-2">
             <motion.div
-              className="absolute left-0 top-0 h-full bg-linear-to-r from-emerald-500 to-teal-700 rounded-full"
+              className="absolute left-0 top-0 h-full bg-[#2563eb] rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${(currentStep / totalSteps) * 100}%` }}
               transition={{ duration: 0.3 }}
@@ -281,7 +281,7 @@ const InternApplyPage = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700 overflow-hidden"
+          className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-2xl border border-[#E5E7EB] overflow-hidden"
         >
           <form onSubmit={handleSubmit}>
             <AnimatePresence mode="wait">
@@ -294,67 +294,67 @@ const InternApplyPage = () => {
                   className="p-8 space-y-6"
                 >
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-emerald-500/20 rounded-lg">
-                      <User className="w-5 h-5 text-emerald-400" />
+                    <div className="p-2 bg-[#2563eb]/10 rounded-lg">
+                      <User className="w-5 h-5 text-[#2563eb]" />
                     </div>
-                    <h2 className="text-xl font-semibold text-white">
+                    <h2 className="text-xl font-semibold text-[#0f172a]">
                       Personal Information
                     </h2>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#334155] mb-2">
                         Full Name
                       </label>
                       <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" />
                         <input
                           type="text"
                           value={formData.fullName}
                           disabled
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white cursor-not-allowed"
+                          className="w-full pl-10 pr-3 py-2 bg-gray-50 border border-[#E5E7EB] rounded-lg text-[#0f172a] cursor-not-allowed"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#334155] mb-2">
                         Email Address
                       </label>
                       <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" />
                         <input
                           type="email"
                           value={formData.email}
                           disabled
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white cursor-not-allowed"
+                          className="w-full pl-10 pr-3 py-2 bg-gray-50 border border-[#E5E7EB] rounded-lg text-[#0f172a] cursor-not-allowed"
                         />
                       </div>
                     </div>
 
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#334155] mb-2">
                         Phone Number <span className="text-red-400">*</span>
                       </label>
                       <div className="relative">
-                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" />
                         <input
                           type="tel"
                           name="phone"
                           value={formData.phone}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-gray-50 border border-[#E5E7EB] rounded-lg text-[#0f172a] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="+251 912 345 678"
                         />
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4">
+                  <div className="bg-[#2563eb]/10 border border-[#2563eb]/30 rounded-lg p-4">
                     <div className="flex items-start gap-3">
-                      <Sparkles className="w-5 h-5 text-emerald-400 mt-0.5" />
-                      <p className="text-sm text-emerald-300">
+                      <Sparkles className="w-5 h-5 text-[#2563eb] mt-0.5" />
+                      <p className="text-sm text-[#4b5563]">
                         Your personal information is pre-filled from your
                         account. Please verify and add your phone number to
                         continue.
@@ -373,61 +373,61 @@ const InternApplyPage = () => {
                   className="p-8 space-y-6"
                 >
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-emerald-500/20 rounded-lg">
-                      <GraduationCap className="w-5 h-5 text-emerald-400" />
+                    <div className="p-2 bg-[#2563eb]/10 rounded-lg">
+                      <GraduationCap className="w-5 h-5 text-[#2563eb]" />
                     </div>
-                    <h2 className="text-xl font-semibold text-white">
+                    <h2 className="text-xl font-semibold text-[#0f172a]">
                       Education & Skills
                     </h2>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#334155] mb-2">
                         University/Institution{" "}
                         <span className="text-red-400">*</span>
                       </label>
                       <div className="relative">
-                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" />
                         <input
                           type="text"
                           name="universityName"
                           value={formData.universityName}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-gray-50 border border-[#E5E7EB] rounded-lg text-[#0f172a] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="Addis Ababa University"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#334155] mb-2">
                         Department
                       </label>
                       <div className="relative">
-                        <BookOpen className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <BookOpen className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" />
                         <input
                           type="text"
                           name="department"
                           value={formData.department}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-gray-50 border border-[#E5E7EB] rounded-lg text-[#0f172a] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="Computer Science"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#334155] mb-2">
                         Year of Study
                       </label>
                       <div className="relative">
-                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" />
                         <select
                           name="year"
                           value={formData.year}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 appearance-none"
+                          className="w-full pl-10 pr-3 py-2 bg-gray-50 border border-[#E5E7EB] rounded-lg text-[#0f172a] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] appearance-none"
                         >
                           <option value="">Select Year</option>
                           <option value="1st Year">1st Year</option>
@@ -441,27 +441,27 @@ const InternApplyPage = () => {
                     </div>
 
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#334155] mb-2">
                         Student ID <span className="text-red-400">*</span>
                       </label>
                       <div className="relative">
-                        <IdCard className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <IdCard className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" />
                         <input
                           type="text"
                           name="studentId"
                           value={formData.studentId}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-gray-50 border border-[#E5E7EB] rounded-lg text-[#0f172a] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="STU2024001"
                         />
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-xs text-[#64748b] mt-1">
                         Format: STU + year + 4 digits (e.g., STU2024001)
                       </p>
                     </div>
 
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#334155] mb-2">
                         Skills
                       </label>
                       <div className="flex gap-2">
@@ -469,7 +469,7 @@ const InternApplyPage = () => {
                           type="text"
                           value={skillInput}
                           onChange={(e) => setSkillInput(e.target.value)}
-                          className="flex-1 px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="flex-1 px-3 py-2 bg-gray-50 border border-[#E5E7EB] rounded-lg text-[#0f172a] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="e.g., JavaScript, React, Python"
                           onKeyDown={(e) =>
                             e.key === "Enter" &&
@@ -479,7 +479,7 @@ const InternApplyPage = () => {
                         <button
                           type="button"
                           onClick={addSkill}
-                          className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition flex items-center gap-2"
+                          className="px-4 py-2 bg-emerald-600 text-[#0f172a] rounded-lg hover:bg-emerald-700 transition flex items-center gap-2"
                         >
                           <Plus className="w-4 h-4" /> Add
                         </button>
@@ -488,7 +488,7 @@ const InternApplyPage = () => {
                         {formData.skills.map((skill) => (
                           <span
                             key={skill}
-                            className="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-sm flex items-center gap-2"
+                            className="bg-[#2563eb]/10 text-[#2563eb] px-3 py-1 rounded-full text-sm flex items-center gap-2"
                           >
                             {skill}
                             <button
@@ -504,51 +504,51 @@ const InternApplyPage = () => {
                     </div>
 
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#334155] mb-2">
                         Portfolio / Personal Website
                       </label>
                       <div className="relative">
-                        <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" />
                         <input
                           type="url"
                           name="portfolio"
                           value={formData.portfolio}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-gray-50 border border-[#E5E7EB] rounded-lg text-[#0f172a] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="https://yourportfolio.com"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#334155] mb-2">
                         GitHub Profile
                       </label>
                       <div className="relative">
-                        <Github className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <Github className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" />
                         <input
                           type="url"
                           name="github"
                           value={formData.github}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-gray-50 border border-[#E5E7EB] rounded-lg text-[#0f172a] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="https://github.com/username"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#334155] mb-2">
                         LinkedIn Profile
                       </label>
                       <div className="relative">
-                        <Linkedin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <Linkedin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" />
                         <input
                           type="url"
                           name="linkedin"
                           value={formData.linkedin}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-gray-50 border border-[#E5E7EB] rounded-lg text-[#0f172a] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="https://linkedin.com/in/username"
                         />
                       </div>
@@ -566,10 +566,10 @@ const InternApplyPage = () => {
                   className="p-8 space-y-6"
                 >
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-emerald-500/20 rounded-lg">
-                      <FileText className="w-5 h-5 text-emerald-400" />
+                    <div className="p-2 bg-[#2563eb]/10 rounded-lg">
+                      <FileText className="w-5 h-5 text-[#2563eb]" />
                     </div>
-                    <h2 className="text-xl font-semibold text-white">
+                    <h2 className="text-xl font-semibold text-[#0f172a]">
                       Required Documents
                     </h2>
                   </div>
@@ -577,7 +577,7 @@ const InternApplyPage = () => {
                   <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-4">
                     <div className="flex items-start gap-3">
                       <Upload className="w-5 h-5 text-blue-400 mt-0.5" />
-                      <p className="text-sm text-blue-300">
+                      <p className="text-sm text-blue-700">
                         Select your documents from Google Drive. Files will be
                         automatically shared with the bureau.
                       </p>
@@ -620,7 +620,7 @@ const InternApplyPage = () => {
                     </ErrorBoundary>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#334155] mb-2">
                         Additional Information
                       </label>
                       <textarea
@@ -628,7 +628,7 @@ const InternApplyPage = () => {
                         rows={4}
                         value={formData.additionalInfo}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                        className="w-full px-3 py-2 bg-gray-50 border border-[#E5E7EB] rounded-lg text-[#0f172a] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                         placeholder="Tell us anything else you'd like us to know about you..."
                       />
                     </div>
@@ -637,12 +637,12 @@ const InternApplyPage = () => {
               )}
             </AnimatePresence>
 
-            <div className="border-t border-gray-700 p-6 flex justify-between">
+            <div className="border-t border-[#E5E7EB] p-6 flex justify-between">
               {currentStep > 1 && (
                 <button
                   type="button"
                   onClick={prevStep}
-                  className="px-6 py-2 border border-gray-600 rounded-lg text-gray-300 hover:bg-gray-700 transition flex items-center gap-2"
+                  className="px-6 py-2 border border-[#E5E7EB] rounded-lg text-[#334155] hover:bg-white transition flex items-center gap-2"
                 >
                   <ChevronLeft className="w-4 h-4" />
                   Previous
@@ -652,7 +652,7 @@ const InternApplyPage = () => {
                 <button
                   type="button"
                   onClick={nextStep}
-                  className={`px-6 py-2 bg-linear-to-r from-emerald-600 to-teal-600 text-white rounded-lg hover:from-emerald-500 hover:to-teal-500 transition flex items-center gap-2 ${
+                  className={`px-6 py-2 bg-linear-to-r from-emerald-600 to-teal-600 text-[#0f172a] rounded-lg hover:from-emerald-500 hover:to-teal-500 transition flex items-center gap-2 ${
                     currentStep === 1 ? "ml-auto" : ""
                   }`}
                 >
@@ -663,7 +663,7 @@ const InternApplyPage = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-6 py-2 bg-linear-to-r from-emerald-600 to-teal-600 text-white rounded-lg hover:from-emerald-500 hover:to-teal-500 transition flex items-center gap-2 ml-auto disabled:opacity-50"
+                  className="px-6 py-2 bg-linear-to-r from-emerald-600 to-teal-600 text-[#0f172a] rounded-lg hover:from-emerald-500 hover:to-teal-500 transition flex items-center gap-2 ml-auto disabled:opacity-50"
                 >
                   {loading ? (
                     <>
@@ -688,7 +688,7 @@ const InternApplyPage = () => {
           transition={{ delay: 0.5 }}
           className="mt-6 text-center"
         >
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-[#64748b]">
             By submitting this application, you agree to our terms and
             conditions. Your information will be kept confidential and used only
             for the application process.
