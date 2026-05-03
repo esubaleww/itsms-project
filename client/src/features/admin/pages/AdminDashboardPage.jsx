@@ -194,17 +194,17 @@ const AdminDashboardPage = () => {
 
   if (loading && !stats) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-gray-900 to-gray-800">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500 mx-auto"></div>
-          <p className="mt-4 text-gray-400">Loading dashboard...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563eb] mx-auto"></div>
+          <p className="mt-4 text-[#6b7280]">Loading dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900">
+    <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6]">
       <AdminHeader
         onRefresh={fetchAll}
         title="Admin Dashboard"
@@ -221,7 +221,7 @@ const AdminDashboardPage = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="bg-gray-800 border-b border-gray-700 overflow-hidden relative z-50"
+            className="bg-white border-b border-[#E5E7EB] overflow-hidden relative z-50"
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
               <AnalyticsTab />
@@ -233,7 +233,7 @@ const AdminDashboardPage = () => {
       <div className="flex">
         {/* Desktop Sidebar */}
         <aside
-          className={`hidden md:block fixed left-0 top-16 h-[calc(100vh-4rem)] transition-all duration-300 bg-gray-800/50 border-r border-gray-700 ${
+          className={`hidden md:block fixed left-0 top-16 h-[calc(100vh-4rem)] transition-all duration-300 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-r border-[#E5E7EB] ${
             sidebarCollapsed ? "w-20" : "w-64"
           }`}
           style={{ zIndex: 40 }}
@@ -248,8 +248,8 @@ const AdminDashboardPage = () => {
             w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap
             ${
               activeTab === item.id
-                ? "bg-emerald-500/20 text-emerald-400 border-l-2 border-emerald-500"
-                : "text-gray-400 hover:bg-gray-700/50 hover:text-white"
+                ? "bg-[#EEF2FF] text-[#2563eb] font-medium border-l-[3px] border-[#2563eb]"
+                : "text-[#374151] hover:bg-[#F3F4F6] hover:text-[#111827]"
             }
             ${sidebarCollapsed ? "justify-center px-2" : ""}
           `}
@@ -262,7 +262,7 @@ const AdminDashboardPage = () => {
                     </span>
                   )}
                   {!sidebarCollapsed && item.count > 0 && (
-                    <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full shrink-0">
+                    <span className="text-xs px-2 py-0.5 bg-[#2563eb]/10 text-[#2563eb] rounded-full shrink-0">
                       {item.count}
                     </span>
                   )}
@@ -272,12 +272,12 @@ const AdminDashboardPage = () => {
           </div>
           <button
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            className="absolute -right-3 top-1/2 -translate-y-1/2 bg-gray-700 hover:bg-gray-600 rounded-full p-1.5 shadow-lg z-20 transition-colors border border-gray-600"
+            className="absolute -right-3 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-100 rounded-full p-1.5 shadow-lg z-20 transition-colors border border-[#E5E7EB]"
           >
             {sidebarCollapsed ? (
-              <ChevronRight className="w-4 h-4 text-gray-300" />
+              <ChevronRight className="w-4 h-4 text-[#334155]" />
             ) : (
-              <ChevronLeft className="w-4 h-4 text-gray-300" />
+              <ChevronLeft className="w-4 h-4 text-[#334155]" />
             )}
           </button>
         </aside>
@@ -297,15 +297,15 @@ const AdminDashboardPage = () => {
                 animate={{ x: 0 }}
                 exit={{ x: -280 }}
                 transition={{ type: "tween", duration: 0.3 }}
-                className="fixed left-0 top-0 bottom-0 w-64 bg-gray-800 border-r border-gray-700 z-50 md:hidden"
+                className="fixed left-0 top-0 bottom-0 w-64 bg-white border-r border-[#E5E7EB] z-50 md:hidden"
               >
-                <div className="flex justify-between items-center p-4 border-b border-gray-700">
-                  <span className="text-white font-bold">Menu</span>
+                <div className="flex justify-between items-center p-4 border-b border-[#E5E7EB]">
+                  <span className="text-[#0f172a] font-bold">Menu</span>
                   <button
                     onClick={() => setMobileSidebarOpen(false)}
-                    className="p-1 hover:bg-gray-700 rounded-lg"
+                    className="p-1 hover:bg-white rounded-lg"
                   >
-                    <X className="w-5 h-5 text-gray-400" />
+                    <X className="w-5 h-5 text-[#4b5563]" />
                   </button>
                 </div>
                 <nav className="p-4 space-y-1 overflow-y-auto h-[calc(100%-4rem)]">
@@ -317,8 +317,8 @@ const AdminDashboardPage = () => {
                         w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
                         ${
                           activeTab === item.id
-                            ? "bg-emerald-500/20 text-emerald-400"
-                            : "text-gray-400 hover:bg-gray-700/50 hover:text-white"
+                            ? "bg-[#EEF2FF] text-[#2563eb] font-medium border-l-[3px] border-[#2563eb]"
+                            : "text-[#374151] hover:bg-[#F3F4F6] hover:text-[#111827]"
                         }
                       `}
                     >
@@ -327,7 +327,7 @@ const AdminDashboardPage = () => {
                         {item.label}
                       </span>
                       {item.count > 0 && (
-                        <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full">
+                        <span className="text-xs px-2 py-0.5 bg-[#2563eb]/10 text-[#2563eb] rounded-full">
                           {item.count}
                         </span>
                       )}
@@ -355,24 +355,24 @@ const AdminDashboardPage = () => {
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
                     {/* Recent Requests */}
-                    <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden">
-                      <div className="px-6 py-4 border-b border-gray-700 flex justify-between items-center">
-                        <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-                          <FileText className="w-5 h-5 text-emerald-400" />
+                    <div className="bg-white rounded-xl border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200 ease-in-out overflow-hidden">
+                      <div className="px-6 py-4 border-b border-[#E5E7EB] flex justify-between items-center">
+                        <h2 className="text-lg font-semibold text-[#111827] flex items-center gap-2">
+                          <FileText className="w-5 h-5 text-[#2563eb]" />
                           Recent Requests
                         </h2>
                         <button
                           onClick={() => handleTabChange("requests")}
-                          className="text-sm text-emerald-400 hover:text-emerald-300 transition"
+                          className="text-sm text-[#2563eb] hover:text-[#1d4ed8] transition"
                         >
                           View all →
                         </button>
                       </div>
-                      <div className="divide-y divide-gray-700">
+                      <div className="divide-y divide-[#E5E7EB]">
                         {pendingRequests?.slice(0, 5).map((req) => (
                           <div
                             key={req._id}
-                            className="px-6 py-4 hover:bg-gray-700/50 cursor-pointer transition"
+                            className="px-6 py-4 hover:bg-[#F3F4F6] cursor-pointer transition"
                             onClick={() => {
                               setSelectedRequest(req);
                               setModalType("request_detail");
@@ -381,22 +381,22 @@ const AdminDashboardPage = () => {
                           >
                             <div className="flex justify-between items-start">
                               <div>
-                                <p className="font-medium text-white">
+                                <p className="font-medium text-[#111827]">
                                   {req.applicant?.fullName || "Unknown"}
                                 </p>
-                                <p className="text-sm text-gray-400 mt-0.5 capitalize">
+                                <p className="text-sm text-[#374151] mt-0.5 capitalize">
                                   {req.type}
                                 </p>
                               </div>
-                              <span className="text-xs text-gray-500">
+                              <span className="text-xs text-[#64748b]">
                                 {new Date(req.createdAt).toLocaleDateString()}
                               </span>
                             </div>
                           </div>
                         ))}
                         {pendingRequests?.length === 0 && (
-                          <div className="px-6 py-8 text-center text-gray-500">
-                            <FileText className="w-10 h-10 mx-auto text-gray-600 mb-2" />
+                          <div className="px-6 py-8 text-center text-[#6b7280]">
+                            <FileText className="w-10 h-10 mx-auto text-[#6b7280] mb-2" />
                             <p>No pending requests</p>
                           </div>
                         )}
@@ -404,24 +404,24 @@ const AdminDashboardPage = () => {
                     </div>
 
                     {/* Recent Reports */}
-                    <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden">
-                      <div className="px-6 py-4 border-b border-gray-700 flex justify-between items-center">
-                        <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-                          <Award className="w-5 h-5 text-emerald-400" />
+                    <div className="bg-white rounded-xl border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200 ease-in-out overflow-hidden">
+                      <div className="px-6 py-4 border-b border-[#E5E7EB] flex justify-between items-center">
+                        <h2 className="text-lg font-semibold text-[#111827] flex items-center gap-2">
+                          <Award className="w-5 h-5 text-[#2563eb]" />
                           Recent Reports
                         </h2>
                         <button
                           onClick={() => handleTabChange("reports")}
-                          className="text-sm text-emerald-400 hover:text-emerald-300 transition"
+                          className="text-sm text-[#2563eb] hover:text-[#1d4ed8] transition"
                         >
                           View all →
                         </button>
                       </div>
-                      <div className="divide-y divide-gray-700">
+                      <div className="divide-y divide-[#E5E7EB]">
                         {directorReports?.slice(0, 5).map((report) => (
                           <div
                             key={report._id}
-                            className="px-6 py-4 hover:bg-gray-700/50 cursor-pointer transition"
+                            className="px-6 py-4 hover:bg-[#F3F4F6] cursor-pointer transition"
                             onClick={() => {
                               setSelectedReport(report);
                               setModalType("report_detail");
@@ -430,10 +430,10 @@ const AdminDashboardPage = () => {
                           >
                             <div className="flex justify-between items-start">
                               <div>
-                                <p className="font-medium text-white">
+                                <p className="font-medium text-[#111827]">
                                   {report.title}
                                 </p>
-                                <p className="text-sm text-gray-400 mt-0.5">
+                                <p className="text-sm text-[#374151] mt-0.5">
                                   By:{" "}
                                   {report.submittedBy?.fullName || "Unknown"}
                                 </p>
@@ -455,8 +455,8 @@ const AdminDashboardPage = () => {
                           </div>
                         ))}
                         {directorReports?.length === 0 && (
-                          <div className="px-6 py-8 text-center text-gray-500">
-                            <Award className="w-10 h-10 mx-auto text-gray-600 mb-2" />
+                          <div className="px-6 py-8 text-center text-[#6b7280]">
+                            <Award className="w-10 h-10 mx-auto text-[#6b7280] mb-2" />
                             <p>No reports submitted</p>
                           </div>
                         )}
@@ -465,9 +465,9 @@ const AdminDashboardPage = () => {
                   </div>
 
                   {/* Quick Actions */}
-                  <div className="mt-6 bg-linear-to-r from-emerald-600 to-teal-700 rounded-xl p-6">
-                    <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-                      <Zap className="w-5 h-5" />
+                  <div className="mt-6 bg-[#F3F4F6] border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6">
+                    <h3 className="text-lg font-semibold text-[#111827] mb-4 flex items-center gap-2">
+                      <Zap className="w-5 h-5 text-[#2563eb]" />
                       Quick Actions
                     </h3>
                     <div className="flex flex-wrap gap-3">
@@ -477,7 +477,7 @@ const AdminDashboardPage = () => {
                           setFormData({});
                           setShowModal(true);
                         }}
-                        className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition flex items-center gap-2 text-white"
+                        className="border-2 border-[#2563eb] text-[#2563eb] bg-transparent hover:bg-[#2563eb] hover:text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
                       >
                         <Users className="w-4 h-4" /> Add Staff
                       </button>
@@ -487,7 +487,7 @@ const AdminDashboardPage = () => {
                           setFormData({});
                           setShowModal(true);
                         }}
-                        className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition flex items-center gap-2 text-white"
+                        className="border-2 border-[#2563eb] text-[#2563eb] bg-transparent hover:bg-[#2563eb] hover:text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
                       >
                         <Building2 className="w-4 h-4" /> Add Directorate
                       </button>
@@ -497,19 +497,19 @@ const AdminDashboardPage = () => {
                           setFormData({});
                           setShowModal(true);
                         }}
-                        className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition flex items-center gap-2 text-white"
+                        className="border-2 border-[#2563eb] text-[#2563eb] bg-transparent hover:bg-[#2563eb] hover:text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
                       >
                         <Megaphone className="w-4 h-4" /> Post Announcement
                       </button>
                       <button
                         onClick={() => handleTabChange("requests")}
-                        className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition flex items-center gap-2 text-white"
+                        className="border-2 border-[#2563eb] text-[#2563eb] bg-transparent hover:bg-[#2563eb] hover:text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
                       >
                         <Clock className="w-4 h-4" /> Review Pending
                       </button>
                       <button
                         onClick={() => exportData()}
-                        className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition flex items-center gap-2 text-white"
+                        className="border-2 border-[#2563eb] text-[#2563eb] bg-transparent hover:bg-[#2563eb] hover:text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
                       >
                         <Download className="w-4 h-4" /> Export Data
                       </button>

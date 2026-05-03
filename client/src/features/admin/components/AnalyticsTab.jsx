@@ -136,14 +136,18 @@ const AnalyticsTab = () => {
       title: "Total Users",
       value: userStats?.total || 0,
       icon: Users,
-      gradient: "from-emerald-500 to-teal-700",
+      iconBg: "bg-[#EEF2FF]",
+      iconColor: "text-[#2563eb]",
+      topBorder: "border-t-[3px] border-t-[#2563eb]",
       change: `${userStats?.verificationRate || 0}% verified`,
     },
     {
       title: "Total Requests",
       value: requestStats?.total || 0,
       icon: FileText,
-      gradient: "from-blue-500 to-cyan-700",
+      iconBg: "bg-[#EEF2FF]",
+      iconColor: "text-[#2563eb]",
+      topBorder: "border-t-[3px] border-t-[#f59e0b]",
       change: `${requestStats?.approvalRate || 0}% approved`,
     },
     {
@@ -152,14 +156,18 @@ const AnalyticsTab = () => {
         (programStats?.interns?.active || 0) +
         (programStats?.innovators?.active || 0),
       icon: Award,
-      gradient: "from-purple-500 to-indigo-700",
+      iconBg: "bg-[#EEF2FF]",
+      iconColor: "text-[#2563eb]",
+      topBorder: "border-t-[3px] border-t-[#10b981]",
       change: `${programStats?.startups?.active || 0} startups`,
     },
     {
       title: "Service Catalog",
       value: performanceMetrics?.services || 0,
       icon: Briefcase,
-      gradient: "from-orange-500 to-red-700",
+      iconBg: "bg-[#EEF2FF]",
+      iconColor: "text-[#2563eb]",
+      topBorder: "border-t-[3px] border-t-[#8b5cf6]",
       change: `${performanceMetrics?.directorates || 0} directorates`,
     },
   ];
@@ -197,7 +205,7 @@ const AnalyticsTab = () => {
       <div className="flex justify-between items-center flex-wrap gap-4">
         <div className="flex gap-3 text-xs">
           <span className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-emerald-500" />
+            <div className="w-2 h-2 rounded-full bg-[#2563eb]" />
             Requests: {totalRequests}
           </span>
           <span className="flex items-center gap-1">
@@ -210,11 +218,11 @@ const AnalyticsTab = () => {
           </span>
         </div>
         <div className="relative">
-          <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+          <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
           <select
             value={dateRange}
             onChange={(e) => setDateRange(e.target.value)}
-            className="pl-9 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white text-sm"
+            className="pl-9 pr-3 py-2 bg-gray-50 border border-[#E5E7EB] rounded-lg text-[#111827] text-sm"
           >
             {dateRanges.map((r) => (
               <option key={r.value} value={r.value}>
@@ -233,38 +241,37 @@ const AnalyticsTab = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className={`bg-linear-to-br ${card.gradient} rounded-xl p-6 relative group cursor-pointer hover:scale-105 transition`}
+            className={`bg-white border-l border-r border-b border-[#E5E7EB] ${card.topBorder} rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] relative group cursor-pointer hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200 ease-in-out`}
           >
-            <div className="flex justify-between">
+            <div className="flex justify-between items-start">
               <div>
-                <p className="text-white/80 text-sm">{card.title}</p>
-                <p className="text-white text-3xl font-bold">
+                <p className="text-[#374151] text-[1rem] font-medium">{card.title}</p>
+                <p className="text-[#111827] text-[2rem] font-bold mt-1">
                   {card.value.toLocaleString()}
                 </p>
-                <p className="text-white/60 text-xs mt-1">{card.change}</p>
+                <p className="text-[#6b7280] text-[0.875rem] mt-2">{card.change}</p>
               </div>
-              <div className="bg-white/10 rounded-lg p-2">
-                <card.icon className="w-6 h-6 text-white" />
+              <div className={`${card.iconBg} rounded-[10px] p-[10px] group-hover:scale-105 transition-transform duration-200`}>
+                <card.icon className={`w-6 h-6 ${card.iconColor}`} />
               </div>
             </div>
-            <card.icon className="absolute -bottom-4 -right-4 text-white/10 h-24 w-24" />
           </motion.div>
         ))}
       </div>
 
       {/* Main Chart */}
       <motion.div
-        className="bg-gray-800/60 rounded-xl p-6 border border-gray-700"
+        className="bg-white rounded-xl p-6 border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200 ease-in-out"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
         <div className="flex justify-between mb-4">
-          <h3 className="text-white font-semibold flex items-center gap-2">
-            <Activity className="w-5 h-5 text-emerald-400" />
+          <h3 className="text-[#111827] font-semibold flex items-center gap-2">
+            <Activity className="w-5 h-5 text-[#2563eb]" />
             Activity Overview
           </h3>
-          <span className="text-xs text-gray-400">
+          <span className="text-xs text-[#6b7280]">
             {currentRange?.label} ({isMonthlyView ? "Monthly" : "Daily"})
           </span>
         </div>
@@ -388,7 +395,7 @@ const AnalyticsTab = () => {
               </AreaChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex items-center justify-center h-full text-gray-400">
+            <div className="flex items-center justify-center h-full text-[#6b7280]">
               No data available
             </div>
           )}
@@ -398,13 +405,13 @@ const AnalyticsTab = () => {
       {/* Pie Chart & Bar Chart */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <motion.div
-          className="bg-gray-800/60 rounded-xl p-6 border border-gray-700"
+          className="bg-white rounded-xl p-6 border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200 ease-in-out"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-            <Target className="w-5 h-5 text-emerald-400" />
+          <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
+            <Target className="w-5 h-5 text-[#2563eb]" />
             Request Distribution
           </h3>
           <div className="w-full h-80">
@@ -433,7 +440,7 @@ const AnalyticsTab = () => {
                 </PieChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex items-center justify-center h-full text-gray-400">
+              <div className="flex items-center justify-center h-full text-[#6b7280]">
                 No data
               </div>
             )}
@@ -441,13 +448,13 @@ const AnalyticsTab = () => {
         </motion.div>
 
         <motion.div
-          className="bg-gray-800/60 rounded-xl p-6 border border-gray-700"
+          className="bg-white rounded-xl p-6 border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200 ease-in-out"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-            <Zap className="w-5 h-5 text-emerald-400" />
+          <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
+            <Zap className="w-5 h-5 text-[#2563eb]" />
             Request Status
           </h3>
           <div className="w-full h-80">
@@ -475,7 +482,7 @@ const AnalyticsTab = () => {
                 </BarChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex items-center justify-center h-full text-gray-400">
+              <div className="flex items-center justify-center h-full text-[#6b7280]">
                 No data
               </div>
             )}
@@ -486,30 +493,30 @@ const AnalyticsTab = () => {
       {/* Performance & Demographics */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <motion.div
-          className="bg-gray-800/60 rounded-xl p-6 border border-gray-700"
+          className="bg-white rounded-xl p-6 border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200 ease-in-out"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
         >
-          <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-            <Shield className="w-5 h-5 text-emerald-400" />
+          <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
+            <Shield className="w-5 h-5 text-[#2563eb]" />
             Performance
           </h3>
           <div className="space-y-3">
-            <div className="flex justify-between items-center p-3 bg-gray-700/30 rounded-lg">
-              <span className="text-gray-300 text-sm">Approval Rate</span>
+            <div className="flex justify-between items-center p-3 bg-[#F3F4F6] rounded-lg">
+              <span className="text-[#374151] text-sm">Approval Rate</span>
               <div className="flex-1 mx-4 h-2 bg-gray-600 rounded-full">
                 <div
-                  className="h-full bg-emerald-500 rounded-full"
+                  className="h-full bg-[#2563eb] rounded-full"
                   style={{ width: `${requestStats?.approvalRate || 0}%` }}
                 />
               </div>
-              <span className="text-emerald-400 text-sm">
+              <span className="text-[#2563eb] text-sm">
                 {requestStats?.approvalRate || 0}%
               </span>
             </div>
-            <div className="flex justify-between items-center p-3 bg-gray-700/30 rounded-lg">
-              <span className="text-gray-300 text-sm">Avg. Completion</span>
+            <div className="flex justify-between items-center p-3 bg-[#F3F4F6] rounded-lg">
+              <span className="text-[#374151] text-sm">Avg. Completion</span>
               <div className="flex-1 mx-4 h-2 bg-gray-600 rounded-full">
                 <div
                   className="h-full bg-blue-500 rounded-full"
@@ -522,8 +529,8 @@ const AnalyticsTab = () => {
                 {requestStats?.avgCompletionDays || 0} days
               </span>
             </div>
-            <div className="flex justify-between items-center p-3 bg-gray-700/30 rounded-lg">
-              <span className="text-gray-300 text-sm">Email Verification</span>
+            <div className="flex justify-between items-center p-3 bg-[#F3F4F6] rounded-lg">
+              <span className="text-[#374151] text-sm">Email Verification</span>
               <div className="flex-1 mx-4 h-2 bg-gray-600 rounded-full">
                 <div
                   className="h-full bg-purple-500 rounded-full"
@@ -536,51 +543,51 @@ const AnalyticsTab = () => {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3 mt-4">
-            <div className="text-center p-3 bg-gray-700/30 rounded-lg">
-              <UserPlus className="w-5 h-5 text-emerald-400 mx-auto mb-1" />
-              <p className="text-white text-xl font-bold">
+            <div className="text-center p-3 bg-[#F3F4F6] rounded-lg">
+              <UserPlus className="w-5 h-5 text-[#2563eb] mx-auto mb-1" />
+              <p className="text-[#111827] text-xl font-bold">
                 {performanceMetrics?.staff || 0}
               </p>
-              <p className="text-xs text-gray-400">Staff</p>
+              <p className="text-xs text-[#6b7280]">Staff</p>
             </div>
-            <div className="text-center p-3 bg-gray-700/30 rounded-lg">
+            <div className="text-center p-3 bg-[#F3F4F6] rounded-lg">
               <Building2 className="w-5 h-5 text-blue-400 mx-auto mb-1" />
-              <p className="text-white text-xl font-bold">
+              <p className="text-[#111827] text-xl font-bold">
                 {performanceMetrics?.directorates || 0}
               </p>
-              <p className="text-xs text-gray-400">Directorates</p>
+              <p className="text-xs text-[#6b7280]">Directorates</p>
             </div>
-            <div className="text-center p-3 bg-gray-700/30 rounded-lg">
+            <div className="text-center p-3 bg-[#F3F4F6] rounded-lg">
               <GraduationCap className="w-5 h-5 text-purple-400 mx-auto mb-1" />
-              <p className="text-white text-xl font-bold">
+              <p className="text-[#111827] text-xl font-bold">
                 {programStats?.interns?.active || 0}
               </p>
-              <p className="text-xs text-gray-400">Active Interns</p>
+              <p className="text-xs text-[#6b7280]">Active Interns</p>
             </div>
-            <div className="text-center p-3 bg-gray-700/30 rounded-lg">
+            <div className="text-center p-3 bg-[#F3F4F6] rounded-lg">
               <Rocket className="w-5 h-5 text-orange-400 mx-auto mb-1" />
-              <p className="text-white text-xl font-bold">
+              <p className="text-[#111827] text-xl font-bold">
                 {programStats?.innovators?.active || 0}
               </p>
-              <p className="text-xs text-gray-400">Innovators</p>
+              <p className="text-xs text-[#6b7280]">Innovators</p>
             </div>
           </div>
         </motion.div>
 
         <motion.div
-          className="bg-gray-800/60 rounded-xl p-6 border border-gray-700"
+          className="bg-white rounded-xl p-6 border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200 ease-in-out"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
         >
-          <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-            <Users className="w-5 h-5 text-emerald-400" />
+          <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
+            <Users className="w-5 h-5 text-[#2563eb]" />
             User Roles
           </h3>
           <div className="space-y-2">
             {userStats?.byRole?.map((role, i) => (
               <div key={i} className="flex justify-between items-center p-2">
-                <span className="text-gray-300 text-sm">
+                <span className="text-[#374151] text-sm">
                   {role._id === "admin"
                     ? "Admin"
                     : role._id === "staff"
@@ -590,8 +597,8 @@ const AnalyticsTab = () => {
                         : role._id}
                 </span>
                 <div className="flex items-center gap-2">
-                  <span className="text-white font-semibold">{role.count}</span>
-                  <span className="text-gray-500 text-xs">
+                  <span className="text-[#111827] font-semibold">{role.count}</span>
+                  <span className="text-[#6b7280] text-xs">
                     (
                     {userStats.total
                       ? ((role.count / userStats.total) * 100).toFixed(0)
@@ -608,36 +615,36 @@ const AnalyticsTab = () => {
       {/* Reports & Teams */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <motion.div
-          className="bg-gray-800/60 rounded-xl p-6 border border-gray-700"
+          className="bg-white rounded-xl p-6 border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200 ease-in-out"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
         >
-          <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-            <FileText className="w-5 h-5 text-emerald-400" />
+          <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
+            <FileText className="w-5 h-5 text-[#2563eb]" />
             Reports Summary
           </h3>
           <div className="space-y-2">
             <div className="flex justify-between">
-              <span className="text-gray-300">Total Reports</span>
-              <span className="text-white">
+              <span className="text-[#374151]">Total Reports</span>
+              <span className="text-[#111827]">
                 {performanceMetrics?.reports?.total || 0}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-300">Pending Review</span>
+              <span className="text-[#374151]">Pending Review</span>
               <span className="text-yellow-400">
                 {performanceMetrics?.reports?.pending || 0}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-300">Approved</span>
-              <span className="text-emerald-400">
+              <span className="text-[#374151]">Approved</span>
+              <span className="text-[#2563eb]">
                 {performanceMetrics?.reports?.approved || 0}
               </span>
             </div>
-            <div className="border-t border-gray-700 pt-2 mt-2 flex justify-between">
-              <span className="text-gray-300">Approval Rate</span>
+            <div className="border-t border-[#E5E7EB] pt-2 mt-2 flex justify-between">
+              <span className="text-[#374151]">Approval Rate</span>
               <span className="text-blue-400">
                 {performanceMetrics?.reports?.approvalRate || 0}%
               </span>
@@ -646,31 +653,31 @@ const AnalyticsTab = () => {
         </motion.div>
 
         <motion.div
-          className="bg-gray-800/60 rounded-xl p-6 border border-gray-700"
+          className="bg-white rounded-xl p-6 border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200 ease-in-out"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
         >
-          <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-            <UserCheck className="w-5 h-5 text-emerald-400" />
+          <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
+            <UserCheck className="w-5 h-5 text-[#2563eb]" />
             Teams & Workload
           </h3>
           <div className="space-y-2">
             <div className="flex justify-between">
-              <span className="text-gray-300">Active Teams</span>
-              <span className="text-white">
+              <span className="text-[#374151]">Active Teams</span>
+              <span className="text-[#111827]">
                 {performanceMetrics?.teams || 0}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-300">Total Services</span>
-              <span className="text-white">
+              <span className="text-[#374151]">Total Services</span>
+              <span className="text-[#111827]">
                 {performanceMetrics?.services || 0}
               </span>
             </div>
-            <div className="border-t border-gray-700 pt-2 mt-2 flex justify-between">
-              <span className="text-gray-300">Avg. Team Size</span>
-              <span className="text-white">
+            <div className="border-t border-[#E5E7EB] pt-2 mt-2 flex justify-between">
+              <span className="text-[#374151]">Avg. Team Size</span>
+              <span className="text-[#111827]">
                 {performanceMetrics?.teams && performanceMetrics?.staff
                   ? Math.round(
                       performanceMetrics.staff / performanceMetrics.teams,

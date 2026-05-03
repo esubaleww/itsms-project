@@ -75,11 +75,11 @@ const ServiceCatalogList = ({
       case "security":
         return "bg-red-500/20 text-red-400 border border-red-500/30";
       case "consulting":
-        return "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+        return "bg-[#2563eb]/10 text-[#2563eb] border border-[#2563eb]/30";
       case "training":
         return "bg-orange-500/20 text-orange-400 border border-orange-500/30";
       default:
-        return "bg-gray-500/20 text-gray-400 border border-gray-500/30";
+        return "bg-gray-500/20 text-[#4b5563] border border-gray-500/30";
     }
   };
 
@@ -96,17 +96,17 @@ const ServiceCatalogList = ({
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-white">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#0f172a]">
             Service Catalog
           </h2>
-          <p className="text-xs sm:text-sm text-gray-400 mt-1">
+          <p className="text-xs sm:text-sm text-[#4b5563] mt-1">
             Manage technology services available for users to request (
             {services?.length || 0} total)
           </p>
         </div>
         <button
           onClick={onCreate}
-          className="bg-linear-to-r from-emerald-500 to-teal-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 shadow-lg w-full sm:w-auto"
+          className="bg-[#2563eb] text-[#0f172a] px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 shadow-lg w-full sm:w-auto"
         >
           <Plus className="w-4 h-4" /> Add Service
         </button>
@@ -116,18 +116,18 @@ const ServiceCatalogList = ({
       <div className="flex flex-wrap gap-4 mb-6">
         {/* Search Bar */}
         <div className="relative flex-1 min-w-50">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#64748b]" />
           <input
             type="text"
             placeholder="Search services..."
-            className="w-full pl-9 pr-4 py-2 bg-gray-800/60 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+            className="w-full pl-9 pr-4 py-2 bg-white/60 border border-[#E5E7EB] rounded-lg text-[#0f172a] placeholder-gray-400 focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all"
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
           />
           {searchTerm && (
             <button
               onClick={() => handleSearch("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748b] hover:text-[#334155]"
             >
               <X className="w-4 h-4" />
             </button>
@@ -136,17 +136,17 @@ const ServiceCatalogList = ({
 
         {/* Category Filter Dropdown - Same as UsersList */}
         <select
-          className="px-4 py-2 bg-gray-800/60 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all cursor-pointer"
+          className="px-4 py-2 bg-white/60 border border-[#E5E7EB] rounded-lg text-[#0f172a] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all cursor-pointer"
           value={selectedCategory}
           onChange={(e) => handleCategoryFilter(e.target.value)}
         >
-          <option value="all" className="bg-gray-800">
+          <option value="all" className="bg-white">
             All Categories
           </option>
           {categories
             .filter((cat) => cat.id !== "all")
             .map((cat) => (
-              <option key={cat.id} value={cat.id} className="bg-gray-800">
+              <option key={cat.id} value={cat.id} className="bg-white">
                 {cat.name}
               </option>
             ))}
@@ -163,31 +163,31 @@ const ServiceCatalogList = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}
-              className="bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden hover:shadow-lg hover:border-gray-600 transition-all duration-300 group"
+              className="bg-white/60 backdrop-blur-sm rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-lg hover:border-[#E5E7EB] transition-all duration-300 group"
             >
               <div className="p-4 sm:p-5">
                 <div className="flex items-start justify-between mb-3">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 bg-linear-to-br from-emerald-500/20 to-teal-700/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400" />
+                    <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-[#2563eb]" />
                   </div>
                   <div className="flex gap-1">
                     <button
                       onClick={() => onView?.(service)}
-                      className="p-1.5 text-gray-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition"
+                      className="p-1.5 text-[#64748b] hover:text-[#2563eb] hover:bg-[#2563eb]/10 rounded-lg transition"
                       title="View Details"
                     >
                       <Eye className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => onEdit(service)}
-                      className="p-1.5 text-gray-500 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition"
+                      className="p-1.5 text-[#64748b] hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition"
                       title="Edit"
                     >
                       <Edit className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => onDelete(service._id)}
-                      className="p-1.5 text-gray-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition"
+                      className="p-1.5 text-[#64748b] hover:text-red-400 hover:bg-red-500/10 rounded-lg transition"
                       title="Delete"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -196,10 +196,10 @@ const ServiceCatalogList = ({
                 </div>
 
                 <div className="mb-3">
-                  <h3 className="font-semibold text-white text-base sm:text-lg mb-1 line-clamp-1">
+                  <h3 className="font-semibold text-[#0f172a] text-base sm:text-lg mb-1 line-clamp-1">
                     {service.name}
                   </h3>
-                  <p className="text-xs sm:text-sm text-gray-400 line-clamp-2">
+                  <p className="text-xs sm:text-sm text-[#4b5563] line-clamp-2">
                     {service.description}
                   </p>
                 </div>
@@ -213,13 +213,13 @@ const ServiceCatalogList = ({
                     {service.category}
                   </span>
                   {service.popular && (
-                    <span className="text-xs bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-1 rounded-full">
+                    <span className="text-xs bg-[#2563eb]/10 text-[#2563eb] border border-[#2563eb]/30 px-2 py-1 rounded-full">
                       Popular
                     </span>
                   )}
                 </div>
 
-                <div className="flex items-center justify-between text-xs sm:text-sm text-gray-400 pt-3 border-t border-gray-700">
+                <div className="flex items-center justify-between text-xs sm:text-sm text-[#4b5563] pt-3 border-t border-[#E5E7EB]">
                   <span>⏱️ {service.estimatedTime}</span>
                   <span>💰 {service.price || "Free"}</span>
                 </div>
@@ -234,21 +234,21 @@ const ServiceCatalogList = ({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center py-12 bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-700"
+          className="text-center py-12 bg-white/60 backdrop-blur-sm rounded-xl border border-[#E5E7EB]"
         >
-          <Briefcase className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-          <p className="text-gray-400">No services found</p>
+          <Briefcase className="w-16 h-16 text-[#64748b] mx-auto mb-4" />
+          <p className="text-[#4b5563]">No services found</p>
           {(searchTerm || selectedCategory !== "all") && (
             <button
               onClick={clearFilters}
-              className="mt-2 text-emerald-400 hover:text-emerald-300 transition text-sm"
+              className="mt-2 text-[#2563eb] hover:text-[#1d4ed8] transition text-sm"
             >
               Clear all filters
             </button>
           )}
           <button
             onClick={onCreate}
-            className="mt-4 text-emerald-400 hover:text-emerald-300 transition block mx-auto"
+            className="mt-4 text-[#2563eb] hover:text-[#1d4ed8] transition block mx-auto"
           >
             + Add your first service
           </button>
@@ -257,7 +257,7 @@ const ServiceCatalogList = ({
 
       {/* Results Count */}
       {services.length > 0 && (
-        <div className="mt-4 text-right text-sm text-gray-500">
+        <div className="mt-4 text-right text-sm text-[#64748b]">
           Showing {services.length} of {services.length} services
         </div>
       )}

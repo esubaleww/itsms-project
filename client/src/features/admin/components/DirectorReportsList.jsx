@@ -25,7 +25,7 @@ const DirectorReportsList = ({
   const getStatusColor = (status) => {
     switch (status) {
       case "approved":
-        return "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+        return "bg-[#2563eb]/10 text-[#2563eb] border border-[#2563eb]/30";
       case "rejected":
         return "bg-red-500/20 text-red-400 border border-red-500/30";
       case "reviewed":
@@ -33,7 +33,7 @@ const DirectorReportsList = ({
       case "submitted":
         return "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30";
       default:
-        return "bg-gray-500/20 text-gray-400 border border-gray-500/30";
+        return "bg-gray-500/20 text-[#4b5563] border border-gray-500/30";
     }
   };
 
@@ -73,10 +73,10 @@ const DirectorReportsList = ({
 
   if (!reports || reports.length === 0) {
     return (
-      <div className="text-center py-12 bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-700">
-        <FileText className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-        <p className="text-gray-400">No reports found</p>
-        <p className="text-sm text-gray-500 mt-1">
+      <div className="text-center py-12 bg-white/60 backdrop-blur-sm rounded-xl border border-[#E5E7EB]">
+        <FileText className="w-16 h-16 text-[#64748b] mx-auto mb-4" />
+        <p className="text-[#4b5563]">No reports found</p>
+        <p className="text-sm text-[#64748b] mt-1">
           Reports will appear here when directors submit them
         </p>
       </div>
@@ -87,40 +87,40 @@ const DirectorReportsList = ({
     <div>
       <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-white">Director Reports</h2>
-          <p className="text-sm text-gray-400 mt-1">
+          <h2 className="text-2xl font-bold text-[#0f172a]">Director Reports</h2>
+          <p className="text-sm text-[#4b5563] mt-1">
             Review and manage reports submitted by directors
           </p>
         </div>
         <div className="flex gap-3">
           <div className="relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#64748b]" />
             <input
               type="text"
               placeholder="Search by title or director..."
-              className="pl-9 pr-4 py-2 bg-gray-800/60 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all w-64"
+              className="pl-9 pr-4 py-2 bg-white/60 border border-[#E5E7EB] rounded-lg text-[#0f172a] placeholder-gray-400 focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all w-64"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <select
-            className="px-4 py-2 bg-gray-800/60 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all cursor-pointer"
+            className="px-4 py-2 bg-white/60 border border-[#E5E7EB] rounded-lg text-[#0f172a] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all cursor-pointer"
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
           >
-            <option value="all" className="bg-gray-800">
+            <option value="all" className="bg-white">
               All Status
             </option>
-            <option value="submitted" className="bg-gray-800">
+            <option value="submitted" className="bg-white">
               Pending
             </option>
-            <option value="reviewed" className="bg-gray-800">
+            <option value="reviewed" className="bg-white">
               Reviewed
             </option>
-            <option value="approved" className="bg-gray-800">
+            <option value="approved" className="bg-white">
               Approved
             </option>
-            <option value="rejected" className="bg-gray-800">
+            <option value="rejected" className="bg-white">
               Rejected
             </option>
           </select>
@@ -134,7 +134,7 @@ const DirectorReportsList = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.05 }}
-            className="bg-gray-800/60 backdrop-blur-sm border border-gray-700 rounded-xl p-5 hover:shadow-lg hover:border-gray-600 transition-all duration-300 group cursor-pointer"
+            className="bg-white/60 backdrop-blur-sm border border-[#E5E7EB] rounded-xl p-5 hover:shadow-lg hover:border-[#E5E7EB] transition-all duration-300 group cursor-pointer"
             onClick={() => onView(report)}
           >
             <div className="flex justify-between items-start">
@@ -145,25 +145,25 @@ const DirectorReportsList = ({
                   >
                     {getStatusLabel(report.status)}
                   </span>
-                  <span className="text-xs text-gray-500 flex items-center gap-1">
+                  <span className="text-xs text-[#64748b] flex items-center gap-1">
                     <Calendar className="w-3 h-3" />
                     {new Date(report.createdAt).toLocaleDateString()}
                   </span>
                 </div>
-                <h3 className="font-semibold text-white text-lg mb-2">
+                <h3 className="font-semibold text-[#0f172a] text-lg mb-2">
                   {report.title}
                 </h3>
-                <p className="text-sm text-gray-400 mt-1 flex items-center gap-2">
+                <p className="text-sm text-[#4b5563] mt-1 flex items-center gap-2">
                   <User className="w-3 h-3" />
                   By: {report.submittedBy?.fullName || "Unknown"}
                   {report.submittedBy?.position && (
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-[#64748b]">
                       ({report.submittedBy.position})
                     </span>
                   )}
                 </p>
                 {report.period && (
-                  <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                  <p className="text-xs text-[#64748b] mt-2 flex items-center gap-1">
                     <Calendar className="w-3 h-3" />
                     Period:{" "}
                     {new Date(
@@ -174,11 +174,11 @@ const DirectorReportsList = ({
                 )}
                 {report.metrics && (
                   <div className="flex items-center gap-4 mt-3 text-xs">
-                    <span className="text-gray-400 flex items-center gap-1">
+                    <span className="text-[#4b5563] flex items-center gap-1">
                       <FileText className="w-3 h-3" />
                       Applications: {report.metrics.applicationsProcessed || 0}
                     </span>
-                    <span className="text-emerald-400 flex items-center gap-1">
+                    <span className="text-[#2563eb] flex items-center gap-1">
                       <CheckCircle className="w-3 h-3" />
                       Approved: {report.metrics.approvedApplications || 0}
                     </span>
@@ -191,7 +191,7 @@ const DirectorReportsList = ({
                   </div>
                 )}
                 {report.summary && (
-                  <p className="text-sm text-gray-500 mt-2 line-clamp-1">
+                  <p className="text-sm text-[#64748b] mt-2 line-clamp-1">
                     {report.summary}
                   </p>
                 )}
@@ -204,7 +204,7 @@ const DirectorReportsList = ({
                         e.stopPropagation();
                         onApprove(report._id);
                       }}
-                      className="p-1.5 text-gray-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition"
+                      className="p-1.5 text-[#64748b] hover:text-[#2563eb] hover:bg-[#2563eb]/10 rounded-lg transition"
                       title="Approve"
                     >
                       <CheckCircle className="w-5 h-5" />
@@ -214,7 +214,7 @@ const DirectorReportsList = ({
                         e.stopPropagation();
                         onReject(report._id);
                       }}
-                      className="p-1.5 text-gray-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition"
+                      className="p-1.5 text-[#64748b] hover:text-red-400 hover:bg-red-500/10 rounded-lg transition"
                       title="Reject"
                     >
                       <XCircle className="w-5 h-5" />
@@ -226,7 +226,7 @@ const DirectorReportsList = ({
                     e.stopPropagation();
                     onView(report);
                   }}
-                  className="p-1.5 text-gray-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition"
+                  className="p-1.5 text-[#64748b] hover:text-[#2563eb] hover:bg-[#2563eb]/10 rounded-lg transition"
                   title="View Details"
                 >
                   <Eye className="w-5 h-5" />
@@ -241,16 +241,16 @@ const DirectorReportsList = ({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center py-12 bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-700 mt-4"
+          className="text-center py-12 bg-white/60 backdrop-blur-sm rounded-xl border border-[#E5E7EB] mt-4"
         >
-          <FileText className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-          <p className="text-gray-400">No reports match your filters</p>
+          <FileText className="w-16 h-16 text-[#64748b] mx-auto mb-4" />
+          <p className="text-[#4b5563]">No reports match your filters</p>
           <button
             onClick={() => {
               setSearchTerm("");
               setFilterStatus("all");
             }}
-            className="mt-4 text-emerald-400 hover:text-emerald-300 transition"
+            className="mt-4 text-[#2563eb] hover:text-[#1d4ed8] transition"
           >
             Clear filters
           </button>
@@ -258,7 +258,7 @@ const DirectorReportsList = ({
       )}
 
       {filtered?.length > 0 && (
-        <div className="mt-4 text-right text-sm text-gray-500">
+        <div className="mt-4 text-right text-sm text-[#64748b]">
           Showing {filtered.length} of {reports?.length || 0} reports
         </div>
       )}

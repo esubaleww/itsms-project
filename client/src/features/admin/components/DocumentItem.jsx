@@ -45,12 +45,12 @@ const DocumentItem = ({ file, label, onRemove, showDownload = true }) => {
   };
 
   const getFileIcon = () => {
-    if (isImage) return <Image className="w-5 h-5 text-emerald-400" />;
+    if (isImage) return <Image className="w-5 h-5 text-[#2563eb]" />;
     if (mimeType.includes("pdf"))
       return <FileText className="w-5 h-5 text-red-400" />;
     if (mimeType.includes("word") || mimeType.includes("document"))
       return <FileText className="w-5 h-5 text-blue-400" />;
-    return <File className="w-5 h-5 text-gray-400" />;
+    return <File className="w-5 h-5 text-[#4b5563]" />;
   };
 
   const openDocument = () => {
@@ -67,16 +67,16 @@ const DocumentItem = ({ file, label, onRemove, showDownload = true }) => {
   };
 
   return (
-    <div className="bg-gray-700/30 rounded-lg p-4 hover:bg-gray-700/50 transition-all cursor-pointer group">
+    <div className="bg-white/30 rounded-lg p-4 hover:bg-gray-50 transition-all cursor-pointer group">
       <div className="flex items-start gap-3">
         <div className="shrink-0 mt-1">{getFileIcon()}</div>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between flex-wrap gap-2">
-            <p className="text-white font-medium truncate">{fileName}</p>
+            <p className="text-[#0f172a] font-medium truncate">{fileName}</p>
             <div className="flex items-center gap-2">
               {fileSize && (
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-[#64748b]">
                   {formatFileSize(fileSize)}
                 </span>
               )}
@@ -91,7 +91,7 @@ const DocumentItem = ({ file, label, onRemove, showDownload = true }) => {
                 <a
                   href={fileUrl}
                   download
-                  className="p-1.5 text-gray-400 hover:text-emerald-400 rounded-lg transition"
+                  className="p-1.5 text-[#4b5563] hover:text-[#2563eb] rounded-lg transition"
                   title="Download"
                 >
                   <Download className="w-4 h-4" />
@@ -101,7 +101,7 @@ const DocumentItem = ({ file, label, onRemove, showDownload = true }) => {
                 href={fileUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 text-gray-400 hover:text-emerald-400 rounded-lg transition"
+                className="p-1.5 text-[#4b5563] hover:text-[#2563eb] rounded-lg transition"
                 title="Open in new tab"
               >
                 <ExternalLink className="w-4 h-4" />
@@ -120,7 +120,7 @@ const DocumentItem = ({ file, label, onRemove, showDownload = true }) => {
 
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-xs text-gray-500 hover:text-gray-400 mt-1 block truncate"
+            className="text-xs text-[#64748b] hover:text-[#4b5563] mt-1 block truncate"
           >
             {isExpanded ? fileUrl : `${fileUrl.substring(0, 60)}...`}
           </button>
@@ -130,7 +130,7 @@ const DocumentItem = ({ file, label, onRemove, showDownload = true }) => {
               <img
                 src={fileUrl}
                 alt={fileName}
-                className="max-h-48 rounded-lg object-contain border border-gray-600"
+                className="max-h-48 rounded-lg object-contain border border-[#E5E7EB]"
               />
             </div>
           )}
