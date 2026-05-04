@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
-import { useToast } from "../../../components/ui/Toast";
+import { useToast } from "../../../common/ui/Toast";
 import { motion } from "framer-motion";
 import {
   User,

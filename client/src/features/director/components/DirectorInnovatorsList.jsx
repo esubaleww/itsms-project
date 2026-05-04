@@ -1,4 +1,3 @@
-// client/src/features/director/components/DirectorInnovatorsList.jsx
 import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -22,27 +21,28 @@ import {
   Target,
   Users,
 } from "lucide-react";
+import DocumentItem from "../../../common/components/DocumentItem";
 
 const DirectorInnovatorsList = ({
   innovators = [],
   staffList = [],
   onAssignMentor,
   onViewDetails,
+  directorateId,
   loading = false,
 }) => {
   const [expandedId, setExpandedId] = useState(null);
   const [assigningId, setAssigningId] = useState(null);
   const [selectedMentor, setSelectedMentor] = useState("");
 
-  // Helper to extract innovator data from API response structure
   const getInnovatorData = useCallback((item) => {
     if (!item) return null;
 
-    // Handle both nested and flat structures
     const innovator = item.innovator || item;
 
     return {
       id: innovator._id || item._id,
+      userId: innovator.user?._id || item.user?._id,
       fullName: innovator.fullName || item.fullName || "Unknown",
       email: innovator.email || item.email,
       phone: innovator.phone || item.phone,
@@ -65,16 +65,18 @@ const DirectorInnovatorsList = ({
     };
   }, []);
 
-  // Filter staff that can be mentors
   const mentorOptions = useMemo(() => {
     return staffList.filter(
       (staff) =>
-        staff.position === "technical_staff" ||
-        staff.position === "trainer" ||
-        staff.position === "mentor" ||
-        staff.position === "advisor",
+        (staff.position === "technical_staff" ||
+          staff.position === "trainer" ||
+          staff.position === "mentor" ||
+          staff.position === "advisor") &&
+        (!directorateId ||
+          staff.directorate?._id === directorateId ||
+          staff.directorate === directorateId),
     );
-  }, [staffList]);
+  }, [staffList, directorateId]);
 
   const handleAssignMentor = useCallback(
     (innovatorId) => {
@@ -314,7 +316,11 @@ const DirectorInnovatorsList = ({
                           ))}
                         </select>
                         <button
-                          onClick={() => handleAssignMentor(innovatorData.id)}
+                          onClick={() =>
+                            handleAssignMentor(
+                              innovatorData.userId || innovatorData.id,
+                            )
+                          }
                           disabled={!selectedMentor}
                           className={`p-1 rounded transition ${selectedMentor ? "text-emerald-400 hover:bg-emerald-500/20" : "text-gray-500 cursor-not-allowed"}`}
                         >
@@ -341,14 +347,6 @@ const DirectorInnovatorsList = ({
                     ))}
 
                   <button
-                    onClick={() => onViewDetails?.(innovatorData.id)}
-                    className="text-gray-400 hover:text-white p-1.5 rounded-lg hover:bg-gray-700 transition"
-                    title="View Details"
-                  >
-                    <Eye className="w-4 h-4" />
-                  </button>
-
-                  <button
                     onClick={() =>
                       setExpandedId(isExpanded ? null : innovatorData.id)
                     }
@@ -372,7 +370,6 @@ const DirectorInnovatorsList = ({
                   className="border-t border-gray-700 overflow-hidden"
                 >
                   <div className="p-5 bg-gray-800/50 space-y-5">
-                    {/* Innovation Details */}
                     <div>
                       <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
                         <Lightbulb className="w-3 h-3" />
@@ -425,8 +422,6 @@ const DirectorInnovatorsList = ({
                         )}
                       </div>
                     </div>
-
-                    {/* Milestones */}
                     {innovatorData.milestones &&
                       innovatorData.milestones.length > 0 && (
                         <div>
@@ -475,8 +470,6 @@ const DirectorInnovatorsList = ({
                           </div>
                         </div>
                       )}
-
-                    {/* Documents */}
                     {innovatorData.documents && (
                       <div>
                         <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
@@ -484,35 +477,21 @@ const DirectorInnovatorsList = ({
                           Documents
                         </h4>
                         <div className="space-y-2">
-                          {innovatorData.documents.businessPlan && (
-                            <a
-                              href={innovatorData.documents.businessPlan}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center gap-2 p-2 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition"
-                            >
-                              <FileText className="w-4 h-4 text-emerald-400" />
-                              <span className="text-sm text-white">
-                                Business Plan
-                              </span>
-                            </a>
-                          )}
-                          {innovatorData.documents.pitchDeck && (
-                            <a
-                              href={innovatorData.documents.pitchDeck}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center gap-2 p-2 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition"
-                            >
-                              <FileText className="w-4 h-4 text-emerald-400" />
-                              <span className="text-sm text-white">
-                                Pitch Deck
-                              </span>
-                            </a>
-                          )}
+                          <DocumentItem
+                            file={innovatorData.documents.businessPlan}
+                            label="Business Plan"
+                          />
+                          <DocumentItem
+                            file={innovatorData.documents.pitchDeck}
+                            label="Pitch Deck"
+                          />
+                          <DocumentItem
+                            file={innovatorData.documents.presentation}
+                            label="Presentation"
+                          />
                         </div>
                       </div>
-                    )}
+                    )}{" "}
                   </div>
                 </motion.div>
               )}

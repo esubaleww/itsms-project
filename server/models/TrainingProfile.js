@@ -53,15 +53,11 @@ const trainingProfileSchema = new mongoose.Schema(
       endDate: Date,
     },
 
-    sessions: [
+    attendance: [
       {
-        title: { type: String, required: true },
-        date: { type: Date, required: true },
-        duration: Number,
-        location: String,
+        session: { type: mongoose.Schema.Types.ObjectId, ref: "Session" },
         attended: { type: Boolean, default: false },
         attendedAt: Date,
-        qrCode: String,
       },
     ],
 
@@ -70,28 +66,44 @@ const trainingProfileSchema = new mongoose.Schema(
       attendedSessions: { type: Number, default: 0 },
       completionRate: { type: Number, default: 0 },
     },
+
     trainerSummary: {
-      overallPerformance: String,
+      overallPerformance: {
+        type: String,
+        enum: ["Excellent", "Good", "Average", "Poor"],
+      },
       skillsAcquired: [String],
       attendanceRate: Number,
+      certificationRecommended: { type: Boolean, default: false },
       recommendation: String,
       comments: String,
       submittedAt: Date,
       submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      status: {
+        type: String,
+        enum: ["pending_director_review", "approved", "rejected"],
+        default: "pending_director_review",
+      },
       directorFeedback: String,
       directorDecision: String,
+      directorReviewedAt: Date,
+      directorReviewedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    },
+
+    certificate: {
+      generated: { type: Boolean, default: false },
+      generatedAt: Date,
+      certificateUrl: String,
     },
   },
   { timestamps: true },
 );
 
-trainingProfileSchema.index({ "placement.directorate": 1, status: 1 });
-trainingProfileSchema.index({ "placement.trainer": 1 });
 trainingProfileSchema.pre("save", async function () {
-  if (this.sessions && this.sessions.length > 0) {
-    this.progress.totalSessions = this.sessions.length;
-    this.progress.attendedSessions = this.sessions.filter(
-      (s) => s.attended === true,
+  if (this.attendance && this.attendance.length > 0) {
+    this.progress.totalSessions = this.attendance.length;
+    this.progress.attendedSessions = this.attendance.filter(
+      (a) => a.attended === true,
     ).length;
     this.progress.completionRate =
       this.progress.totalSessions > 0

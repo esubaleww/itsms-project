@@ -227,7 +227,7 @@ const StaffList = ({
                   </p>
                 )}
               </div>
-              <div className="flex gap-1 ml-2">
+              <div className="flex">
                 <button
                   onClick={() =>
                     onResetPassword(staffMember._id || staffMember.id)
@@ -235,21 +235,21 @@ const StaffList = ({
                   className="p-1.5 text-gray-500 hover:text-yellow-400 hover:bg-yellow-500/10 rounded-lg transition"
                   title="Reset Password"
                 >
-                  <Key className="w-4 h-4" />
+                  <Key className="w-3 h-3" />
                 </button>
                 <button
                   onClick={() => onEdit(staffMember)}
                   className="p-1.5 text-gray-500 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition"
                   title="Edit"
                 >
-                  <Edit className="w-4 h-4" />
+                  <Edit className="w-3 h-3" />
                 </button>
                 <button
                   onClick={() => onDelete(staffMember._id || staffMember.id)}
                   className="p-1.5 text-gray-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition"
                   title="Delete"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <Trash2 className="w-3 h-3" />
                 </button>
               </div>
             </div>

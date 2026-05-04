@@ -1,5 +1,5 @@
 import * as adminService from "../services/admin.service.js";
-import ExportService from "../services/export.service.js";
+import ExportService from "../services/admin.export.service.js";
 
 export const getPendingRequests = async (req, res) => {
   try {

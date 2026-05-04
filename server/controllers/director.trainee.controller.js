@@ -28,7 +28,8 @@ export const getTraineeProgress = async (req, res) => {
 };
 export const assignTrainer = async (req, res) => {
   try {
-    const { traineeId, trainerId } = req.body;
+    const { trainerId } = req.body;
+    const { traineeId } = req.params;
     const result = await traineeService.assignTrainer(
       req.user.id,
       traineeId,

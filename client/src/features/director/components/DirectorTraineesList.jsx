@@ -1,4 +1,3 @@
-// client/src/features/director/components/DirectorTraineesList.jsx
 import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -32,13 +31,14 @@ const DirectorTraineesList = ({
   const [selectedTrainer, setSelectedTrainer] = useState("");
 
   const getTraineeData = useCallback((item) => {
+    console.log("getTraineeData item", item);
     if (!item) return null;
 
     return {
-      id: item.trainee?._id || item._id,
-      fullName: item.trainee?.fullName || item.fullName || "Unknown",
-      email: item.trainee?.email || item.email,
-      phone: item.trainee?.phone || item.phone,
+      id: item.trainee?._id,
+      fullName: item.trainee?.fullName || "Unknown",
+      email: item.trainee?.email,
+      phone: item.trainee?.phone,
       trainer: item.trainer,
       trainerId: item.trainer?._id,
       trainerName: item.trainer?.fullName,

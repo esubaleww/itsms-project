@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useToast } from "../components/ui/Toast";
+import { useToast } from "../common/ui/Toast";
 import { teamLeadApi } from "../services/teamLead.service";
 
 export const useTeamLeadExport = () => {

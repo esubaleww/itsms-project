@@ -5,29 +5,27 @@ import {
   Settings,
   LogOut,
   ChevronDown,
-  Search,
   Download,
   Briefcase,
+  Menu,
+  X,
+  LayoutDashboard,
 } from "lucide-react";
 import { useAuth } from "../../../hooks/useAuth";
 import { useNotifications } from "../../../hooks/useNotifications";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import ExportModal from "../../admin/components/ExportModal";
-
-const StaffHeader = ({ onRefresh, title = "Staff Dashboard", onExport }) => {
+const StaffHeader = ({ onRefresh, title = "Staff Dashboard", onMenuClick }) => {
   const { user, logout } = useAuth();
   const { notifications, unreadCount, markAsRead, markAllAsRead } =
     useNotifications();
   const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [showExportModal, setShowExportModal] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
   const notificationRef = useRef(null);
   const userMenuRef = useRef(null);
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -62,15 +60,6 @@ const StaffHeader = ({ onRefresh, title = "Staff Dashboard", onExport }) => {
     navigate("/login");
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/staff/search?q=${encodeURIComponent(searchQuery)}`);
-      setSearchQuery("");
-    }
-  };
-
-  // Get user initials
   const getUserInitials = () => {
     if (!user?.fullName) return "S";
     return user.fullName
@@ -81,7 +70,6 @@ const StaffHeader = ({ onRefresh, title = "Staff Dashboard", onExport }) => {
       .slice(0, 2);
   };
 
-  // Get role display name
   const getRoleDisplay = () => {
     if (user?.position) {
       return user.position.replace("_", " ").toUpperCase();
@@ -92,48 +80,41 @@ const StaffHeader = ({ onRefresh, title = "Staff Dashboard", onExport }) => {
   return (
     <>
       <div className="bg-gray-800/80 backdrop-blur-sm border-b border-gray-700 sticky top-0 z-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-2 sm:py-3">
           <div className="flex justify-between items-center">
             {/* Logo and Title */}
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-linear-to-br from-emerald-500 to-teal-700 rounded-full flex items-center justify-center">
-                  <Briefcase className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-3xl font-bold text-white">{title}</h1>
-                  <p className="text-xs text-gray-400">
-                    Welcome back, {user?.fullName?.split(" ")[0] || "Staff"}
-                  </p>
-                </div>
+            <div className="flex items-center gap-2 sm:gap-4">
+              {/* Mobile Menu Button */}
+              <button
+                onClick={onMenuClick}
+                className="md:hidden p-2 hover:bg-gray-700 rounded-lg transition-colors"
+              >
+                <Menu className="w-5 h-5 text-gray-400" />
+              </button>
+
+              {/* Circular logo */}
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-linear-to-br from-emerald-500 to-teal-700 rounded-full flex items-center justify-center shadow-lg">
+                <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+              </div>
+
+              {/* Title - hide on mobile, show on sm and up */}
+              <div className="hidden sm:block">
+                <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
+                  {title}
+                </h1>
+                <p className="text-xs text-gray-400 hidden md:block">
+                  Welcome back, {user?.fullName?.split(" ")[0] || "Staff"}
+                </p>
+              </div>
+
+              {/* Mobile title only */}
+              <div className="sm:hidden">
+                <h1 className="text-sm font-bold text-white">Staff</h1>
               </div>
             </div>
 
             {/* Right Section */}
-            <div className="flex items-center gap-3">
-              {/* Search Bar */}
-              <form onSubmit={handleSearch} className="hidden md:block">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-                  <input
-                    type="text"
-                    placeholder="Search tasks, reports..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-9 pr-4 py-1.5 bg-gray-700/50 border border-gray-600 rounded-lg text-sm text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all w-64"
-                  />
-                </div>
-              </form>
-
-              {/* Export Button */}
-              <button
-                onClick={() => setShowExportModal(true)}
-                className="p-2 hover:bg-gray-700 rounded-lg transition-colors duration-200 group relative"
-                title="Export Data"
-              >
-                <Download className="w-5 h-5 text-gray-400 group-hover:text-emerald-400 transition-colors" />
-              </button>
-
+            <div className="flex items-center gap-1 sm:gap-2 lg:gap-3">
               {/* Refresh Button */}
               <button
                 onClick={onRefresh}
@@ -234,7 +215,7 @@ const StaffHeader = ({ onRefresh, title = "Staff Dashboard", onExport }) => {
                       {getUserInitials()}
                     </span>
                   </div>
-                  <ChevronDown className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" />
+                  <ChevronDown className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors hidden sm:block" />
                 </button>
 
                 {/* User Dropdown */}
@@ -260,16 +241,6 @@ const StaffHeader = ({ onRefresh, title = "Staff Dashboard", onExport }) => {
                         <User className="w-4 h-4" />
                         Profile Settings
                       </button>
-                      <button
-                        onClick={() => {
-                          setShowUserMenu(false);
-                          navigate("/staff/tasks");
-                        }}
-                        className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:bg-gray-700 transition-colors flex items-center gap-2"
-                      >
-                        <Briefcase className="w-4 h-4" />
-                        My Tasks
-                      </button>
                       <div className="border-t border-gray-700 my-1" />
                       <button
                         onClick={handleLogout}
@@ -286,13 +257,6 @@ const StaffHeader = ({ onRefresh, title = "Staff Dashboard", onExport }) => {
           </div>
         </div>
       </div>
-
-      {/* Export Modal */}
-      <ExportModal
-        isOpen={showExportModal}
-        onClose={() => setShowExportModal(false)}
-        onExport={onExport}
-      />
     </>
   );
 };

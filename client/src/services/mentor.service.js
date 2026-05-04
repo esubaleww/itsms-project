@@ -10,12 +10,14 @@ export const mentorService = {
     const response = await API.get(url);
     return response.data;
   },
+
   getInnovatorProgress: async (innovatorId) => {
     const response = await API.get(
       `/staff/mentor/innovators/${innovatorId}/progress`,
     );
     return response.data;
   },
+
   addInnovatorMilestone: async (innovatorId, milestoneData) => {
     const response = await API.post(
       `/staff/mentor/innovators/${innovatorId}/milestones`,
@@ -23,18 +25,19 @@ export const mentorService = {
     );
     return response.data;
   },
-  reviewInnovatorMilestone: async (
-    innovatorId,
-    milestoneId,
-    status,
-    feedback,
-  ) => {
+
+  reviewInnovatorMilestone: async (innovatorId, milestoneId, feedback) => {
     const response = await API.put(
-      `/staff/mentor/innovators/${innovatorId}/milestones/${milestoneId}`,
-      {
-        status,
-        feedback,
-      },
+      `/staff/mentor/innovators/${innovatorId}/milestones/${milestoneId}/review`,
+      { feedback },
+    );
+    return response.data;
+  },
+
+  submitInnovatorFinalReview: async (innovatorId, reviewData) => {
+    const response = await API.post(
+      `/staff/mentor/innovators/${innovatorId}/final-review`,
+      reviewData,
     );
     return response.data;
   },
@@ -48,12 +51,14 @@ export const mentorService = {
     const response = await API.get(url);
     return response.data;
   },
+
   getStartupProgress: async (startupId) => {
     const response = await API.get(
       `/staff/mentor/startups/${startupId}/progress`,
     );
     return response.data;
   },
+
   addStartupMilestone: async (startupId, milestoneData) => {
     const response = await API.post(
       `/staff/mentor/startups/${startupId}/milestones`,
@@ -61,13 +66,19 @@ export const mentorService = {
     );
     return response.data;
   },
-  reviewStartupMilestone: async (startupId, milestoneId, status, feedback) => {
+
+  reviewStartupMilestone: async (startupId, milestoneId, feedback) => {
     const response = await API.put(
-      `/staff/mentor/startups/${startupId}/milestones/${milestoneId}`,
-      {
-        status,
-        feedback,
-      },
+      `/staff/mentor/startups/${startupId}/milestones/${milestoneId}/review`,
+      { feedback },
+    );
+    return response.data;
+  },
+
+  submitStartupFinalReview: async (startupId, reviewData) => {
+    const response = await API.post(
+      `/staff/mentor/startups/${startupId}/final-review`,
+      reviewData,
     );
     return response.data;
   },
@@ -76,8 +87,17 @@ export const mentorService = {
     const response = await API.get("/staff/mentor/dashboard");
     return response.data;
   },
+
   getStats: async () => {
     const response = await API.get("/staff/mentor/stats");
+    return response.data;
+  },
+
+  updateMenteeStatus: async (menteeId, type, status) => {
+    const response = await API.put(
+      `/staff/mentor/${type}s/${menteeId}/status`,
+      { status },
+    );
     return response.data;
   },
 };

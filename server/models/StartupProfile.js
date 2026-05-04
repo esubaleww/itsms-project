@@ -99,6 +99,33 @@ const startupProfileSchema = new mongoose.Schema(
             type: String,
             enum: ["pending", "in_progress", "completed"],
           },
+          evidence: {
+            description: String,
+            files: [
+              {
+                url: String,
+                public_id: String,
+                name: String,
+                size: Number,
+                mimeType: String,
+                isImage: Boolean,
+              },
+            ],
+            submittedAt: Date,
+          },
+          resources: [
+            {
+              url: String,
+              public_id: String,
+              name: String,
+              size: Number,
+              mimeType: String,
+              isImage: Boolean,
+            },
+          ],
+          feedback: String,
+          feedbackGivenAt: Date,
+          feedbackBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         },
       ],
     },

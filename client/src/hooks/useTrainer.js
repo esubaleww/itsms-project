@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { trainerService } from "../services/trainer.service";
-import { useToast } from "../components/ui/Toast";
+import { useToast } from "../common/ui/Toast";
 
 export const useTrainer = () => {
   const { addToast } = useToast();
@@ -52,12 +52,14 @@ export const useTrainer = () => {
   );
 
   const createSession = useCallback(
-    async (traineeId, sessionData) => {
+    async (sessionData) => {
       setLoading(true);
       try {
-        const data = await trainerService.createSession(traineeId, sessionData);
-        addToast("Session created!", "success");
-        await fetchTraineeProgress(traineeId);
+        const data = await trainerService.createSession(sessionData);
+        addToast(
+          "Session created! QR code generated for all trainees",
+          "success",
+        );
         return data;
       } catch (error) {
         addToast(error.message || "Failed to create session", "error");
@@ -66,48 +68,91 @@ export const useTrainer = () => {
         setLoading(false);
       }
     },
-    [addToast, fetchTraineeProgress],
+    [addToast],
   );
 
-  const recordAttendance = useCallback(
-    async (sessionId, traineeId) => {
+  const markAttendance = useCallback(
+    async (sessionId) => {
       setLoading(true);
       try {
-        const data = await trainerService.recordAttendance(
-          sessionId,
-          traineeId,
-        );
-        addToast("Attendance recorded!", "success");
-        await fetchTraineeProgress(traineeId);
+        const data = await trainerService.markAttendance(sessionId);
+        addToast("Attendance marked successfully!", "success");
         return data;
       } catch (error) {
-        addToast(error.message || "Failed to record attendance", "error");
-        throw error;
-      } finally {
-        setLoading(false);
-      }
-    },
-    [addToast, fetchTraineeProgress],
-  );
-
-  const generateCertificate = useCallback(
-    async (traineeId, sessionId) => {
-      setLoading(true);
-      try {
-        const data = await trainerService.generateCertificate(
-          traineeId,
-          sessionId,
-        );
-        addToast("Certificate generated!", "success");
-        return data;
-      } catch (error) {
-        addToast(error.message || "Failed to generate certificate", "error");
+        addToast(error.message || "Failed to mark attendance", "error");
         throw error;
       } finally {
         setLoading(false);
       }
     },
     [addToast],
+  );
+
+  const getSessions = useCallback(async () => {
+    try {
+      const response = await trainerService.getSessions();
+      return response;
+    } catch (error) {
+      addToast(error.message || "Failed to fetch sessions", "error");
+      throw error;
+    }
+  }, [addToast]);
+
+  const getSessionAttendance = useCallback(
+    async (sessionId) => {
+      try {
+        const response = await trainerService.getSessionAttendance(sessionId);
+        return response;
+      } catch (error) {
+        addToast(
+          error.message || "Failed to fetch session attendance",
+          "error",
+        );
+        throw error;
+      }
+    },
+    [addToast],
+  );
+
+  const submitTrainerSummary = useCallback(
+    async (traineeId, summaryData) => {
+      setLoading(true);
+      try {
+        const data = await trainerService.submitTrainerSummary(
+          traineeId,
+          summaryData,
+        );
+        addToast("Summary submitted to director!", "success");
+        return data;
+      } catch (error) {
+        addToast(error.message || "Failed to submit summary", "error");
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [addToast],
+  );
+
+  const updateTraineeStatus = useCallback(
+    async (traineeId, status) => {
+      setLoading(true);
+      try {
+        const data = await trainerService.updateTraineeStatus(
+          traineeId,
+          status,
+        );
+        addToast(`Status updated to ${status}!`, "success");
+        await fetchTrainees();
+        return data;
+      } catch (error) {
+        addToast(error.message || "Failed to update status", "error");
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [addToast, fetchTrainees],
   );
 
   const fetchStats = useCallback(async () => {
@@ -147,10 +192,14 @@ export const useTrainer = () => {
     stats,
     pagination,
     fetchTrainees,
+    setSelectedTrainee,
     fetchTraineeProgress,
     createSession,
-    recordAttendance,
-    generateCertificate,
+    markAttendance,
+    getSessions,
+    getSessionAttendance,
+    submitTrainerSummary,
+    updateTraineeStatus,
     fetchStats,
     fetchDashboard,
   };

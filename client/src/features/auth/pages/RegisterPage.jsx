@@ -13,7 +13,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { useAuth } from "../../../hooks/useAuth";
-import { useToast } from "../../../components/ui/Toast";
+import { useToast } from "../../../common/ui/Toast";
 
 const RegisterPage = () => {
   const navigate = useNavigate();

@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 import { useTeamLead } from "../../../hooks/useTeamLead";
-import { useToast } from "../../../components/ui/Toast";
+import { useTeamLeadExport } from "../../../hooks/useTeamLeadExport";
+
+import { useToast } from "../../../common/ui/Toast";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
@@ -15,6 +18,17 @@ import {
   Clock,
   Star,
   UserPlus,
+  Settings,
+  LogOut,
+  RefreshCw,
+  BarChart3,
+  Menu,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  TrendingUp,
+  ArrowRight,
+  Eye,
 } from "lucide-react";
 
 import TeamLeadHeader from "../components/TeamLeadHeader";
@@ -24,14 +38,14 @@ import TeamMembersList from "../components/TeamMembersList";
 import TeamReportsList from "../components/TeamReportsList";
 import MyReportsList from "../components/MyReportsList";
 import AssignTaskModal from "../components/AssignTaskModal";
-import SubmitReportModal from "../../dashboard/components/SubmitReportModal";
+import SubmitReportModal from "../../../common/components/SubmitReportModal";
 import RequestStaffModal from "../components/RequestStaffModal";
 import TaskDetailsModal from "../components/TaskDetailsModal";
-import ReportDetailsModal from "../../dashboard/components/ReportDetailsModal";
-import TeamAnalyticsWidget from "../components/TeamAnalyticsWidget";
+import ReportDetailsModal from "../../../common/components/ReportDetailsModal";
 
 const TeamLeadDashboard = () => {
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const { addToast } = useToast();
   const {
     loading,
@@ -52,11 +66,14 @@ const TeamLeadDashboard = () => {
     requestStaff,
     submitReport,
   } = useTeamLead();
+  const { exportData } = useTeamLeadExport();
 
   const [greeting, setGreeting] = useState("");
   const [refreshing, setRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
-  const [showAnalytics, setShowAnalytics] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [modals, setModals] = useState({
     assignTask: false,
     submitReport: false,
@@ -74,6 +91,37 @@ const TeamLeadDashboard = () => {
     challenges: [],
     nextSteps: [],
   });
+
+  const pendingTasksCount = tasks?.pending?.length || 0;
+  const inProgressTasksCount = tasks?.in_progress?.length || 0;
+  const completedTasksCount = tasks?.completed?.length || 0;
+  const totalActiveTasks = pendingTasksCount + inProgressTasksCount;
+
+  const navItems = [
+    {
+      id: "overview",
+      label: "Overview",
+      icon: <LayoutDashboard className="w-5 h-5" />,
+    },
+    {
+      id: "tasks",
+      label: "Tasks",
+      icon: <ClipboardList className="w-5 h-5" />,
+      count: totalActiveTasks,
+    },
+    {
+      id: "members",
+      label: "Members",
+      icon: <Users className="w-5 h-5" />,
+      count: members?.length || 0,
+    },
+    {
+      id: "my-reports",
+      label: "My Reports",
+      icon: <Award className="w-5 h-5" />,
+      count: myReports?.length || 0,
+    },
+  ];
 
   useEffect(() => {
     const loadData = async () => {
@@ -115,25 +163,18 @@ const TeamLeadDashboard = () => {
     }
   };
 
-  const handleToggleAnalytics = () => {
-    setShowAnalytics(!showAnalytics);
-  };
-
-  const handleAssignTask = async (data) => {
-    await assignTask(data);
+  const handleAssignTask = async (taskId, memberId, instructions) => {
+    await assignTask(taskId, memberId, instructions);
     setModals((prev) => ({ ...prev, assignTask: false }));
-    addToast("Task assigned successfully!", "success");
   };
 
-  const handleUpdateStatus = async (taskId, taskIndex, status) => {
-    await updateTaskStatus(taskId, taskIndex, status);
-    addToast("Task status updated!", "success");
+  const handleUpdateStatus = async (taskId, taskIndex, status, notes) => {
+    await updateTaskStatus(taskId, taskIndex, status, notes);
   };
 
   const handleRequestStaff = async (data) => {
     await requestStaff(data);
     setModals((prev) => ({ ...prev, requestStaff: false }));
-    addToast("Staff request submitted!", "success");
   };
 
   const handleSubmitReport = async () => {
@@ -148,58 +189,20 @@ const TeamLeadDashboard = () => {
       challenges: [],
       nextSteps: [],
     });
-    addToast("Report submitted successfully!", "success");
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
   };
 
   const safeData = {
     team: team || {},
     members: Array.isArray(members) ? members : [],
-    tasks: Array.isArray(tasks) ? tasks : [],
+    tasks: tasks || { pending: [], in_progress: [], completed: [] },
     reports: Array.isArray(reports) ? reports : [],
     myReports: Array.isArray(myReports) ? myReports : [],
   };
-
-  const completedTasks = safeData.tasks.filter(
-    (t) => t.status === "completed",
-  ).length;
-  const inProgressTasks = safeData.tasks.filter(
-    (t) => t.status === "in_progress",
-  ).length;
-  const pendingTasks = safeData.tasks.filter(
-    (t) => t.status === "pending",
-  ).length;
-
-  const tabs = [
-    {
-      id: "overview",
-      label: "Overview",
-      icon: <LayoutDashboard className="w-4 h-4" />,
-    },
-    {
-      id: "tasks",
-      label: "Tasks",
-      icon: <ClipboardList className="w-4 h-4" />,
-      count: pendingTasks + inProgressTasks,
-    },
-    {
-      id: "members",
-      label: "Members",
-      icon: <Users className="w-4 h-4" />,
-      count: safeData.members.length,
-    },
-    {
-      id: "reports",
-      label: "Reports",
-      icon: <FileText className="w-4 h-4" />,
-      count: safeData.reports.filter((r) => r.status === "pending").length,
-    },
-    {
-      id: "my-reports",
-      label: "My Reports",
-      icon: <Award className="w-4 h-4" />,
-      count: safeData.myReports.length,
-    },
-  ];
 
   if (loading && !team) {
     return (
@@ -210,292 +213,360 @@ const TeamLeadDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-900 to-gray-800">
-      {/* Header */}
+    <div className="h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden flex flex-col">
       <TeamLeadHeader
         onRefresh={handleRefresh}
+        refreshing={refreshing}
         title="Team Lead Dashboard"
+        onExport={exportData}
         teamName={safeData.team?.name}
-        onToggleAnalytics={handleToggleAnalytics}
-        showAnalytics={showAnalytics}
+        onMenuClick={() => setMobileSidebarOpen(true)}
       />
 
-      {/* Analytics Panel */}
-      <AnimatePresence>
-        {showAnalytics && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="bg-gray-800/40 border-b border-gray-700 overflow-hidden"
-          >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-              <TeamAnalyticsWidget />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden bg-linear-to-r from-emerald-600 to-teal-700 rounded-2xl p-6 mb-6"
+      <div className="flex flex-1 overflow-hidden relative">
+        {/* Desktop Sidebar */}
+        <aside
+          className={`hidden md:block fixed left-0 top-16 h-[calc(100vh-4rem)] transition-all duration-300 bg-gray-800/50 border-r border-gray-700 ${
+            sidebarCollapsed ? "w-20" : "w-64"
+          }`}
+          style={{ zIndex: 40 }}
         >
-          <div className="relative z-10">
-            <div className="flex items-center gap-2 text-white/80 text-xs mb-1">
-              <Sparkles className="w-3 h-3" />
-              <span>{greeting}</span>
-            </div>
-            <h1 className="text-2xl font-bold text-white mb-1">
-              {user?.fullName?.split(" ")[0]}!
-            </h1>
-            <p className="text-white/80 text-sm mb-4">
-              Manage your team, assign tasks, and track progress.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <div className="bg-white/20 backdrop-blur rounded-lg px-3 py-1.5">
-                <p className="text-xl font-bold text-white">
-                  {safeData.members.length}
-                </p>
-                <p className="text-xs text-white/70">Members</p>
-              </div>
-              <div className="bg-white/20 backdrop-blur rounded-lg px-3 py-1.5">
-                <p className="text-xl font-bold text-white">{completedTasks}</p>
-                <p className="text-xs text-white/70">Completed</p>
-              </div>
-              <div className="bg-white/20 backdrop-blur rounded-lg px-3 py-1.5">
-                <p className="text-xl font-bold text-white">
-                  {inProgressTasks}
-                </p>
-                <p className="text-xs text-white/70">In Progress</p>
-              </div>
-            </div>
+          <div className="h-full overflow-y-auto overflow-x-hidden">
+            <nav className="p-4 space-y-1">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`
+                    w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap
+                    ${
+                      activeTab === item.id
+                        ? "bg-emerald-500/20 text-emerald-400 border-l-2 border-emerald-500"
+                        : "text-gray-400 hover:bg-gray-700/50 hover:text-white"
+                    }
+                    ${sidebarCollapsed ? "justify-center px-2" : ""}
+                  `}
+                  title={sidebarCollapsed ? item.label : ""}
+                >
+                  <div className="shrink-0">{item.icon}</div>
+                  {!sidebarCollapsed && (
+                    <span className="text-sm font-medium flex-1 text-left truncate">
+                      {item.label}
+                    </span>
+                  )}
+                  {!sidebarCollapsed && item.count > 0 && (
+                    <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full shrink-0">
+                      {item.count}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </nav>
           </div>
-        </motion.div>
-      </div>
 
-      {/* Tabs */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="border-b border-gray-700 mb-5 overflow-x-auto">
-          <div className="flex gap-1">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-3 py-2 rounded-t-lg text-sm transition ${
-                  activeTab === tab.id
-                    ? "bg-gray-800/60 text-emerald-400 border-b-2 border-emerald-500"
-                    : "text-gray-400 hover:text-gray-300 hover:bg-gray-800/30"
-                }`}
-              >
-                {tab.icon}
-                <span>{tab.label}</span>
-                {tab.count > 0 && (
-                  <span className="text-xs px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full">
-                    {tab.count}
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
-        {/* Overview Tab */}
-        {activeTab === "overview" && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="space-y-5"
+          {/* Sidebar Toggle Button */}
+          <button
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            className="absolute -right-3 top-1/2 -translate-y-1/2 bg-gray-700 hover:bg-gray-600 rounded-full p-1.5 shadow-lg z-20 transition-colors border border-gray-600"
           >
-            <TeamStatsCards
-              stats={progress}
-              membersCount={safeData.members.length}
-            />
+            {sidebarCollapsed ? (
+              <ChevronRight className="w-4 h-4 text-gray-300" />
+            ) : (
+              <ChevronLeft className="w-4 h-4 text-gray-300" />
+            )}
+          </button>
+        </aside>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-linear-to-r from-emerald-500/20 to-teal-700/20 rounded-xl p-3 border border-emerald-500/30">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-emerald-400 text-xs">Completion Rate</p>
-                    <p className="text-xl font-bold text-white">
-                      {progress?.completionRate || 0}%
-                    </p>
-                  </div>
-                  <CheckCircle className="w-6 h-6 text-emerald-400 opacity-50" />
-                </div>
-              </div>
-              <div className="bg-linear-to-r from-blue-500/20 to-cyan-700/20 rounded-xl p-3 border border-blue-500/30">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-blue-400 text-xs">Active Tasks</p>
-                    <p className="text-xl font-bold text-white">
-                      {inProgressTasks}
-                    </p>
-                  </div>
-                  <Clock className="w-6 h-6 text-blue-400 opacity-50" />
-                </div>
-              </div>
-              <div className="bg-linear-to-r from-purple-500/20 to-indigo-700/20 rounded-xl p-3 border border-purple-500/30">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-purple-400 text-xs">Team Rating</p>
-                    <p className="text-xl font-bold text-white">
-                      {progress?.teamRating || "A"}
-                    </p>
-                  </div>
-                  <Star className="w-6 h-6 text-purple-400 opacity-50" />
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-              <div className="bg-gray-800/60 rounded-xl border border-gray-700">
-                <div className="px-4 py-3 border-b border-gray-700 flex justify-between items-center">
-                  <h2 className="font-semibold text-white text-sm flex items-center gap-2">
-                    <ClipboardList className="w-4 h-4 text-emerald-400" />
-                    Recent Tasks
-                  </h2>
+        {/* Mobile Sidebar Overlay */}
+        <AnimatePresence>
+          {mobileSidebarOpen && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setMobileSidebarOpen(false)}
+                className="fixed inset-0 bg-black/60 z-40 md:hidden"
+              />
+              <motion.aside
+                initial={{ x: -280 }}
+                animate={{ x: 0 }}
+                exit={{ x: -280 }}
+                transition={{ type: "tween", duration: 0.3 }}
+                className="fixed left-0 top-0 bottom-0 w-64 bg-gray-800 border-r border-gray-700 z-50 md:hidden"
+              >
+                <div className="flex justify-between items-center p-4 border-b border-gray-700">
+                  <span className="text-white font-bold">Menu</span>
                   <button
-                    onClick={() => setActiveTab("tasks")}
-                    className="text-xs text-emerald-400"
+                    onClick={() => setMobileSidebarOpen(false)}
+                    className="p-1 hover:bg-gray-700 rounded-lg"
                   >
-                    View all →
+                    <X className="w-5 h-5 text-gray-400" />
                   </button>
                 </div>
-                <TeamTasksList
-                  tasks={safeData.tasks.slice(0, 4)}
-                  onUpdateStatus={handleUpdateStatus}
-                  onViewDetails={(task) => {
-                    setSelectedItem(task);
-                    setModals((prev) => ({ ...prev, taskDetails: true }));
-                  }}
-                />
-              </div>
-              <div className="bg-gray-800/60 rounded-xl border border-gray-700">
-                <div className="px-4 py-3 border-b border-gray-700 flex justify-between items-center">
-                  <h2 className="font-semibold text-white text-sm flex items-center gap-2">
-                    <Users className="w-4 h-4 text-emerald-400" />
-                    Team Members
-                  </h2>
-                  <button
-                    onClick={() => setActiveTab("members")}
-                    className="text-xs text-emerald-400"
-                  >
-                    View all →
-                  </button>
+                <nav className="p-4 space-y-1 overflow-y-auto h-[calc(100%-4rem)]">
+                  {navItems.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        setActiveTab(item.id);
+                        setMobileSidebarOpen(false);
+                      }}
+                      className={`
+                        w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
+                        ${
+                          activeTab === item.id
+                            ? "bg-emerald-500/20 text-emerald-400"
+                            : "text-gray-400 hover:bg-gray-700/50 hover:text-white"
+                        }
+                      `}
+                    >
+                      {item.icon}
+                      <span className="text-sm font-medium flex-1 text-left">
+                        {item.label}
+                      </span>
+                      {item.count > 0 && (
+                        <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full">
+                          {item.count}
+                        </span>
+                      )}
+                    </button>
+                  ))}
+                </nav>
+              </motion.aside>
+            </>
+          )}
+        </AnimatePresence>
+
+        {/* Main Content - Scrollable */}
+        <main
+          className={`flex-1 overflow-y-auto transition-all duration-300 ${
+            sidebarCollapsed ? "md:ml-20" : "md:ml-64"
+          }`}
+        >
+          <div className="px-4 sm:px-6 lg:px-8 py-6">
+            <div className="animate-fadeIn">
+              {/* Overview Tab */}
+              {activeTab === "overview" && (
+                <div className="space-y-6">
+                  {showWelcome && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="relative overflow-hidden bg-linear-to-r from-emerald-600/20 to-teal-600/20 border border-emerald-500/20 rounded-xl"
+                    >
+                      <div className="relative z-10 px-5 py-4 flex items-center justify-between">
+                        <div>
+                          <div className="flex items-center gap-2 text-emerald-400 text-sm mb-1">
+                            <Sparkles className="w-4 h-4" />
+                            <span>{greeting}</span>
+                          </div>
+                          <h2 className="text-xl font-bold text-white mb-1">
+                            {user?.fullName?.split(" ")[0]}!
+                          </h2>
+                          <p className="text-gray-400 text-sm">
+                            Manage your team, assign tasks, and track progress.
+                          </p>
+                        </div>
+                        <button
+                          onClick={() => setShowWelcome(false)}
+                          className="text-gray-500 hover:text-gray-400 transition"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* Stats Cards */}
+                  <TeamStatsCards
+                    stats={progress}
+                    membersCount={safeData.members.length}
+                  />
+
+                  {/* Quick Stats Row */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 p-4">
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="text-emerald-400 text-xs">
+                            Completion Rate
+                          </p>
+                          <p className="text-2xl font-bold text-white">
+                            {progress?.completionRate.toFixed(2) || 0}%
+                          </p>
+                        </div>
+                        <CheckCircle className="w-8 h-8 text-emerald-400 opacity-50" />
+                      </div>
+                    </div>
+                    <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 p-4">
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="text-blue-400 text-xs">Active Tasks</p>
+                          <p className="text-2xl font-bold text-white">
+                            {inProgressTasksCount}
+                          </p>
+                        </div>
+                        <Clock className="w-8 h-8 text-blue-400 opacity-50" />
+                      </div>
+                    </div>
+                    <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 p-4">
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="text-purple-400 text-xs">
+                            Pending Tasks
+                          </p>
+                          <p className="text-2xl font-bold text-white">
+                            {pendingTasksCount}
+                          </p>
+                        </div>
+                        <Clock className="w-8 h-8 text-purple-400 opacity-50" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Recent Tasks & Members Grid */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* Recent Tasks - Show first 3 from each category */}
+                    <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden">
+                      <div className="px-5 py-3 border-b border-gray-700 flex justify-between items-center">
+                        <h2 className="font-semibold text-white flex items-center gap-2">
+                          <ClipboardList className="w-4 h-4 text-emerald-400" />
+                          Recent Tasks
+                        </h2>
+                        <button
+                          onClick={() => setActiveTab("tasks")}
+                          className="text-xs text-emerald-400 hover:text-emerald-300 transition"
+                        >
+                          View all →
+                        </button>
+                      </div>
+                      <TeamTasksList
+                        tasks={{
+                          pending: safeData.tasks.pending?.slice(0, 3) || [],
+                          in_progress:
+                            safeData.tasks.in_progress?.slice(0, 3) || [],
+                          completed: [],
+                        }}
+                        onUpdateStatus={handleUpdateStatus}
+                        onViewDetails={(task) => {
+                          setSelectedItem(task);
+                          setModals((prev) => ({ ...prev, taskDetails: true }));
+                        }}
+                      />
+                    </div>
+
+                    {/* Team Members */}
+                    <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden">
+                      <div className="px-5 py-3 border-b border-gray-700 flex justify-between items-center">
+                        <h2 className="font-semibold text-white flex items-center gap-2">
+                          <Users className="w-4 h-4 text-emerald-400" />
+                          Team Members
+                        </h2>
+                        <button
+                          onClick={() => setActiveTab("members")}
+                          className="text-xs text-emerald-400 hover:text-emerald-300 transition"
+                        >
+                          View all →
+                        </button>
+                      </div>
+                      <TeamMembersList
+                        members={safeData.members.slice(0, 5)}
+                        tasks={safeData.tasks}
+                      />
+                    </div>
+                  </div>
                 </div>
-                <TeamMembersList members={safeData.members.slice(0, 4)} />
-              </div>
-            </div>
-          </motion.div>
-        )}
+              )}
 
-        {/* Tasks Tab */}
-        {activeTab === "tasks" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <div className="flex justify-between items-center mb-4">
-              <div>
-                <h2 className="text-xl font-bold text-white">Team Tasks</h2>
-                <p className="text-xs text-gray-400">
-                  Manage and track tasks assigned to your team
-                </p>
-              </div>
-              <button
-                onClick={() =>
-                  setModals((prev) => ({ ...prev, assignTask: true }))
-                }
-                className="bg-linear-to-r from-emerald-500 to-teal-700 text-white px-3 py-1.5 rounded-lg text-sm flex items-center gap-1 hover:opacity-90 transition"
-              >
-                <Plus className="w-4 h-4" /> Assign Task
-              </button>
-            </div>
-            <TeamTasksList
-              tasks={safeData.tasks}
-              detailed
-              onUpdateStatus={handleUpdateStatus}
-              onViewDetails={(task) => {
-                setSelectedItem(task);
-                setModals((prev) => ({ ...prev, taskDetails: true }));
-              }}
-            />
-          </motion.div>
-        )}
+              {/* Tasks Tab */}
+              {activeTab === "tasks" && (
+                <div>
+                  <div className="flex justify-between items-center mb-5">
+                    <div>
+                      <h2 className="text-xl font-bold text-white">
+                        Team Tasks
+                      </h2>
+                      <p className="text-xs text-gray-400">
+                        Manage and track tasks assigned to your team
+                      </p>
+                    </div>
+                  </div>
+                  <TeamTasksList
+                    tasks={safeData.tasks}
+                    detailed
+                    teamMembers={safeData.members}
+                    onAssignTask={handleAssignTask}
+                    onUpdateStatus={handleUpdateStatus}
+                    onViewDetails={(task) => {
+                      setSelectedItem(task);
+                      setModals((prev) => ({ ...prev, taskDetails: true }));
+                    }}
+                  />
+                </div>
+              )}
 
-        {/* Members Tab */}
-        {activeTab === "members" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <div className="flex justify-between items-center mb-4">
-              <div>
-                <h2 className="text-xl font-bold text-white">Team Members</h2>
-                <p className="text-xs text-gray-400">
-                  {safeData.members.length} members in your team
-                </p>
-              </div>
-              <button
-                onClick={() =>
-                  setModals((prev) => ({ ...prev, requestStaff: true }))
-                }
-                className="bg-linear-to-r from-emerald-500 to-teal-700 text-white px-3 py-1.5 rounded-lg text-sm flex items-center gap-1 hover:opacity-90 transition"
-              >
-                <UserPlus className="w-4 h-4" /> Request Staff
-              </button>
-            </div>
-            <TeamMembersList members={safeData.members} detailed />
-          </motion.div>
-        )}
+              {/* Members Tab */}
+              {activeTab === "members" && (
+                <div>
+                  <div className="flex justify-between items-center mb-5">
+                    <div>
+                      <h2 className="text-xl font-bold text-white">
+                        Team Members
+                      </h2>
+                      <p className="text-xs text-gray-400">
+                        {safeData.members.length} members in your team
+                      </p>
+                    </div>
+                    <button
+                      onClick={() =>
+                        setModals((prev) => ({ ...prev, requestStaff: true }))
+                      }
+                      className="bg-linear-to-r from-emerald-500 to-teal-700 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 hover:opacity-90 transition shadow-lg"
+                    >
+                      <UserPlus className="w-4 h-4" /> Request Staff
+                    </button>
+                  </div>
+                  <TeamMembersList
+                    members={safeData.members}
+                    tasks={safeData.tasks}
+                    detailed
+                  />
+                </div>
+              )}
 
-        {/* Reports Tab */}
-        {activeTab === "reports" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <div className="mb-4">
-              <h2 className="text-xl font-bold text-white">Team Reports</h2>
-              <p className="text-xs text-gray-400">
-                Reports submitted by your team members
-              </p>
+              {activeTab === "my-reports" && (
+                <div>
+                  <div className="flex justify-between items-center mb-5">
+                    <div>
+                      <h2 className="text-xl font-bold text-white">
+                        My Reports
+                      </h2>
+                      <p className="text-xs text-gray-400">
+                        Reports you've submitted to the director
+                      </p>
+                    </div>
+                    <button
+                      onClick={() =>
+                        setModals((prev) => ({ ...prev, submitReport: true }))
+                      }
+                      className="bg-linear-to-r from-emerald-500 to-teal-700 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 hover:opacity-90 transition shadow-lg"
+                    >
+                      <Plus className="w-4 h-4" /> Submit Report
+                    </button>
+                  </div>
+                  <MyReportsList
+                    reports={safeData.myReports}
+                    onViewDetails={(report) => {
+                      setSelectedItem(report);
+                      setModals((prev) => ({ ...prev, reportDetails: true }));
+                    }}
+                  />
+                </div>
+              )}
             </div>
-            <TeamReportsList
-              reports={safeData.reports}
-              onViewDetails={(report) => {
-                setSelectedItem(report);
-                setModals((prev) => ({ ...prev, reportDetails: true }));
-              }}
-            />
-          </motion.div>
-        )}
-
-        {/* My Reports Tab */}
-        {activeTab === "my-reports" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <div className="flex justify-between items-center mb-4">
-              <div>
-                <h2 className="text-xl font-bold text-white">My Reports</h2>
-                <p className="text-xs text-gray-400">
-                  Reports you've submitted to the director
-                </p>
-              </div>
-              <button
-                onClick={() =>
-                  setModals((prev) => ({ ...prev, submitReport: true }))
-                }
-                className="bg-linear-to-r from-emerald-500 to-teal-700 text-white px-3 py-1.5 rounded-lg text-sm flex items-center gap-1 hover:opacity-90 transition"
-              >
-                <Plus className="w-4 h-4" /> Submit Report
-              </button>
-            </div>
-            <MyReportsList
-              reports={safeData.myReports}
-              onViewDetails={(report) => {
-                setSelectedItem(report);
-                setModals((prev) => ({ ...prev, reportDetails: true }));
-              }}
-            />
-          </motion.div>
-        )}
+          </div>
+        </main>
       </div>
 
       {/* Modals */}

@@ -114,7 +114,6 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
         exit={{ opacity: 0, scale: 0.95 }}
         className="bg-gray-800 rounded-2xl w-full max-w-md flex flex-col max-h-[90vh] border border-gray-700 shadow-2xl"
       >
-        {/* Header - Sticky */}
         <div className="p-5 border-b border-gray-700 flex justify-between items-center sticky top-0 bg-gray-800 z-10 rounded-t-2xl">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-linear-to-br from-emerald-500 to-teal-700 rounded-lg flex items-center justify-center">
@@ -130,14 +129,12 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
           </button>
         </div>
 
-        {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto p-5">
           <form
             id="create-directorate-form"
             onSubmit={handleSubmit}
             className="space-y-4"
           >
-            {/* Name */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
                 Directorate Name <span className="text-red-400">*</span>
@@ -162,7 +159,6 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
               )}
             </div>
 
-            {/* Type */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
                 Type <span className="text-red-400">*</span>
@@ -201,7 +197,6 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
               )}
             </div>
 
-            {/* Type Preview (when selected) */}
             {selectedType && TypeIcon && (
               <div
                 className={`bg-linear-to-r ${selectedType.color} bg-opacity-20 rounded-lg p-3 border border-opacity-30`}
@@ -223,7 +218,6 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
               </div>
             )}
 
-            {/* Description */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
                 Description
@@ -245,7 +239,6 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
               </p>
             </div>
 
-            {/* Preview Section */}
             {formData.name && formData.type && selectedType && TypeIcon && (
               <div className="bg-gray-700/30 rounded-lg p-3 border border-gray-600">
                 <p className="text-xs text-gray-400 mb-2">Preview:</p>
@@ -267,7 +260,6 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
           </form>
         </div>
 
-        {/* Buttons - Sticky at Bottom */}
         <div className="p-5 border-t border-gray-700 bg-gray-800 rounded-b-2xl sticky bottom-0">
           <div className="flex gap-3">
             <button

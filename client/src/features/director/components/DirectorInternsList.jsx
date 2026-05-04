@@ -1,4 +1,3 @@
-// client/src/features/director/components/DirectorInternsList.jsx
 import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -32,7 +31,6 @@ const DirectorInternsList = ({
   const [assigningId, setAssigningId] = useState(null);
   const [selectedAdvisor, setSelectedAdvisor] = useState("");
 
-  // Helper to extract intern data from your actual structure
   const getInternData = useCallback((item) => {
     if (!item) return null;
 
@@ -59,7 +57,6 @@ const DirectorInternsList = ({
     };
   }, []);
 
-  // All staff in the directorate are eligible (no position filtering)
   const advisorOptions = staffList || [];
 
   const handleAssignAdvisor = useCallback(
@@ -146,7 +143,6 @@ const DirectorInternsList = ({
     );
   }
 
-  // Empty state
   if (!interns || interns.length === 0) {
     return (
       <div className="text-center py-16">
@@ -178,7 +174,6 @@ const DirectorInternsList = ({
           internData.reports?.filter((r) => r.status === "advisor_reviewed")
             .length || 0;
 
-        // Calculate internship duration if dates exist
         const getDuration = () => {
           if (internData.startDate && internData.endDate) {
             const start = new Date(internData.startDate);
@@ -342,14 +337,6 @@ const DirectorInternsList = ({
                         Assign Advisor
                       </button>
                     ))}
-
-                  <button
-                    onClick={() => onViewDetails?.(internData.id)}
-                    className="text-gray-400 hover:text-white p-1.5 rounded-lg hover:bg-gray-700 transition"
-                    title="View Details"
-                  >
-                    <Eye className="w-4 h-4" />
-                  </button>
 
                   <button
                     onClick={() =>

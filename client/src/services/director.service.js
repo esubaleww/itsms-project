@@ -238,6 +238,31 @@ export const directorService = {
     return response.data;
   },
 
+  getAdvisorReports: async () => {
+    const response = await API.get("/director/advisor-reports");
+    return response.data;
+  },
+
+  getMentorReports: async () => {
+    const response = await API.get("/director/mentor-reports");
+    return response.data;
+  },
+
+  getStartupMentorReports: async () => {
+    const response = await API.get("/director/startup-mentor-reports");
+    return response.data;
+  },
+
+  getTrainerReports: async () => {
+    const response = await API.get("/director/trainer-reports");
+    return response.data;
+  },
+
+  getAllReports: async () => {
+    const response = await API.get("/director/all-reports");
+    return response.data;
+  },
+
   getReportById: async (reportId) => {
     const response = await API.get(`/director/team-reports/${reportId}`);
     return response.data;
@@ -246,10 +271,7 @@ export const directorService = {
   reviewTeamReport: async (reportId, feedback, status) => {
     const response = await API.put(
       `/director/team-reports/${reportId}/review`,
-      {
-        feedback,
-        status,
-      },
+      { feedback, status },
     );
     return response.data;
   },
@@ -257,9 +279,7 @@ export const directorService = {
   approveTeamReport: async (reportId, comments) => {
     const response = await API.put(
       `/director/team-reports/${reportId}/approve`,
-      {
-        comments,
-      },
+      { comments },
     );
     return response.data;
   },
@@ -267,9 +287,22 @@ export const directorService = {
   rejectTeamReport: async (reportId, reason) => {
     const response = await API.put(
       `/director/team-reports/${reportId}/reject`,
-      {
-        reason,
-      },
+      { reason },
+    );
+    return response.data;
+  },
+  approveSummaryReport: async (reportId, type, comments) => {
+    const response = await API.put(
+      `/director/reports/${type}/${reportId}/approve`,
+      { comments },
+    );
+    return response.data;
+  },
+
+  rejectSummaryReport: async (reportId, type, reason) => {
+    const response = await API.put(
+      `/director/reports/${type}/${reportId}/reject`,
+      { reason },
     );
     return response.data;
   },
@@ -310,11 +343,13 @@ export const directorService = {
   },
 
   exportData: async ({ format, type, dateRange, directorId }) => {
-    const response = await API.post(
-      "/director/export",
-      { format, type, dateRange, directorId },
-      { responseType: "blob" },
-    );
+    const payload = { format, type, directorId };
+    if (dateRange?.start && dateRange?.end) {
+      payload.dateRange = { start: dateRange.start, end: dateRange.end };
+    }
+    const response = await API.post("/director/export", payload, {
+      responseType: "blob",
+    });
     return response.data;
   },
 };

@@ -29,7 +29,12 @@ export const getMyMilestones = async (userId) => {
   };
 };
 
-export const updateMilestoneStatus = async (userId, milestoneId, status) => {
+export const updateMilestoneStatus = async (
+  userId,
+  milestoneId,
+  status,
+  evidenceData = null,
+) => {
   const profile = await StartupProfile.findOne({ user: userId });
   if (!profile) throw new Error("Startup profile not found");
 
@@ -39,8 +44,17 @@ export const updateMilestoneStatus = async (userId, milestoneId, status) => {
   if (!milestone) throw new Error("Milestone not found");
 
   milestone.status = status;
+
   if (status === "completed") {
     milestone.completedAt = new Date();
+
+    if (evidenceData) {
+      milestone.evidence = {
+        description: evidenceData.description || "",
+        files: evidenceData.files || [],
+        submittedAt: new Date(),
+      };
+    }
   }
 
   await profile.save();

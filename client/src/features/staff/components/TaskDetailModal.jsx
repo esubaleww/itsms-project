@@ -11,7 +11,7 @@ import {
   Briefcase,
   Users,
 } from "lucide-react";
-import { useToast } from "../../../components/ui/Toast";
+import { useToast } from "../../../common/ui/Toast";
 
 const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
   const { addToast } = useToast();

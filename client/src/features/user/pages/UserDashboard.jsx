@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -8,19 +8,19 @@ import {
   Target,
   Calendar,
   LayoutDashboard,
-  LogOut,
-  RefreshCw,
-  User,
-  Settings,
-  Menu,
   X,
   ChevronLeft,
   ChevronRight,
+  Eye,
+  Clock,
+  CheckCircle,
+  Loader2,
 } from "lucide-react";
 
 import { useAuth } from "../../../hooks/useAuth";
 import { useApplications } from "../../../hooks/useApplications";
-import { useToast } from "../../../components/ui/Toast";
+import { useToast } from "../../../common/ui/Toast";
+import DashboardHeader from "../components/DashboardHeader";
 
 import QuickActions from "../components/QuickActions";
 import ServiceRequestCard from "../components/ServiceRequestCard";
@@ -32,6 +32,9 @@ import { useIntern } from "../../../hooks/useIntern";
 import { useInnovator } from "../../../hooks/useInnovator";
 import { useStartup } from "../../../hooks/useStartup";
 import { useTrainee } from "../../../hooks/useTrainee";
+import InternReportModal from "../../internship/components/InternReportModal";
+import MilestoneCard from "../components/MilestoneCard";
+import MySessions from "../components/MySessions";
 
 const UserDashboard = () => {
   const navigate = useNavigate();
@@ -56,6 +59,8 @@ const UserDashboard = () => {
   const [closedRequests, setClosedRequests] = useState(0);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [selectedReport, setSelectedReport] = useState(null);
+  const [programLoading, setProgramLoading] = useState(true);
 
   const getProgramHook = () => {
     switch (user?.position) {
@@ -74,6 +79,10 @@ const UserDashboard = () => {
 
   const programHook = getProgramHook();
   const userPosition = user?.position;
+  const isIntern = userPosition === "intern";
+  const isInnovator = userPosition === "innovator";
+  const isStartup = userPosition === "startup";
+  const isTrainee = userPosition === "trainee";
 
   const navItems = [
     {
@@ -89,50 +98,92 @@ const UserDashboard = () => {
     },
   ];
 
-  useEffect(() => {
-    const loadData = async () => {
+  if (isIntern) {
+    navItems.push({
+      id: "my-reports",
+      label: "My Reports",
+      icon: <FileText className="w-5 h-5" />,
+      count: programHook?.reports?.length || 0,
+    });
+  }
+
+  if (isInnovator || isStartup) {
+    navItems.push({
+      id: "milestones",
+      label: "Milestones",
+      icon: <Target className="w-5 h-5" />,
+      count:
+        programHook?.milestones?.filter((m) => m.status !== "completed")
+          ?.length || 0,
+    });
+  }
+
+  if (isTrainee) {
+    navItems.push({
+      id: "my-sessions",
+      label: "My Sessions",
+      icon: <Calendar className="w-5 h-5" />,
+      count: traineeHook?.sessions?.total || 0,
+    });
+  }
+
+  const loadData = async () => {
+    try {
+      const data = await getMyApplications();
+      if (data?.applications?.service) {
+        setServiceRequests(data.applications.service);
+        const open = data.applications.service.filter(
+          (r) => r.status !== "completed" && r.status !== "rejected",
+        ).length;
+        const closed = data.applications.service.filter(
+          (r) => r.status === "completed" || r.status === "rejected",
+        ).length;
+        setOpenRequests(open);
+        setClosedRequests(closed);
+      }
+    } catch (error) {
+      console.error("Failed to load applications:", error);
+    }
+
+    if (programHook) {
+      setProgramLoading(true);
       try {
-        const data = await getMyApplications();
-        if (data?.applications?.service) {
-          setServiceRequests(data.applications.service);
-          const open = data.applications.service.filter(
-            (r) => r.status !== "completed",
-          ).length;
-          const closed = data.applications.service.filter(
-            (r) => r.status === "completed",
-          ).length;
-          setOpenRequests(open);
-          setClosedRequests(closed);
+        if (isIntern) {
+          await Promise.all([
+            programHook.fetchReports(),
+            programHook.fetchProgress(),
+            programHook.fetchAdvisor(),
+          ]);
+        }
+        if (isInnovator || isStartup) {
+          await Promise.all([
+            programHook.fetchMilestones(),
+            programHook.fetchProgress(),
+            programHook.fetchMentor(),
+          ]);
+        }
+        if (isTrainee) {
+          await Promise.all([
+            programHook.fetchSessions(),
+            programHook.fetchProgress(),
+            programHook.fetchTrainer(),
+          ]);
         }
       } catch (error) {
-        console.error("Failed to load applications:", error);
+        console.error("Failed to load program data:", error);
+      } finally {
+        setProgramLoading(false);
       }
+    } else {
+      setProgramLoading(false);
+    }
+  };
 
-      if (programHook) {
-        if (userPosition === "intern") {
-          await programHook.fetchReports();
-          await programHook.fetchProgress();
-          await programHook.fetchAdvisor();
-        }
-        if (userPosition === "innovator") {
-          await programHook.fetchMilestones();
-          await programHook.fetchProgress();
-          await programHook.fetchMentor();
-        }
-        if (userPosition === "startup") {
-          await programHook.fetchMilestones();
-          await programHook.fetchProgress();
-          await programHook.fetchMentor();
-        }
-        if (userPosition === "trainee") {
-          await programHook.fetchSessions();
-          await programHook.fetchProgress();
-          await programHook.fetchTrainer();
-        }
-      }
-    };
-    loadData();
-  }, []);
+  useEffect(() => {
+    if (user?.position) {
+      loadData();
+    }
+  }, [user?.position]);
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -140,17 +191,23 @@ const UserDashboard = () => {
       await Promise.all([getProfile(), getMyApplications()]);
 
       if (programHook) {
-        if (userPosition === "intern") {
-          await programHook.fetchReports();
-          await programHook.fetchProgress();
+        if (isIntern) {
+          await Promise.all([
+            programHook.fetchReports(),
+            programHook.fetchProgress(),
+          ]);
         }
-        if (userPosition === "innovator" || userPosition === "startup") {
-          await programHook.fetchMilestones();
-          await programHook.fetchProgress();
+        if (isInnovator || isStartup) {
+          await Promise.all([
+            programHook.fetchMilestones(),
+            programHook.fetchProgress(),
+          ]);
         }
-        if (userPosition === "trainee") {
-          await programHook.fetchSessions();
-          await programHook.fetchProgress();
+        if (isTrainee) {
+          await Promise.all([
+            programHook.fetchSessions(),
+            programHook.fetchProgress(),
+          ]);
         }
       }
 
@@ -187,7 +244,7 @@ const UserDashboard = () => {
   if (appsLoading && !applications) {
     return (
       <div className="min-h-screen bg-linear-to-br from-gray-900 to-gray-800 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500" />
+        <Loader2 className="w-12 h-12 text-emerald-500 animate-spin" />
       </div>
     );
   }
@@ -207,277 +264,397 @@ const UserDashboard = () => {
 
   const hasActiveProgram = user?.position && user?.position !== "user";
 
-  const renderAdditionalFeatures = () => {
-    if (!programHook) return null;
-
-    switch (userPosition) {
-      case "intern":
-        const submittedCount = programHook.reports?.length || 0;
-
-        return (
-          <div className="bg-gray-800/60 rounded-2xl border border-gray-700 p-6 mt-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                <FileText className="w-5 h-5 text-emerald-400" />
-                Weekly Reports
-              </h3>
-              <button
-                onClick={() => navigate("/intern/reports/new")}
-                className="px-3 py-1.5 bg-emerald-500/20 text-emerald-400 rounded-lg text-sm hover:bg-emerald-500/30"
-              >
-                + Submit Report
-              </button>
-            </div>
-
-            <div className="mb-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-              <p className="text-xs text-blue-400">
-                You are expected to submit 1 report per week during your
-                internship.
-                {submittedCount > 0 &&
-                  ` You've submitted ${submittedCount} report${submittedCount > 1 ? "s" : ""} so far.`}
-              </p>
-            </div>
-
-            {programHook.reports?.length === 0 ? (
-              <p className="text-gray-400 text-center py-8">
-                No reports submitted yet
-              </p>
-            ) : (
-              <div className="space-y-3">
-                {programHook.reports?.slice(0, 5).map((report) => (
-                  <div
-                    key={report.week}
-                    className="bg-gray-700/30 rounded-lg p-4"
-                  >
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <p className="font-medium text-white">
-                          Week {report.week}
-                        </p>
-                        <p className="text-sm text-gray-400 mt-1 line-clamp-2">
-                          {report.content}
-                        </p>
-                      </div>
-                      <span
-                        className={`text-xs px-2 py-1 rounded-full ${
-                          report.status === "advisor_reviewed"
-                            ? "bg-emerald-500/20 text-emerald-400"
-                            : "bg-yellow-500/20 text-yellow-400"
-                        }`}
-                      >
-                        {report.status === "advisor_reviewed"
-                          ? "Reviewed"
-                          : "Pending"}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        );
-
-      case "innovator":
-      case "startup":
-        const completedMilestones =
-          programHook.milestones?.filter((m) => m.status === "completed")
-            .length || 0;
-        const totalMilestones = programHook.milestones?.length || 0;
-
-        return (
-          <div className="bg-gray-800/60 rounded-2xl border border-gray-700 p-6 mt-6">
-            <h3 className="text-lg font-semibold text-white flex items-center gap-2 mb-4">
-              <Target className="w-5 h-5 text-emerald-400" />
-              Milestones
-            </h3>
-
-            {totalMilestones > 0 && (
-              <div className="mb-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                <p className="text-xs text-blue-400">
-                  🎯 {completedMilestones}/{totalMilestones} milestones
-                  completed
-                </p>
-              </div>
-            )}
-
-            {programHook.milestones?.length === 0 ? (
-              <p className="text-gray-400 text-center py-8">
-                No milestones added yet
-              </p>
-            ) : (
-              <div className="space-y-3">
-                {programHook.milestones?.map((milestone, idx) => (
-                  <div key={idx} className="bg-gray-700/30 rounded-lg p-4">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <p className="font-medium text-white">
-                          {milestone.title}
-                        </p>
-                        <p className="text-sm text-gray-400 mt-1">
-                          {milestone.description}
-                        </p>
-                      </div>
-                      <span
-                        className={`text-xs px-2 py-1 rounded-full ${
-                          milestone.status === "completed"
-                            ? "bg-emerald-500/20 text-emerald-400"
-                            : milestone.status === "in_progress"
-                              ? "bg-blue-500/20 text-blue-400"
-                              : "bg-yellow-500/20 text-yellow-400"
-                        }`}
-                      >
-                        {milestone.status || "Pending"}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        );
-
-      case "trainee":
-        const sessionsArray = Array.isArray(programHook.sessions)
-          ? programHook.sessions
-          : [];
-        const attendedCount =
-          sessionsArray.filter((s) => s.attended).length || 0;
-        const totalSessions = sessionsArray.length || 0;
-
-        return (
-          <div className="bg-gray-800/60 rounded-2xl border border-gray-700 p-6 mt-6">
-            <h3 className="text-lg font-semibold text-white flex items-center gap-2 mb-4">
-              <Calendar className="w-5 h-5 text-emerald-400" />
-              Training Sessions
-            </h3>
-
-            {totalSessions > 0 && (
-              <div className="mb-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                <p className="text-xs text-blue-400">
-                  📅 {attendedCount}/{totalSessions} sessions attended
-                </p>
-              </div>
-            )}
-
-            {sessionsArray.length === 0 ? (
-              <p className="text-gray-400 text-center py-8">
-                No sessions scheduled yet
-              </p>
-            ) : (
-              <div className="space-y-3">
-                {sessionsArray.map((session, idx) => (
-                  <div key={idx} className="bg-gray-700/30 rounded-lg p-4">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <p className="font-medium text-white">
-                          {session.title}
-                        </p>
-                        <p className="text-sm text-gray-400 mt-1">
-                          {session.date
-                            ? new Date(session.date).toLocaleDateString()
-                            : "Date TBD"}{" "}
-                          • {session.duration || 0} hours
-                        </p>
-                      </div>
-                      <span
-                        className={`text-xs px-2 py-1 rounded-full ${
-                          session.attended
-                            ? "bg-emerald-500/20 text-emerald-400"
-                            : "bg-yellow-500/20 text-yellow-400"
-                        }`}
-                      >
-                        {session.attended ? "Attended" : "Upcoming"}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        );
-
+  const getStatusBadge = (status) => {
+    switch (status) {
+      case "advisor_reviewed":
+        return {
+          label: "Reviewed",
+          color: "bg-emerald-500/20 text-emerald-400",
+          icon: CheckCircle,
+        };
+      case "submitted":
+        return {
+          label: "Pending",
+          color: "bg-yellow-500/20 text-yellow-400",
+          icon: Clock,
+        };
       default:
-        return null;
+        return {
+          label: status || "Draft",
+          color: "bg-gray-500/20 text-gray-400",
+          icon: Clock,
+        };
     }
   };
 
-  return (
-    <div className="min-h-screen bg-linear-to-br from-gray-900 to-gray-800 overflow-x-hidden">
-      {/* Header */}
-      <header className="sticky top-0 z-20 bg-gray-800/80 backdrop-blur-sm border-b border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              {/* Mobile Menu Button */}
-              <button
-                onClick={() => setMobileSidebarOpen(true)}
-                className="md:hidden p-2 hover:bg-gray-700 rounded-lg transition-colors"
-              >
-                <Menu className="w-5 h-5 text-gray-400" />
-              </button>
+  const renderDetailedContent = () => {
+    if (!programHook || programLoading) {
+      return (
+        <div className="bg-gray-800/60 rounded-2xl border border-gray-700 p-12 text-center">
+          <Loader2 className="w-8 h-8 text-emerald-500 animate-spin mx-auto mb-3" />
+          <p className="text-gray-400">Loading your data...</p>
+        </div>
+      );
+    }
 
-              <div className="w-10 h-10 bg-linear-to-r from-emerald-500 to-teal-700 rounded-xl flex items-center justify-center shadow-lg">
-                <User className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h1 className="text-xl md:text-2xl font-bold text-white">
-                  User Dashboard
-                </h1>
-                <p className="text-xs text-gray-400 hidden md:block">
-                  Welcome back, {user?.fullName?.split(" ")[0]}
-                </p>
-              </div>
+    // Intern Reports Section
+    if (isIntern) {
+      const submittedCount = programHook.reports?.length || 0;
+      return (
+        <div className="bg-gray-800/60 rounded-2xl border border-gray-700 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+              <FileText className="w-5 h-5 text-emerald-400" />
+              Recent Reports
+            </h3>
+            <span className="text-xs text-gray-400">
+              Total: {submittedCount} report{submittedCount !== 1 ? "s" : ""}
+            </span>
+          </div>
+          <div className="mb-4 p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
+            <p className="text-xs text-blue-400">
+              You are expected to submit 1 report per week.
+              {submittedCount > 0 &&
+                ` You've submitted ${submittedCount} report${submittedCount > 1 ? "s" : ""} so far.`}
+            </p>
+          </div>
+          {programHook.reports?.length === 0 ? (
+            <div className="text-center py-8">
+              <FileText className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+              <p className="text-gray-400">No reports submitted yet.</p>
+              <button
+                onClick={() => navigate("/intern/reports/new")}
+                className="mt-3 text-emerald-400 hover:text-emerald-300 transition text-sm"
+              >
+                + Submit your first report
+              </button>
             </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={handleRefresh}
-                disabled={refreshing}
-                className="p-2 rounded-lg text-gray-400 hover:bg-gray-700 hover:text-emerald-400 transition-all duration-200"
-              >
-                <RefreshCw
-                  className={`w-5 h-5 ${refreshing ? "animate-spin" : ""}`}
-                />
-              </button>
-              <button
-                onClick={() => navigate("/profile")}
-                className="p-2 rounded-lg text-gray-400 hover:bg-gray-700 hover:text-emerald-400 transition-all duration-200"
-              >
-                <Settings className="w-5 h-5" />
-              </button>
-              <button
-                onClick={handleLogout}
-                className="p-2 rounded-lg text-gray-400 hover:bg-gray-700 hover:text-red-400 transition-all duration-200"
-              >
-                <LogOut className="w-5 h-5" />
-              </button>
+          ) : (
+            <div className="space-y-3">
+              {programHook.reports?.slice(0, 5).map((report) => {
+                const statusBadge = getStatusBadge(report.status);
+                const StatusIcon = statusBadge.icon;
+                return (
+                  <div
+                    key={report._id || report.week}
+                    onClick={() => setSelectedReport(report)}
+                    className="bg-gray-700/30 rounded-lg p-4 hover:bg-gray-700/50 transition cursor-pointer group"
+                  >
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <p className="font-medium text-white">
+                            Week {report.week}
+                          </p>
+                          <span
+                            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${statusBadge.color}`}
+                          >
+                            <StatusIcon className="w-3 h-3" />
+                            {statusBadge.label}
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-400 line-clamp-2">
+                          {report.content}
+                        </p>
+                        <div className="flex items-center gap-3 mt-2">
+                          <span className="text-xs text-gray-500">
+                            {report.hoursWorked || 0} hours worked
+                          </span>
+                        </div>
+                      </div>
+                      <Eye className="w-4 h-4 text-gray-500 group-hover:text-emerald-400 transition shrink-0 ml-3" />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Innovator/Startup Milestones Section
+    if (isInnovator || isStartup) {
+      const completedMilestones =
+        programHook.milestones?.filter((m) => m.status === "completed")
+          .length || 0;
+      const totalMilestones = programHook.milestones?.length || 0;
+      const inProgressCount =
+        programHook.milestones?.filter((m) => m.status === "in_progress")
+          .length || 0;
+      const pendingCount =
+        programHook.milestones?.filter((m) => m.status === "pending").length ||
+        0;
+
+      return (
+        <div className="bg-gray-800/60 rounded-2xl border border-gray-700 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+              <Target className="w-5 h-5 text-emerald-400" />
+              Milestones
+            </h3>
+            <span className="text-xs text-gray-400">
+              {completedMilestones}/{totalMilestones} completed
+            </span>
+          </div>
+          <div className="grid grid-cols-3 gap-3 mb-4">
+            <div className="bg-gray-700/30 rounded-lg p-2 text-center">
+              <p className="text-xs text-gray-500">Pending</p>
+              <p className="text-xl font-bold text-yellow-400">
+                {pendingCount}
+              </p>
+            </div>
+            <div className="bg-gray-700/30 rounded-lg p-2 text-center">
+              <p className="text-xs text-gray-500">In Progress</p>
+              <p className="text-xl font-bold text-blue-400">
+                {inProgressCount}
+              </p>
+            </div>
+            <div className="bg-gray-700/30 rounded-lg p-2 text-center">
+              <p className="text-xs text-gray-500">Completed</p>
+              <p className="text-xl font-bold text-emerald-400">
+                {completedMilestones}
+              </p>
             </div>
           </div>
+          <div className="mb-4">
+            <div className="flex justify-between text-xs text-gray-400 mb-1">
+              <span>Overall Progress</span>
+              <span>
+                {totalMilestones
+                  ? Math.round((completedMilestones / totalMilestones) * 100)
+                  : 0}
+                %
+              </span>
+            </div>
+            <div className="w-full bg-gray-700 rounded-full h-2">
+              <div
+                className="bg-linear-to-r from-emerald-500 to-teal-500 h-2 rounded-full transition-all duration-500"
+                style={{
+                  width: `${totalMilestones ? (completedMilestones / totalMilestones) * 100 : 0}%`,
+                }}
+              />
+            </div>
+          </div>
+          {programHook.mentor?.mentor?.fullName && (
+            <div className="mb-4 p-3 bg-purple-500/10 rounded-lg border border-purple-500/20">
+              <p className="text-xs text-purple-400">Your Mentor</p>
+              <p className="text-sm text-white font-medium">
+                {programHook.mentor.mentor.fullName}
+              </p>
+            </div>
+          )}
+          {programHook.milestones?.length === 0 ? (
+            <div className="text-center py-8">
+              <Target className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+              <p className="text-gray-400">No milestones assigned yet</p>
+              <p className="text-xs text-gray-500 mt-1">
+                Your milestones will appear here once assigned by your mentor
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-3 max-h-96 overflow-y-auto">
+              {programHook.milestones.map((milestone, idx) => (
+                <MilestoneCard
+                  key={milestone._id}
+                  milestone={milestone}
+                  index={idx}
+                  onUpdateStatus={programHook.updateMilestoneStatus}
+                />
+              ))}
+            </div>
+          )}
         </div>
-      </header>
+      );
+    }
 
-      <div className="flex">
-        {/* Desktop Sidebar */}
+    return null;
+  };
+
+  const renderMyReportsTab = () => {
+    if (!isIntern) return null;
+    if (programLoading) {
+      return (
+        <div className="bg-gray-800/60 rounded-2xl border border-gray-700 p-12 text-center">
+          <Loader2 className="w-8 h-8 text-emerald-500 animate-spin mx-auto mb-3" />
+          <p className="text-gray-400">Loading your reports...</p>
+        </div>
+      );
+    }
+    const reports = programHook?.reports || [];
+    return (
+      <div className="bg-gray-800/60 rounded-2xl border border-gray-700 p-6">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center">
+              <FileText className="w-5 h-5 text-emerald-400" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-white">
+                My Weekly Reports
+              </h2>
+              <p className="text-sm text-gray-400">
+                View and manage all your submitted weekly reports
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => navigate("/intern/reports/new")}
+            className="px-4 py-2 bg-emerald-500/20 text-emerald-400 rounded-lg hover:bg-emerald-500/30 transition text-sm flex items-center gap-2"
+          >
+            <FileText className="w-4 h-4" />
+            Submit New
+          </button>
+        </div>
+        {reports.length === 0 ? (
+          <div className="text-center py-12">
+            <FileText className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+            <p className="text-gray-400 text-lg">No reports submitted yet</p>
+            <button
+              onClick={() => navigate("/intern/reports/new")}
+              className="mt-4 px-4 py-2 bg-linear-to-r from-emerald-500 to-teal-700 text-white rounded-lg hover:opacity-90 transition"
+            >
+              Submit Your First Report
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {reports.map((report) => {
+              const statusBadge = getStatusBadge(report.status);
+              const StatusIcon = statusBadge.icon;
+              return (
+                <div
+                  key={report._id || report.week}
+                  onClick={() => setSelectedReport(report)}
+                  className="bg-gray-700/30 rounded-lg p-4 hover:bg-gray-700/50 transition cursor-pointer group"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-sm font-semibold text-white">
+                          Week {report.week}
+                        </span>
+                        <span
+                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${statusBadge.color}`}
+                        >
+                          <StatusIcon className="w-3 h-3" />
+                          {statusBadge.label}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-400 line-clamp-1">
+                        {report.content}
+                      </p>
+                      <div className="flex items-center gap-3 mt-2 text-xs text-gray-500">
+                        <span>{report.hoursWorked || 0} hours worked</span>
+                      </div>
+                    </div>
+                    <Eye className="w-4 h-4 text-gray-500 group-hover:text-emerald-400 transition shrink-0" />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const renderMilestonesTab = () => {
+    if (!isInnovator && !isStartup) return null;
+    if (programLoading) {
+      return (
+        <div className="bg-gray-800/60 rounded-2xl border border-gray-700 p-12 text-center">
+          <Loader2 className="w-8 h-8 text-emerald-500 animate-spin mx-auto mb-3" />
+          <p className="text-gray-400">Loading your milestones...</p>
+        </div>
+      );
+    }
+    const completedMilestones =
+      programHook.milestones?.filter((m) => m.status === "completed").length ||
+      0;
+    const totalMilestones = programHook.milestones?.length || 0;
+    return (
+      <div className="bg-gray-800/60 rounded-2xl border border-gray-700 p-6">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center">
+            <Target className="w-5 h-5 text-emerald-400" />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-white">All Milestones</h2>
+            <p className="text-sm text-gray-400">
+              Track and update your journey progress
+            </p>
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-3 mb-6">
+          <div className="bg-gray-700/30 rounded-lg p-3 text-center">
+            <p className="text-xs text-gray-500">Total Milestones</p>
+            <p className="text-2xl font-bold text-white">{totalMilestones}</p>
+          </div>
+          <div className="bg-gray-700/30 rounded-lg p-3 text-center">
+            <p className="text-xs text-gray-500">Completed</p>
+            <p className="text-2xl font-bold text-emerald-400">
+              {completedMilestones}
+            </p>
+          </div>
+          <div className="bg-gray-700/30 rounded-lg p-3 text-center">
+            <p className="text-xs text-gray-500">Remaining</p>
+            <p className="text-2xl font-bold text-yellow-400">
+              {totalMilestones - completedMilestones}
+            </p>
+          </div>
+        </div>
+        <div className="space-y-3">
+          {programHook.milestones?.map((milestone, idx) => (
+            <MilestoneCard
+              key={milestone._id}
+              milestone={milestone}
+              index={idx}
+              onUpdateStatus={programHook.updateMilestoneStatus}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const renderMySessionsTab = () => {
+    if (!isTrainee) return null;
+    return (
+      <MySessions
+        sessions={traineeHook?.sessions || {}}
+        loading={programLoading}
+        trainer={traineeHook?.trainer}
+        onAttendanceMarked={() => {
+          traineeHook.fetchSessions();
+          traineeHook.fetchProgress();
+        }}
+      />
+    );
+  };
+
+  return (
+    <div className="h-screen bg-linear-to-br from-gray-900 to-gray-800 overflow-hidden flex flex-col">
+      <DashboardHeader
+        user={user}
+        onRefresh={handleRefresh}
+        refreshing={refreshing}
+        onLogout={handleLogout}
+        onNavigate={navigate}
+        onMenuClick={() => setMobileSidebarOpen(true)}
+      />
+
+      <div className="flex flex-1 overflow-hidden">
         <aside
-          className={`hidden md:block relative transition-all duration-300 bg-gray-800/50 border-r border-gray-700 ${
-            sidebarCollapsed ? "w-20" : "w-64"
-          }`}
-          style={{ height: "calc(100vh - 73px)" }}
+          className={`hidden md:flex flex-col shrink-0 transition-all duration-300 bg-gray-800/50 border-r border-gray-700 ${sidebarCollapsed ? "w-20" : "w-64"}`}
         >
-          <div className="h-full overflow-y-auto overflow-x-hidden">
-            <nav className="p-4 space-y-1">
+          <div className="flex-1 overflow-y-auto py-4">
+            <nav className="px-3 space-y-1">
               {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`
-                    w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap
-                    ${
-                      activeTab === item.id
-                        ? "bg-emerald-500/20 text-emerald-400 border-l-2 border-emerald-500"
-                        : "text-gray-400 hover:bg-gray-700/50 hover:text-white"
-                    }
-                    ${sidebarCollapsed ? "justify-center px-2" : ""}
-                  `}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap ${activeTab === item.id ? "bg-emerald-500/20 text-emerald-400" : "text-gray-400 hover:bg-gray-700/50 hover:text-white"} ${sidebarCollapsed ? "justify-center px-2" : ""}`}
                   title={sidebarCollapsed ? item.label : ""}
                 >
                   <div className="shrink-0">{item.icon}</div>
@@ -495,102 +672,99 @@ const UserDashboard = () => {
               ))}
             </nav>
           </div>
-
-          {/* Sidebar Toggle Button */}
-          <button
-            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            className="absolute -right-3 top-1/2 -translate-y-1/2 bg-gray-700 hover:bg-gray-600 rounded-full p-1.5 shadow-lg z-20 transition-colors border border-gray-600"
-          >
-            {sidebarCollapsed ? (
-              <ChevronRight className="w-4 h-4 text-gray-300" />
-            ) : (
-              <ChevronLeft className="w-4 h-4 text-gray-300" />
-            )}
-          </button>
+          <div className="p-3 border-t border-gray-700 shrink-0">
+            <button
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              className="w-full flex items-center justify-center p-2 rounded-lg bg-gray-700/50 hover:bg-gray-700 transition-colors"
+            >
+              {sidebarCollapsed ? (
+                <ChevronRight className="w-4 h-4 text-gray-300" />
+              ) : (
+                <ChevronLeft className="w-4 h-4 text-gray-300" />
+              )}
+            </button>
+          </div>
         </aside>
 
-        {/* Mobile Sidebar Overlay */}
         <AnimatePresence>
           {mobileSidebarOpen && (
             <>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setMobileSidebarOpen(false)}
+              <div
                 className="fixed inset-0 bg-black/60 z-40 md:hidden"
+                onClick={() => setMobileSidebarOpen(false)}
               />
-              <motion.aside
+              <motion.div
                 initial={{ x: -280 }}
                 animate={{ x: 0 }}
                 exit={{ x: -280 }}
                 transition={{ type: "tween", duration: 0.3 }}
-                className="fixed left-0 top-0 bottom-0 w-64 bg-gray-800 border-r border-gray-700 z-50 md:hidden"
+                className="fixed left-0 top-0 bottom-0 w-64 bg-gray-800 z-50 md:hidden flex flex-col shadow-xl"
               >
                 <div className="flex justify-between items-center p-4 border-b border-gray-700">
                   <span className="text-white font-bold">Menu</span>
                   <button
                     onClick={() => setMobileSidebarOpen(false)}
-                    className="p-1 hover:bg-gray-700 rounded-lg"
+                    className="p-2 hover:bg-gray-700 rounded-lg"
                   >
                     <X className="w-5 h-5 text-gray-400" />
                   </button>
                 </div>
-                <nav className="p-4 space-y-1 overflow-y-auto h-[calc(100%-4rem)]">
-                  {navItems.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => {
-                        setActiveTab(item.id);
-                        setMobileSidebarOpen(false);
-                      }}
-                      className={`
-                        w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
-                        ${
-                          activeTab === item.id
-                            ? "bg-emerald-500/20 text-emerald-400"
-                            : "text-gray-400 hover:bg-gray-700/50 hover:text-white"
-                        }
-                      `}
-                    >
-                      {item.icon}
-                      <span className="text-sm font-medium flex-1 text-left">
-                        {item.label}
-                      </span>
-                      {item.count > 0 && (
-                        <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full">
-                          {item.count}
+                <div className="flex-1 overflow-y-auto p-4">
+                  <nav className="space-y-2">
+                    {navItems.map((item) => (
+                      <button
+                        key={item.id}
+                        onClick={() => {
+                          setActiveTab(item.id);
+                          setMobileSidebarOpen(false);
+                        }}
+                        className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 ${activeTab === item.id ? "bg-emerald-500/20 text-emerald-400" : "text-gray-400 hover:bg-gray-700/50 hover:text-white"}`}
+                      >
+                        {item.icon}
+                        <span className="text-sm font-medium flex-1 text-left">
+                          {item.label}
                         </span>
-                      )}
-                    </button>
-                  ))}
-                </nav>
-              </motion.aside>
+                        {item.count > 0 && (
+                          <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full">
+                            {item.count}
+                          </span>
+                        )}
+                      </button>
+                    ))}
+                  </nav>
+                </div>
+              </motion.div>
             </>
           )}
         </AnimatePresence>
 
-        {/* Main Content */}
-        <main className="flex-1 min-w-0 overflow-x-hidden">
+        <main className="flex-1 overflow-y-auto">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <StatsSection
-              programStatus={user?.position}
-              serviceCount={serviceRequests.length}
-              serviceStats={{ open: openRequests, closed: closedRequests }}
-            />
-
-            <QuickActions
-              onRequestService={() => navigate("/services/browse")}
-              onViewAllRequests={() => setActiveTab("requests")}
-              onApplyProgram={() => navigate("/services/browse")}
-              hasActiveProgram={hasActiveProgram}
-              programStatus={user?.position}
-            />
-
             {activeTab === "overview" && (
               <div className="space-y-6">
-                <ProgramSection user={user} />
-                {hasActiveProgram && renderAdditionalFeatures()}
+                <StatsSection
+                  programStatus={user?.position}
+                  serviceCount={serviceRequests.length}
+                  serviceStats={{ open: openRequests, closed: closedRequests }}
+                />
+                <QuickActions
+                  onRequestService={() => navigate("/services/browse")}
+                  onViewAllRequests={() => setActiveTab("requests")}
+                  onApplyProgram={() => navigate("/services/browse")}
+                  hasActiveProgram={hasActiveProgram}
+                  programStatus={user?.position}
+                />
+
+                {/* ProgramSection for ALL users with active program */}
+                {hasActiveProgram && (
+                  <ProgramSection
+                    user={user}
+                    onTabChange={(tab) => setActiveTab(tab)}
+                  />
+                )}
+
+                {/* Detailed content for Interns and Innovators/Startups (NOT for Trainees) */}
+                {!isTrainee && hasActiveProgram && renderDetailedContent()}
               </div>
             )}
 
@@ -610,7 +784,6 @@ const UserDashboard = () => {
                     + New Request
                   </button>
                 </div>
-
                 {serviceRequests.length === 0 ? (
                   <div className="text-center py-12">
                     <Briefcase className="w-16 h-16 text-gray-600 mx-auto mb-4" />
@@ -627,19 +800,34 @@ const UserDashboard = () => {
                 ) : (
                   <div className="space-y-4">
                     {serviceRequests.map((request) => (
-                      <ServiceRequestCard
-                        key={request._id}
-                        request={request}
-                        onClick={(id) => navigate(`/services/request/${id}`)}
-                      />
+                      <ServiceRequestCard key={request._id} request={request} />
                     ))}
                   </div>
                 )}
               </div>
             )}
+
+            {activeTab === "my-reports" && renderMyReportsTab()}
+            {activeTab === "milestones" && renderMilestonesTab()}
+            {activeTab === "my-sessions" && renderMySessionsTab()}
           </div>
         </main>
       </div>
+
+      <AnimatePresence>
+        {selectedReport && (
+          <InternReportModal
+            report={selectedReport}
+            advisor={programHook?.advisor}
+            onClose={() => setSelectedReport(null)}
+            onUpdate={programHook?.updateReport}
+            onRefresh={() => {
+              programHook?.fetchReports();
+              programHook?.fetchProgress();
+            }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

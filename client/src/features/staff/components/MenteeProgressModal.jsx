@@ -3,6 +3,12 @@ import { X, Target, CheckCircle, Clock, TrendingUp } from "lucide-react";
 
 const MenteeProgressModal = ({ mentee, progress, type, onClose }) => {
   const stats = progress?.stats || {};
+  console.log("Mentee", mentee);
+
+  const menteeName =
+    type === "innovator"
+      ? mentee?.fullName || mentee?.mentee?.fullName || "Unknown"
+      : mentee?.fullName || mentee?.mentee?.fullName || "Unknown";
 
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
@@ -17,9 +23,7 @@ const MenteeProgressModal = ({ mentee, progress, type, onClose }) => {
             <h2 className="text-xl font-bold text-white">
               {type === "innovator" ? "Innovator Progress" : "Startup Progress"}
             </h2>
-            <p className="text-sm text-gray-400">
-              {type === "innovator" ? mentee?.fullName : mentee?.companyName}
-            </p>
+            <p className="text-sm text-gray-400">{menteeName}</p>
           </div>
           <button
             onClick={onClose}

@@ -1,29 +1,28 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
+  Plus,
   Calendar,
   Clock,
   MapPin,
-  CheckCircle,
-  Users,
-  Plus,
+  FileText,
   QrCode,
+  Trash2,
+  Edit,
+  CheckCircle,
+  XCircle,
 } from "lucide-react";
-import { useToast } from "../../../components/ui/Toast";
+import { useTrainer } from "../../../hooks/useTrainer";
+import SessionQRModal from "./SessionQRModal";
 
-const SessionManagementModal = ({
-  trainee,
-  onClose,
-  onCreateSession,
-  onRecordAttendance,
-  onGenerateCertificate,
-}) => {
-  const { addToast } = useToast();
-  const [loading, setLoading] = useState(false);
-  const [showCreateForm, setShowCreateForm] = useState(false);
+const SessionManagementModal = ({ trainee, onClose, onRefresh }) => {
+  console.log("SessionManagementModal trainee", trainee);
+  const { createSession, loading } = useTrainer();
+  const [showForm, setShowForm] = useState(false);
+  const [showQRModal, setShowQRModal] = useState(false);
   const [selectedSession, setSelectedSession] = useState(null);
-  const [newSession, setNewSession] = useState({
+  const [formData, setFormData] = useState({
     title: "",
     date: "",
     duration: "",
@@ -31,55 +30,49 @@ const SessionManagementModal = ({
   });
 
   const sessions = trainee?.sessions || [];
-  const upcomingSessions = sessions.filter(
-    (s) => !s.attended && new Date(s.date) > new Date(),
-  );
-  const pastSessions = sessions.filter(
-    (s) => s.attended || new Date(s.date) <= new Date(),
-  );
 
-  const handleCreateSession = async () => {
-    if (!newSession.title || !newSession.date) {
-      addToast("Please fill in required fields", "error");
-      return;
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.title || !formData.date) return;
 
-    setLoading(true);
     try {
-      await onCreateSession(newSession);
-      addToast("Session created!", "success");
-      setShowCreateForm(false);
-      setNewSession({ title: "", date: "", duration: "", location: "" });
+      await createSession(trainee.trainee?._id, {
+        title: formData.title,
+        date: formData.date,
+        duration: Number(formData.duration) || 0,
+        location: formData.location,
+      });
+      setShowForm(false);
+      setFormData({ title: "", date: "", duration: "", location: "" });
+      if (onRefresh) await onRefresh();
     } catch (error) {
-      addToast(error.message || "Failed to create session", "error");
-    } finally {
-      setLoading(false);
+      console.error("Failed to create session:", error);
     }
   };
 
-  const handleRecordAttendance = async (sessionId) => {
-    setLoading(true);
-    try {
-      await onRecordAttendance(sessionId, trainee.user?._id);
-      addToast("Attendance recorded!", "success");
-      setSelectedSession(null);
-    } catch (error) {
-      addToast(error.message || "Failed to record attendance", "error");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const getSessionStatus = (session) => {
+    const sessionDate = new Date(session.date);
+    const now = new Date();
 
-  const handleGenerateCertificate = async (sessionId) => {
-    setLoading(true);
-    try {
-      await onGenerateCertificate(trainee.user?._id, sessionId);
-      addToast("Certificate generated!", "success");
-    } catch (error) {
-      addToast(error.message || "Failed to generate certificate", "error");
-    } finally {
-      setLoading(false);
+    if (session.attended) {
+      return {
+        label: "Attended",
+        color: "bg-emerald-500/20 text-emerald-400",
+        icon: CheckCircle,
+      };
     }
+    if (sessionDate < now) {
+      return {
+        label: "Missed",
+        color: "bg-red-500/20 text-red-400",
+        icon: XCircle,
+      };
+    }
+    return {
+      label: "Upcoming",
+      color: "bg-blue-500/20 text-blue-400",
+      icon: Calendar,
+    };
   };
 
   return (
@@ -88,14 +81,14 @@ const SessionManagementModal = ({
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-gray-800 rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col border border-gray-700 shadow-2xl"
+        className="bg-gray-800 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col border border-gray-700 shadow-2xl"
       >
-        <div className="p-5 border-b border-gray-700 flex justify-between items-center sticky top-0 bg-gray-800/90">
+        <div className="flex justify-between items-center p-5 border-b border-gray-700">
           <div>
-            <h2 className="text-xl font-bold text-white">
-              Manage Training Sessions
-            </h2>
-            <p className="text-sm text-gray-400">{trainee?.user?.fullName}</p>
+            <h2 className="text-xl font-bold text-white">Manage Sessions</h2>
+            <p className="text-sm text-gray-400">
+              {trainee?.trainee?.fullName || trainee?.fullName || "Trainee"}
+            </p>
           </div>
           <button
             onClick={onClose}
@@ -105,172 +98,192 @@ const SessionManagementModal = ({
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-5 space-y-6">
-          {/* Upcoming Sessions */}
-          <div>
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-emerald-400" />
-                Upcoming Sessions ({upcomingSessions.length})
-              </h3>
-              <button
-                onClick={() => setShowCreateForm(!showCreateForm)}
-                className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm flex items-center gap-1"
-              >
-                <Plus className="w-4 h-4" /> Create Session
-              </button>
-            </div>
+        <div className="flex-1 overflow-y-auto p-5 space-y-5">
+          <button
+            onClick={() => setShowForm(!showForm)}
+            className="w-full py-3 border border-dashed border-emerald-500/50 rounded-xl text-emerald-400 hover:bg-emerald-500/10 transition flex items-center justify-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            {showForm ? "Cancel" : "Add New Session"}
+          </button>
 
-            {showCreateForm && (
-              <div className="mb-4 p-4 bg-gray-700/30 rounded-lg border border-gray-600 space-y-3">
+          <AnimatePresence>
+            {showForm && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="bg-gray-700/30 rounded-xl p-4 border border-gray-700 space-y-4"
+              >
                 <input
                   type="text"
                   placeholder="Session title *"
-                  value={newSession.title}
+                  value={formData.title}
                   onChange={(e) =>
-                    setNewSession({ ...newSession, title: e.target.value })
+                    setFormData({ ...formData, title: e.target.value })
                   }
-                  className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white"
+                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500"
                 />
-                <input
-                  type="datetime-local"
-                  value={newSession.date}
-                  onChange={(e) =>
-                    setNewSession({ ...newSession, date: e.target.value })
-                  }
-                  className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white"
-                />
-                <input
-                  type="text"
-                  placeholder="Duration (e.g., 2 hours)"
-                  value={newSession.duration}
-                  onChange={(e) =>
-                    setNewSession({ ...newSession, duration: e.target.value })
-                  }
-                  className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white"
-                />
-                <input
-                  type="text"
-                  placeholder="Location"
-                  value={newSession.location}
-                  onChange={(e) =>
-                    setNewSession({ ...newSession, location: e.target.value })
-                  }
-                  className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white"
-                />
-                <button
-                  onClick={handleCreateSession}
-                  disabled={loading}
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg transition"
-                >
-                  Create Session
-                </button>
-              </div>
-            )}
-
-            <div className="space-y-2">
-              {upcomingSessions.map((session) => (
-                <div
-                  key={session._id}
-                  className="p-4 rounded-lg border border-gray-700 bg-gray-700/30"
-                >
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="font-medium text-white">{session.title}</p>
-                      <div className="flex flex-wrap gap-3 mt-2 text-xs text-gray-400">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
-                          {new Date(session.date).toLocaleDateString()}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Clock className="w-3 h-3" />
-                          {new Date(session.date).toLocaleTimeString()}
-                        </span>
-                        {session.duration && (
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            {session.duration}
-                          </span>
-                        )}
-                        {session.location && (
-                          <span className="flex items-center gap-1">
-                            <MapPin className="w-3 h-3" />
-                            {session.location}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => handleRecordAttendance(session._id)}
-                      disabled={loading}
-                      className="px-3 py-1.5 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white rounded-lg transition text-sm"
-                    >
-                      Record Attendance
-                    </button>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="relative">
+                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                    <input
+                      type="date"
+                      value={formData.date}
+                      onChange={(e) =>
+                        setFormData({ ...formData, date: e.target.value })
+                      }
+                      className="w-full pl-9 pr-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500"
+                    />
+                  </div>
+                  <div className="relative">
+                    <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                    <input
+                      type="number"
+                      placeholder="Duration (hours)"
+                      value={formData.duration}
+                      onChange={(e) =>
+                        setFormData({ ...formData, duration: e.target.value })
+                      }
+                      className="w-full pl-9 pr-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500"
+                    />
                   </div>
                 </div>
-              ))}
-              {upcomingSessions.length === 0 && (
-                <p className="text-gray-400 text-center py-4">
-                  No upcoming sessions
-                </p>
-              )}
-            </div>
-          </div>
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                  <input
+                    type="text"
+                    placeholder="Location (optional)"
+                    value={formData.location}
+                    onChange={(e) =>
+                      setFormData({ ...formData, location: e.target.value })
+                    }
+                    className="w-full pl-9 pr-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500"
+                  />
+                </div>
+                <button
+                  onClick={handleSubmit}
+                  disabled={!formData.title || !formData.date || loading}
+                  className="w-full py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50 flex items-center justify-center gap-2"
+                >
+                  {loading ? (
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+                  ) : (
+                    <>
+                      <Plus className="w-4 h-4" />
+                      Create Session
+                    </>
+                  )}
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          {/* Past Sessions */}
-          {pastSessions.length > 0 && (
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-gray-400" />
-                Past Sessions
-              </h3>
-              <div className="space-y-2">
-                {pastSessions.map((session) => (
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-white">All Sessions</h3>
+            {sessions.length === 0 ? (
+              <div className="text-center py-8 bg-gray-700/30 rounded-xl">
+                <Calendar className="w-10 h-10 text-gray-600 mx-auto mb-2" />
+                <p className="text-gray-400 text-sm">No sessions created yet</p>
+              </div>
+            ) : (
+              sessions.map((session, idx) => {
+                const status = getSessionStatus(session);
+                const StatusIcon = status.icon;
+                return (
                   <div
-                    key={session._id}
-                    className="p-4 rounded-lg border border-gray-700 bg-gray-700/30"
+                    key={idx}
+                    className="bg-gray-700/30 rounded-lg p-4 border border-gray-700"
                   >
                     <div className="flex justify-between items-start">
-                      <div>
-                        <p className="font-medium text-white">
-                          {session.title}
-                        </p>
-                        <div className="flex flex-wrap gap-3 mt-2 text-xs text-gray-400">
-                          <span className="flex items-center gap-1">
-                            <Calendar className="w-3 h-3" />
-                            {new Date(session.date).toLocaleDateString()}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <CheckCircle
-                              className={`w-3 h-3 ${session.attended ? "text-green-400" : "text-red-400"}`}
-                            />
-                            {session.attended ? "Attended" : "Missed"}
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <h4 className="font-medium text-white">
+                            {session.title}
+                          </h4>
+                          <span
+                            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${status.color}`}
+                          >
+                            <StatusIcon className="w-3 h-3" />
+                            {status.label}
                           </span>
                         </div>
+                        <div className="space-y-1 text-xs text-gray-400">
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-3 h-3" />
+                            <span>
+                              {new Date(session.date).toLocaleDateString()}
+                            </span>
+                          </div>
+                          {session.duration > 0 && (
+                            <div className="flex items-center gap-2">
+                              <Clock className="w-3 h-3" />
+                              <span>{session.duration} hours</span>
+                            </div>
+                          )}
+                          {session.location && (
+                            <div className="flex items-center gap-2">
+                              <MapPin className="w-3 h-3" />
+                              <span>{session.location}</span>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                      {session.attended && !session.certificate && (
-                        <button
-                          onClick={() => handleGenerateCertificate(session._id)}
-                          disabled={loading}
-                          className="px-3 py-1.5 bg-purple-600/20 hover:bg-purple-600 text-purple-400 hover:text-white rounded-lg transition text-sm flex items-center gap-1"
-                        >
-                          <QrCode className="w-3 h-3" /> Generate Certificate
-                        </button>
-                      )}
-                      {session.certificate && (
-                        <span className="text-xs px-2 py-1 bg-green-500/20 text-green-400 rounded-full">
-                          Certificate Ready
-                        </span>
-                      )}
+                      <div className="flex gap-1">
+                        {!session.attended && (
+                          <button
+                            onClick={() => {
+                              setSelectedSession(session);
+                              setShowQRModal(true);
+                            }}
+                            className="p-1.5 text-emerald-400 hover:text-emerald-300"
+                            title="Generate QR Code"
+                          >
+                            <QrCode className="w-4 h-4" />
+                          </button>
+                        )}
+                        {session.attended && session.certificate && (
+                          <button
+                            className="p-1.5 text-blue-400 hover:text-blue-300"
+                            title="View Certificate"
+                          >
+                            <FileText className="w-4 h-4" />
+                          </button>
+                        )}
+                      </div>
                     </div>
+                    {session.attendedAt && (
+                      <p className="text-xs text-emerald-400/70 mt-2">
+                        Attended on{" "}
+                        {new Date(session.attendedAt).toLocaleString()}
+                      </p>
+                    )}
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
+                );
+              })
+            )}
+          </div>
+        </div>
+
+        <div className="p-5 border-t border-gray-700">
+          <button
+            onClick={onClose}
+            className="w-full border border-gray-600 text-gray-300 py-2.5 rounded-lg hover:bg-gray-700 transition"
+          >
+            Close
+          </button>
         </div>
       </motion.div>
+
+      {showQRModal && selectedSession && (
+        <SessionQRModal
+          session={selectedSession}
+          onClose={() => {
+            setShowQRModal(false);
+            setSelectedSession(null);
+          }}
+        />
+      )}
     </div>
   );
 };

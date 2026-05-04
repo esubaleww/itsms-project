@@ -58,6 +58,7 @@ const userSchema = new mongoose.Schema(
         "team_lead",
         "technical_staff",
         "trainer",
+        "mentor",
         "hr_officer",
         "innovation_officer",
         "advisor",

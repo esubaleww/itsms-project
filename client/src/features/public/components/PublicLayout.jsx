@@ -1,5 +1,11 @@
-import { Outlet, Link, useNavigate, NavLink } from "react-router-dom";
-import { useState, useEffect } from "react";
+import {
+  Outlet,
+  Link,
+  useNavigate,
+  NavLink,
+  useLocation,
+} from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../../hooks/useAuth";
 import {
@@ -27,9 +33,11 @@ const itsmsLogo =
 const PublicLayout = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const footerRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,16 +60,34 @@ const PublicLayout = () => {
       document.body.style.paddingRight = "0px";
     };
   }, [isMobileMenuOpen]);
+
   const handleLogout = () => {
     logout();
     navigate("/");
     setIsUserMenuOpen(false);
   };
 
+  // Fixed scroll to footer - prevents page navigation
+  const scrollToFooter = (e) => {
+    // Prevent any default behavior
+    if (e) e.preventDefault();
+
+    // Close mobile menu if open
+    setIsMobileMenuOpen(false);
+
+    // Scroll to footer
+    if (footerRef.current) {
+      footerRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end", // "end" shows the footer at the bottom of viewport
+      });
+    }
+  };
+
   const navLinks = [
     { to: "/services/browse", label: "Services", icon: Briefcase },
     { to: "/news", label: "News", icon: Newspaper },
-    { to: "/contact", label: "Contact", icon: Mail },
+    { label: "Contact", icon: Mail, isButton: true, onClick: scrollToFooter },
   ];
 
   const footerLinks = {
@@ -103,17 +129,14 @@ const PublicLayout = () => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 lg:h-20">
-            {/* Logo - Circular with dim effect */}
+            {/* Logo */}
             <Link
               to="/"
               className="flex items-center gap-2 group"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <div className="relative">
-                {/* Subtle glow ring */}
                 <div className="absolute inset-0 rounded-full bg-emerald-500/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                {/* Circular logo container */}
                 <div className="relative rounded-full overflow-hidden bg-slate-600/50 backdrop-blur-sm border border-slate-400/50 shadow-md">
                   <img
                     src={itsmsLogo}
@@ -122,8 +145,6 @@ const PublicLayout = () => {
                   />
                 </div>
               </div>
-
-              {/* Bureau name next to logo */}
               <span className="hidden sm:inline-block text-sm font-medium text-gray-200 group-hover:text-white transition-colors duration-300">
                 ITSMS
               </span>
@@ -131,21 +152,36 @@ const PublicLayout = () => {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-6 lg:gap-8">
-              {navLinks.map((link) => (
-                <NavLink
-                  key={link.to}
-                  to={link.to}
-                  className={({ isActive }) =>
-                    `text-sm font-medium transition-colors ${
-                      isActive
-                        ? "text-emerald-400"
-                        : "text-gray-200 hover:text-white"
-                    }`
-                  }
-                >
-                  {link.label}
-                </NavLink>
-              ))}
+              <NavLink
+                to="/services/browse"
+                className={({ isActive }) =>
+                  `text-sm font-medium transition-colors ${
+                    isActive
+                      ? "text-emerald-400"
+                      : "text-gray-200 hover:text-white"
+                  }`
+                }
+              >
+                Services
+              </NavLink>
+              <NavLink
+                to="/news"
+                className={({ isActive }) =>
+                  `text-sm font-medium transition-colors ${
+                    isActive
+                      ? "text-emerald-400"
+                      : "text-gray-200 hover:text-white"
+                  }`
+                }
+              >
+                News
+              </NavLink>
+              <button
+                onClick={scrollToFooter}
+                className="text-sm font-medium transition-colors text-gray-200 hover:text-white"
+              >
+                Contact
+              </button>
             </nav>
 
             {/* Desktop Auth Section */}
@@ -200,14 +236,6 @@ const PublicLayout = () => {
                           >
                             <User className="w-4 h-4" />
                             Profile Settings
-                          </Link>
-                          <Link
-                            to="/settings"
-                            onClick={() => setIsUserMenuOpen(false)}
-                            className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:bg-slate-700 transition flex items-center gap-2"
-                          >
-                            <Settings className="w-4 h-4" />
-                            Account Settings
                           </Link>
                           <div className="border-t border-slate-700 my-1" />
                           <button
@@ -264,17 +292,29 @@ const PublicLayout = () => {
             className="fixed inset-0 z-40 bg-slate-800 pt-20 px-4 md:hidden"
           >
             <div className="space-y-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:bg-slate-700 transition"
-                >
-                  <link.icon className="w-5 h-5" />
-                  <span>{link.label}</span>
-                </Link>
-              ))}
+              <Link
+                to="/services/browse"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:bg-slate-700 transition"
+              >
+                <Briefcase className="w-5 h-5" />
+                <span>Services</span>
+              </Link>
+              <Link
+                to="/news"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:bg-slate-700 transition"
+              >
+                <Newspaper className="w-5 h-5" />
+                <span>News</span>
+              </Link>
+              <button
+                onClick={scrollToFooter}
+                className="flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:bg-slate-700 transition w-full text-left"
+              >
+                <Mail className="w-5 h-5" />
+                <span>Contact</span>
+              </button>
               <div className="border-t border-slate-700 my-4 pt-4">
                 {isAuthenticated ? (
                   <>
@@ -336,12 +376,16 @@ const PublicLayout = () => {
         <Outlet />
       </main>
 
-      {/* Footer */}
-      <footer className="relative bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 border-t border-slate-700/50">
+      {/* Footer with ref */}
+      <footer
+        ref={footerRef}
+        className="relative bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 border-t border-slate-700/50"
+      >
+        {/* Footer content remains the same */}
         <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-emerald-500/40 to-transparent" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Brand Section - Circular logo in footer */}
+            {/* Brand Section */}
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <div className="group relative rounded-full overflow-hidden bg-slate-600/50 backdrop-blur-sm border border-slate-400/50 shadow-md">
@@ -413,7 +457,7 @@ const PublicLayout = () => {
             </div>
 
             {/* Contact */}
-            <div>
+            <div id="contact-section">
               <h4 className="text-white font-semibold mb-4">Contact Us</h4>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3 text-gray-400 text-sm">

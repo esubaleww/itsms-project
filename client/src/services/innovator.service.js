@@ -5,10 +5,10 @@ export const innovatorService = {
     const response = await API.get("/innovator/milestones");
     return response.data;
   },
-  updateMilestoneStatus: async (milestoneId, status) => {
+  updateMilestoneStatus: async (milestoneId, status, evidenceData = null) => {
     const response = await API.put(
       `/innovator/milestones/${milestoneId}/status`,
-      { status },
+      { status, evidenceData },
     );
     return response.data;
   },

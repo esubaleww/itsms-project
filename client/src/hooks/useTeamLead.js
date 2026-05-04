@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { useToast } from "../components/ui/Toast";
+import { useToast } from "../common/ui/Toast";
 import { teamLeadApi } from "../services/teamLead.service";
 
 export const useTeamLead = () => {
@@ -7,7 +7,11 @@ export const useTeamLead = () => {
   const [loading, setLoading] = useState(false);
   const [team, setTeam] = useState(null);
   const [members, setMembers] = useState([]);
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState({
+    pending: [],
+    in_progress: [],
+    completed: [],
+  });
   const [progress, setProgress] = useState(null);
   const [reports, setReports] = useState([]);
   const [myReports, setMyReports] = useState([]);
@@ -18,7 +22,6 @@ export const useTeamLead = () => {
     totalPages: 0,
   });
 
-  // Team Management
   const fetchTeam = useCallback(async () => {
     setLoading(true);
     try {
@@ -28,12 +31,11 @@ export const useTeamLead = () => {
       }
       return data;
     } catch (error) {
-      addToast(error.message || "Failed to fetch team", "error");
       throw error;
     } finally {
       setLoading(false);
     }
-  }, [addToast]);
+  }, []);
 
   const fetchMembers = useCallback(async () => {
     setLoading(true);
@@ -44,38 +46,30 @@ export const useTeamLead = () => {
       }
       return data;
     } catch (error) {
-      addToast(error.message || "Failed to fetch members", "error");
       throw error;
     } finally {
       setLoading(false);
     }
-  }, [addToast]);
+  }, []);
 
-  // Task Management
-  const fetchTasks = useCallback(
-    async (filters = {}) => {
-      setLoading(true);
-      try {
-        const data = await teamLeadApi.getTeamTasks(filters);
-        if (data.success) {
-          // Flatten tasks from grouped structure
-          const allTasks = [
-            ...(data.tasks?.pending || []),
-            ...(data.tasks?.in_progress || []),
-            ...(data.tasks?.completed || []),
-          ];
-          setTasks(allTasks);
-        }
-        return data;
-      } catch (error) {
-        addToast(error.message || "Failed to fetch tasks", "error");
-        throw error;
-      } finally {
-        setLoading(false);
+  const fetchTasks = useCallback(async (filters = {}) => {
+    setLoading(true);
+    try {
+      const data = await teamLeadApi.getTeamTasks(filters);
+      if (data.success && data.tasks) {
+        setTasks({
+          pending: data.tasks.pending || [],
+          in_progress: data.tasks.in_progress || [],
+          completed: data.tasks.completed || [],
+        });
       }
-    },
-    [addToast],
-  );
+      return data;
+    } catch (error) {
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const assignTask = useCallback(
     async (taskId, memberId, instructions) => {
@@ -87,18 +81,16 @@ export const useTeamLead = () => {
           instructions,
         );
         if (data.success) {
-          addToast(data.message || "Task assigned successfully!", "success");
           await fetchTasks();
         }
         return data;
       } catch (error) {
-        addToast(error.message || "Failed to assign task", "error");
         throw error;
       } finally {
         setLoading(false);
       }
     },
-    [addToast, fetchTasks],
+    [fetchTasks],
   );
 
   const updateTaskStatus = useCallback(
@@ -112,21 +104,18 @@ export const useTeamLead = () => {
           notes,
         );
         if (data.success) {
-          addToast(data.message || "Task status updated!", "success");
           await fetchTasks();
         }
         return data;
       } catch (error) {
-        addToast(error.message || "Failed to update task status", "error");
         throw error;
       } finally {
         setLoading(false);
       }
     },
-    [addToast, fetchTasks],
+    [fetchTasks],
   );
 
-  // Progress
   const fetchProgress = useCallback(async () => {
     setLoading(true);
     try {
@@ -148,51 +137,39 @@ export const useTeamLead = () => {
       }
       return data;
     } catch (error) {
-      addToast(error.message || "Failed to fetch progress", "error");
       throw error;
     } finally {
       setLoading(false);
     }
-  }, [addToast]);
+  }, []);
 
-  // Staff Request
-  const requestStaff = useCallback(
-    async (data) => {
-      setLoading(true);
-      try {
-        const result = await teamLeadApi.requestStaff(data);
-        addToast(result.message || "Staff request submitted!", "success");
-        return result;
-      } catch (error) {
-        addToast(error.message || "Failed to submit request", "error");
-        throw error;
-      } finally {
-        setLoading(false);
-      }
-    },
-    [addToast],
-  );
+  const requestStaff = useCallback(async (data) => {
+    setLoading(true);
+    try {
+      const result = await teamLeadApi.requestStaff(data);
+      return result;
+    } catch (error) {
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-  // Reports
-  const fetchReports = useCallback(
-    async (filters = {}) => {
-      setLoading(true);
-      try {
-        const data = await teamLeadApi.getTeamReports(filters);
-        if (data.success) {
-          setReports(data.reports || []);
-          setPagination(data.pagination || {});
-        }
-        return data;
-      } catch (error) {
-        addToast(error.message || "Failed to fetch reports", "error");
-        throw error;
-      } finally {
-        setLoading(false);
+  const fetchReports = useCallback(async (filters = {}) => {
+    setLoading(true);
+    try {
+      const data = await teamLeadApi.getTeamReports(filters);
+      if (data.success) {
+        setReports(data.reports || []);
+        setPagination(data.pagination || {});
       }
-    },
-    [addToast],
-  );
+      return data;
+    } catch (error) {
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const fetchMyReports = useCallback(async () => {
     setLoading(true);
@@ -203,30 +180,27 @@ export const useTeamLead = () => {
       }
       return data;
     } catch (error) {
-      addToast(error.message || "Failed to fetch your reports", "error");
       throw error;
     } finally {
       setLoading(false);
     }
-  }, [addToast]);
+  }, []);
 
   const submitReport = useCallback(
     async (data) => {
       setLoading(true);
       try {
         const result = await teamLeadApi.submitTeamReport(data);
-        addToast(result.message || "Report submitted successfully!", "success");
         await fetchMyReports();
         await fetchReports();
         return result;
       } catch (error) {
-        addToast(error.message || "Failed to submit report", "error");
         throw error;
       } finally {
         setLoading(false);
       }
     },
-    [addToast, fetchMyReports, fetchReports],
+    [fetchMyReports, fetchReports],
   );
 
   return {

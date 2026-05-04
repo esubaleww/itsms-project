@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 import { useDirector } from "../../../hooks/useDirector";
+import { useDirectorExport } from "../../../hooks/useDirectorExport";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
@@ -26,6 +27,7 @@ import {
   X,
   Zap,
   ChevronLeft,
+  AlertCircle,
 } from "lucide-react";
 
 import DirectorHeader from "../components/DirectorHeader";
@@ -37,15 +39,14 @@ import DirectorStartupsList from "../components/DirectorStartupsList";
 import DirectorTraineesList from "../components/DirectorTraineesList";
 import DirectorReportsList from "../components/DirectorReportsList";
 import DirectorMyReportsList from "../components/DirectorMyReportsList";
-import AnalyticsWidget from "../components/AnalyticsWidget";
 
 import CreateTeamModal from "../components/CreateTeamModal";
 import AssignAdvisorModal from "../components/AssignAdvisorModal";
-import SubmitReportModal from "../../dashboard/components/SubmitReportModal";
+import SubmitReportModal from "../../../common/components/SubmitReportModal";
 import AssignTeamLeadModal from "../components/AssignTeamLeadModal";
 import AddMemberModal from "../components/AddMemberModal";
 import RequestDetailsModal from "../components/RequestDetailsModal";
-import ReportDetailsModal from "../../dashboard/components/ReportDetailsModal";
+import ReportDetailsModal from "../../../common/components/ReportDetailsModal";
 
 const DirectorDashboard = () => {
   const navigate = useNavigate();
@@ -60,6 +61,10 @@ const DirectorDashboard = () => {
     startupSummaries,
     traineeSummaries,
     teamReports,
+    advisorReports,
+    mentorReports,
+    startupMentorReports,
+    trainerReports,
     myReports,
     availableStaff,
     fetchStats,
@@ -71,6 +76,10 @@ const DirectorDashboard = () => {
     fetchTraineeSummaries,
     fetchTeamReports,
     fetchMyDirectorReports,
+    fetchAdvisorReports,
+    fetchMentorReports,
+    fetchStartupMentorReports,
+    fetchTrainerReports,
     assignRequestToTeam,
     createTeam,
     deleteTeam,
@@ -84,9 +93,12 @@ const DirectorDashboard = () => {
     reviewReport,
     approveReport,
     rejectReport,
+    approveSummaryReport,
+    rejectSummaryReport,
     createDirectorReport,
     fetchAvailableStaff,
   } = useDirector();
+  const { exportData } = useDirectorExport();
 
   const [greeting, setGreeting] = useState("");
   const [activeTab, setActiveTab] = useState("overview");
@@ -95,6 +107,11 @@ const DirectorDashboard = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [hoveredCard, setHoveredCard] = useState(null);
+  const [requestFilters, setRequestFilters] = useState({
+    status: "all",
+    type: "service",
+  });
+  const [selectedParticipantId, setSelectedParticipantId] = useState(null);
 
   const [modals, setModals] = useState({
     createTeam: false,
@@ -122,6 +139,47 @@ const DirectorDashboard = () => {
 
   const directorateType = user?.directorate?.type || "service";
   const isServiceDirectorate = directorateType === "service";
+
+  const getAllServiceRequests = useMemo(() => {
+    const allRequests = [];
+
+    if (requests?.approved && Array.isArray(requests.approved)) {
+      allRequests.push(...requests.approved);
+    }
+    if (
+      requests?.assigned_to_team &&
+      Array.isArray(requests.assigned_to_team)
+    ) {
+      allRequests.push(...requests.assigned_to_team);
+    }
+    if (requests?.in_progress && Array.isArray(requests.in_progress)) {
+      allRequests.push(...requests.in_progress);
+    }
+    if (requests?.completed && Array.isArray(requests.completed)) {
+      allRequests.push(...requests.completed);
+    }
+
+    return allRequests.filter((r) => r.type === "service");
+  }, [requests]);
+
+  const filteredServiceRequests = useMemo(() => {
+    return getAllServiceRequests.filter((req) => {
+      if (requestFilters.status === "all") return true;
+      if (requestFilters.status === "pending")
+        return !req.assignedTeam && req.status !== "completed";
+      if (requestFilters.status === "assigned")
+        return (
+          req.assignedTeam &&
+          req.status !== "completed" &&
+          req.status !== "assigned_to_team"
+        );
+      if (requestFilters.status === "in_progress")
+        return req.status === "in_progress";
+      if (requestFilters.status === "completed")
+        return req.status === "completed";
+      return true;
+    });
+  }, [getAllServiceRequests, requestFilters.status]);
 
   const getParticipantLabel = () => {
     switch (directorateType) {
@@ -229,10 +287,7 @@ const DirectorDashboard = () => {
         id: "requests",
         label: "Service Requests",
         icon: <ClipboardList className="w-5 h-5" />,
-        count:
-          requests?.approved?.filter(
-            (r) => !r.assignedTeam && r.type === "service",
-          )?.length || 0,
+        count: getAllServiceRequests.length,
       });
       items.push({
         id: "teams",
@@ -293,7 +348,6 @@ const DirectorDashboard = () => {
       try {
         const promises = [
           fetchStats(),
-          fetchTeamReports(),
           fetchMyDirectorReports(),
           fetchAvailableStaff(),
           fetchRequests(),
@@ -301,16 +355,19 @@ const DirectorDashboard = () => {
 
         if (isServiceDirectorate) {
           promises.push(fetchTeams());
-        }
-
-        if (directorateType === "internship") {
+          promises.push(fetchTeamReports());
+        } else if (directorateType === "internship") {
           promises.push(fetchInternSummaries());
+          promises.push(fetchAdvisorReports());
         } else if (directorateType === "innovation") {
           promises.push(fetchInnovatorSummaries());
+          promises.push(fetchMentorReports());
         } else if (directorateType === "startup") {
           promises.push(fetchStartupSummaries());
+          promises.push(fetchStartupMentorReports());
         } else if (directorateType === "training") {
           promises.push(fetchTraineeSummaries());
+          promises.push(fetchTrainerReports());
         }
 
         await Promise.all(promises);
@@ -325,28 +382,29 @@ const DirectorDashboard = () => {
     else if (hour < 18) setGreeting("Good Afternoon");
     else setGreeting("Good Evening");
   }, [directorateType, isServiceDirectorate]);
-
   const handleRefresh = async () => {
     try {
       const promises = [
         fetchStats(),
-        fetchTeamReports(),
         fetchMyDirectorReports(),
         fetchRequests(),
       ];
 
       if (isServiceDirectorate) {
         promises.push(fetchTeams());
-      }
-
-      if (directorateType === "internship") {
+        promises.push(fetchTeamReports());
+      } else if (directorateType === "internship") {
         promises.push(fetchInternSummaries());
+        promises.push(fetchAdvisorReports());
       } else if (directorateType === "innovation") {
         promises.push(fetchInnovatorSummaries());
+        promises.push(fetchMentorReports());
       } else if (directorateType === "startup") {
         promises.push(fetchStartupSummaries());
+        promises.push(fetchStartupMentorReports());
       } else if (directorateType === "training") {
         promises.push(fetchTraineeSummaries());
+        promises.push(fetchTrainerReports());
       }
 
       await Promise.all(promises);
@@ -383,7 +441,12 @@ const DirectorDashboard = () => {
   };
 
   const handleAssignRequest = async (requestId, teamId, instructions = "") => {
-    await assignRequestToTeam(requestId, teamId, instructions);
+    try {
+      await assignRequestToTeam(requestId, teamId, instructions);
+      await fetchRequests();
+    } catch (error) {
+      console.error("Failed to assign request:", error);
+    }
   };
 
   const handleAssignAdvisor = async (internId, advisorId) => {
@@ -437,6 +500,11 @@ const DirectorDashboard = () => {
     });
   };
 
+  const handleViewParticipant = (participantId) => {
+    setSelectedParticipantId(participantId);
+    setActiveTab(getParticipantListTab());
+  };
+
   const safeData = {
     teams: Array.isArray(teams) ? teams : [],
     interns: Array.isArray(internSummaries) ? internSummaries : [],
@@ -444,18 +512,29 @@ const DirectorDashboard = () => {
     startups: Array.isArray(startupSummaries) ? startupSummaries : [],
     trainees: Array.isArray(traineeSummaries) ? traineeSummaries : [],
     teamReports: Array.isArray(teamReports) ? teamReports : [],
+    advisorReports: Array.isArray(advisorReports) ? advisorReports : [],
+    mentorReports: Array.isArray(mentorReports) ? mentorReports : [],
+    startupMentorReports: Array.isArray(startupMentorReports)
+      ? startupMentorReports
+      : [],
+    trainerReports: Array.isArray(trainerReports) ? trainerReports : [],
     myReports: Array.isArray(myReports) ? myReports : [],
   };
+  const getCurrentReports = () => {
+    if (isServiceDirectorate) return safeData.teamReports;
+    if (directorateType === "internship") return safeData.advisorReports;
+    if (directorateType === "innovation") return safeData.mentorReports;
+    if (directorateType === "startup") return safeData.startupMentorReports;
+    if (directorateType === "training") return safeData.trainerReports;
+    return [];
+  };
 
-  const pendingServiceRequests =
-    isServiceDirectorate && requests?.approved
-      ? (requests.approved || []).filter(
-          (r) => !r.assignedTeam && r.type === "service",
-        )
-      : [];
-
-  const pendingReportsCount = safeData.teamReports.filter(
-    (r) => r.status === "pending",
+  const pendingServiceRequestsCount = getAllServiceRequests.filter(
+    (r) => !r.assignedTeam && r.status !== "completed",
+  ).length;
+  const currentReports = getCurrentReports();
+  const pendingReportsCount = currentReports.filter(
+    (r) => r.status === "pending" || r.status === "submitted",
   ).length;
 
   const getUnassignedParticipants = () => {
@@ -506,19 +585,22 @@ const DirectorDashboard = () => {
         {
           id: "pending",
           title: "Pending Requests",
-          value: pendingServiceRequests.length,
+          value: pendingServiceRequestsCount,
           actionText: "Assign to team",
           actionIcon: <UserPlus className="w-4 h-4" />,
           icon: <ClipboardList className="w-6 h-6" />,
           color: "from-amber-500 to-orange-500",
           bgColor: "bg-amber-500/10",
-          onClick: () => setActiveTab("requests"),
-          isEmpty: pendingServiceRequests.length === 0,
+          onClick: () => {
+            setActiveTab("requests");
+            setRequestFilters({ ...requestFilters, status: "pending" });
+          },
+          isEmpty: pendingServiceRequestsCount === 0,
           emptyMessage: "No pending requests 🎉",
           description:
-            pendingServiceRequests.length === 0
+            pendingServiceRequestsCount === 0
               ? "All caught up!"
-              : `${pendingServiceRequests.length} request${pendingServiceRequests.length !== 1 ? "s" : ""} awaiting assignment`,
+              : `${pendingServiceRequestsCount} request${pendingServiceRequestsCount !== 1 ? "s" : ""} awaiting assignment`,
         },
         {
           id: "teams",
@@ -557,8 +639,8 @@ const DirectorDashboard = () => {
               : `${pendingReportsCount} report${pendingReportsCount !== 1 ? "s" : ""} awaiting review`,
         },
         {
-          id: "members",
-          title: "Team Members",
+          id: "staffs",
+          title: "Total Staffs in Your Directorate",
           value: stats?.totalStaff || 0,
           actionText: "View all",
           actionIcon: <ArrowRight className="w-4 h-4" />,
@@ -567,21 +649,19 @@ const DirectorDashboard = () => {
           bgColor: "bg-blue-500/10",
           onClick: () => navigate("/staff"),
           isEmpty: (stats?.totalStaff || 0) === 0,
-          emptyMessage: "No team members yet",
+          emptyMessage: "No staff members yet",
           description: `${stats?.totalStaff || 0} member${stats?.totalStaff !== 1 ? "s" : ""}`,
         },
       ];
     }
 
-    const assignmentLabel = getAssignmentPersonLabel();
-
     return [
       {
-        id: "unassigned",
-        title: `Needs ${assignmentLabel}`,
-        value: unassignedCount,
-        actionText: `Assign ${assignmentLabel}`,
-        actionIcon: <UserPlus className="w-4 h-4" />,
+        id: "total",
+        title: `Total ${getParticipantLabel()}`,
+        value: assignedCount + unassignedCount,
+        actionText: `View all`,
+        actionIcon: <ArrowRight className="w-4 h-4" />,
         icon:
           directorateType === "internship" ? (
             <GraduationCap className="w-6 h-6" />
@@ -592,15 +672,12 @@ const DirectorDashboard = () => {
           ) : (
             <School className="w-6 h-6" />
           ),
-        color: "from-amber-500 to-orange-500",
-        bgColor: "bg-amber-500/10",
+        color: "from-emerald-500 to-teal-500",
+        bgColor: "bg-emerald-500/10",
         onClick: () => setActiveTab(getParticipantListTab()),
-        isEmpty: unassignedCount === 0,
-        emptyMessage: `All ${getParticipantLabel().toLowerCase()} have ${assignmentLabel.toLowerCase()}s! 🎉`,
-        description:
-          unassignedCount === 0
-            ? "All assigned!"
-            : `${unassignedCount} ${getParticipantLabel().toLowerCase()} need ${assignmentLabel.toLowerCase()}s`,
+        isEmpty: assignedCount + unassignedCount === 0,
+        emptyMessage: `No ${getParticipantLabel().toLowerCase()} yet`,
+        description: `${assignedCount + unassignedCount} total ${getParticipantLabel().toLowerCase()}`,
       },
       {
         id: "active",
@@ -652,6 +729,14 @@ const DirectorDashboard = () => {
 
   const actionCards = getActionCards();
 
+  const participantListProps = {
+    onViewDetails: (id) => {
+      setSelectedParticipantId(id);
+    },
+    selectedId: selectedParticipantId,
+    onClearSelected: () => setSelectedParticipantId(null),
+  };
+
   if (loading && !stats) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
@@ -665,30 +750,12 @@ const DirectorDashboard = () => {
       <DirectorHeader
         onRefresh={handleRefresh}
         title={`${directorateType.charAt(0).toUpperCase() + directorateType.slice(1)} Director Dashboard`}
-        onExport={() => setShowExportModal(true)}
-        showAnalytics={showAnalytics}
-        setShowAnalytics={setShowAnalytics}
+        onExport={exportData}
         onMenuClick={() => setMobileSidebarOpen(true)}
         directorateType={directorateType}
       />
 
-      {/* Analytics Panel */}
-      <AnimatePresence>
-        {showAnalytics && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="bg-gray-800 border-b border-gray-700 overflow-hidden relative z-30 shrink-0"
-          >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-              <AnalyticsWidget />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Main Flex Container - Takes remaining height */}
+      {/* Main Flex Container */}
       <div className="flex flex-1 overflow-hidden relative">
         {/* Desktop Sidebar */}
         <aside
@@ -934,10 +1001,15 @@ const DirectorDashboard = () => {
                       </div>
                       {isServiceDirectorate ? (
                         <DirectorRequestsList
-                          requests={pendingServiceRequests.slice(0, 5)}
+                          requests={getAllServiceRequests
+                            .filter(
+                              (r) =>
+                                !r.assignedTeam && r.status !== "completed",
+                            )
+                            .slice(0, 5)}
                           showAssign={false}
                           onViewDetails={(id) => {
-                            const request = pendingServiceRequests.find(
+                            const request = getAllServiceRequests.find(
                               (r) => r._id === id,
                             );
                             setSelectedItem(request);
@@ -959,30 +1031,7 @@ const DirectorDashboard = () => {
                                   key={participantId}
                                   className="p-4 hover:bg-gray-700/30 transition group cursor-pointer"
                                   onClick={() => {
-                                    setSelectedItem(participant);
-                                    if (directorateType === "internship") {
-                                      setModals((prev) => ({
-                                        ...prev,
-                                        assignAdvisor: true,
-                                      }));
-                                    } else if (
-                                      directorateType === "innovation"
-                                    ) {
-                                      setModals((prev) => ({
-                                        ...prev,
-                                        assignMentor: true,
-                                      }));
-                                    } else if (directorateType === "startup") {
-                                      setModals((prev) => ({
-                                        ...prev,
-                                        assignStartupMentor: true,
-                                      }));
-                                    } else if (directorateType === "training") {
-                                      setModals((prev) => ({
-                                        ...prev,
-                                        assignTrainer: true,
-                                      }));
-                                    }
+                                    handleViewParticipant(participant._id);
                                   }}
                                 >
                                   <div className="flex justify-between items-center">
@@ -1091,11 +1140,7 @@ const DirectorDashboard = () => {
                                 key={participant._id}
                                 className="p-4 hover:bg-gray-700/30 transition group cursor-pointer"
                                 onClick={() => {
-                                  setSelectedItem(participant);
-                                  setModals((prev) => ({
-                                    ...prev,
-                                    requestDetails: true,
-                                  }));
+                                  handleViewParticipant(participant._id);
                                 }}
                               >
                                 <div className="flex justify-between items-center">
@@ -1241,26 +1286,138 @@ const DirectorDashboard = () => {
               {/* Service Requests Tab */}
               {isServiceDirectorate && activeTab === "requests" && (
                 <div>
-                  <h2 className="text-2xl font-bold text-white mb-2">
-                    Service Requests
-                  </h2>
-                  <p className="text-gray-400 text-sm mb-6">
-                    {pendingServiceRequests.length} requests awaiting team
-                    assignment
-                  </p>
-                  <DirectorRequestsList
-                    requests={pendingServiceRequests}
-                    showAssign
-                    teams={safeData.teams}
-                    onAssign={handleAssignRequest}
-                    onViewDetails={(id) => {
-                      const request = pendingServiceRequests.find(
-                        (r) => r._id === id,
-                      );
-                      setSelectedItem(request);
-                      setModals((prev) => ({ ...prev, requestDetails: true }));
-                    }}
-                  />
+                  <div className="flex justify-between items-center mb-4 flex-wrap gap-3">
+                    <div>
+                      <h2 className="text-2xl font-bold text-white">
+                        Service Requests
+                      </h2>
+                      <p className="text-gray-400 text-sm">
+                        Track and manage all service requests
+                      </p>
+                    </div>
+
+                    {/* Status Filter Tabs */}
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        onClick={() =>
+                          setRequestFilters({
+                            ...requestFilters,
+                            status: "all",
+                          })
+                        }
+                        className={`px-3 py-1.5 rounded-lg text-sm transition ${
+                          requestFilters.status === "all"
+                            ? "bg-emerald-600 text-white"
+                            : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                        }`}
+                      >
+                        All ({getAllServiceRequests.length})
+                      </button>
+                      <button
+                        onClick={() =>
+                          setRequestFilters({
+                            ...requestFilters,
+                            status: "pending",
+                          })
+                        }
+                        className={`px-3 py-1.5 rounded-lg text-sm transition ${
+                          requestFilters.status === "pending"
+                            ? "bg-yellow-600 text-white"
+                            : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                        }`}
+                      >
+                        Pending (
+                        {
+                          getAllServiceRequests.filter(
+                            (r) => !r.assignedTeam && r.status !== "completed",
+                          ).length
+                        }
+                        )
+                      </button>
+                      <button
+                        onClick={() =>
+                          setRequestFilters({
+                            ...requestFilters,
+                            status: "assigned",
+                          })
+                        }
+                        className={`px-3 py-1.5 rounded-lg text-sm transition ${
+                          requestFilters.status === "assigned"
+                            ? "bg-blue-600 text-white"
+                            : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                        }`}
+                      >
+                        Assigned (
+                        {
+                          getAllServiceRequests.filter(
+                            (r) =>
+                              r.assignedTeam &&
+                              r.status !== "completed" &&
+                              r.status !== "assigned_to_team",
+                          ).length
+                        }
+                        )
+                      </button>
+                      <button
+                        onClick={() =>
+                          setRequestFilters({
+                            ...requestFilters,
+                            status: "completed",
+                          })
+                        }
+                        className={`px-3 py-1.5 rounded-lg text-sm transition ${
+                          requestFilters.status === "completed"
+                            ? "bg-green-600 text-white"
+                            : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                        }`}
+                      >
+                        Completed (
+                        {
+                          getAllServiceRequests.filter(
+                            (r) => r.status === "completed",
+                          ).length
+                        }
+                        )
+                      </button>
+                    </div>
+                  </div>
+
+                  {filteredServiceRequests.length === 0 ? (
+                    <div className="text-center py-16 bg-gray-800/50 rounded-xl border border-gray-700">
+                      <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-800 rounded-full mb-4 border border-gray-700">
+                        <AlertCircle className="w-10 h-10 text-gray-600" />
+                      </div>
+                      <p className="text-gray-400 text-lg">
+                        No service requests found
+                      </p>
+                      <p className="text-sm text-gray-500 mt-1">
+                        {requestFilters.status === "pending"
+                          ? "All requests have been assigned to teams"
+                          : requestFilters.status === "assigned"
+                            ? "No requests are currently in progress"
+                            : requestFilters.status === "completed"
+                              ? "No completed requests yet"
+                              : "New requests will appear here once submitted"}
+                      </p>
+                    </div>
+                  ) : (
+                    <DirectorRequestsList
+                      requests={filteredServiceRequests}
+                      showAssign={requestFilters.status === "pending"}
+                      teams={safeData.teams}
+                      onAssign={handleAssignRequest}
+                      onViewDetails={(id) => {
+                        const request = getAllServiceRequests.find(
+                          (r) => r._id === id,
+                        );
+                        setSelectedItem(request);
+                        setModals((prev) => ({
+                          ...prev,
+                          requestDetails: true,
+                        }));
+                      }}
+                    />
+                  )}
                 </div>
               )}
 
@@ -1311,24 +1468,13 @@ const DirectorDashboard = () => {
                         Manage interns and assign advisors
                       </p>
                     </div>
-                    <button
-                      onClick={() =>
-                        setModals((prev) => ({ ...prev, assignAdvisor: true }))
-                      }
-                      className="bg-linear-to-r from-emerald-500 to-teal-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:opacity-90 transition shadow-lg"
-                    >
-                      <UserPlus className="w-4 h-4" /> Assign Advisor
-                    </button>
                   </div>
                   <DirectorInternsList
                     interns={safeData.interns}
                     staffList={availableStaff}
                     onAssignAdvisor={handleAssignAdvisor}
                     onViewDetails={(id) => {
-                      setSelectedItem(
-                        safeData.interns.find((i) => i._id === id),
-                      );
-                      setModals((prev) => ({ ...prev, requestDetails: true }));
+                      handleViewParticipant(id);
                     }}
                   />
                 </div>
@@ -1347,27 +1493,14 @@ const DirectorDashboard = () => {
                           Manage innovators and assign mentors
                         </p>
                       </div>
-                      <button
-                        onClick={() =>
-                          setModals((prev) => ({ ...prev, assignMentor: true }))
-                        }
-                        className="bg-linear-to-r from-emerald-500 to-teal-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:opacity-90 transition shadow-lg"
-                      >
-                        <UserPlus className="w-4 h-4" /> Assign Mentor
-                      </button>
                     </div>
                     <DirectorInnovatorsList
                       innovators={safeData.innovators}
                       staffList={availableStaff}
+                      directorateId={user?.directorate?._id}
                       onAssignMentor={handleAssignMentor}
                       onViewDetails={(id) => {
-                        setSelectedItem(
-                          safeData.innovators.find((i) => i._id === id),
-                        );
-                        setModals((prev) => ({
-                          ...prev,
-                          requestDetails: true,
-                        }));
+                        handleViewParticipant(id);
                       }}
                     />
                   </div>
@@ -1385,27 +1518,14 @@ const DirectorDashboard = () => {
                         Manage startups and assign mentors
                       </p>
                     </div>
-                    <button
-                      onClick={() =>
-                        setModals((prev) => ({
-                          ...prev,
-                          assignStartupMentor: true,
-                        }))
-                      }
-                      className="bg-linear-to-r from-emerald-500 to-teal-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:opacity-90 transition shadow-lg"
-                    >
-                      <UserPlus className="w-4 h-4" /> Assign Mentor
-                    </button>
                   </div>
                   <DirectorStartupsList
                     startups={safeData.startups}
                     staffList={availableStaff}
+                    directorateId={user?.directorate?._id}
                     onAssignMentor={handleAssignStartupMentor}
                     onViewDetails={(id) => {
-                      setSelectedItem(
-                        safeData.startups.find((s) => s._id === id),
-                      );
-                      setModals((prev) => ({ ...prev, requestDetails: true }));
+                      handleViewParticipant(id);
                     }}
                   />
                 </div>
@@ -1437,16 +1557,12 @@ const DirectorDashboard = () => {
                     staffList={availableStaff}
                     onAssignTrainer={handleAssignTrainer}
                     onViewDetails={(id) => {
-                      setSelectedItem(
-                        safeData.trainees.find((t) => t._id === id),
-                      );
-                      setModals((prev) => ({ ...prev, requestDetails: true }));
+                      handleViewParticipant(id);
                     }}
                   />
                 </div>
               )}
 
-              {/* Reports Tab */}
               {activeTab === "reports" && (
                 <div>
                   <div className="flex justify-between items-center mb-6">
@@ -1467,14 +1583,12 @@ const DirectorDashboard = () => {
                     </div>
                   </div>
                   <DirectorReportsList
-                    reports={safeData.teamReports}
+                    reports={currentReports}
                     onReview={handleReviewReport}
                     onApprove={handleApproveReport}
                     onReject={handleRejectReport}
                     onViewDetails={(id) => {
-                      setSelectedItem(
-                        safeData.teamReports.find((r) => r._id === id),
-                      );
+                      setSelectedItem(currentReports.find((r) => r._id === id));
                       setModals((prev) => ({ ...prev, reportDetails: true }));
                     }}
                   />
@@ -1650,8 +1764,17 @@ const DirectorDashboard = () => {
           onClose={() =>
             setModals((prev) => ({ ...prev, reportDetails: false }))
           }
-          onApprove={handleApproveReport}
-          onReject={handleRejectReport}
+          onApprove={
+            selectedItem.type === "team_report"
+              ? approveReport
+              : approveSummaryReport
+          }
+          onReject={
+            selectedItem.type === "team_report"
+              ? rejectReport
+              : rejectSummaryReport
+          }
+          reportType={selectedItem.type}
         />
       )}
     </div>

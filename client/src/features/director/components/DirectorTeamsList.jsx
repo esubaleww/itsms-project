@@ -1,4 +1,3 @@
-// client/src/features/dashboard/components/DirectorTeamsList.jsx
 import { motion } from "framer-motion";
 import {
   Users,
@@ -40,7 +39,6 @@ const DirectorTeamsList = ({
     );
   }
 
-  // Simple view for overview tab
   if (!detailed) {
     return (
       <div className="space-y-3">

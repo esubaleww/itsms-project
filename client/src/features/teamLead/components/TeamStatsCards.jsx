@@ -5,7 +5,7 @@ const TeamStatsCards = ({ stats, membersCount }) => {
   const cards = [
     {
       title: "Completion Rate",
-      value: `${stats?.completionRate || 0}%`,
+      value: `${stats?.completionRate.toFixed(2) || 0}%`,
       icon: TrendingUp,
       color: "emerald",
       description: "Overall performance",
@@ -19,14 +19,14 @@ const TeamStatsCards = ({ stats, membersCount }) => {
     },
     {
       title: "Tasks Completed",
-      value: stats?.completedTasks || 0,
+      value: stats?.stats?.completed || 0,
       icon: CheckCircle,
       color: "green",
       description: "Successfully completed",
     },
     {
       title: "Team Rating",
-      value: stats?.teamRating || "A",
+      value: stats?.teamRating || "N/A",
       icon: Award,
       color: "purple",
       description: "Performance grade",

@@ -1,4 +1,5 @@
 import TrainingProfile from "../models/TrainingProfile.js";
+import Session from "../models/Session.js";
 import User from "../models/User.js";
 import Notification from "../models/Notification.js";
 import { getPagination } from "../utils/pagination.js";
@@ -11,7 +12,7 @@ export const getMyTrainees = async (trainerId, queryParams) => {
 
   const filter = {
     "placement.trainer": trainerId,
-    status: { $in: ["active", "approved", "completed"] },
+    status: { $in: ["pending", "active", "approved", "completed"] },
   };
 
   const total = await TrainingProfile.countDocuments(filter);
@@ -19,6 +20,10 @@ export const getMyTrainees = async (trainerId, queryParams) => {
   const trainees = await TrainingProfile.find(filter)
     .populate("user", "fullName email phone")
     .populate("placement.directorate", "name type")
+    .populate("attendance.session", "title date duration location")
+    .select(
+      "user institution profession skills status attendance progress trainerSummary",
+    )
     .sort("-createdAt")
     .skip(skip)
     .limit(limit);
@@ -26,13 +31,15 @@ export const getMyTrainees = async (trainerId, queryParams) => {
   return {
     success: true,
     data: trainees.map((t) => ({
+      _id: t._id,
       trainee: t.user,
       institution: t.institution,
       profession: t.profession,
       skills: t.skills,
       status: t.status,
-      sessions: t.sessions,
+      attendance: t.attendance,
       progress: t.progress,
+      trainerSummary: t.trainerSummary,
     })),
     pagination: {
       total,
@@ -47,13 +54,15 @@ export const getTraineeProgress = async (trainerId, traineeId) => {
   const profile = await TrainingProfile.findOne({
     user: traineeId,
     "placement.trainer": trainerId,
-  }).populate("user", "fullName email");
+  })
+    .populate("user", "fullName email")
+    .populate("attendance.session", "title date duration location");
 
   if (!profile) throw new Error("Trainee not found or not assigned to you");
 
-  const sessions = profile.sessions || [];
-  const totalSessions = sessions.length;
-  const attendedSessions = sessions.filter((s) => s.attended).length;
+  const attendance = profile.attendance || [];
+  const totalSessions = attendance.length;
+  const attendedSessions = attendance.filter((a) => a.attended).length;
 
   return {
     success: true,
@@ -67,102 +76,77 @@ export const getTraineeProgress = async (trainerId, traineeId) => {
           : 0,
       startDate: profile.placement?.startDate,
     },
-    sessions,
+    sessions: attendance,
     skills: profile.skills,
     institution: profile.institution,
     profession: profile.profession,
   };
 };
 
-export const createSession = async (trainerId, traineeId, sessionData) => {
-  const profile = await TrainingProfile.findOne({
-    user: traineeId,
-    "placement.trainer": trainerId,
-  }).populate("user", "fullName");
-
-  if (!profile) throw new Error("Trainee not found or not assigned to you");
-
-  const session = {
+export const createSession = async (trainerId, sessionData) => {
+  const session = new Session({
     title: sessionData.title,
     date: new Date(sessionData.date),
     duration: sessionData.duration,
     location: sessionData.location,
-    attended: false,
-    qrCode: sessionData.qrCode,
-  };
-
-  profile.sessions.push(session);
-  await profile.save();
-
-  await Notification.create({
-    user: traineeId,
-    title: "New Training Session",
-    message: `A new training session "${sessionData.title}" has been scheduled for ${new Date(sessionData.date).toLocaleDateString()}`,
-    type: "info",
+    trainer: trainerId,
   });
+
+  await session.save();
+
+  const trainees = await TrainingProfile.find({
+    "placement.trainer": trainerId,
+  });
+
+  for (const trainee of trainees) {
+    trainee.attendance.push({
+      session: session._id,
+      attended: false,
+    });
+    await trainee.save();
+
+    await Notification.create({
+      user: trainee.user,
+      title: "New Training Session",
+      message: `A new training session "${sessionData.title}" has been scheduled for ${new Date(sessionData.date).toLocaleDateString()}`,
+      type: "info",
+    });
+  }
 
   return {
     success: true,
     message: "Session created successfully",
-    session: profile.sessions[profile.sessions.length - 1],
+    session,
   };
 };
 
-export const recordAttendance = async (trainerId, sessionId, traineeId) => {
-  const profile = await TrainingProfile.findOne({
-    user: traineeId,
-    "placement.trainer": trainerId,
-  });
-
-  if (!profile) throw new Error("Trainee not found or not assigned to you");
-
-  const session = profile.sessions.id(sessionId);
+export const markAttendance = async (sessionId, traineeId) => {
+  const session = await Session.findById(sessionId);
   if (!session) throw new Error("Session not found");
 
-  if (session.attended) throw new Error("Attendance already recorded");
+  const profile = await TrainingProfile.findOne({
+    user: traineeId,
+    "placement.trainer": session.trainer,
+  });
 
-  session.attended = true;
-  session.attendedAt = new Date();
+  if (!profile)
+    throw new Error("Trainee not found or not assigned to this trainer");
+
+  const attendanceRecord = profile.attendance.find(
+    (a) => a.session.toString() === sessionId,
+  );
+
+  if (!attendanceRecord) throw new Error("Session not found for this trainee");
+  if (attendanceRecord.attended) throw new Error("Attendance already recorded");
+
+  attendanceRecord.attended = true;
+  attendanceRecord.attendedAt = new Date();
 
   await profile.save();
 
   return {
     success: true,
     message: "Attendance recorded successfully",
-    session,
-  };
-};
-
-export const generateCertificate = async (trainerId, traineeId, sessionId) => {
-  const profile = await TrainingProfile.findOne({
-    user: traineeId,
-    "placement.trainer": trainerId,
-  });
-
-  if (!profile) throw new Error("Trainee not found or not assigned to you");
-
-  const session = profile.sessions.id(sessionId);
-  if (!session) throw new Error("Session not found");
-
-  if (!session.attended)
-    throw new Error("Cannot generate certificate for unattended session");
-
-  const certificateId = `CERT-${Date.now()}-${traineeId.slice(-6)}`;
-  session.certificate = `/certificates/${certificateId}.pdf`;
-
-  await profile.save();
-
-  await Notification.create({
-    user: traineeId,
-    title: "Certificate Generated",
-    message: `Your certificate for "${session.title}" is now available`,
-    type: "success",
-  });
-
-  return {
-    success: true,
-    message: "Certificate generated",
-    certificateUrl: session.certificate,
   };
 };
 
@@ -171,18 +155,19 @@ export const getTrainerStats = async (trainerId) => {
     "placement.trainer": trainerId,
   });
 
+  const sessions = await Session.find({ trainer: trainerId });
+
   const totalTrainees = trainees.length;
-  const totalSessions = trainees.reduce(
-    (sum, t) => sum + (t.sessions?.length || 0),
-    0,
-  );
-  const attendedSessions = trainees.reduce(
-    (sum, t) => sum + (t.sessions?.filter((s) => s.attended).length || 0),
-    0,
-  );
+  const totalSessions = sessions.length;
+
+  let attendedSessions = 0;
+  for (const trainee of trainees) {
+    attendedSessions += trainee.attendance.filter((a) => a.attended).length;
+  }
+
   const averageCompletion =
-    totalSessions > 0
-      ? Math.round((attendedSessions / totalSessions) * 100)
+    totalTrainees > 0 && totalSessions > 0
+      ? Math.round((attendedSessions / (totalTrainees * totalSessions)) * 100)
       : 0;
 
   return {
@@ -205,6 +190,7 @@ export const getTrainerDashboard = async (trainerId) => {
     recentTrainees: recentTrainees.data,
   };
 };
+
 export const submitTrainerSummary = async (
   trainerId,
   traineeId,
@@ -217,7 +203,6 @@ export const submitTrainerSummary = async (
 
   if (!profile) throw new Error("Trainee not found or not assigned to you");
 
-  // Add trainer summary
   profile.trainerSummary = {
     overallPerformance: summaryData.overallPerformance,
     skillsAcquired: summaryData.skillsAcquired || [],
@@ -232,7 +217,6 @@ export const submitTrainerSummary = async (
 
   await profile.save();
 
-  // Notify director
   const director = await User.findOne({
     directorate: profile.placement?.directorate,
     position: "director",
@@ -258,7 +242,6 @@ export const submitTrainerSummary = async (
   };
 };
 
-// Update trainee status
 export const updateTraineeStatus = async (trainerId, traineeId, status) => {
   const profile = await TrainingProfile.findOne({
     user: traineeId,
@@ -291,5 +274,42 @@ export const updateTraineeStatus = async (trainerId, traineeId, status) => {
     success: true,
     message: `Status updated from ${oldStatus} to ${status}`,
     status: profile.status,
+  };
+};
+
+export const getSessions = async (trainerId) => {
+  const sessions = await Session.find({ trainer: trainerId }).sort({
+    date: -1,
+  });
+
+  return {
+    success: true,
+    sessions,
+  };
+};
+
+export const getSessionAttendance = async (trainerId, sessionId) => {
+  const session = await Session.findOne({ _id: sessionId, trainer: trainerId });
+  if (!session) throw new Error("Session not found");
+
+  const trainees = await TrainingProfile.find({
+    "placement.trainer": trainerId,
+  }).populate("user", "fullName email");
+
+  const attendance = trainees.map((trainee) => {
+    const record = trainee.attendance.find(
+      (a) => a.session.toString() === sessionId,
+    );
+    return {
+      trainee: trainee.user,
+      attended: record?.attended || false,
+      attendedAt: record?.attendedAt,
+    };
+  });
+
+  return {
+    success: true,
+    session,
+    attendance,
   };
 };

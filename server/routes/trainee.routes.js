@@ -7,8 +7,10 @@ const router = express.Router();
 router.use(protect);
 
 router.get("/sessions", traineeController.getMySessions);
-router.post("/sessions/attendance", traineeController.markAttendance);
-router.get("/certificates", traineeController.getMyCertificates);
+router.post(
+  "/sessions/:sessionId/attendance",
+  traineeController.markAttendance,
+);
 
 router.get("/profile", traineeController.getMyTraineeProfile);
 router.get("/progress", traineeController.getMyProgress);

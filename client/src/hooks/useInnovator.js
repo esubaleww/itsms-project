@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { innovatorService } from "../services/innovator.service";
-import { useToast } from "../components/ui/Toast";
+import { useToast } from "../common/ui/Toast";
 
 export const useInnovator = () => {
   const { addToast } = useToast();
@@ -28,14 +28,14 @@ export const useInnovator = () => {
       setLoading(false);
     }
   }, [addToast]);
-
   const updateMilestoneStatus = useCallback(
-    async (milestoneId, status) => {
+    async (milestoneId, status, evidenceData = null) => {
       setLoading(true);
       try {
         const data = await innovatorService.updateMilestoneStatus(
           milestoneId,
           status,
+          evidenceData,
         );
         addToast(data.message || "Milestone updated!", "success");
         await fetchMilestones();

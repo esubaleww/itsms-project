@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { analyticsApi } from "../services/analytics.service";
+import { analyticsApi } from "../services/admin.analytics.service";
 
 const useAnalyticsStore = create((set, get) => ({
   dailyActivity: [],

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   User,
@@ -10,10 +10,17 @@ import {
   Building2,
   Users,
   AlertCircle,
+  Edit,
 } from "lucide-react";
-import { useToast } from "../../../components/ui/Toast";
+import { useToast } from "../../../common/ui/Toast";
 
-const CreateStaffModal = ({ onClose, onSubmit, directorates }) => {
+const CreateStaffModal = ({
+  onClose,
+  onSubmit,
+  directorates,
+  initialData,
+  isEditing,
+}) => {
   const { addToast } = useToast();
   const [formData, setFormData] = useState({
     email: "",
@@ -38,6 +45,38 @@ const CreateStaffModal = ({ onClose, onSubmit, directorates }) => {
     { value: "hr_officer", label: "HR Officer", icon: Briefcase },
   ];
 
+  // ✅ Populate form when editing
+  useEffect(() => {
+    if (initialData && isEditing) {
+      setFormData({
+        email: initialData.email || "",
+        fullName: initialData.fullName || "",
+        phone: initialData.phone || "",
+        position: initialData.position || "",
+        directorateId:
+          initialData.directorate?._id || initialData.directorateId || "",
+        teamId: initialData.team?._id || initialData.teamId || "",
+      });
+
+      // Load teams for the selected directorate
+      if (initialData.directorate?._id || initialData.directorateId) {
+        const dirId = initialData.directorate?._id || initialData.directorateId;
+        fetchTeams(dirId);
+      }
+    }
+  }, [initialData, isEditing]);
+
+  const fetchTeams = async (directorateId) => {
+    try {
+      const response = await fetch(`/api/directorates/${directorateId}/teams`);
+      const data = await response.json();
+      setTeams(data.teams || []);
+    } catch (error) {
+      console.error("Failed to fetch teams:", error);
+      setTeams([]);
+    }
+  };
+
   const validateForm = () => {
     const newErrors = {};
     if (!formData.fullName.trim()) newErrors.fullName = "Full name is required";
@@ -60,16 +99,7 @@ const CreateStaffModal = ({ onClose, onSubmit, directorates }) => {
     setErrors({ ...errors, directorateId: "" });
     setBackendError("");
     if (directorateId) {
-      try {
-        const response = await fetch(
-          `/api/directorates/${directorateId}/teams`,
-        );
-        const data = await response.json();
-        setTeams(data.teams || []);
-      } catch (error) {
-        console.error("Failed to fetch teams:", error);
-        setTeams([]);
-      }
+      await fetchTeams(directorateId);
     } else {
       setTeams([]);
     }
@@ -105,18 +135,20 @@ const CreateStaffModal = ({ onClose, onSubmit, directorates }) => {
 
       await onSubmit(submitData);
       addToast(
-        "Staff created successfully! They will receive an email with login credentials.",
+        isEditing
+          ? "Staff updated successfully!"
+          : "Staff created successfully! They will receive an email with login credentials.",
         "success",
       );
       onClose();
     } catch (error) {
-      // Handle different error formats
-      let errorMessage = "Failed to create staff";
+      let errorMessage = isEditing
+        ? "Failed to update staff"
+        : "Failed to create staff";
 
       if (error.response?.data?.message) {
         errorMessage = error.response.data.message;
       } else if (error.response?.data?.errors) {
-        // Handle validation errors object
         const validationErrors = error.response.data.errors;
         errorMessage = Object.values(validationErrors).join(", ");
         setBackendError(errorMessage);
@@ -124,7 +156,6 @@ const CreateStaffModal = ({ onClose, onSubmit, directorates }) => {
         errorMessage = error.message;
       }
 
-      // Check for specific error types
       if (errorMessage.toLowerCase().includes("directorate")) {
         setErrors((prev) => ({ ...prev, directorateId: errorMessage }));
       } else if (errorMessage.toLowerCase().includes("email")) {
@@ -153,9 +184,15 @@ const CreateStaffModal = ({ onClose, onSubmit, directorates }) => {
         <div className="p-5 border-b border-gray-700 flex justify-between items-center sticky top-0 bg-gray-800 z-10 rounded-t-2xl">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-linear-to-br from-emerald-500 to-teal-700 rounded-lg flex items-center justify-center">
-              <UserPlus className="w-4 h-4 text-white" />
+              {isEditing ? (
+                <Edit className="w-4 h-4 text-white" />
+              ) : (
+                <UserPlus className="w-4 h-4 text-white" />
+              )}
             </div>
-            <h2 className="text-xl font-bold text-white">Create Staff</h2>
+            <h2 className="text-xl font-bold text-white">
+              {isEditing ? "Edit Staff Member" : "Create Staff"}
+            </h2>
           </div>
           <button
             onClick={onClose}
@@ -205,7 +242,7 @@ const CreateStaffModal = ({ onClose, onSubmit, directorates }) => {
               )}
             </div>
 
-            {/* Email */}
+            {/* Email - Disable when editing? (optional) */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
                 Email <span className="text-red-400">*</span>
@@ -215,9 +252,10 @@ const CreateStaffModal = ({ onClose, onSubmit, directorates }) => {
                 <input
                   type="email"
                   required
+                  disabled={isEditing}
                   className={`w-full pl-9 pr-3 py-2 bg-gray-700/50 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all ${
                     errors.email ? "border-red-500" : "border-gray-600"
-                  }`}
+                  } ${isEditing ? "opacity-60 cursor-not-allowed" : ""}`}
                   value={formData.email}
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   placeholder="john@example.com"
@@ -226,6 +264,11 @@ const CreateStaffModal = ({ onClose, onSubmit, directorates }) => {
               {errors.email && (
                 <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" /> {errors.email}
+                </p>
+              )}
+              {isEditing && (
+                <p className="text-gray-500 text-xs mt-1">
+                  Email cannot be changed after creation
                 </p>
               )}
             </div>
@@ -359,12 +402,16 @@ const CreateStaffModal = ({ onClose, onSubmit, directorates }) => {
               {loading ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                  Creating...
+                  {isEditing ? "Updating..." : "Creating..."}
                 </>
               ) : (
                 <>
-                  <UserPlus className="w-4 h-4" />
-                  Create Staff
+                  {isEditing ? (
+                    <Edit className="w-4 h-4" />
+                  ) : (
+                    <UserPlus className="w-4 h-4" />
+                  )}
+                  {isEditing ? "Update Staff" : "Create Staff"}
                 </>
               )}
             </button>

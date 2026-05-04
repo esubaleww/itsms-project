@@ -1,0 +1,95 @@
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Eye, FileText, GraduationCap, User, Mail, Award } from "lucide-react";
+
+const AdvisorInternsList = ({
+  interns,
+  onReviewReport,
+  onFinalSummary,
+  onViewProgress,
+}) => {
+  if (!interns || interns.length === 0) {
+    return (
+      <div className="text-center py-12 bg-gray-800/50 rounded-xl border border-gray-700">
+        <GraduationCap className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+        <p className="text-gray-400">No interns assigned to you</p>
+        <p className="text-sm text-gray-500 mt-1">
+          Interns will appear here once assigned by the director
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {interns.map((intern) => (
+        <motion.div
+          key={intern._id}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-gray-800/60 rounded-xl border border-gray-700 p-4 hover:border-emerald-500/50 transition group"
+        >
+          <div className="flex justify-between items-start mb-3">
+            <div>
+              <h3 className="font-semibold text-white group-hover:text-emerald-400 transition">
+                {intern.fullName}
+              </h3>
+              <p className="text-xs text-gray-400 mt-1">
+                {intern.university?.name || "University not set"}
+              </p>
+            </div>
+            {intern.pendingReports > 0 && (
+              <span className="text-xs px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full">
+                {intern.pendingReports} Pending
+              </span>
+            )}
+          </div>
+
+          <div className="space-y-1 text-xs text-gray-500 mb-3">
+            <div className="flex items-center gap-2">
+              <User className="w-3 h-3" />
+              <span>ID: {intern.university?.studentId || "N/A"}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Mail className="w-3 h-3" />
+              <span className="truncate">{intern.email}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <GraduationCap className="w-3 h-3" />
+              <span>Year: {intern.university?.year || "N/A"}</span>
+            </div>
+          </div>
+
+          {/* Three buttons - Progress, Review Reports, Final Summary */}
+          <div className="flex gap-2 mt-3">
+            <button
+              onClick={() => onViewProgress(intern)}
+              className="flex-1 px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white rounded-lg transition text-sm flex items-center justify-center gap-1"
+            >
+              <Eye className="w-3 h-3" /> Progress
+            </button>
+            <button
+              onClick={() => onReviewReport(intern)}
+              disabled={intern.pendingReports === 0}
+              className={`flex-1 px-3 py-1.5 rounded-lg transition text-sm flex items-center justify-center gap-1 ${
+                intern.pendingReports > 0
+                  ? "bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white"
+                  : "bg-gray-700 text-gray-500 cursor-not-allowed"
+              }`}
+            >
+              <FileText className="w-3 h-3" /> Review
+            </button>
+            <button
+              onClick={() => onFinalSummary(intern)}
+              className="flex-1 px-3 py-1.5 bg-purple-600/20 hover:bg-purple-600 text-purple-400 hover:text-white rounded-lg transition text-sm flex items-center justify-center gap-1"
+            >
+              <Award className="w-3 h-3" /> Final
+            </button>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
+export default AdvisorInternsList;

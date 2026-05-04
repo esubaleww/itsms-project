@@ -103,23 +103,48 @@ export const getMyProgress = async (userId) => {
   if (!profile) throw new Error("Intern profile not found");
 
   const reports = profile.reports;
-  const totalWeeks = reports.length;
-  const completedWeeks = reports.filter(
+
+  const startDate = profile.startDate
+    ? new Date(profile.startDate)
+    : new Date(profile.createdAt);
+  const today = new Date();
+  let weeksPassed = Math.floor((today - startDate) / (1000 * 60 * 60 * 24 * 7));
+  const totalProgramWeeks = 12;
+
+  weeksPassed = Math.min(weeksPassed, totalProgramWeeks);
+
+  const submittedWeeks = reports.length;
+  const reviewedWeeks = reports.filter(
     (r) => r.status === "advisor_reviewed",
   ).length;
+  const pendingWeeks = reports.filter((r) => r.status === "submitted").length;
   const averageRating =
-    reports.reduce((sum, r) => sum + (r.advisorRating || 0), 0) / totalWeeks ||
-    0;
+    reports.reduce((sum, r) => sum + (r.advisorRating || 0), 0) /
+      submittedWeeks || 0;
 
   return {
     success: true,
     stats: {
-      totalWeeks,
-      completedWeeks,
-      remainingWeeks: Math.max(0, 10 - totalWeeks),
-      averageRating,
+      weeksPassed,
+      totalProgramWeeks,
+      remainingWeeks: Math.max(0, totalProgramWeeks - weeksPassed),
+      submittedWeeks,
+      reviewedWeeks,
+      pendingWeeks,
+      submissionRate:
+        totalProgramWeeks > 0
+          ? Math.round((submittedWeeks / totalProgramWeeks) * 100)
+          : 0,
+      reviewRate:
+        totalProgramWeeks > 0
+          ? Math.round((reviewedWeeks / totalProgramWeeks) * 100)
+          : 0,
       completionRate:
-        totalWeeks > 0 ? Math.round((completedWeeks / totalWeeks) * 100) : 0,
+        submittedWeeks > 0
+          ? Math.round((reviewedWeeks / submittedWeeks) * 100)
+          : 0,
+      averageRating: averageRating.toFixed(1),
+      isOnTrack: submittedWeeks >= weeksPassed,
     },
     recentReports: reports.slice(-3),
     advisor: profile.placement?.advisor,

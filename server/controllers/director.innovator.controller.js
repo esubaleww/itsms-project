@@ -15,7 +15,8 @@ export const getInnovatorSummaries = async (req, res) => {
 
 export const assignMentor = async (req, res) => {
   try {
-    const { innovatorId, mentorId } = req.body;
+    const { innovatorId } = req.params;
+    const { mentorId } = req.body;
     const result = await innovatorService.assignMentor(
       req.user.id,
       innovatorId,

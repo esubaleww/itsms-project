@@ -18,6 +18,7 @@ const QuickActions = ({
   const getProgramButtonState = () => {
     if (!hasActiveProgram) {
       return {
+        show: true,
         disabled: false,
         icon: <GraduationCap className="w-5 h-5 text-emerald-400" />,
         title: "Apply for Program",
@@ -30,8 +31,28 @@ const QuickActions = ({
       };
     }
 
+    if (
+      programStatus === "active" ||
+      programStatus === "incubating" ||
+      programStatus === "approved"
+    ) {
+      return {
+        show: false, // Hide completely
+        disabled: true,
+        icon: <CheckCircle className="w-5 h-5 text-emerald-400" />,
+        title: "Program Active",
+        description: "You're already enrolled",
+        bgColor: "bg-emerald-500/10",
+        borderColor: "border-emerald-500/30",
+        hoverColor: "",
+        textColor: "text-emerald-400",
+        tooltip: `You are already enrolled in an active ${programStatus} program.`,
+      };
+    }
+
     if (programStatus === "pending" || programStatus === "pending_admin") {
       return {
+        show: true,
         disabled: true,
         icon: <Clock className="w-5 h-5 text-yellow-400" />,
         title: "Application Pending",
@@ -45,26 +66,9 @@ const QuickActions = ({
       };
     }
 
-    if (
-      programStatus === "active" ||
-      programStatus === "incubating" ||
-      programStatus === "approved"
-    ) {
-      return {
-        disabled: true,
-        icon: <CheckCircle className="w-5 h-5 text-emerald-400" />,
-        title: "Program Active",
-        description: "You're already enrolled in a program",
-        bgColor: "bg-emerald-500/10",
-        borderColor: "border-emerald-500/30",
-        hoverColor: "hover:bg-emerald-500/20",
-        textColor: "text-emerald-400",
-        tooltip: `You are already enrolled in an active ${programStatus} program.`,
-      };
-    }
-
     if (programStatus === "completed" || programStatus === "graduated") {
       return {
+        show: true,
         disabled: false,
         icon: <GraduationCap className="w-5 h-5 text-blue-400" />,
         title: "Apply for New Program",
@@ -79,6 +83,7 @@ const QuickActions = ({
 
     if (programStatus === "rejected") {
       return {
+        show: true,
         disabled: false,
         icon: <GraduationCap className="w-5 h-5 text-orange-400" />,
         title: "Apply Again",
@@ -92,6 +97,7 @@ const QuickActions = ({
     }
 
     return {
+      show: false,
       disabled: true,
       icon: <AlertCircle className="w-5 h-5 text-gray-400" />,
       title: "Cannot Apply",
@@ -108,7 +114,6 @@ const QuickActions = ({
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
-      {/* Request Service - Always available */}
       <button
         onClick={onRequestService}
         className="flex items-center gap-3 p-4 bg-blue-500/10 border border-blue-500/30 rounded-xl hover:bg-blue-500/20 transition-all duration-200 hover:scale-[1.02] group"
@@ -123,7 +128,6 @@ const QuickActions = ({
         <ChevronRight className="w-4 h-4 text-gray-500 ml-auto group-hover:text-blue-400 transition" />
       </button>
 
-      {/* View All Requests - Always available */}
       <button
         onClick={onViewAllRequests}
         className="flex items-center gap-3 p-4 bg-purple-500/10 border border-purple-500/30 rounded-xl hover:bg-purple-500/20 transition-all duration-200 hover:scale-[1.02] group"
@@ -138,44 +142,47 @@ const QuickActions = ({
         <ChevronRight className="w-4 h-4 text-gray-500 ml-auto group-hover:text-purple-400 transition" />
       </button>
 
-      {/* Apply for Program - Conditional with tooltip */}
-      <div className="relative group/tooltip">
-        <button
-          onClick={onApplyProgram}
-          disabled={programButtonState.disabled}
-          className={`w-full flex items-center gap-3 p-4 ${programButtonState.bgColor} border ${programButtonState.borderColor} rounded-xl transition-all duration-200 ${
-            !programButtonState.disabled && "hover:scale-[1.02]"
-          } ${
-            programButtonState.disabled
-              ? "cursor-not-allowed opacity-60"
-              : `hover:${programButtonState.hoverColor}`
-          }`}
-        >
-          <div className={`p-2 ${programButtonState.bgColor} rounded-lg`}>
-            {programButtonState.icon}
-          </div>
-          <div className="text-left">
-            <p
-              className={`font-semibold text-white text-sm ${programButtonState.disabled ? "" : programButtonState.textColor}`}
-            >
-              {programButtonState.title}
-            </p>
-            <p className="text-xs text-gray-400">
-              {programButtonState.description}
-            </p>
-          </div>
-          {!programButtonState.disabled && (
-            <ChevronRight
-              className={`w-4 h-4 text-gray-500 ml-auto transition group-hover:${programButtonState.textColor}`}
-            />
+      {programButtonState.show && (
+        <div className="relative group/tooltip">
+          <button
+            onClick={onApplyProgram}
+            disabled={programButtonState.disabled}
+            className={`w-full flex items-center gap-3 p-4 ${programButtonState.bgColor} border ${programButtonState.borderColor} rounded-xl transition-all duration-200 ${
+              !programButtonState.disabled && "hover:scale-[1.02]"
+            } ${
+              programButtonState.disabled
+                ? "cursor-not-allowed opacity-60"
+                : `hover:${programButtonState.hoverColor}`
+            }`}
+          >
+            <div className={`p-2 ${programButtonState.bgColor} rounded-lg`}>
+              {programButtonState.icon}
+            </div>
+            <div className="text-left">
+              <p
+                className={`font-semibold text-white text-sm ${programButtonState.disabled ? "" : programButtonState.textColor}`}
+              >
+                {programButtonState.title}
+              </p>
+              <p className="text-xs text-gray-400">
+                {programButtonState.description}
+              </p>
+            </div>
+            {!programButtonState.disabled && (
+              <ChevronRight
+                className={`w-4 h-4 text-gray-500 ml-auto transition group-hover:${programButtonState.textColor}`}
+              />
+            )}
+          </button>
+          {programButtonState.disabled && programButtonState.tooltip && (
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tooltip:block bg-gray-900 text-white text-xs rounded-lg px-3 py-1.5 whitespace-nowrap z-10 shadow-lg">
+              {programButtonState.tooltip}
+            </div>
           )}
-        </button>
-        {programButtonState.disabled && programButtonState.tooltip && (
-          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tooltip:block bg-gray-900 text-white text-xs rounded-lg px-3 py-1.5 whitespace-nowrap z-10 shadow-lg">
-            {programButtonState.tooltip}
-          </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {!programButtonState.show && <div className="hidden md:block" />}
     </div>
   );
 };

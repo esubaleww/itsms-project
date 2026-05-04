@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import ProgramCard from "./ProgramCard";
 import { useIntern } from "../../../hooks/useIntern";
 import { useInnovator } from "../../../hooks/useInnovator";
@@ -10,135 +10,170 @@ import {
   Lightbulb,
   Rocket,
   School,
-  TrendingUp,
   Sparkles,
 } from "lucide-react";
 
-const ProgramSection = ({ user }) => {
+const ProgramSection = ({ user, onTabChange }) => {
   const navigate = useNavigate();
-  const { fetchDashboard: fetchIntern } = useIntern();
+  const location = useLocation();
+  const hasLoadedRef = useRef(false);
+
+  const {
+    fetchDashboard: fetchIntern,
+    progress: internProgress,
+    profile: internProfile,
+    advisor: internAdvisor,
+  } = useIntern();
   const { fetchDashboard: fetchInnovator } = useInnovator();
   const { fetchDashboard: fetchStartup } = useStartup();
-  const { fetchDashboard: fetchTrainee } = useTrainee();
+  const {
+    fetchDashboard: fetchTrainee,
+    sessions: traineeSessions,
+    trainer: traineeTrainer,
+    profile: traineeProfile,
+  } = useTrainee();
 
   const [programData, setProgramData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Function to create program data from current state
+  const createProgramData = () => {
+    if (!user) return null;
+
+    if (user.position === "trainee") {
+      const pastSessions = traineeSessions?.past || [];
+      const totalSessions = pastSessions.length;
+      const attendedSessions = pastSessions.filter((s) => s.attended).length;
+      const completionRate =
+        totalSessions > 0
+          ? Math.round((attendedSessions / totalSessions) * 100)
+          : 0;
+
+      return {
+        type: "trainee",
+        icon: <School className="w-6 h-6 text-white" />,
+        title: "Training Program",
+        status: "active",
+        lastActivity: new Date().toISOString(),
+        sessionsAttended: attendedSessions,
+        totalSessions: totalSessions,
+        completionRate: completionRate,
+        trainer: traineeTrainer?.trainer?.fullName || "Not Assigned",
+        skills: traineeProfile?.skills,
+      };
+    } else if (user.position === "intern") {
+      return {
+        type: "intern",
+        icon: <GraduationCap className="w-6 h-6 text-white" />,
+        title: "Internship Program",
+        status: "active",
+        lastActivity: new Date().toISOString(),
+        totalProgramWeeks: internProgress?.totalProgramWeeks || 12,
+        weeksPassed: internProgress?.weeksPassed || 0,
+        submittedWeeks: internProgress?.submittedWeeks || 0,
+        reviewedWeeks: internProgress?.reviewedWeeks || 0,
+        pendingWeeks: internProgress?.pendingWeeks || 0,
+        submissionRate: internProgress?.submissionRate || 0,
+        reviewRate: internProgress?.reviewRate || 0,
+        advisor: internAdvisor?.fullName || "Not Assigned",
+      };
+    } else if (user.position === "innovator") {
+      return {
+        type: "innovator",
+        icon: <Lightbulb className="w-6 h-6 text-white" />,
+        title: "Innovation Program",
+        status: "active",
+        lastActivity: new Date().toISOString(),
+        completedMilestones: 0,
+        totalMilestones: 0,
+        currentStage: "Idea",
+        ideaTitle: "Not submitted",
+      };
+    } else if (user.position === "startup") {
+      return {
+        type: "startup",
+        icon: <Rocket className="w-6 h-6 text-white" />,
+        title: "Startup Program",
+        status: "active",
+        lastActivity: new Date().toISOString(),
+        companyName: "Not registered",
+        foundersCount: 1,
+        currentStage: "Idea",
+      };
+    }
+    return null;
+  };
+
+  // Initial load - only once
   useEffect(() => {
     const loadProgramData = async () => {
       if (!user) return;
 
-      const programMap = {
-        intern: {
-          fetch: fetchIntern,
-          title: "Internship Program",
-          icon: GraduationCap,
-        },
-        innovator: {
-          fetch: fetchInnovator,
-          title: "Innovation Program",
-          icon: Lightbulb,
-        },
-        startup: {
-          fetch: fetchStartup,
-          title: "Startup Program",
-          icon: Rocket,
-        },
-        trainee: {
-          fetch: fetchTrainee,
-          title: "Training Program",
-          icon: School,
-        },
-      };
-
-      const config = programMap[user.position];
-      if (!config) {
-        setLoading(false);
-        return;
+      try {
+        if (user.position === "intern") {
+          await fetchIntern();
+        } else if (user.position === "innovator") {
+          await fetchInnovator();
+        } else if (user.position === "startup") {
+          await fetchStartup();
+        } else if (user.position === "trainee") {
+          await fetchTrainee();
+        }
+      } catch (error) {
+        console.error("Failed to fetch program data:", error);
       }
 
-      const data = await config.fetch();
-      if (data) {
-        setProgramData({
-          type: user.position,
-          icon: <config.icon className="w-6 h-6 text-white" />,
-          title: config.title,
-          status: data.profile?.status,
-          progress: data.progress?.completionRate || 0,
-          details: getProgramDetails(user.position, data),
-          lastActivity: data.profile?.updatedAt,
-          advisor: data.advisor?.advisor?.fullName,
-          mentor: data.mentor?.mentor?.fullName,
-          trainer: data.trainer?.trainer?.fullName,
-          reportsCount: data.progress?.totalWeeks,
-          completedWeeks: data.progress?.completedWeeks,
-          totalWeeks: data.progress?.totalWeeks || 12,
-          completedModules: data.progress?.completedMilestones,
-          totalModules: data.progress?.totalMilestones,
-          sessionsAttended: data.progress?.attendedSessions,
-          totalSessions: data.progress?.totalSessions,
-          skills: data.profile?.skills,
-          founders: data.profile?.founders,
-        });
-      }
+      setProgramData(createProgramData());
       setLoading(false);
     };
 
-    loadProgramData();
-  }, [user]);
+    if (!hasLoadedRef.current) {
+      hasLoadedRef.current = true;
+      loadProgramData();
+    }
+  }, [user, fetchIntern, fetchInnovator, fetchStartup, fetchTrainee]);
 
-  const getProgramDetails = (position, data) => {
-    switch (position) {
-      case "intern":
-        return [
-          { label: "Reports Submitted", value: data.progress?.totalWeeks || 0 },
-          {
-            label: "Weeks Completed",
-            value: data.progress?.completedWeeks || 0,
-          },
-          {
-            label: "Advisor",
-            value: data.advisor?.advisor?.fullName || "Not Assigned",
-          },
-        ];
-      case "innovator":
-        return [
-          {
-            label: "Milestones Completed",
-            value: `${data.progress?.completedMilestones || 0}/${data.progress?.totalMilestones || 0}`,
-          },
-          {
-            label: "Current Stage",
-            value: data.progress?.currentStage || "Idea",
-          },
-          { label: "Idea", value: data.profile?.ideaTitle || "Not submitted" },
-        ];
-      case "startup":
-        return [
-          {
-            label: "Company",
-            value: data.profile?.companyName || "Not registered",
-          },
-          { label: "Team Size", value: data.profile?.founders?.length || 1 },
-          {
-            label: "Current Stage",
-            value: data.progress?.currentStage || "Idea",
-          },
-        ];
-      case "trainee":
-        return [
-          {
-            label: "Sessions Completed",
-            value: data.progress?.attendedSessions || 0,
-          },
-          { label: "Total Sessions", value: data.progress?.totalSessions || 0 },
-          {
-            label: "Trainer",
-            value: data.trainer?.trainer?.fullName || "Not Assigned",
-          },
-        ];
-      default:
-        return [];
+  // Update when data changes - without causing infinite loop
+  useEffect(() => {
+    if (!hasLoadedRef.current || loading) return;
+
+    const newData = createProgramData();
+    if (newData && programData) {
+      // Only update if data actually changed
+      const hasChanged =
+        JSON.stringify(newData) !== JSON.stringify(programData);
+      if (hasChanged) {
+        setProgramData(newData);
+      }
+    }
+  }, [
+    user?.position,
+    traineeSessions,
+    traineeTrainer,
+    internProgress,
+    internAdvisor,
+    loading,
+  ]);
+
+  const handleAction = (link) => {
+    if (link === "/dashboard?tab=my-sessions") {
+      if (onTabChange) {
+        onTabChange("my-sessions");
+      } else {
+        const urlParams = new URLSearchParams(location.search);
+        urlParams.set("tab", "my-sessions");
+        navigate(`${location.pathname}?${urlParams.toString()}`);
+      }
+    } else if (link === "/dashboard?tab=milestones") {
+      if (onTabChange) {
+        onTabChange("milestones");
+      } else {
+        const urlParams = new URLSearchParams(location.search);
+        urlParams.set("tab", "milestones");
+        navigate(`${location.pathname}?${urlParams.toString()}`);
+      }
+    } else {
+      navigate(link);
     }
   };
 
@@ -189,9 +224,7 @@ const ProgramSection = ({ user }) => {
     );
   }
 
-  return (
-    <ProgramCard program={programData} onAction={(link) => navigate(link)} />
-  );
+  return <ProgramCard program={programData} onAction={handleAction} />;
 };
 
 export default ProgramSection;

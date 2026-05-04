@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { traineeService } from "../services/trainee.service";
-import { useToast } from "../components/ui/Toast";
+import { useToast } from "../common/ui/Toast";
 
 export const useTrainee = () => {
   const { addToast } = useToast();
@@ -32,7 +32,7 @@ export const useTrainee = () => {
       setLoading(true);
       try {
         const data = await traineeService.markAttendance(sessionId);
-        addToast("Attendance marked!", "success");
+        addToast("Attendance marked successfully!", "success");
         await fetchSessions();
         return data;
       } catch (error) {
@@ -44,20 +44,6 @@ export const useTrainee = () => {
     },
     [addToast, fetchSessions],
   );
-
-  const fetchCertificates = useCallback(async () => {
-    setLoading(true);
-    try {
-      const data = await traineeService.getCertificates();
-      setCertificates(data.certificates || []);
-      return data;
-    } catch (error) {
-      addToast(error.message || "Failed to fetch certificates", "error");
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  }, [addToast]);
 
   const fetchProfile = useCallback(async () => {
     setLoading(true);
@@ -78,7 +64,6 @@ export const useTrainee = () => {
     try {
       const data = await traineeService.getProgress();
       setProgress(data.stats);
-      setSessions((prev) => ({ ...prev, past: data.recentSessions || [] }));
       return data;
     } catch (error) {
       addToast(error.message || "Failed to fetch progress", "error");
@@ -129,7 +114,6 @@ export const useTrainee = () => {
     attendedCount,
     fetchSessions,
     markAttendance,
-    fetchCertificates,
     fetchProfile,
     fetchProgress,
     fetchTrainer,

@@ -5,6 +5,7 @@ import { getPagination } from "../utils/pagination.js";
 
 export const assignMentor = async (directorId, innovatorId, mentorId) => {
   const director = await User.findById(directorId);
+
   if (!director || director.position !== "director") {
     throw new Error("Only director can assign mentors");
   }
@@ -13,6 +14,11 @@ export const assignMentor = async (directorId, innovatorId, mentorId) => {
   if (!innovatorUser || !innovatorUser.innovatorProfile) {
     throw new Error("Invalid innovator");
   }
+
+  const profile = await InnovatorProfile.findById(
+    innovatorUser.innovatorProfile,
+  );
+  if (!profile) throw new Error("Innovator profile not found");
 
   const mentor = await User.findById(mentorId);
   if (
@@ -26,12 +32,8 @@ export const assignMentor = async (directorId, innovatorId, mentorId) => {
     );
   }
 
-  const profile = await InnovatorProfile.findOne({ user: innovatorId });
-  if (!profile) throw new Error("Innovator profile not found");
-
   if (
-    profile.incubation?.center?.directorate?.toString() !==
-    director.directorate?.toString()
+    profile.incubation?.center?.toString() !== director.directorate?.toString()
   ) {
     throw new Error("Innovator not in your directorate");
   }

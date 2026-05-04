@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../../hooks/useAuth";
 import { useApplications } from "../../../hooks/useApplications";
-import { useToast } from "../../../components/ui/Toast";
-import { DocumentUpload } from "../../../components/common/DocumentUpload";
-import ErrorBoundary from "../../../components/common/ErrorBoundary";
+import { useToast } from "../../../common/ui/Toast";
+import { DocumentUpload } from "../../../common/components/DocumentUpload";
+import ErrorBoundary from "../../../common/components/ErrorBoundary";
 import {
   GraduationCap,
   Building2,

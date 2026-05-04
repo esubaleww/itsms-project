@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { staffService } from "../services/staff.service";
-import { useToast } from "../components/ui/Toast";
+import { useToast } from "../common/ui/Toast";
 
 export const useStaff = () => {
   const { addToast } = useToast();

@@ -18,12 +18,29 @@ router.put(
   "/team-reports/:reportId/approve",
   directorReportController.approveTeamReport,
 );
-
-router.post("/my-reports", directorReportController.createDirectorReport);
-router.get("/my-reports", directorReportController.getMyDirectorReports);
 router.put(
   "/team-reports/:reportId/reject",
   directorReportController.rejectTeamReport,
+);
+
+router.post("/my-reports", directorReportController.createDirectorReport);
+router.get("/my-reports", directorReportController.getMyDirectorReports);
+
+router.get("/advisor-reports", directorReportController.getAdvisorReports);
+router.get("/mentor-reports", directorReportController.getMentorReports);
+router.get(
+  "/startup-mentor-reports",
+  directorReportController.getStartupMentorReports,
+);
+router.get("/trainer-reports", directorReportController.getTrainerReports);
+router.get("/all-reports", directorReportController.getAllReports);
+router.put(
+  "/reports/:type/:reportId/approve",
+  directorReportController.approveSummaryReport,
+);
+router.put(
+  "/reports/:type/:reportId/reject",
+  directorReportController.rejectSummaryReport,
 );
 
 export default router;

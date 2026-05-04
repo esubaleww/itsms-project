@@ -22,6 +22,7 @@ const auditLogSchema = new mongoose.Schema({
       "ASSIGN",
       "ROUTE",
       "COMPLETE",
+      "REVIEW",
     ],
   },
 

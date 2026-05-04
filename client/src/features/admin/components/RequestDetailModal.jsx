@@ -32,8 +32,8 @@ import {
   Calendar as CalendarIcon,
   DollarSign,
 } from "lucide-react";
-import { useToast } from "../../../components/ui/Toast";
-import DocumentItem from "./DocumentItem";
+import { useToast } from "../../../common/ui/Toast";
+import DocumentItem from "../../../common/components/DocumentItem";
 
 const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
   const { addToast } = useToast();

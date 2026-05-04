@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { advisorService } from "../services/advisor.service";
-import { useToast } from "../components/ui/Toast";
+import { useToast } from "../common/ui/Toast";
 
 export const useAdvisor = () => {
   const { addToast } = useToast();

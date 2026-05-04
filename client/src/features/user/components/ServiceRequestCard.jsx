@@ -1,75 +1,81 @@
+import { useState } from "react";
 import {
   CheckCircle,
   Clock,
   AlertCircle,
   Briefcase,
   Calendar,
-  Eye,
-  Users,
+  ChevronDown,
+  ChevronUp,
+  User,
+  FileText,
+  XCircle,
+  Building2,
+  FileCheck,
 } from "lucide-react";
 
 const ServiceRequestCard = ({ request, onClick }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const getStatusConfig = () => {
-    switch (request.status) {
-      case "completed":
-        return {
-          color: "bg-emerald-500/20 text-emerald-400",
-          icon: CheckCircle,
-          label: "Completed",
-        };
-      case "in_progress":
-        return {
-          color: "bg-blue-500/20 text-blue-400",
-          icon: Clock,
-          label: "In Progress",
-        };
-      case "approved":
-        return {
-          color: "bg-purple-500/20 text-purple-400",
-          icon: CheckCircle,
-          label: "Approved",
-        };
-      case "rejected":
-        return {
-          color: "bg-red-500/20 text-red-400",
-          icon: AlertCircle,
-          label: "Rejected",
-        };
-      case "pending_admin":
-      case "pending":
-        return {
-          color: "bg-yellow-500/20 text-yellow-400",
-          icon: Clock,
-          label: "Pending",
-        };
-      case "assigned_to_director":
-        return {
-          color: "bg-cyan-500/20 text-cyan-400",
-          icon: Briefcase,
-          label: "With Director",
-        };
-      case "assigned_to_team":
-        return {
-          color: "bg-indigo-500/20 text-indigo-400",
-          icon: Users,
-          label: "Assigned to Team",
-        };
-      default:
-        return {
-          color: "bg-gray-500/20 text-gray-400",
-          icon: Clock,
-          label: request.status || "Pending",
-        };
+    const adminDecision = request.adminDecision;
+
+    if (request.status === "completed") {
+      return {
+        color: "bg-emerald-500/20 text-emerald-400",
+        icon: CheckCircle,
+        label: "Completed",
+      };
     }
+    if (request.status === "in_progress") {
+      return {
+        color: "bg-blue-500/20 text-blue-400",
+        icon: Clock,
+        label: "In Progress",
+      };
+    }
+    if (adminDecision?.approved === true) {
+      return {
+        color: "bg-purple-500/20 text-purple-400",
+        icon: CheckCircle,
+        label: "Approved",
+      };
+    }
+    if (adminDecision?.approved === false || request.status === "rejected") {
+      return {
+        color: "bg-red-500/20 text-red-400",
+        icon: XCircle,
+        label: "Rejected",
+      };
+    }
+    if (request.status === "pending_admin" || request.status === "pending") {
+      return {
+        color: "bg-yellow-500/20 text-yellow-400",
+        icon: Clock,
+        label: "Pending Approval",
+      };
+    }
+    if (request.status === "assigned_to_director") {
+      return {
+        color: "bg-cyan-500/20 text-cyan-400",
+        icon: Briefcase,
+        label: "With Director",
+      };
+    }
+    return {
+      color: "bg-gray-500/20 text-gray-400",
+      icon: Clock,
+      label: request.status || "Pending",
+    };
   };
 
   const statusConfig = getStatusConfig();
   const StatusIcon = statusConfig.icon;
 
-  // Generate Request ID
+  const rejectionReason = request.adminDecision?.comment;
+
   const requestId = `REQ-${new Date(request.createdAt).getFullYear()}-${String(request._id).slice(-6).toUpperCase()}`;
 
-  // Calculate last update
   const lastUpdate = request.updatedAt
     ? new Date(request.updatedAt)
     : new Date(request.createdAt);
@@ -81,19 +87,8 @@ const ServiceRequestCard = ({ request, onClick }) => {
         ? "Yesterday"
         : `${daysAgo} days ago`;
 
-  // Assigned department/team
-  const assignedTo =
-    request.metadata?.assignedDepartment ||
-    request.assignedTeam?.name ||
-    (request.assignedDirector ? "Director Assigned" : "Pending Assignment");
+  const serviceType = request.metadata?.serviceType || "Service Request";
 
-  // Get service type display name
-  const serviceType = request.metadata?.serviceType
-    ? request.metadata.serviceType.charAt(0).toUpperCase() +
-      request.metadata.serviceType.slice(1)
-    : request.type?.charAt(0).toUpperCase() + request.type?.slice(1);
-
-  // Get priority color
   const getPriorityColor = (priority) => {
     switch (priority) {
       case "urgent":
@@ -109,87 +104,237 @@ const ServiceRequestCard = ({ request, onClick }) => {
     }
   };
 
+  const getApplicantName = () => {
+    if (typeof request.applicant === "object" && request.applicant?.fullName) {
+      return request.applicant.fullName;
+    }
+    return request.relatedProfile?.organizationName || "You";
+  };
+
+  const getDecisionMakerName = () => {
+    if (
+      request.adminDecision?.by &&
+      typeof request.adminDecision.by === "object"
+    ) {
+      return request.adminDecision.by.fullName;
+    }
+    return "Admin";
+  };
+
+  const handleToggleExpand = (e) => {
+    e.stopPropagation();
+    setIsExpanded(!isExpanded);
+  };
+
   return (
-    <div
-      onClick={() => onClick(request._id)}
-      className="bg-gray-800/50 rounded-xl border border-gray-700 p-5 hover:border-gray-600 hover:bg-gray-800/70 transition-all cursor-pointer group"
-    >
-      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-        <div className="flex-1">
-          {/* Request ID and Status */}
-          <div className="flex flex-wrap items-center gap-3 mb-3">
-            <span className="text-xs font-mono text-gray-500 bg-gray-700/50 px-2 py-1 rounded">
-              {requestId}
-            </span>
-            <span
-              className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${statusConfig.color}`}
-            >
-              <StatusIcon className="w-3 h-3" />
-              {statusConfig.label}
-            </span>
-            {request.metadata?.priority && (
+    <div className="bg-gray-800/50 rounded-xl border border-gray-700 hover:border-gray-600 hover:bg-gray-800/70 transition-all cursor-pointer group">
+      <div
+        onClick={() => onClick?.(request._id)}
+        className="p-4 sm:p-5 cursor-pointer"
+      >
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+          <div className="flex-1">
+            <div className="flex flex-wrap items-center gap-2 mb-3">
+              <span className="text-xs font-mono text-gray-500 bg-gray-700/50 px-2 py-1 rounded">
+                {requestId}
+              </span>
               <span
-                className={`inline-flex items-center gap-1 text-xs font-medium ${getPriorityColor(request.metadata.priority)}`}
+                className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${statusConfig.color}`}
               >
-                <AlertCircle className="w-3 h-3" />
-                {request.metadata.priority.toUpperCase()}
+                <StatusIcon className="w-3 h-3" />
+                {statusConfig.label}
               </span>
-            )}
-          </div>
-
-          {/* Title */}
-          <h3 className="font-semibold text-white text-lg mb-2">
-            {serviceType}
-          </h3>
-
-          {/* Description */}
-          <p className="text-sm text-gray-400 line-clamp-2 mb-3">
-            {request.metadata?.description ||
-              request.description ||
-              "No description provided"}
-          </p>
-
-          {/* Request Details Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-3">
-            <div className="flex items-center gap-2 text-xs">
-              <Briefcase className="w-3 h-3 text-gray-500" />
-              <span className="text-gray-400">
-                Assigned: <span className="text-gray-300">{assignedTo}</span>
-              </span>
-            </div>
-            <div className="flex items-center gap-2 text-xs">
-              <Calendar className="w-3 h-3 text-gray-500" />
-              <span className="text-gray-400">
-                Updated: <span className="text-gray-300">{lastUpdateText}</span>
-              </span>
-            </div>
-            <div className="flex items-center gap-2 text-xs">
-              <Clock className="w-3 h-3 text-gray-500" />
-              <span className="text-gray-400">
-                Created:{" "}
-                <span className="text-gray-300">
-                  {new Date(request.createdAt).toLocaleDateString()}
+              {request.metadata?.priority && (
+                <span
+                  className={`inline-flex items-center gap-1 text-xs font-medium ${getPriorityColor(request.metadata.priority)}`}
+                >
+                  <AlertCircle className="w-3 h-3" />
+                  {request.metadata.priority.toUpperCase()}
                 </span>
-              </span>
+              )}
             </div>
-            {request.metadata?.serviceCategory && (
+
+            <h3 className="font-semibold text-white text-base sm:text-lg mb-2">
+              {serviceType}
+            </h3>
+
+            <p className="text-sm text-gray-400 line-clamp-2 mb-3">
+              {request.metadata?.description || "No description provided"}
+            </p>
+
+            <div className="flex flex-wrap gap-3 mt-2">
               <div className="flex items-center gap-2 text-xs">
-                <Briefcase className="w-3 h-3 text-gray-500" />
+                <Building2 className="w-3 h-3 text-gray-500" />
                 <span className="text-gray-400">
-                  Category:{" "}
-                  <span className="text-gray-300">
-                    {request.metadata.serviceCategory}
-                  </span>
+                  From:{" "}
+                  <span className="text-gray-300">{getApplicantName()}</span>
                 </span>
               </div>
-            )}
+              <div className="flex items-center gap-2 text-xs">
+                <Calendar className="w-3 h-3 text-gray-500" />
+                <span className="text-gray-400">
+                  Updated:{" "}
+                  <span className="text-gray-300">{lastUpdateText}</span>
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div className="flex items-center gap-2 shrink-0">
-          <Eye className="w-5 h-5 text-gray-500 group-hover:text-emerald-400 transition" />
+          <button
+            onClick={handleToggleExpand}
+            className="self-start p-1 text-gray-500 hover:text-emerald-400 transition"
+          >
+            {isExpanded ? (
+              <ChevronUp className="w-5 h-5" />
+            ) : (
+              <ChevronDown className="w-5 h-5" />
+            )}
+          </button>
         </div>
       </div>
+
+      {isExpanded && (
+        <div className="border-t border-gray-700 bg-gray-800/40 p-4 sm:p-5 space-y-4">
+          {/* Service Details */}
+          <div>
+            <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+              <FileText className="w-4 h-4 text-emerald-400" />
+              Service Details
+            </h4>
+            <div className="space-y-2">
+              <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
+                <span className="text-gray-400">Type:</span>
+                <span className="text-gray-300">{serviceType}</span>
+              </div>
+              {request.metadata?.priority && (
+                <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
+                  <span className="text-gray-400">Priority:</span>
+                  <span
+                    className={`capitalize ${getPriorityColor(request.metadata.priority)}`}
+                  >
+                    {request.metadata.priority}
+                  </span>
+                </div>
+              )}
+              <div className="text-sm">
+                <span className="text-gray-400 block mb-1">Description:</span>
+                <span className="text-gray-300">
+                  {request.metadata?.description}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Documents Section */}
+          {request.metadata?.documents && (
+            <div>
+              <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+                <FileCheck className="w-4 h-4 text-emerald-400" />
+                Documents
+              </h4>
+              <div className="space-y-2">
+                {request.metadata.documents.requestLetter && (
+                  <div className="flex items-center gap-2 text-sm flex-wrap">
+                    <FileText className="w-3 h-3 text-gray-500 shrink-0" />
+                    <span className="text-gray-400">Request Letter:</span>
+                    <a
+                      href={request.metadata.documents.requestLetter.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-emerald-400 hover:text-emerald-300 break-all"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      View Document
+                    </a>
+                  </div>
+                )}
+                {request.metadata.documents.authorizationLetter && (
+                  <div className="flex items-center gap-2 text-sm flex-wrap">
+                    <FileText className="w-3 h-3 text-gray-500 shrink-0" />
+                    <span className="text-gray-400">Authorization Letter:</span>
+                    <a
+                      href={request.metadata.documents.authorizationLetter.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-emerald-400 hover:text-emerald-300 break-all"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      View Document
+                    </a>
+                  </div>
+                )}
+                {request.metadata.documents.supportingDocs?.length > 0 && (
+                  <div className="flex items-center gap-2 text-sm flex-wrap">
+                    <FileText className="w-3 h-3 text-gray-500 shrink-0" />
+                    <span className="text-gray-400">Supporting Docs:</span>
+                    <div className="flex flex-wrap gap-2">
+                      {request.metadata.documents.supportingDocs.map(
+                        (doc, idx) => (
+                          <a
+                            key={idx}
+                            href={doc.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-emerald-400 hover:text-emerald-300 text-xs"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            Document {idx + 1}
+                          </a>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Rejection Reason */}
+          {(request.status === "rejected" ||
+            request.adminDecision?.approved === false) && (
+            <div className="bg-red-500/10 rounded-lg p-3 border border-red-500/30">
+              <div className="flex items-center gap-2 mb-2">
+                <XCircle className="w-4 h-4 text-red-400" />
+                <span className="text-sm font-semibold text-red-400">
+                  Rejection Reason
+                </span>
+              </div>
+              <p className="text-sm text-red-300">
+                {rejectionReason || "No reason provided"}
+              </p>
+              <p className="text-xs text-red-400/70 mt-2">
+                Reviewed by: {getDecisionMakerName()}
+              </p>
+            </div>
+          )}
+
+          {/* Timeline */}
+          {request.timeline && request.timeline.length > 0 && (
+            <div>
+              <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+                <Clock className="w-4 h-4 text-emerald-400" />
+                Activity Timeline
+              </h4>
+              <div className="space-y-2 max-h-48 overflow-y-auto">
+                {request.timeline.map((event, idx) => (
+                  <div key={idx} className="flex gap-3 text-sm">
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
+                    <div className="flex-1">
+                      <p className="text-gray-300">{event.action}</p>
+                      <p className="text-xs text-gray-500 mt-0.5">
+                        {event.by?.fullName || "System"} •{" "}
+                        {new Date(
+                          event.date || event.createdAt,
+                        ).toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,9 +1,8 @@
-// client/src/features/intern/pages/SubmitReportPage.jsx
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 import { useIntern } from "../../../hooks/useIntern";
-import { useToast } from "../../../components/ui/Toast";
+import { useToast } from "../../../common/ui/Toast";
 import { motion } from "framer-motion";
 import {
   FileText,
@@ -46,31 +45,20 @@ const SubmitReportPage = () => {
   }, []);
 
   useEffect(() => {
-    // Calculate current week based on start date from profile
-    if (profile?.placement?.startDate) {
-      const startDate = new Date(profile.placement.startDate);
-      const today = new Date();
-      const diffWeeks = Math.floor(
-        (today - startDate) / (1000 * 60 * 60 * 24 * 7),
-      );
-      const weekNumber = Math.min(diffWeeks + 1, progress?.totalWeeks || 12);
-      setCurrentWeek(weekNumber > 0 ? weekNumber : 1);
-      setFormData((prev) => ({
-        ...prev,
-        week: weekNumber > 0 ? weekNumber : 1,
-      }));
-    }
-
-    // Get existing reports to determine next week number
+    // Calculate next week number based on existing reports
     if (reports && reports.length > 0) {
-      const lastReport = reports[reports.length - 1];
-      const nextWeek = (lastReport.week || 0) + 1;
-      if (nextWeek <= (progress?.totalWeeks || 12)) {
-        setCurrentWeek(nextWeek);
-        setFormData((prev) => ({ ...prev, week: nextWeek }));
-      }
+      // Get the highest week number from existing reports
+      const submittedWeeks = reports.map((r) => r.week);
+      const maxWeek = Math.max(...submittedWeeks);
+      const nextWeek = maxWeek + 1;
+      setCurrentWeek(nextWeek);
+      setFormData((prev) => ({ ...prev, week: nextWeek }));
+    } else {
+      // No reports yet, start from week 1
+      setCurrentWeek(1);
+      setFormData((prev) => ({ ...prev, week: 1 }));
     }
-  }, [profile, progress, reports]);
+  }, [reports]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -92,10 +80,8 @@ const SubmitReportPage = () => {
     }
   };
 
-  const totalWeeks = progress?.totalWeeks || 12;
-  const startDate = profile?.placement?.startDate;
   const reportsSubmitted = reports?.length || 0;
-  const remainingWeeks = totalWeeks - reportsSubmitted;
+  const nextWeekNumber = currentWeek || 1;
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 py-8">
@@ -126,40 +112,41 @@ const SubmitReportPage = () => {
           </div>
 
           {/* Internship Progress Card */}
-          {startDate && (
-            <div className="bg-gray-700/30 rounded-xl p-4 mb-6 border border-gray-700">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center">
-                    <TrendingUp className="w-4 h-4 text-emerald-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-white">
-                      Internship Progress
-                    </p>
-                    <p className="text-xs text-gray-400">
-                      Week {currentWeek || formData.week || 1} of {totalWeeks}
-                    </p>
-                  </div>
+          <div className="bg-gray-700/30 rounded-xl p-4 mb-6 border border-gray-700">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center">
+                  <TrendingUp className="w-4 h-4 text-emerald-400" />
                 </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-gray-500" />
-                  <span className="text-xs text-gray-400">
-                    {reportsSubmitted} reports submitted
-                  </span>
+                <div>
+                  <p className="text-sm font-medium text-white">
+                    Internship Progress
+                  </p>
+                  <p className="text-xs text-gray-400">Week {nextWeekNumber}</p>
                 </div>
               </div>
-              <div className="w-full bg-gray-700 rounded-full h-2 mb-2">
-                <div
-                  className="bg-emerald-500 h-2 rounded-full transition-all duration-500"
-                  style={{ width: `${(reportsSubmitted / totalWeeks) * 100}%` }}
-                />
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-gray-500" />
+                <span className="text-xs text-gray-400">
+                  {reportsSubmitted} report{reportsSubmitted !== 1 ? "s" : ""}{" "}
+                  submitted
+                </span>
               </div>
-              <p className="text-xs text-gray-500 mt-2">
-                {remainingWeeks} weeks remaining
-              </p>
             </div>
-          )}
+            <div className="w-full bg-gray-700 rounded-full h-2 mb-2">
+              <div
+                className="bg-emerald-500 h-2 rounded-full transition-all duration-500"
+                style={{
+                  width: `${Math.min((reportsSubmitted / (reportsSubmitted + 1)) * 100, 100)}%`,
+                }}
+              />
+            </div>
+            <p className="text-xs text-gray-500 mt-2">
+              {reportsSubmitted === 0
+                ? "First report - Welcome!"
+                : `${reportsSubmitted} week${reportsSubmitted !== 1 ? "s" : ""} completed`}
+            </p>
+          </div>
 
           {/* Info Box */}
           <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
@@ -192,19 +179,15 @@ const SubmitReportPage = () => {
                   required
                   value={formData.week}
                   onChange={handleChange}
-                  readOnly={!!currentWeek}
-                  className={`w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 ${
-                    currentWeek ? "opacity-75 cursor-not-allowed" : ""
-                  }`}
-                  placeholder="Week number"
+                  className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 opacity-75 cursor-not-allowed"
+                  readOnly
+                  disabled
                 />
               </div>
-              {currentWeek && (
-                <p className="text-xs text-gray-500 mt-1">
-                  Week automatically calculated based on your internship start
-                  date
-                </p>
-              )}
+              <p className="text-xs text-gray-500 mt-1">
+                Week number is automatically calculated based on your submitted
+                reports
+              </p>
             </div>
 
             {/* Work Content */}

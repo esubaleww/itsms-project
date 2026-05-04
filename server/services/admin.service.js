@@ -144,7 +144,7 @@ export const approveRequest = async (requestId, admin, comments, req) => {
 
       await Notification.create({
         user: request.applicant._id,
-        title: "Internship Accepted 🎉",
+        title: "Internship Accepted",
         message: `Congratulations! You have been accepted into the ${directorateName} program.`,
         type: "success",
       });
@@ -187,7 +187,7 @@ export const approveRequest = async (requestId, admin, comments, req) => {
 
       await Notification.create({
         user: request.applicant._id,
-        title: "Innovation Application Approved 🎉",
+        title: "Innovation Application Approved",
         message: `Your innovation idea "${profile.ideaTitle}" has been approved for incubation.`,
         type: "success",
       });
@@ -234,7 +234,7 @@ export const approveRequest = async (requestId, admin, comments, req) => {
 
       await Notification.create({
         user: request.applicant._id,
-        title: "Startup Registration Approved 🚀",
+        title: "Startup Registration Approved",
         message: `Your startup "${profile.companyName}" has been approved for incubation.`,
         type: "success",
       });
@@ -274,7 +274,7 @@ export const approveRequest = async (requestId, admin, comments, req) => {
 
       await Notification.create({
         user: request.applicant._id,
-        title: "Training Application Approved 📚",
+        title: "Training Application Approved",
         message: `Your training application has been approved.`,
         type: "success",
       });
@@ -301,7 +301,7 @@ export const approveRequest = async (requestId, admin, comments, req) => {
 
       await Notification.create({
         user: request.applicant._id,
-        title: "Service Request Approved ✅",
+        title: "Service Request",
         message: `Your service request for "${request.metadata?.serviceType}" has been approved and assigned to the appropriate team.`,
         type: "success",
       });
@@ -401,7 +401,7 @@ export const rejectRequest = async (requestId, admin, reason, req) => {
       reason,
     );
   } catch (emailError) {
-    console.error("Email error (non-blocking):", emailError.message);
+    console.error("Email error:", emailError.message);
   }
 
   await logAction({
@@ -437,7 +437,7 @@ export const getAdminStats = async () => {
       $or: [{ status: "approved" }, { "adminDecision.approved": true }],
     }),
     Request.countDocuments({
-      $or: [{ status: "rejected" }, { "adminDecision.approved": false }],
+      status: "rejected",
     }),
     User.countDocuments({ internProfile: { $exists: true, $ne: null } }),
     User.countDocuments({ innovatorProfile: { $exists: true, $ne: null } }),
@@ -560,7 +560,6 @@ export const createStaff = async (admin, staffData, req) => {
   const profile = await StaffProfile.create({
     user: user._id,
     employeeId: `EMP${Date.now()}`,
-    position,
     directorate: directorateId,
     team: teamId,
   });
@@ -572,15 +571,11 @@ export const createStaff = async (admin, staffData, req) => {
     const updated = await Directorate.findByIdAndUpdate(
       directorateId,
       { head: user._id },
-      { new: true },
+      { returnDocument: "after" },
     );
     if (!updated) {
       console.error("Failed to update directorate head for:", directorateId);
     }
-  }
-
-  if (position === "team_lead" && teamId) {
-    await Team.findByIdAndUpdate(teamId, { lead: user._id });
   }
 
   try {
@@ -659,7 +654,6 @@ export const updateStaff = async (staffId, data) => {
 
   await user.save();
 
-  // Update staff profile
   await StaffProfile.findOneAndUpdate(
     { user: staffId },
     { position: user.position, directorate: user.directorate, team: user.team },
@@ -685,11 +679,14 @@ export const resetStaffPassword = async (staffId, admin) => {
   if (user.role !== "staff") throw new Error("User is not staff");
 
   const tempPassword = Math.random().toString(36).slice(-8);
-  user.password = await bcrypt.hash(tempPassword, 10);
+  console.log(tempPassword);
+  user.password = tempPassword;
   await user.save();
-
-  // Send email with new password
-  await sendStaffWelcomeEmail(user.email, user.fullName, tempPassword);
+  try {
+    await sendStaffWelcomeEmail(user.email, user.fullName, tempPassword);
+  } catch (error) {
+    console.log("Email send error");
+  }
 
   await Notification.create({
     user: admin._id,
@@ -722,10 +719,6 @@ export const getAvailableStaff = async () => {
 
   return { success: true, staff };
 };
-
-// ========================
-// USER MANAGEMENT
-// ========================
 
 export const getAllUsers = async (filters = {}) => {
   const query = {};
@@ -774,12 +767,11 @@ export const updateUser = async (userId, data, admin, req) => {
   const user = await User.findById(userId);
   if (!user) throw new Error("User not found");
 
-  const { fullName, phone, role, isActive, demographic } = data;
+  const { fullName, phone, role, isActive } = data;
 
   if (fullName !== undefined) user.fullName = fullName;
   if (role !== undefined) user.role = role;
   if (isActive !== undefined) user.isActive = isActive;
-  if (demographic) user.demographic = { ...user.demographic, ...demographic };
 
   await user.save();
 
@@ -841,10 +833,6 @@ export const resendVerification = async (userId, admin, req) => {
   return { success: true, message: "Verification email sent" };
 };
 
-// ========================
-// DIRECTORATE HEAD
-// ========================
-
 export const updateDirectorateHead = async (directorateId, staffId) => {
   const directorate = await Directorate.findById(directorateId);
   if (!directorate) throw new Error("Directorate not found");
@@ -854,10 +842,6 @@ export const updateDirectorateHead = async (directorateId, staffId) => {
 
   return { success: true, directorate };
 };
-
-// ========================
-// AUDIT LOGS
-// ========================
 
 export const getAuditLogs = async (filters = {}) => {
   const query = {};
@@ -894,11 +878,3 @@ export const getAuditLogs = async (filters = {}) => {
     },
   };
 };
-
-// ========================
-// SYSTEM SETTINGS
-// ========================
-
-let settingsCache = null;
-let cacheTime = null;
-const CACHE_DURATION = 5 * 60 * 1000;

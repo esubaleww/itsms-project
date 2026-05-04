@@ -117,7 +117,6 @@ export const reviewMilestone = async (
   menteeId,
   milestoneId,
   type,
-  status,
   feedback,
 ) => {
   let ProfileModel;
@@ -141,25 +140,22 @@ export const reviewMilestone = async (
   );
   if (!milestone) throw new Error("Milestone not found");
 
-  const oldStatus = milestone.status;
-  milestone.status = status;
-  if (status === "completed") {
-    milestone.completedAt = new Date();
-    milestone.mentorFeedback = feedback;
-  }
+  milestone.feedback = feedback;
+  milestone.feedbackGivenAt = new Date();
+  milestone.feedbackBy = mentorId;
 
   await profile.save();
 
   await Notification.create({
     user: menteeId,
-    title: "Milestone Status Updated",
-    message: `Your milestone "${milestone.title}" has been marked as ${status} by your mentor`,
+    title: "Milestone Feedback Received",
+    message: `Your mentor has provided feedback on milestone "${milestone.title}"`,
     type: "info",
   });
 
   return {
     success: true,
-    message: `Milestone status updated from ${oldStatus} to ${status}`,
+    message: `Feedback added successfully`,
     milestone,
   };
 };
@@ -184,12 +180,18 @@ export const addMilestone = async (mentorId, menteeId, type, milestoneData) => {
   if (!profile.incubation) profile.incubation = {};
   if (!profile.incubation.milestones) profile.incubation.milestones = [];
 
-  profile.incubation.milestones.push({
+  const newMilestone = {
     title: milestoneData.title,
     description: milestoneData.description,
-    dueDate: milestoneData.dueDate,
+    dueDate: milestoneData.dueDate || null,
     status: "pending",
-  });
+  };
+
+  if (milestoneData.files && milestoneData.files.length > 0) {
+    newMilestone.resources = milestoneData.files;
+  }
+
+  profile.incubation.milestones.push(newMilestone);
 
   await profile.save();
 
@@ -206,7 +208,6 @@ export const addMilestone = async (mentorId, menteeId, type, milestoneData) => {
     milestones: profile.incubation.milestones,
   };
 };
-
 export const getMentorStats = async (mentorId) => {
   const [innovators, startups] = await Promise.all([
     InnovatorProfile.countDocuments({ "incubation.mentor": mentorId }),
@@ -258,7 +259,6 @@ export const submitMentorSummary = async (
 
   if (!profile) throw new Error("Mentee not found or not assigned to you");
 
-  // Add mentor summary
   profile.mentorSummary = {
     overallProgress: summaryData.overallProgress,
     strengths: summaryData.strengths,
@@ -272,7 +272,6 @@ export const submitMentorSummary = async (
 
   await profile.save();
 
-  // Notify director
   const director = await User.findOne({
     directorate: profile.incubation?.center,
     position: "director",

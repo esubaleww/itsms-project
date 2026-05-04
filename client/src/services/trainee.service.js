@@ -11,10 +11,6 @@ export const traineeService = {
     );
     return response.data;
   },
-  getCertificates: async () => {
-    const response = await API.get("/trainee/certificates");
-    return response.data;
-  },
 
   getProfile: async () => {
     const response = await API.get("/trainee/profile");

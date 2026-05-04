@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { directorService } from "../services/director.service";
-import { useToast } from "../components/ui/Toast";
+import { useToast } from "../common/ui/Toast";
 
 export const useDirectorAnalytics = () => {
   const { addToast } = useToast();

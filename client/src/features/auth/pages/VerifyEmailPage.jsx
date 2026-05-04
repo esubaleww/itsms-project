@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams, Link, useNavigate } from "react-router-dom";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import { useAuthStore } from "../../../store/authStore";
-import { useToast } from "../../../components/ui/Toast";
+import { useToast } from "../../../common/ui/Toast";
 
 const VerifyEmailPage = () => {
   const [searchParams] = useSearchParams();

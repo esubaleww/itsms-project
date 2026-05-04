@@ -5,20 +5,28 @@ import {
   Megaphone,
   FileText,
   Tag,
-  Image,
   Send,
   AlertCircle,
+  Star,
 } from "lucide-react";
-import { useToast } from "../../../components/ui/Toast";
+import { useToast } from "../../../common/ui/Toast";
+import { DocumentUpload } from "../../../common/components/DocumentUpload";
 
-const CreateAnnouncementModal = ({ onClose, onSubmit }) => {
+const CreateAnnouncementModal = ({
+  onClose,
+  onSubmit,
+  initialData = null,
+  isEditing = false,
+}) => {
   const { addToast } = useToast();
   const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-    category: "announcement",
-    image: "",
-    isPublished: true,
+    title: initialData?.title || "",
+    content: initialData?.content || "",
+    category: initialData?.category || "announcement",
+    image: initialData?.image || null,
+    isPublished:
+      initialData?.isPublished !== undefined ? initialData.isPublished : true,
+    isFeatured: initialData?.isFeatured || false,
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -37,10 +45,6 @@ const CreateAnnouncementModal = ({ onClose, onSubmit }) => {
     if (!formData.title.trim()) newErrors.title = "Title is required";
     if (!formData.content.trim()) newErrors.content = "Content is required";
     if (!formData.category) newErrors.category = "Category is required";
-
-    if (formData.image && !/^https?:\/\/\S+\.\S+/.test(formData.image)) {
-      newErrors.image = "Please enter a valid image URL (http:// or https://)";
-    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -63,11 +67,20 @@ const CreateAnnouncementModal = ({ onClose, onSubmit }) => {
 
     setLoading(true);
     try {
-      await onSubmit(formData);
-      addToast("Announcement created successfully!", "success");
+      const submitData = {
+        ...formData,
+        image: formData.image,
+      };
+      await onSubmit(submitData);
+      addToast(
+        isEditing
+          ? "Announcement updated successfully!"
+          : "Announcement created successfully!",
+        "success",
+      );
       onClose();
     } catch (error) {
-      addToast(error.message || "Failed to create announcement", "error");
+      addToast(error.message || "Failed to save announcement", "error");
     } finally {
       setLoading(false);
     }
@@ -88,14 +101,13 @@ const CreateAnnouncementModal = ({ onClose, onSubmit }) => {
         exit={{ opacity: 0, scale: 0.95 }}
         className="bg-gray-800 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden border border-gray-700 shadow-2xl"
       >
-        {/* Header */}
         <div className="p-5 border-b border-gray-700 flex justify-between items-center sticky top-0 bg-gray-800/90">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-linear-to-br from-emerald-500 to-teal-700 rounded-lg flex items-center justify-center">
               <Megaphone className="w-4 h-4 text-white" />
             </div>
             <h2 className="text-xl font-bold text-white">
-              Create Announcement
+              {isEditing ? "Edit Announcement" : "Create Announcement"}
             </h2>
           </div>
           <button
@@ -106,14 +118,12 @@ const CreateAnnouncementModal = ({ onClose, onSubmit }) => {
           </button>
         </div>
 
-        {/* Form */}
         <div className="overflow-y-auto flex-1 p-5 space-y-4">
           <form
             onSubmit={handleSubmit}
             className="space-y-4"
             id="announcement-form"
           >
-            {/* Title */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
                 Title <span className="text-red-400">*</span>
@@ -138,7 +148,6 @@ const CreateAnnouncementModal = ({ onClose, onSubmit }) => {
               )}
             </div>
 
-            {/* Category */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
                 Category <span className="text-red-400">*</span>
@@ -173,7 +182,6 @@ const CreateAnnouncementModal = ({ onClose, onSubmit }) => {
               )}
             </div>
 
-            {/* Content */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
                 Content <span className="text-red-400">*</span>
@@ -195,38 +203,38 @@ const CreateAnnouncementModal = ({ onClose, onSubmit }) => {
               )}
             </div>
 
-            {/* Image URL */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
-                Image URL <span className="text-gray-500">(Optional)</span>
+                Image <span className="text-gray-500">(Optional)</span>
               </label>
-              <div className="relative">
-                <Image className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-                <input
-                  type="url"
-                  className={`w-full pl-9 pr-3 py-2 bg-gray-700/50 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all ${
-                    errors.image ? "border-red-500" : "border-gray-600"
-                  }`}
-                  value={formData.image}
-                  onChange={(e) => handleInputChange("image", e.target.value)}
-                  placeholder="https://example.com/image.jpg"
-                />
-              </div>
-              {errors.image && (
-                <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
-                  <AlertCircle className="w-3 h-3" /> {errors.image}
-                </p>
-              )}
-              {formData.image && (
-                <p className="text-gray-500 text-xs mt-1 flex items-center gap-1">
-                  <Image className="w-3 h-3" /> Image will be displayed with the
-                  announcement
-                </p>
-              )}
+              <DocumentUpload
+                label="announcement image"
+                value={formData.image}
+                onChange={(file) => handleInputChange("image", file)}
+                maxSizeMB={10}
+              />
             </div>
 
-            {/* Publish Immediately */}
             <div className="flex items-center gap-2 pt-2">
+              <input
+                type="checkbox"
+                id="isFeatured"
+                checked={formData.isFeatured}
+                onChange={(e) =>
+                  handleInputChange("isFeatured", e.target.checked)
+                }
+                className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-0 focus:ring-offset-gray-800"
+              />
+              <label
+                htmlFor="isFeatured"
+                className="text-sm text-gray-300 flex items-center gap-1"
+              >
+                <Star className="w-4 h-4 text-yellow-400" />
+                Feature this announcement (shows at top of news page)
+              </label>
+            </div>
+
+            <div className="flex items-center gap-2">
               <input
                 type="checkbox"
                 id="isPublished"
@@ -243,7 +251,6 @@ const CreateAnnouncementModal = ({ onClose, onSubmit }) => {
           </form>
         </div>
 
-        {/* Buttons */}
         <div className="p-5 border-t border-gray-700 bg-gray-800/90 rounded-b-2xl">
           <div className="flex gap-3">
             <button
@@ -255,12 +262,12 @@ const CreateAnnouncementModal = ({ onClose, onSubmit }) => {
               {loading ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                  Creating...
+                  {isEditing ? "Updating..." : "Creating..."}
                 </>
               ) : (
                 <>
                   <Send className="w-4 h-4" />
-                  Create Announcement
+                  {isEditing ? "Update Announcement" : "Create Announcement"}
                 </>
               )}
             </button>

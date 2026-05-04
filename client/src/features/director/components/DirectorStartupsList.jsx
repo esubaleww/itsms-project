@@ -1,32 +1,58 @@
-import { useState, useCallback } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
+  X,
   ChevronRight,
+  User,
+  Mail,
   Rocket,
+  UserCheck,
   Eye,
-  Building2,
-  Users,
+  Star,
   FileText,
+  CheckCircle,
+  AlertCircle,
+  Phone,
+  Building2,
+  BookOpen,
+  Award,
+  Clock,
   TrendingUp,
-  DollarSign,
+  Target,
+  Users,
   Briefcase,
+  DollarSign,
 } from "lucide-react";
 
 const DirectorStartupsList = ({
   startups = [],
+  staffList = [],
+  onAssignMentor,
   onViewDetails,
+  directorateId,
   loading = false,
 }) => {
   const [expandedId, setExpandedId] = useState(null);
+  const [assigningId, setAssigningId] = useState(null);
+  const [selectedMentor, setSelectedMentor] = useState("");
 
   const getStartupData = useCallback((item) => {
     if (!item) return null;
 
+    const startup = item.startup || item;
+
     return {
-      id: item.startup?._id || item._id,
-      companyName: item.companyName || item.startup?.companyName || "Unknown",
-      email: item.startup?.email || item.email,
-      phone: item.startup?.phone || item.phone,
+      id: startup._id || item._id,
+      userId: startup.user?._id || item.user?._id,
+      companyName: startup.companyName || item.companyName || "Unknown",
+      fullName: startup.companyName || item.companyName || "Unknown",
+      email: startup.email || item.email,
+      phone: startup.phone || item.phone,
+      mentor: item.mentor || null,
+      mentorId: item.mentor?._id,
+      mentorName: item.mentor?.fullName,
+      mentorPosition: item.mentor?.position,
+      mentorAssignedAt: item.mentorAssignedAt,
       registrationNumber: item.registrationNumber,
       sector: item.sector,
       description: item.description,
@@ -35,9 +61,36 @@ const DirectorStartupsList = ({
       employeeCount: item.employeeCount || 1,
       status: item.status,
       documents: item.documents,
-      incubation: item.incubation,
+      milestones: item.incubation?.milestones || [],
+      incubationStage: item.incubation?.stage,
+      fundingStage: item.incubation?.fundingStage,
+      startDate: item.incubation?.startDate,
     };
   }, []);
+
+  const mentorOptions = useMemo(() => {
+    return staffList.filter(
+      (staff) =>
+        (staff.position === "technical_staff" ||
+          staff.position === "trainer" ||
+          staff.position === "mentor" ||
+          staff.position === "advisor") &&
+        (!directorateId ||
+          staff.directorate?._id === directorateId ||
+          staff.directorate === directorateId),
+    );
+  }, [staffList, directorateId]);
+
+  const handleAssignMentor = useCallback(
+    (startupId) => {
+      if (selectedMentor && onAssignMentor) {
+        onAssignMentor(startupId, selectedMentor);
+        setAssigningId(null);
+        setSelectedMentor("");
+      }
+    },
+    [selectedMentor, onAssignMentor],
+  );
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -68,20 +121,65 @@ const DirectorStartupsList = ({
     }
   };
 
-  const getSectorIcon = (sector) => {
-    switch (sector) {
-      case "software":
-        return "💻";
-      case "fintech":
-        return "💰";
-      case "healthtech":
-        return "🏥";
-      case "agritech":
-        return "🌾";
-      case "edtech":
-        return "📚";
+  const getStageBadge = (stage) => {
+    switch (stage) {
+      case "idea":
+        return (
+          <span className="bg-yellow-500/20 text-yellow-400 text-xs px-2 py-0.5 rounded-full">
+            Idea Stage
+          </span>
+        );
+      case "mvp":
+        return (
+          <span className="bg-blue-500/20 text-blue-400 text-xs px-2 py-0.5 rounded-full">
+            MVP Stage
+          </span>
+        );
+      case "launched":
+        return (
+          <span className="bg-emerald-500/20 text-emerald-400 text-xs px-2 py-0.5 rounded-full">
+            Launched
+          </span>
+        );
+      case "growth":
+        return (
+          <span className="bg-purple-500/20 text-purple-400 text-xs px-2 py-0.5 rounded-full">
+            Growth Stage
+          </span>
+        );
       default:
-        return "🚀";
+        return null;
+    }
+  };
+
+  const getFundingStageBadge = (stage) => {
+    switch (stage) {
+      case "bootstrapped":
+        return (
+          <span className="bg-gray-500/20 text-gray-400 text-xs px-2 py-0.5 rounded-full">
+            Bootstrapped
+          </span>
+        );
+      case "seed":
+        return (
+          <span className="bg-green-500/20 text-green-400 text-xs px-2 py-0.5 rounded-full">
+            Seed Stage
+          </span>
+        );
+      case "angel":
+        return (
+          <span className="bg-blue-500/20 text-blue-400 text-xs px-2 py-0.5 rounded-full">
+            Angel Investment
+          </span>
+        );
+      case "venture":
+        return (
+          <span className="bg-purple-500/20 text-purple-400 text-xs px-2 py-0.5 rounded-full">
+            Venture Capital
+          </span>
+        );
+      default:
+        return null;
     }
   };
 
@@ -128,6 +226,12 @@ const DirectorStartupsList = ({
         if (!startupData) return null;
 
         const isExpanded = expandedId === startupData.id;
+        const isAssigning = assigningId === startupData.id;
+        const hasMentor = startupData.mentorId || startupData.mentorName;
+        const milestonesCompleted =
+          startupData.milestones?.filter((m) => m.status === "completed")
+            .length || 0;
+        const totalMilestones = startupData.milestones?.length || 0;
 
         return (
           <motion.div
@@ -137,6 +241,7 @@ const DirectorStartupsList = ({
             transition={{ duration: 0.3, delay: index * 0.05 }}
             className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden hover:border-gray-600 transition-all duration-200"
           >
+            {/* Main Row */}
             <div className="p-5">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                 <div className="flex-1">
@@ -150,19 +255,20 @@ const DirectorStartupsList = ({
                           {startupData.companyName}
                         </p>
                         {getStatusBadge(startupData.status)}
+                        {getStageBadge(startupData.incubationStage)}
+                        {getFundingStageBadge(startupData.fundingStage)}
                       </div>
                       <div className="flex flex-wrap items-center gap-3 mt-1 text-sm text-gray-400">
+                        {startupData.email && (
+                          <span className="flex items-center gap-1">
+                            <Mail className="w-3 h-3" />
+                            {startupData.email}
+                          </span>
+                        )}
                         {startupData.sector && (
                           <span className="flex items-center gap-1">
                             <Briefcase className="w-3 h-3" />
-                            {getSectorIcon(startupData.sector)}{" "}
                             {startupData.sector}
-                          </span>
-                        )}
-                        {startupData.employeeCount && (
-                          <span className="flex items-center gap-1">
-                            <Users className="w-3 h-3" />
-                            {startupData.employeeCount} employees
                           </span>
                         )}
                       </div>
@@ -170,11 +276,13 @@ const DirectorStartupsList = ({
                   </div>
 
                   {/* Description */}
-                  {startupData.description && (
-                    <p className="text-sm text-gray-400 mt-2 line-clamp-2">
-                      {startupData.description}
-                    </p>
-                  )}
+                  <div className="mt-3">
+                    {startupData.description && (
+                      <p className="text-sm text-gray-400 mt-1 line-clamp-2">
+                        {startupData.description}
+                      </p>
+                    )}
+                  </div>
 
                   {/* Stats Row */}
                   <div className="mt-3 flex flex-wrap items-center gap-4 text-sm">
@@ -182,24 +290,95 @@ const DirectorStartupsList = ({
                       <Users className="w-4 h-4" />
                       <span>{startupData.founders?.length || 1} founders</span>
                     </div>
-                    {startupData.incubation?.stage && (
+                    {startupData.employeeCount && (
+                      <div className="flex items-center gap-1 text-gray-400">
+                        <Users className="w-4 h-4" />
+                        <span>{startupData.employeeCount} employees</span>
+                      </div>
+                    )}
+                    {totalMilestones > 0 && (
                       <div className="flex items-center gap-1 text-emerald-400">
-                        <TrendingUp className="w-4 h-4" />
-                        <span>{startupData.incubation.stage} stage</span>
+                        <CheckCircle className="w-4 h-4" />
+                        <span>
+                          {milestonesCompleted}/{totalMilestones} milestones
+                        </span>
                       </div>
                     )}
                   </div>
+
+                  {/* Mentor Info */}
+                  {hasMentor ? (
+                    <div className="mt-3 flex items-center gap-2 text-sm bg-purple-500/10 text-purple-400 px-3 py-1.5 rounded-lg border border-purple-500/20 w-fit">
+                      <UserCheck className="w-4 h-4" />
+                      <span>
+                        Mentor: {startupData.mentorName} (
+                        {startupData.mentorPosition || "Mentor"})
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="mt-3 text-sm text-orange-400 bg-orange-500/10 px-3 py-1.5 rounded-lg inline-flex items-center gap-1 border border-orange-500/20">
+                      <AlertCircle className="w-4 h-4" />
+                      <span>No mentor assigned</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Actions */}
                 <div className="flex items-center gap-1 sm:ml-4">
-                  <button
-                    onClick={() => onViewDetails?.(startupData.id)}
-                    className="text-gray-400 hover:text-white p-1.5 rounded-lg hover:bg-gray-700 transition"
-                    title="View Details"
-                  >
-                    <Eye className="w-4 h-4" />
-                  </button>
+                  {!hasMentor &&
+                    onAssignMentor &&
+                    (isAssigning ? (
+                      <div className="flex items-center gap-2 bg-gray-700 rounded-lg border border-gray-600 p-1">
+                        <select
+                          value={selectedMentor}
+                          onChange={(e) => setSelectedMentor(e.target.value)}
+                          className="text-sm bg-transparent px-2 py-1 text-white focus:outline-none min-w-40"
+                          autoFocus
+                        >
+                          <option value="" className="bg-gray-800">
+                            Select Mentor...
+                          </option>
+                          {mentorOptions.map((staff) => (
+                            <option
+                              key={staff._id}
+                              value={staff._id}
+                              className="bg-gray-800"
+                            >
+                              {staff.fullName} - {staff.position || "Staff"}
+                            </option>
+                          ))}
+                        </select>
+                        <button
+                          onClick={() =>
+                            handleAssignMentor(
+                              startupData.userId || startupData.id,
+                            )
+                          }
+                          disabled={!selectedMentor}
+                          className={`p-1 rounded transition ${selectedMentor ? "text-emerald-400 hover:bg-emerald-500/20" : "text-gray-500 cursor-not-allowed"}`}
+                        >
+                          <CheckCircle className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => {
+                            setAssigningId(null);
+                            setSelectedMentor("");
+                          }}
+                          className="p-1 text-gray-400 hover:text-red-400 hover:bg-red-500/20 rounded transition"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setAssigningId(startupData.id)}
+                        className="text-purple-400 text-xs font-medium px-2 py-1 rounded-lg hover:bg-purple-500/20 transition flex items-center gap-1"
+                      >
+                        <UserCheck className="w-3 h-3" />
+                        Assign Mentor
+                      </button>
+                    ))}
+
                   <button
                     onClick={() =>
                       setExpandedId(isExpanded ? null : startupData.id)
@@ -224,7 +403,6 @@ const DirectorStartupsList = ({
                   className="border-t border-gray-700 overflow-hidden"
                 >
                   <div className="p-5 bg-gray-800/50 space-y-5">
-                    {/* Company Details */}
                     <div>
                       <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
                         <Building2 className="w-3 h-3" />
@@ -259,7 +437,6 @@ const DirectorStartupsList = ({
                       </div>
                     </div>
 
-                    {/* Founders */}
                     {startupData.founders &&
                       startupData.founders.length > 0 && (
                         <div>
@@ -297,7 +474,55 @@ const DirectorStartupsList = ({
                         </div>
                       )}
 
-                    {/* Documents */}
+                    {startupData.milestones &&
+                      startupData.milestones.length > 0 && (
+                        <div>
+                          <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                            <Award className="w-3 h-3" />
+                            Milestones ({milestonesCompleted}/{totalMilestones})
+                          </h4>
+                          <div className="space-y-2">
+                            {startupData.milestones.map((milestone, idx) => (
+                              <div
+                                key={idx}
+                                className="bg-gray-700/30 rounded-lg p-3"
+                              >
+                                <div className="flex justify-between items-start">
+                                  <div className="flex items-center gap-2">
+                                    {milestone.status === "completed" ? (
+                                      <CheckCircle className="w-4 h-4 text-emerald-400" />
+                                    ) : milestone.status === "in_progress" ? (
+                                      <Clock className="w-4 h-4 text-blue-400" />
+                                    ) : (
+                                      <AlertCircle className="w-4 h-4 text-gray-400" />
+                                    )}
+                                    <span className="font-medium text-white text-sm">
+                                      {milestone.title}
+                                    </span>
+                                  </div>
+                                  <span
+                                    className={`text-xs px-2 py-0.5 rounded-full ${
+                                      milestone.status === "completed"
+                                        ? "bg-emerald-500/20 text-emerald-400"
+                                        : milestone.status === "in_progress"
+                                          ? "bg-blue-500/20 text-blue-400"
+                                          : "bg-gray-500/20 text-gray-400"
+                                    }`}
+                                  >
+                                    {milestone.status || "Pending"}
+                                  </span>
+                                </div>
+                                {milestone.description && (
+                                  <p className="text-sm text-gray-400 mt-1 ml-6">
+                                    {milestone.description}
+                                  </p>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
                     {startupData.documents && (
                       <div>
                         <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">

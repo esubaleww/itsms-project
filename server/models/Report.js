@@ -87,25 +87,23 @@ const reportSchema = new mongoose.Schema(
             name: String,
             size: Number,
             mimeType: String,
-            isImage: Boolean
-          },       
+            isImage: Boolean,
+          },
         },
-      
+
         url: {
           type: {
-          url: String,
-          public_id: String,
-          name: String,
-          size: Number,
-          mimeType: String,
-          isImage: Boolean
-         },
-        uploadedAt: { type: Date, default: Date.now },
+            url: String,
+            public_id: String,
+            name: String,
+            size: Number,
+            mimeType: String,
+            isImage: Boolean,
+          },
+          uploadedAt: { type: Date, default: Date.now },
+        },
       },
-    },
     ],
-
-    
 
     status: {
       type: String,

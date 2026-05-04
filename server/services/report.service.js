@@ -3,6 +3,10 @@ import Notification from "../models/Notification.js";
 import User from "../models/User.js";
 import { logAction } from "../utils/auditLogger.js";
 import Team from "../models/Team.js";
+import InternProfile from "../models/InternProfile.js";
+import InnovatorProfile from "../models/InnovatorProfile.js";
+import StartupProfile from "../models/StartupProfile.js";
+import TrainingProfile from "../models/TrainingProfile.js";
 
 import {
   calculateTeamMetrics,
@@ -10,6 +14,29 @@ import {
 } from "../utils/reportMetrics.js";
 import { getPagination } from "../utils/pagination.js";
 
+const formatAttachments = (attachments = []) => {
+  return attachments.map((attachment) => ({
+    filename: {
+      url: attachment.filename?.url || attachment.url,
+      public_id: attachment.filename?.public_id || attachment.public_id,
+      name: attachment.filename?.name || attachment.name,
+      size: attachment.filename?.size || attachment.size,
+      mimeType: attachment.filename?.mimeType || attachment.mimeType,
+      isImage: attachment.filename?.isImage || attachment.isImage || false,
+    },
+    url: {
+      url: attachment.url || attachment.filename?.url,
+      public_id: attachment.public_id || attachment.filename?.public_id,
+      name: attachment.name || attachment.filename?.name,
+      size: attachment.size || attachment.filename?.size,
+      mimeType: attachment.mimeType || attachment.filename?.mimeType,
+      isImage: attachment.isImage || attachment.filename?.isImage || false,
+    },
+    uploadedAt: new Date(),
+  }));
+};
+
+// ==================== TEAM REPORTS (from Report model) ====================
 export const createTeamReport = async (user, data) => {
   if (!user.team) throw new Error("User is not assigned to a team");
 
@@ -20,6 +47,8 @@ export const createTeamReport = async (user, data) => {
     data.startDate,
     data.endDate,
   );
+
+  const attachments = formatAttachments(data.attachments);
 
   const report = await Report.create({
     title: data.title,
@@ -36,6 +65,7 @@ export const createTeamReport = async (user, data) => {
     challenges: data.challenges || [],
     nextSteps: data.nextSteps || [],
     metrics,
+    attachments,
     status: "submitted",
     submittedAt: new Date(),
     teamLead: user._id,
@@ -76,6 +106,7 @@ export const createTeamReport = async (user, data) => {
   return { success: true, report };
 };
 
+// ==================== DIRECTOR REPORTS (from Report model) ====================
 export const createDirectorReport = async (user, data) => {
   if (!user.directorate)
     throw new Error("User is not assigned to a directorate");
@@ -85,6 +116,8 @@ export const createDirectorReport = async (user, data) => {
     data.startDate,
     data.endDate,
   );
+
+  const attachments = formatAttachments(data.attachments);
 
   const report = await Report.create({
     title: data.title,
@@ -96,10 +129,11 @@ export const createDirectorReport = async (user, data) => {
       endDate: data.endDate,
     },
     summary: data.summary,
-    achievements: data.achievements,
-    challenges: data.challenges,
-    nextSteps: data.nextSteps,
+    achievements: data.achievements || [],
+    challenges: data.challenges || [],
+    nextSteps: data.nextSteps || [],
     metrics,
+    attachments,
     status: "submitted",
     submittedAt: new Date(),
   });
@@ -118,6 +152,128 @@ export const createDirectorReport = async (user, data) => {
   return { success: true, report };
 };
 
+// ==================== ADVISOR REPORTS (from InternProfile) ====================
+export const getAdvisorReports = async (directorateId) => {
+  const profiles = await InternProfile.find({
+    "placement.directorate": directorateId,
+    "advisorSummary.submittedAt": { $exists: true },
+  })
+    .populate("user", "fullName email")
+    .populate("placement.advisor", "fullName email");
+
+  return profiles.map((profile) => ({
+    _id: profile._id,
+    title: `Advisor Summary - ${profile.user?.fullName}`,
+    type: "advisor_report",
+    status: "submitted",
+    createdAt: profile.advisorSummary?.submittedAt,
+    submittedBy: profile.placement?.advisor,
+    participant: profile.user,
+    data: profile.advisorSummary,
+    summary: `Overall Performance: ${profile.advisorSummary?.overallPerformance || "N/A"}`,
+  }));
+};
+
+// ==================== MENTOR REPORTS (from InnovatorProfile) ====================
+export const getMentorReports = async (directorateId) => {
+  const profiles = await InnovatorProfile.find({
+    "incubation.center": directorateId,
+    "mentorSummary.submittedAt": { $exists: true },
+  })
+    .populate("user", "fullName email")
+    .populate("incubation.mentor", "fullName email");
+
+  return profiles.map((profile) => ({
+    _id: profile._id,
+    title: `Mentor Summary - ${profile.user?.fullName}`,
+    type: "mentor_report",
+    status: "submitted",
+    createdAt: profile.mentorSummary?.submittedAt,
+    submittedBy: profile.incubation?.mentor,
+    participant: profile.user,
+    data: profile.mentorSummary,
+    summary: `Overall Progress: ${profile.mentorSummary?.overallProgress || "N/A"}`,
+  }));
+};
+
+// ==================== STARTUP MENTOR REPORTS (from StartupProfile) ====================
+export const getStartupMentorReports = async (directorateId) => {
+  const profiles = await StartupProfile.find({
+    "incubation.center": directorateId,
+    "mentorSummary.submittedAt": { $exists: true },
+  })
+    .populate("user", "fullName email companyName")
+    .populate("incubation.mentor", "fullName email");
+
+  return profiles.map((profile) => ({
+    _id: profile._id,
+    title: `Mentor Summary - ${profile.user?.companyName || profile.user?.fullName}`,
+    type: "startup_mentor_report",
+    status: "submitted",
+    createdAt: profile.mentorSummary?.submittedAt,
+    submittedBy: profile.incubation?.mentor,
+    participant: profile.user,
+    data: profile.mentorSummary,
+    summary: `Overall Progress: ${profile.mentorSummary?.overallProgress || "N/A"}`,
+  }));
+};
+
+// ==================== TRAINER REPORTS (from TrainingProfile) ====================
+export const getTrainerReports = async (directorateId) => {
+  const profiles = await TrainingProfile.find({
+    "placement.directorate": directorateId,
+    "trainerSummary.submittedAt": { $exists: true },
+  })
+    .populate("user", "fullName email")
+    .populate("placement.trainer", "fullName email");
+
+  return profiles.map((profile) => ({
+    _id: profile._id,
+    title: `Trainer Summary - ${profile.user?.fullName}`,
+    type: "trainer_report",
+    status: profile.trainerSummary?.status || "submitted",
+    createdAt: profile.trainerSummary?.submittedAt,
+    submittedBy: profile.placement?.trainer,
+    participant: profile.user,
+    data: profile.trainerSummary,
+    summary: `Overall Performance: ${profile.trainerSummary?.overallPerformance || "N/A"}`,
+  }));
+};
+
+// ==================== GET ALL REPORTS (Unified) ====================
+export const getAllReportsForDirector = async (directorateId) => {
+  const [
+    teamReports,
+    advisorReports,
+    mentorReports,
+    startupReports,
+    trainerReports,
+  ] = await Promise.all([
+    getReports({
+      directorate: directorateId,
+      type: "team_report",
+      status: "submitted",
+    }),
+    getAdvisorReports(directorateId),
+    getMentorReports(directorateId),
+    getStartupMentorReports(directorateId),
+    getTrainerReports(directorateId),
+  ]);
+
+  const allReports = [
+    ...(teamReports.reports || []),
+    ...advisorReports,
+    ...mentorReports,
+    ...startupReports,
+    ...trainerReports,
+  ];
+
+  allReports.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  return allReports;
+};
+
+// ==================== EXISTING FUNCTIONS ====================
 export const submitReport = async (reportId, user, req) => {
   const report = await Report.findById(reportId);
   if (!report) throw new Error("Report not found");
@@ -405,4 +561,195 @@ export const rejectTeamReport = async (reportId, director, reason, req) => {
   });
 
   return { success: true, report };
+};
+
+export const approveSummary = async (
+  profileId,
+  director,
+  type,
+  comments,
+  req,
+) => {
+  let profile;
+  let summaryField;
+  let summaryName;
+  let userField;
+  let staffField;
+  let staffName;
+
+  switch (type) {
+    case "trainer_report":
+      profile = await TrainingProfile.findById(profileId).populate(
+        "user placement.trainer",
+      );
+      summaryField = "trainerSummary";
+      summaryName = "Trainer Summary";
+      userField = "user";
+      staffField = "placement.trainer";
+      staffName = "Trainer";
+      break;
+    case "advisor_report":
+      profile = await InternProfile.findById(profileId).populate(
+        "user placement.advisor",
+      );
+      summaryField = "advisorSummary";
+      summaryName = "Advisor Summary";
+      userField = "user";
+      staffField = "placement.advisor";
+      staffName = "Advisor";
+      break;
+    case "mentor_report":
+      profile = await InnovatorProfile.findById(profileId).populate(
+        "user incubation.mentor",
+      );
+      summaryField = "mentorSummary";
+      summaryName = "Mentor Summary";
+      userField = "user";
+      staffField = "incubation.mentor";
+      staffName = "Mentor";
+      break;
+    case "startup_mentor_report":
+      profile = await StartupProfile.findById(profileId).populate(
+        "user incubation.mentor",
+      );
+      summaryField = "mentorSummary";
+      summaryName = "Mentor Summary";
+      userField = "user";
+      staffField = "incubation.mentor";
+      staffName = "Mentor";
+      break;
+    default:
+      throw new Error(`Unknown report type: ${type}`);
+  }
+
+  if (!profile) throw new Error(`${summaryName} not found`);
+  if (!profile[summaryField]) throw new Error(`${summaryName} not found`);
+  if (profile[summaryField].status !== "pending_director_review") {
+    throw new Error(`${summaryName} is not pending review`);
+  }
+
+  profile[summaryField].status = "approved";
+  profile[summaryField].directorFeedback = comments || "Approved by director";
+  profile[summaryField].directorDecision = "approved";
+  profile[summaryField].directorReviewedAt = new Date();
+  profile[summaryField].directorReviewedBy = director._id;
+
+  await profile.save();
+
+  if (profile[staffField]) {
+    await Notification.create({
+      user: profile[staffField]._id,
+      title: `${summaryName} Approved`,
+      message: `Your ${summaryName.toLowerCase()} for ${profile[userField]?.fullName} has been approved`,
+      type: "success",
+    });
+  }
+
+  await Notification.create({
+    user: profile[userField]._id,
+    title: `${summaryName} Approved`,
+    message: `Your ${summaryName.toLowerCase()} has been approved by the director`,
+    type: "success",
+  });
+
+  await logAction({
+    user: director,
+    action: "APPROVE",
+    entity: profile.constructor.modelName,
+    entityId: profile._id,
+    req,
+    metadata: { type: summaryName },
+  });
+
+  return { success: true, profile };
+};
+
+export const rejectSummary = async (profileId, director, type, reason, req) => {
+  let profile;
+  let summaryField;
+  let summaryName;
+  let userField;
+  let staffField;
+
+  switch (type) {
+    case "trainer_report":
+      profile = await TrainingProfile.findById(profileId).populate(
+        "user placement.trainer",
+      );
+      summaryField = "trainerSummary";
+      summaryName = "Trainer Summary";
+      userField = "user";
+      staffField = "placement.trainer";
+      break;
+    case "advisor_report":
+      profile = await InternProfile.findById(profileId).populate(
+        "user placement.advisor",
+      );
+      summaryField = "advisorSummary";
+      summaryName = "Advisor Summary";
+      userField = "user";
+      staffField = "placement.advisor";
+      break;
+    case "mentor_report":
+      profile = await InnovatorProfile.findById(profileId).populate(
+        "user incubation.mentor",
+      );
+      summaryField = "mentorSummary";
+      summaryName = "Mentor Summary";
+      userField = "user";
+      staffField = "incubation.mentor";
+      break;
+    case "startup_mentor_report":
+      profile = await StartupProfile.findById(profileId).populate(
+        "user incubation.mentor",
+      );
+      summaryField = "mentorSummary";
+      summaryName = "Mentor Summary";
+      userField = "user";
+      staffField = "incubation.mentor";
+      break;
+    default:
+      throw new Error(`Unknown report type: ${type}`);
+  }
+
+  if (!profile) throw new Error(`${summaryName} not found`);
+  if (!profile[summaryField]) throw new Error(`${summaryName} not found`);
+  if (profile[summaryField].status !== "pending_director_review") {
+    throw new Error(`${summaryName} is not pending review`);
+  }
+
+  profile[summaryField].status = "rejected";
+  profile[summaryField].directorFeedback = reason || "Rejected by director";
+  profile[summaryField].directorDecision = "rejected";
+  profile[summaryField].directorReviewedAt = new Date();
+  profile[summaryField].directorReviewedBy = director._id;
+
+  await profile.save();
+
+  if (profile[staffField]) {
+    await Notification.create({
+      user: profile[staffField]._id,
+      title: `${summaryName} Rejected`,
+      message: `Your ${summaryName.toLowerCase()} for ${profile[userField]?.fullName} was rejected. Reason: ${reason}`,
+      type: "warning",
+    });
+  }
+
+  await Notification.create({
+    user: profile[userField]._id,
+    title: `${summaryName} Rejected`,
+    message: `Your ${summaryName.toLowerCase()} has been rejected. Please contact your ${staffName?.toLowerCase() || "staff"}.`,
+    type: "warning",
+  });
+
+  await logAction({
+    user: director,
+    action: "REJECT",
+    entity: profile.constructor.modelName,
+    entityId: profile._id,
+    req,
+    metadata: { type: summaryName },
+  });
+
+  return { success: true, profile };
 };

@@ -28,7 +28,8 @@ export const getStartupProgress = async (req, res) => {
 };
 export const assignStartupMentor = async (req, res) => {
   try {
-    const { startupId, mentorId } = req.body;
+    const { startupId } = req.params;
+    const { mentorId } = req.body;
     const result = await startupService.assignMentor(
       req.user.id,
       startupId,

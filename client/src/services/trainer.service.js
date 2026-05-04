@@ -10,29 +10,31 @@ export const trainerService = {
     const response = await API.get(url);
     return response.data;
   },
+
   getTraineeProgress: async (traineeId) => {
     const response = await API.get(
       `/staff/trainer/trainees/${traineeId}/progress`,
     );
     return response.data;
   },
-  createSession: async (traineeId, sessionData) => {
+
+  createSession: async (sessionData) => {
+    const response = await API.post("/staff/trainer/sessions", sessionData);
+    return response.data;
+  },
+
+  submitTrainerSummary: async (traineeId, summaryData) => {
     const response = await API.post(
-      `/staff/trainer/trainees/${traineeId}/sessions`,
-      sessionData,
+      `/staff/trainer/trainees/${traineeId}/summary`,
+      summaryData,
     );
     return response.data;
   },
-  recordAttendance: async (sessionId, traineeId) => {
-    const response = await API.post(
-      `/staff/trainer/sessions/${sessionId}/attendance`,
-      { traineeId },
-    );
-    return response.data;
-  },
-  generateCertificate: async (traineeId, sessionId) => {
-    const response = await API.post(
-      `/staff/trainer/trainees/${traineeId}/sessions/${sessionId}/certificate`,
+
+  updateTraineeStatus: async (traineeId, status) => {
+    const response = await API.patch(
+      `/staff/trainer/trainees/${traineeId}/status`,
+      { status },
     );
     return response.data;
   },
@@ -41,8 +43,21 @@ export const trainerService = {
     const response = await API.get("/staff/trainer/dashboard");
     return response.data;
   },
+
   getStats: async () => {
     const response = await API.get("/staff/trainer/stats");
+    return response.data;
+  },
+
+  getSessions: async () => {
+    const response = await API.get("/staff/trainer/sessions");
+    return response.data;
+  },
+
+  getSessionAttendance: async (sessionId) => {
+    const response = await API.get(
+      `/staff/trainer/sessions/${sessionId}/attendance`,
+    );
     return response.data;
   },
 };

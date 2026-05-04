@@ -21,16 +21,6 @@ export const markAttendance = async (req, res) => {
   }
 };
 
-export const getMyCertificates = async (req, res) => {
-  try {
-    const result = await traineeService.getMyCertificates(req.user.id);
-    res.json(result);
-  } catch (error) {
-    console.error("Get certificates error:", error);
-    res.status(500).json({ message: error.message });
-  }
-};
-
 export const getMyTraineeProfile = async (req, res) => {
   try {
     const result = await traineeService.getMyTraineeProfile(req.user.id);

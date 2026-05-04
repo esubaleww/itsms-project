@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { serviceCatalogApi } from "../services/serviceCatalog.service";
-import { useToast } from "../components/ui/Toast";
+import { useToast } from "../common/ui/Toast";
 
 export const useServiceCatalog = () => {
   const { addToast } = useToast();

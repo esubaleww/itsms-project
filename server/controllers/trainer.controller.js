@@ -26,13 +26,8 @@ export const getTraineeProgress = async (req, res) => {
 
 export const createSession = async (req, res) => {
   try {
-    const { traineeId } = req.params;
     const sessionData = req.body;
-    const result = await trainerService.createSession(
-      req.user.id,
-      traineeId,
-      sessionData,
-    );
+    const result = await trainerService.createSession(req.user.id, sessionData);
     res.json(result);
   } catch (error) {
     console.error("Create session error:", error);
@@ -40,33 +35,13 @@ export const createSession = async (req, res) => {
   }
 };
 
-export const recordAttendance = async (req, res) => {
+export const markAttendance = async (req, res) => {
   try {
     const { sessionId } = req.params;
-    const { traineeId } = req.body;
-    const result = await trainerService.recordAttendance(
-      req.user.id,
-      sessionId,
-      traineeId,
-    );
+    const result = await trainerService.markAttendance(sessionId, req.user.id);
     res.json(result);
   } catch (error) {
-    console.error("Record attendance error:", error);
-    res.status(500).json({ message: error.message });
-  }
-};
-
-export const generateCertificate = async (req, res) => {
-  try {
-    const { traineeId, sessionId } = req.params;
-    const result = await trainerService.generateCertificate(
-      req.user.id,
-      traineeId,
-      sessionId,
-    );
-    res.json(result);
-  } catch (error) {
-    console.error("Generate certificate error:", error);
+    console.error("Mark attendance error:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -90,6 +65,7 @@ export const getTrainerDashboard = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 export const submitTrainerSummary = async (req, res) => {
   try {
     const { traineeId } = req.params;
@@ -116,5 +92,29 @@ export const updateTraineeStatus = async (req, res) => {
     res.json(result);
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+export const getSessions = async (req, res) => {
+  try {
+    const result = await trainerService.getSessions(req.user.id);
+    res.json(result);
+  } catch (error) {
+    console.error("Get sessions error:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getSessionAttendance = async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const result = await trainerService.getSessionAttendance(
+      req.user.id,
+      sessionId,
+    );
+    res.json(result);
+  } catch (error) {
+    console.error("Get session attendance error:", error);
+    res.status(500).json({ message: error.message });
   }
 };

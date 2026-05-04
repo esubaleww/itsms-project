@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { startupService } from "../services/startup.service";
-import { useToast } from "../components/ui/Toast";
+import { useToast } from "../common/ui/Toast";
 
 export const useStartup = () => {
   const { addToast } = useToast();
@@ -29,12 +29,13 @@ export const useStartup = () => {
   }, [addToast]);
 
   const updateMilestoneStatus = useCallback(
-    async (milestoneId, status) => {
+    async (milestoneId, status, evidenceData = null) => {
       setLoading(true);
       try {
         const data = await startupService.updateMilestoneStatus(
           milestoneId,
           status,
+          evidenceData,
         );
         addToast(data.message || "Milestone updated!", "success");
         await fetchMilestones();

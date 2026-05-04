@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import AuthGuard from "../features/auth/pages/AuthGuard";
 import LoginPage from "../features/auth/pages/LoginPage";
 import RegisterPage from "../features/auth/pages/RegisterPage";
-import DashboardPage from "../features/dashboard/pages/DashBoardPage";
+import DashboardPage from "../common/pages/DashBoardPage";
 import PublicLayout from "../features/public/components/PublicLayout";
 import HomePage from "../features/public/pages/HomePage";
 import InternApplyPage from "../features/applications/pages/InternApplyPage";
@@ -13,8 +13,6 @@ import AdminDashboardPage from "../features/admin/pages/AdminDashboardPage";
 import VerifyEmailPage from "../features/auth/pages/VerifyEmailPage";
 import NotificationsPage from "../features/notifications/pages/NotificationsPage";
 import SubmitReportPage from "../features/internship/pages/SubmitReportPage";
-import TrackProgressPage from "../features/internship/pages/TrackProgressPage";
-import ViewSchedulePage from "../features/internship/pages/ViewSchedulePage";
 import BrowseServicesPage from "../features/services/pages/BrowseServicesPage";
 import ProfilePage from "../features/auth/pages/ProfilePage";
 import ForgotPasswordPage from "../features/auth/pages/ForgotPasswordPage";
@@ -22,6 +20,10 @@ import ResetPasswordPage from "../features/auth/pages/ResetPasswordPage";
 import NewsPage from "../features/news/pages/NewsPage";
 import ServiceDetailsPage from "../features/services/pages/ServiceDetailsPage";
 import MyRequestsPage from "../features/services/pages/MyRequestsPage";
+import NewsDetailPage from "../features/news/pages/NewsDetailPage";
+import AnalyticsPage from "../common/pages/AnalyticsPage";
+import ActivityLogsPage from "../features/admin/pages/ActivityLogsPage";
+import AttendanceScanPage from "../features/training/pages/AttendanceScanPage";
 
 function AppRoutes() {
   return (
@@ -90,6 +92,7 @@ function AppRoutes() {
           </AuthGuard>
         }
       />
+
       <Route
         path="/notifications"
         element={
@@ -106,26 +109,20 @@ function AppRoutes() {
           </AuthGuard>
         }
       />
-      <Route
-        path="/intern/progress"
-        element={
-          <AuthGuard>
-            <TrackProgressPage />
-          </AuthGuard>
-        }
-      />
-      <Route
-        path="/intern/schedule"
-        element={
-          <AuthGuard>
-            <ViewSchedulePage />
-          </AuthGuard>
-        }
-      />
+
       <Route path="/services/my-requests" element={<MyRequestsPage />} />
       <Route path="/services/browse" element={<BrowseServicesPage />} />
       <Route path="/services/:id" element={<ServiceDetailsPage />} />
       <Route path="/news" element={<NewsPage />} />
+      <Route path="/news/:id" element={<NewsDetailPage />} />
+      <Route path="/admin/analytics" element={<AnalyticsPage />} />
+      <Route path="/admin/activity-logs" element={<ActivityLogsPage />} />
+      <Route path="/director/analytics" element={<AnalyticsPage />} />
+      <Route path="/team-lead/analytics" element={<AnalyticsPage />} />
+      <Route
+        path="/attendance/scan/:sessionId"
+        element={<AttendanceScanPage />}
+      />
 
       <Route
         path="/profile"

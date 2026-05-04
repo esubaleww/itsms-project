@@ -1,5 +1,5 @@
 import AppRoutes from "./routes/AppRoutes";
-import { ToastProvider } from "./components/ui/Toast";
+import { ToastProvider } from "./common/ui/Toast";
 
 function App() {
   return (

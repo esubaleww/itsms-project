@@ -11,26 +11,26 @@ router.use(checkStaff);
 router.get("/innovators", (req, res) =>
   mentorController.getMyMentees(req, res, "innovator"),
 );
-router.get("/innovators/:innovatorId/progress", (req, res) =>
+router.get("/innovators/:menteeId/progress", (req, res) =>
   mentorController.getMenteeProgress(req, res, "innovator"),
 );
-router.post("/innovators/:innovatorId/milestones", (req, res) =>
+router.post("/innovators/:menteeId/milestones", (req, res) =>
   mentorController.addMilestone(req, res, "innovator"),
 );
-router.put("/innovators/:innovatorId/milestones/:milestoneId", (req, res) =>
+router.put("/innovators/:menteeId/milestones/:milestoneId/review", (req, res) =>
   mentorController.reviewMilestone(req, res, "innovator"),
 );
 
 router.get("/startups", (req, res) =>
   mentorController.getMyMentees(req, res, "startup"),
 );
-router.get("/startups/:startupId/progress", (req, res) =>
+router.get("/startups/:menteeId/progress", (req, res) =>
   mentorController.getMenteeProgress(req, res, "startup"),
 );
-router.post("/startups/:startupId/milestones", (req, res) =>
+router.post("/startups/:menteeId/milestones", (req, res) =>
   mentorController.addMilestone(req, res, "startup"),
 );
-router.put("/startups/:startupId/milestones/:milestoneId", (req, res) =>
+router.put("/startups/:menteeId/milestones/:milestoneId/review", (req, res) =>
   mentorController.reviewMilestone(req, res, "startup"),
 );
 router.post(

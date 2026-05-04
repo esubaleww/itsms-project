@@ -1,4 +1,3 @@
-// client/src/features/home/components/FeaturesSection.jsx
 import { motion } from "framer-motion";
 import { Zap } from "lucide-react";
 import { features } from "../data/homeData";

@@ -23,10 +23,27 @@ export const useAnnouncements = () => {
     }
   }, []);
 
+  const getAnnouncementById = useCallback(async (id) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await API.get(`/public/announcements/${id}`);
+      return response.data.announcement;
+    } catch (err) {
+      const errorMessage =
+        err.response?.data?.message || "Failed to fetch announcement";
+      setError(errorMessage);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   return {
     announcements,
     loading,
     error,
     fetchAnnouncements,
+    getAnnouncementById,
   };
 };

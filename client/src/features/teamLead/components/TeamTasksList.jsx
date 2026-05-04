@@ -8,8 +8,8 @@ import {
   Calendar,
   ChevronRight,
   PlayCircle,
-  Check,
-  XCircle,
+  UserPlus,
+  X,
 } from "lucide-react";
 
 const TeamTasksList = ({
@@ -17,8 +17,18 @@ const TeamTasksList = ({
   detailed = false,
   onUpdateStatus,
   onViewDetails,
+  onAssignTask,
+  teamMembers = [],
+  loading = false,
 }) => {
-  const [expandedId, setExpandedId] = useState(null);
+  const [assigningTask, setAssigningTask] = useState(null);
+  const [selectedMember, setSelectedMember] = useState("");
+  const [instructions, setInstructions] = useState("");
+
+  // Handle different data structures
+  const pendingTasks = tasks?.pending || tasks?.assigned_to_team || [];
+  const inProgressTasks = tasks?.in_progress || [];
+  const completedTasks = tasks?.completed || [];
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -42,146 +52,238 @@ const TeamTasksList = ({
     }
   };
 
-  if (!tasks || tasks.length === 0) {
+  const handleAssignSubmit = async (taskId) => {
+    if (!selectedMember) return;
+    await onAssignTask(taskId, selectedMember, instructions);
+    setAssigningTask(null);
+    setSelectedMember("");
+    setInstructions("");
+  };
+
+  const handleUpdateStatus = async (taskId, taskIndex, newStatus) => {
+    await onUpdateStatus(taskId, taskIndex, newStatus);
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-12">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" />
+      </div>
+    );
+  }
+
+  if (
+    pendingTasks.length === 0 &&
+    inProgressTasks.length === 0 &&
+    completedTasks.length === 0
+  ) {
     return (
       <div className="text-center py-8">
         <Clock className="w-12 h-12 text-gray-600 mx-auto mb-3" />
-        <p className="text-gray-400">No tasks assigned yet</p>
+        <p className="text-gray-400">No tasks assigned to team yet</p>
         <p className="text-sm text-gray-500 mt-1">
-          Tasks assigned to team members will appear here
+          Tasks will appear here once assigned by the director
         </p>
       </div>
     );
   }
 
-  if (!detailed) {
+  const renderTaskCard = (task, idx, category) => {
+    const isAssigned = task.assignedTo;
+    const isInProgress = task.status === "in_progress";
+    const isPending = task.status === "assigned_to_team";
+    const isCompleted = task.status === "completed";
+    const isAssigning = assigningTask === task._id;
+
     return (
-      <div className="divide-y divide-gray-700">
-        {tasks.map((task, idx) => (
-          <div
-            key={idx}
-            className="p-4 hover:bg-gray-700/30 transition cursor-pointer"
-            onClick={() => onViewDetails?.(task)}
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
+      <motion.div
+        key={task._id || idx}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: idx * 0.05 }}
+        className="bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-700 hover:border-gray-600 transition-all overflow-hidden"
+      >
+        <div className="p-4">
+          <div className="flex justify-between items-start">
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-2">
+                <span
+                  className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(task.status)}`}
+                >
+                  {getStatusIcon(task.status)} {task.status?.replace("_", " ")}
+                </span>
+                {task.priority && (
                   <span
-                    className={`text-xs px-2 py-0.5 rounded-full ${getStatusColor(task.status)}`}
+                    className={`text-xs px-2 py-1 rounded-full ${
+                      task.priority === "urgent"
+                        ? "bg-red-500/20 text-red-400 border border-red-500/30"
+                        : task.priority === "high"
+                          ? "bg-orange-500/20 text-orange-400 border border-orange-500/30"
+                          : "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
+                    }`}
                   >
-                    {task.status?.replace("_", " ")}
+                    {task.priority}
                   </span>
-                  <span className="text-xs text-gray-500">{task.title}</span>
-                </div>
-                <p className="text-sm text-gray-300 line-clamp-1">
-                  {task.description}
-                </p>
-                <div className="flex items-center gap-3 mt-2 text-xs text-gray-500">
-                  <span className="flex items-center gap-1">
-                    <User className="w-3 h-3" />{" "}
-                    {task.assignedTo?.fullName || "Unassigned"}
-                  </span>
-                  {task.deadline && (
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-3 h-3" />{" "}
-                      {new Date(task.deadline).toLocaleDateString()}
-                    </span>
-                  )}
-                </div>
+                )}
               </div>
-              <ChevronRight className="w-4 h-4 text-gray-500" />
+              <h3 className="font-semibold text-white mb-1">{task.title}</h3>
+              <p className="text-sm text-gray-400 mb-3">{task.description}</p>
+              <div className="flex items-center gap-4 text-xs text-gray-500">
+                <span className="flex items-center gap-1">
+                  <User className="w-3 h-3" />
+                  Applicant: {task.applicant?.fullName || "N/A"}
+                </span>
+                {task.deadline && (
+                  <span className="flex items-center gap-1">
+                    <Calendar className="w-3 h-3" />
+                    Due: {new Date(task.deadline).toLocaleDateString()}
+                  </span>
+                )}
+              </div>
+              {isAssigned && (
+                <div className="mt-2 text-xs text-emerald-400 flex items-center gap-1">
+                  <User className="w-3 h-3" />
+                  Assigned to: {task.assignedTo?.fullName}
+                </div>
+              )}
+            </div>
+            <div className="flex gap-1">
+              {/* Assign button - only for pending tasks not assigned */}
+              {isPending && !isAssigned && (
+                <button
+                  onClick={() => setAssigningTask(task._id)}
+                  className="p-1.5 text-gray-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition"
+                  title="Assign to Member"
+                >
+                  <UserPlus className="w-4 h-4" />
+                </button>
+              )}
+
+              {/* Start button - only for assigned but not started tasks */}
+              {isAssigned && !isInProgress && !isCompleted && (
+                <button
+                  onClick={() => handleUpdateStatus(task._id, 0, "in_progress")}
+                  className="p-1.5 text-gray-500 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition"
+                  title="Start Task"
+                >
+                  <PlayCircle className="w-4 h-4" />
+                </button>
+              )}
+
+              {/* Complete button - only for in_progress tasks */}
+              {isInProgress && (
+                <button
+                  onClick={() => handleUpdateStatus(task._id, 0, "completed")}
+                  className="p-1.5 text-gray-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition"
+                  title="Mark Complete"
+                >
+                  <CheckCircle className="w-4 h-4" />
+                </button>
+              )}
+
+              <button
+                onClick={() => onViewDetails?.(task)}
+                className="p-1.5 text-gray-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition"
+                title="View Details"
+              >
+                <Eye className="w-4 h-4" />
+              </button>
             </div>
           </div>
-        ))}
-      </div>
-    );
-  }
 
-  return (
-    <div className="space-y-3">
-      {tasks.map((task, idx) => (
-        <motion.div
-          key={idx}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: idx * 0.05 }}
-          className="bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-700 hover:border-gray-600 transition-all overflow-hidden"
-        >
-          <div className="p-4">
-            <div className="flex justify-between items-start">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-2">
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(task.status)}`}
-                  >
-                    {getStatusIcon(task.status)}{" "}
-                    {task.status?.replace("_", " ")}
-                  </span>
-                  {task.priority && (
-                    <span
-                      className={`text-xs px-2 py-1 rounded-full ${
-                        task.priority === "urgent"
-                          ? "bg-red-500/20 text-red-400 border border-red-500/30"
-                          : task.priority === "high"
-                            ? "bg-orange-500/20 text-orange-400 border border-orange-500/30"
-                            : "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
-                      }`}
-                    >
-                      {task.priority}
-                    </span>
-                  )}
-                </div>
-                <h3 className="font-semibold text-white mb-1">{task.title}</h3>
-                <p className="text-sm text-gray-400 mb-3">{task.description}</p>
-                <div className="flex items-center gap-4 text-xs text-gray-500">
-                  <span className="flex items-center gap-1">
-                    <User className="w-3 h-3" />{" "}
-                    {task.assignedTo?.fullName || "Unassigned"}
-                  </span>
-                  {task.deadline && (
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-3 h-3" /> Due:{" "}
-                      {new Date(task.deadline).toLocaleDateString()}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="flex gap-1">
-                {task.status !== "completed" && (
-                  <button
-                    onClick={() =>
-                      onUpdateStatus(task._id, task.index, "completed")
-                    }
-                    className="p-1.5 text-gray-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition"
-                    title="Mark Complete"
-                  >
-                    <CheckCircle className="w-4 h-4" />
-                  </button>
-                )}
-                {task.status !== "in_progress" &&
-                  task.status !== "completed" && (
-                    <button
-                      onClick={() =>
-                        onUpdateStatus(task._id, task.index, "in_progress")
-                      }
-                      className="p-1.5 text-gray-500 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition"
-                      title="Start Task"
-                    >
-                      <PlayCircle className="w-4 h-4" />
-                    </button>
-                  )}
+          {/* Assign Task Modal */}
+          {isAssigning && (
+            <div className="mt-4 p-4 bg-gray-700/50 rounded-lg border border-gray-600">
+              <div className="flex justify-between items-center mb-3">
+                <h4 className="text-white text-sm font-medium">
+                  Assign to Team Member
+                </h4>
                 <button
-                  onClick={() => onViewDetails?.(task)}
-                  className="p-1.5 text-gray-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition"
-                  title="View Details"
+                  onClick={() => setAssigningTask(null)}
+                  className="text-gray-400 hover:text-white"
                 >
-                  <Eye className="w-4 h-4" />
+                  <X className="w-4 h-4" />
                 </button>
               </div>
+              <select
+                value={selectedMember}
+                onChange={(e) => setSelectedMember(e.target.value)}
+                className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white text-sm mb-3"
+              >
+                <option value="">Select member...</option>
+                {teamMembers.map((member) => (
+                  <option key={member._id} value={member._id}>
+                    {member.fullName} - {member.position || "Team Member"}
+                  </option>
+                ))}
+              </select>
+              <textarea
+                placeholder="Instructions (optional)"
+                value={instructions}
+                onChange={(e) => setInstructions(e.target.value)}
+                className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white text-sm mb-3"
+                rows="2"
+              />
+              <button
+                onClick={() => handleAssignSubmit(task._id)}
+                disabled={!selectedMember}
+                className="w-full px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition disabled:opacity-50"
+              >
+                Assign Task
+              </button>
             </div>
+          )}
+        </div>
+      </motion.div>
+    );
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Pending Tasks Section */}
+      {pendingTasks.length > 0 && (
+        <div>
+          <h3 className="text-sm font-semibold text-yellow-400 mb-3 flex items-center gap-2">
+            <Clock className="w-4 h-4" />
+            Pending Assignment ({pendingTasks.length})
+          </h3>
+          <div className="space-y-3">
+            {pendingTasks.map((task, idx) =>
+              renderTaskCard(task, idx, "pending"),
+            )}
           </div>
-        </motion.div>
-      ))}
+        </div>
+      )}
+
+      {/* In Progress Tasks Section */}
+      {inProgressTasks.length > 0 && (
+        <div>
+          <h3 className="text-sm font-semibold text-blue-400 mb-3 flex items-center gap-2">
+            <PlayCircle className="w-4 h-4" />
+            In Progress ({inProgressTasks.length})
+          </h3>
+          <div className="space-y-3">
+            {inProgressTasks.map((task, idx) =>
+              renderTaskCard(task, idx, "in_progress"),
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Completed Tasks Section */}
+      {completedTasks.length > 0 && (
+        <div>
+          <h3 className="text-sm font-semibold text-emerald-400 mb-3 flex items-center gap-2">
+            <CheckCircle className="w-4 h-4" />
+            Completed ({completedTasks.length})
+          </h3>
+          <div className="space-y-3">
+            {completedTasks.map((task, idx) =>
+              renderTaskCard(task, idx, "completed"),
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

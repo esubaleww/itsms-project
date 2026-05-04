@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { applicationService } from "../services/application.service";
-import { useToast } from "../components/ui/Toast";
+import { useToast } from "../common/ui/Toast";
 
 export const useApplications = () => {
   const [loading, setLoading] = useState(false);

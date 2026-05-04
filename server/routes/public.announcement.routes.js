@@ -16,5 +16,14 @@ router.get("/announcements", async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 });
+router.get("/announcements/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await announcementService.getPublicAnnouncementById(id);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+});
 
 export default router;

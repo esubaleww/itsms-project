@@ -32,13 +32,13 @@ export const getMenteeProgress = async (req, res, type) => {
 export const reviewMilestone = async (req, res, type) => {
   try {
     const { menteeId, milestoneId } = req.params;
-    const { status, feedback } = req.body;
+    const { feedback } = req.body;
+
     const result = await mentorService.reviewMilestone(
       req.user.id,
       menteeId,
       milestoneId,
       type,
-      status,
       feedback,
     );
     res.json(result);
@@ -52,6 +52,14 @@ export const addMilestone = async (req, res, type) => {
   try {
     const { menteeId } = req.params;
     const milestoneData = req.body;
+
+    console.log("Adding milestone with data:", {
+      mentorId: req.user.id,
+      menteeId,
+      type,
+      milestoneData,
+    });
+
     const result = await mentorService.addMilestone(
       req.user.id,
       menteeId,

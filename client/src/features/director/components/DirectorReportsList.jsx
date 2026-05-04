@@ -13,6 +13,12 @@ import {
   ChevronRight,
   Building2,
   BookOpen,
+  Send,
+  GraduationCap,
+  Lightbulb,
+  Rocket,
+  School,
+  Award,
 } from "lucide-react";
 
 const DirectorReportsList = ({
@@ -24,11 +30,11 @@ const DirectorReportsList = ({
 }) => {
   const [expandedId, setExpandedId] = useState(null);
   const [actionLoading, setActionLoading] = useState(null);
-  const [reviewModal, setReviewModal] = useState({
-    show: false,
-    reportId: null,
-  });
-  const [reviewFeedback, setReviewFeedback] = useState("");
+  const [reviewFeedback, setReviewFeedback] = useState({});
+  const [showReviewForm, setShowReviewForm] = useState(null);
+  const [showApproveForm, setShowApproveForm] = useState(null);
+  const [showRejectForm, setShowRejectForm] = useState(null);
+  const [rejectReason, setRejectReason] = useState("");
 
   const getStatusConfig = (status) => {
     switch (status) {
@@ -67,6 +73,68 @@ const DirectorReportsList = ({
     }
   };
 
+  const getReportTypeIcon = (type) => {
+    switch (type) {
+      case "team_report":
+        return <Users className="w-4 h-4" />;
+      case "advisor_report":
+        return <GraduationCap className="w-4 h-4" />;
+      case "mentor_report":
+        return <Lightbulb className="w-4 h-4" />;
+      case "startup_mentor_report":
+        return <Rocket className="w-4 h-4" />;
+      case "trainer_report":
+        return <School className="w-4 h-4" />;
+      default:
+        return <FileText className="w-4 h-4" />;
+    }
+  };
+
+  const getReportTypeLabel = (type) => {
+    switch (type) {
+      case "team_report":
+        return "Team Report";
+      case "advisor_report":
+        return "Advisor Summary";
+      case "mentor_report":
+        return "Mentor Summary";
+      case "startup_mentor_report":
+        return "Startup Mentor Summary";
+      case "trainer_report":
+        return "Trainer Summary";
+      default:
+        return "Report";
+    }
+  };
+
+  const getSubmittedByName = (report) => {
+    if (report.submittedBy?.fullName) return report.submittedBy.fullName;
+    if (report.data?.submittedBy?.fullName)
+      return report.data.submittedBy.fullName;
+    if (report.submittedBy?.name) return report.submittedBy.name;
+    return "Unknown";
+  };
+
+  const getParticipantName = (report) => {
+    if (report.participant?.fullName) return report.participant.fullName;
+    if (report.participant?.companyName) return report.participant.companyName;
+    if (report.data?.traineeName) return report.data.traineeName;
+    return "N/A";
+  };
+
+  const getSummaryText = (report) => {
+    if (report.summary) return report.summary;
+    if (report.data?.summary) return report.data.summary;
+    if (report.data?.comments) return report.data.comments;
+    if (report.data?.overallPerformance) {
+      return `Overall Performance: ${report.data.overallPerformance}. ${report.data.comments || ""}`;
+    }
+    if (report.data?.overallProgress) {
+      return `Overall Progress: ${report.data.overallProgress}. ${report.data.comments || ""}`;
+    }
+    return "No summary available";
+  };
+
   const formatDate = (date) => {
     if (!date) return "N/A";
     return new Date(date).toLocaleDateString("en-US", {
@@ -88,19 +156,16 @@ const DirectorReportsList = ({
 
   const handleReview = async (reportId) => {
     if (!onReview) return;
-    setReviewModal({ show: true, reportId });
-  };
-
-  const submitReview = async () => {
-    if (!reviewFeedback.trim()) {
+    const feedback = reviewFeedback[reportId];
+    if (!feedback || !feedback.trim()) {
       alert("Please provide feedback before reviewing");
       return;
     }
-    setActionLoading(reviewModal.reportId);
+    setActionLoading(reportId);
     try {
-      await onReview(reviewModal.reportId, reviewFeedback, "reviewed");
-      setReviewModal({ show: false, reportId: null });
-      setReviewFeedback("");
+      await onReview(reportId, feedback);
+      setShowReviewForm(null);
+      setReviewFeedback((prev) => ({ ...prev, [reportId]: "" }));
     } finally {
       setActionLoading(null);
     }
@@ -108,10 +173,10 @@ const DirectorReportsList = ({
 
   const handleApprove = async (reportId) => {
     if (!onApprove) return;
-    const comments = prompt("Enter approval comments (optional):");
     setActionLoading(reportId);
     try {
-      await onApprove(reportId, comments);
+      await onApprove(reportId);
+      setShowApproveForm(null);
     } finally {
       setActionLoading(null);
     }
@@ -119,14 +184,17 @@ const DirectorReportsList = ({
 
   const handleReject = async (reportId) => {
     if (!onReject) return;
-    const reason = prompt("Please provide a reason for rejection:");
-    if (reason) {
-      setActionLoading(reportId);
-      try {
-        await onReject(reportId, reason);
-      } finally {
-        setActionLoading(null);
-      }
+    if (!rejectReason || !rejectReason.trim()) {
+      alert("Please provide a reason for rejection");
+      return;
+    }
+    setActionLoading(reportId);
+    try {
+      await onReject(reportId, rejectReason);
+      setShowRejectForm(null);
+      setRejectReason("");
+    } finally {
+      setActionLoading(null);
     }
   };
 
@@ -138,7 +206,6 @@ const DirectorReportsList = ({
     }
   };
 
-  // Loading state
   if (reports === undefined) {
     return (
       <div className="space-y-4">
@@ -163,7 +230,6 @@ const DirectorReportsList = ({
     );
   }
 
-  // Empty state
   if (!reports || reports.length === 0) {
     return (
       <div className="text-center py-16">
@@ -172,8 +238,7 @@ const DirectorReportsList = ({
         </div>
         <p className="text-gray-400 text-lg">No reports submitted</p>
         <p className="text-sm text-gray-500 mt-1 max-w-md mx-auto">
-          Director reports will appear here once submitted. Reports help track
-          progress and performance metrics.
+          Reports will appear here once submitted.
         </p>
       </div>
     );
@@ -186,13 +251,15 @@ const DirectorReportsList = ({
           const statusConfig = getStatusConfig(report.status);
           const StatusIcon = statusConfig.icon;
           const isExpanded = expandedId === report._id;
-          const isPending = report.status === "submitted";
+          const isPending =
+            report.status === "submitted" || report.status === "pending";
           const isReviewed = report.status === "reviewed";
           const isLoading = actionLoading === report._id;
-          const hasMetrics =
-            report.metrics && Object.keys(report.metrics).length > 0;
           const hasFeedback =
             report.feedback && report.feedback.trim().length > 0;
+          const showReview = showReviewForm === report._id;
+          const showApprove = showApproveForm === report._id;
+          const showReject = showRejectForm === report._id;
 
           return (
             <motion.div
@@ -202,13 +269,14 @@ const DirectorReportsList = ({
               transition={{ duration: 0.3, delay: index * 0.05 }}
               className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden hover:border-gray-600 transition-all duration-200"
             >
-              {/* Main Content */}
               <div className="p-5">
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-                  {/* Left Side - Report Info */}
                   <div className="flex-1">
-                    {/* Status and Date Row */}
                     <div className="flex flex-wrap items-center gap-2 mb-3">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-700/50 text-gray-300 border border-gray-600">
+                        {getReportTypeIcon(report.type)}
+                        {getReportTypeLabel(report.type)}
+                      </span>
                       <span
                         className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${statusConfig.bg} ${statusConfig.color} border ${statusConfig.border}`}
                       >
@@ -221,74 +289,65 @@ const DirectorReportsList = ({
                       </span>
                     </div>
 
-                    {/* Title */}
                     <h3 className="text-white font-semibold text-lg mb-2">
                       {report.title}
                     </h3>
 
-                    {/* Meta Info */}
                     <div className="flex flex-wrap items-center gap-3 text-sm text-gray-400 mb-3">
+                      <span className="flex items-center gap-1">
+                        <User className="w-3 h-3" />
+                        Submitted by: {getSubmittedByName(report)}
+                      </span>
+                      {report.type !== "team_report" && (
+                        <span className="flex items-center gap-1">
+                          <Award className="w-3 h-3" />
+                          Trainee: {getParticipantName(report)}
+                        </span>
+                      )}
                       {report.team && (
                         <span className="flex items-center gap-1">
                           <Users className="w-3 h-3" />
                           Team: {report.team?.name}
                         </span>
                       )}
-                      {report.submittedBy && (
-                        <span className="flex items-center gap-1">
-                          <User className="w-3 h-3" />
-                          By: {report.submittedBy?.fullName}
-                        </span>
-                      )}
-                      {report.directorate && (
-                        <span className="flex items-center gap-1">
-                          <Building2 className="w-3 h-3" />
-                          {report.directorate?.name}
-                        </span>
-                      )}
                     </div>
 
-                    {/* Period */}
-                    {report.period && (
-                      <div className="flex items-center gap-2 text-sm text-gray-400 mb-3">
-                        <Calendar className="w-4 h-4" />
-                        <span>
-                          {formatDate(report.period?.startDate)} -{" "}
-                          {formatDate(report.period?.endDate)}
+                    {report.data?.overallPerformance && (
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="text-xs text-gray-400">
+                          Performance:
+                        </span>
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400">
+                          {report.data.overallPerformance}
                         </span>
                       </div>
                     )}
 
-                    {/* Summary Preview */}
-                    {report.summary && (
-                      <p className="text-gray-300 text-sm line-clamp-2 mb-3">
-                        {report.summary}
-                      </p>
-                    )}
-
-                    {/* Quick Metrics */}
-                    {hasMetrics && (
-                      <div className="flex flex-wrap gap-3 mt-2">
-                        {report.metrics.applicationsProcessed !== undefined && (
-                          <div className="flex items-center gap-1 text-xs bg-gray-700/50 px-2 py-1 rounded-lg">
-                            <FileText className="w-3 h-3 text-blue-400" />
-                            <span className="text-gray-300">
-                              {report.metrics.applicationsProcessed} processed
+                    {report.data?.skillsAcquired &&
+                      report.data.skillsAcquired.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mb-3">
+                          {report.data.skillsAcquired
+                            .slice(0, 3)
+                            .map((skill, i) => (
+                              <span
+                                key={i}
+                                className="text-xs px-2 py-0.5 bg-gray-700 rounded-full text-gray-300"
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                          {report.data.skillsAcquired.length > 3 && (
+                            <span className="text-xs px-2 py-0.5 bg-gray-700 rounded-full text-gray-400">
+                              +{report.data.skillsAcquired.length - 3} more
                             </span>
-                          </div>
-                        )}
-                        {report.metrics.approvedApplications !== undefined && (
-                          <div className="flex items-center gap-1 text-xs bg-gray-700/50 px-2 py-1 rounded-lg">
-                            <CheckCircle className="w-3 h-3 text-emerald-400" />
-                            <span className="text-gray-300">
-                              {report.metrics.approvedApplications} approved
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                          )}
+                        </div>
+                      )}
 
-                    {/* Feedback Preview */}
+                    <p className="text-gray-300 text-sm line-clamp-2 mb-3">
+                      {getSummaryText(report)}
+                    </p>
+
                     {hasFeedback && !isExpanded && (
                       <div className="mt-3 flex items-start gap-2 text-xs bg-blue-500/10 border border-blue-500/20 rounded-lg p-2">
                         <MessageSquare className="w-3 h-3 text-blue-400 mt-0.5 shrink-0" />
@@ -299,63 +358,37 @@ const DirectorReportsList = ({
                     )}
                   </div>
 
-                  {/* Right Side - Actions */}
                   <div className="flex items-center gap-1">
-                    {/* Review Button - Only for pending reports */}
-                    {isPending && onReview && (
+                    {isPending && onReview && !showReview && (
                       <button
-                        onClick={() => handleReview(report._id)}
-                        disabled={isLoading}
-                        className={`p-2 rounded-lg transition ${
-                          isLoading
-                            ? "text-gray-500 cursor-not-allowed"
-                            : "text-blue-400 hover:bg-blue-500/20"
-                        }`}
+                        onClick={() => setShowReviewForm(report._id)}
+                        className="p-2 rounded-lg transition text-blue-400 hover:bg-blue-500/20"
                         title="Review Report"
                       >
-                        {isLoading && actionLoading === report._id ? (
-                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-400 border-t-transparent"></div>
-                        ) : (
-                          <BookOpen className="w-4 h-4" />
-                        )}
+                        <BookOpen className="w-4 h-4" />
                       </button>
                     )}
 
-                    {/* Approve/Reject Buttons - Only for reviewed reports */}
                     {isReviewed && onApprove && onReject && (
                       <>
-                        <button
-                          onClick={() => handleApprove(report._id)}
-                          disabled={isLoading}
-                          className={`p-2 rounded-lg transition ${
-                            isLoading
-                              ? "text-gray-500 cursor-not-allowed"
-                              : "text-emerald-400 hover:bg-emerald-500/20"
-                          }`}
-                          title="Approve Report"
-                        >
-                          {isLoading && actionLoading === report._id ? (
-                            <div className="animate-spin rounded-full h-4 w-4 border-2 border-emerald-400 border-t-transparent"></div>
-                          ) : (
+                        {!showApprove && (
+                          <button
+                            onClick={() => setShowApproveForm(report._id)}
+                            className="p-2 rounded-lg transition text-emerald-400 hover:bg-emerald-500/20"
+                            title="Approve Report"
+                          >
                             <CheckCircle className="w-4 h-4" />
-                          )}
-                        </button>
-                        <button
-                          onClick={() => handleReject(report._id)}
-                          disabled={isLoading}
-                          className={`p-2 rounded-lg transition ${
-                            isLoading
-                              ? "text-gray-500 cursor-not-allowed"
-                              : "text-red-400 hover:bg-red-500/20"
-                          }`}
-                          title="Reject Report"
-                        >
-                          {isLoading && actionLoading === report._id ? (
-                            <div className="animate-spin rounded-full h-4 w-4 border-2 border-red-400 border-t-transparent"></div>
-                          ) : (
+                          </button>
+                        )}
+                        {!showReject && (
+                          <button
+                            onClick={() => setShowRejectForm(report._id)}
+                            className="p-2 rounded-lg transition text-red-400 hover:bg-red-500/20"
+                            title="Reject Report"
+                          >
                             <XCircle className="w-4 h-4" />
-                          )}
-                        </button>
+                          </button>
+                        )}
                       </>
                     )}
 
@@ -384,9 +417,121 @@ const DirectorReportsList = ({
                     </button>
                   </div>
                 </div>
+
+                {showReview && (
+                  <div className="mt-4 p-4 bg-gray-700/30 rounded-lg border border-gray-600">
+                    <p className="text-sm text-gray-300 mb-2">
+                      Provide feedback for this report:
+                    </p>
+                    <textarea
+                      rows={3}
+                      value={reviewFeedback[report._id] || ""}
+                      onChange={(e) =>
+                        setReviewFeedback((prev) => ({
+                          ...prev,
+                          [report._id]: e.target.value,
+                        }))
+                      }
+                      placeholder="Enter your feedback and comments..."
+                      className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500"
+                    />
+                    <div className="flex gap-3 mt-3">
+                      <button
+                        onClick={() => {
+                          setShowReviewForm(null);
+                          setReviewFeedback((prev) => ({
+                            ...prev,
+                            [report._id]: "",
+                          }));
+                        }}
+                        className="px-4 py-2 border border-gray-600 rounded-lg text-gray-300 hover:bg-gray-700"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={() => handleReview(report._id)}
+                        disabled={!reviewFeedback[report._id]?.trim()}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
+                      >
+                        {isLoading ? (
+                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+                        ) : (
+                          <Send className="w-4 h-4" />
+                        )}
+                        Submit Review
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {showApprove && (
+                  <div className="mt-4 p-4 bg-gray-700/30 rounded-lg border border-gray-600">
+                    <p className="text-sm text-gray-300 mb-2">
+                      Approve this report?
+                    </p>
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => {
+                          setShowApproveForm(null);
+                        }}
+                        className="px-4 py-2 border border-gray-600 rounded-lg text-gray-300 hover:bg-gray-700"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={() => handleApprove(report._id)}
+                        className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 flex items-center gap-2"
+                      >
+                        {isLoading ? (
+                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+                        ) : (
+                          <CheckCircle className="w-4 h-4" />
+                        )}
+                        Approve
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {showReject && (
+                  <div className="mt-4 p-4 bg-gray-700/30 rounded-lg border border-gray-600">
+                    <p className="text-sm text-gray-300 mb-2">
+                      Reason for rejection:
+                    </p>
+                    <textarea
+                      rows={2}
+                      value={rejectReason}
+                      onChange={(e) => setRejectReason(e.target.value)}
+                      placeholder="Please provide a reason for rejection..."
+                      className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500"
+                    />
+                    <div className="flex gap-3 mt-3">
+                      <button
+                        onClick={() => {
+                          setShowRejectForm(null);
+                          setRejectReason("");
+                        }}
+                        className="px-4 py-2 border border-gray-600 rounded-lg text-gray-300 hover:bg-gray-700"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={() => handleReject(report._id)}
+                        disabled={!rejectReason.trim()}
+                        className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 flex items-center gap-2"
+                      >
+                        {isLoading ? (
+                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+                        ) : (
+                          <XCircle className="w-4 h-4" />
+                        )}
+                        Reject
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
 
-              {/* Expanded Section */}
               <AnimatePresence>
                 {isExpanded && (
                   <motion.div
@@ -397,7 +542,70 @@ const DirectorReportsList = ({
                     className="border-t border-gray-700 overflow-hidden"
                   >
                     <div className="p-5 bg-gray-800/50 space-y-5">
-                      {/* ... rest of expanded section remains the same ... */}
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-400 mb-2">
+                          Detailed Summary
+                        </h4>
+                        <p className="text-white text-sm">
+                          {getSummaryText(report)}
+                        </p>
+                      </div>
+
+                      {report.data?.recommendation && (
+                        <div>
+                          <h4 className="text-sm font-medium text-gray-400 mb-2">
+                            Recommendation
+                          </h4>
+                          <p className="text-gray-300 text-sm">
+                            {report.data.recommendation}
+                          </p>
+                        </div>
+                      )}
+
+                      {report.data?.skillsAcquired &&
+                        report.data.skillsAcquired.length > 0 && (
+                          <div>
+                            <h4 className="text-sm font-medium text-gray-400 mb-2">
+                              Skills Acquired
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                              {report.data.skillsAcquired.map((skill, i) => (
+                                <span
+                                  key={i}
+                                  className="text-xs px-2 py-1 bg-gray-700 rounded-full text-gray-300"
+                                >
+                                  {skill}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                      {report.data?.certificationRecommended !== undefined && (
+                        <div>
+                          <h4 className="text-sm font-medium text-gray-400 mb-2">
+                            Certification Recommendation
+                          </h4>
+                          <p className="text-gray-300 text-sm">
+                            {report.data.certificationRecommended
+                              ? "Yes, recommended"
+                              : "Not recommended"}
+                          </p>
+                        </div>
+                      )}
+
+                      {hasFeedback && (
+                        <div>
+                          <h4 className="text-sm font-medium text-gray-400 mb-2">
+                            Director Feedback
+                          </h4>
+                          <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
+                            <p className="text-gray-300 text-sm">
+                              {report.feedback}
+                            </p>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </motion.div>
                 )}
@@ -406,50 +614,6 @@ const DirectorReportsList = ({
           );
         })}
       </div>
-
-      {/* Review Modal */}
-      {reviewModal.show && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-gray-800 rounded-2xl w-full max-w-md border border-gray-700"
-          >
-            <div className="p-5 border-b border-gray-700">
-              <h3 className="text-lg font-semibold text-white">
-                Review Report
-              </h3>
-              <p className="text-sm text-gray-400 mt-1">
-                Provide feedback before marking as reviewed
-              </p>
-            </div>
-            <div className="p-5">
-              <textarea
-                rows={4}
-                value={reviewFeedback}
-                onChange={(e) => setReviewFeedback(e.target.value)}
-                placeholder="Enter your feedback and comments..."
-                className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500"
-              />
-            </div>
-            <div className="p-5 pt-0 flex gap-3">
-              <button
-                onClick={() => setReviewModal({ show: false, reportId: null })}
-                className="flex-1 px-4 py-2 border border-gray-600 rounded-lg text-gray-300 hover:bg-gray-700"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={submitReview}
-                disabled={!reviewFeedback.trim()}
-                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
-              >
-                Submit Review
-              </button>
-            </div>
-          </motion.div>
-        </div>
-      )}
     </>
   );
 };

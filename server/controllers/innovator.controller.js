@@ -13,11 +13,12 @@ export const getMyMilestones = async (req, res) => {
 export const updateMilestoneStatus = async (req, res) => {
   try {
     const { milestoneId } = req.params;
-    const { status } = req.body;
+    const { status, evidenceData } = req.body;
     const result = await innovatorService.updateMilestoneStatus(
       req.user.id,
       milestoneId,
       status,
+      evidenceData,
     );
     res.json(result);
   } catch (error) {

@@ -108,7 +108,7 @@ export const updateService = async (id, data) => {
   const service = await ServiceCatalog.findByIdAndUpdate(
     id,
     { ...data, updatedAt: new Date() },
-    { new: true, runValidators: true },
+    { returnDocument: "after", runValidators: true },
   );
   if (!service) throw new Error("Service not found");
   return service;
@@ -118,7 +118,7 @@ export const deleteService = async (id) => {
   const service = await ServiceCatalog.findByIdAndUpdate(
     id,
     { isActive: false, updatedAt: new Date() },
-    { new: true },
+    { returnDocument: "after" },
   );
   if (!service) throw new Error("Service not found");
   return service;

@@ -18,7 +18,7 @@ export const getStaffStats = async (userId) => {
   ).length;
 
   const completionRate =
-    totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+    totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
 
   return {
     totalTasks,

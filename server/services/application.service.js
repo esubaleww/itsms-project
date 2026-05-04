@@ -38,7 +38,7 @@ export const apply = async (type, userId, data) => {
         },
         {
           upsert: true,
-          new: true,
+          returnDocument: "after",
           runValidators: true,
         },
       );
@@ -160,7 +160,13 @@ export const getMyApplications = async (userId) => {
       applicant: userId,
       type: "service",
     })
+      .populate("applicant", "fullName email")
       .populate("relatedProfile", "organizationName department totalRequests")
+      .populate("adminDecision.by", "fullName")
+      .populate("assignedDirector", "fullName")
+      .populate("assignedTeam", "name")
+      .populate("assignedTo", "fullName")
+      .populate("timeline.by", "fullName")
       .sort("-createdAt");
 
     return {

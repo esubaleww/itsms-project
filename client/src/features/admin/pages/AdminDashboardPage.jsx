@@ -3,9 +3,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useAdmin } from "../../../hooks/useAdmin";
 import { useNotifications } from "../../../hooks/useNotifications";
 import { useServiceCatalog } from "../../../hooks/useServiceCatalog";
+import { useAnnouncements } from "../../../hooks/useAnnouncements";
 
 import AdminHeader from "../components/AdminHeader";
-import AnalyticsTab from "../components/AnalyticsTab";
+import AnalyticsTab from "../components/AdminAnalytics";
 import AdminStatsCards from "../components/AdminStatsCards";
 import PendingRequestsTable from "../components/PendingRequestsTable";
 import DirectoratesList from "../components/DirectoratesList";
@@ -14,7 +15,7 @@ import DirectorReportsList from "../components/DirectorReportsList";
 import AnnouncementsList from "../components/AnnouncementsList";
 import UsersList from "../components/UsersList";
 import RequestDetailModal from "../components/RequestDetailModal";
-import ReportDetailModal from "../components/ReportDetailModal";
+import ReportDetailModal from "../../../common/components/ReportDetailsModal";
 import CreateStaffModal from "../components/CreateStaffModal";
 import CreateDirectorateModal from "../components/CreateDirectorateModal";
 import CreateAnnouncementModal from "../components/CreateAnnouncementModal";
@@ -78,6 +79,8 @@ const AdminDashboardPage = () => {
     deleteService,
   } = useServiceCatalog();
 
+  const { fetchAnnouncements } = useAnnouncements();
+
   const { unreadCount, fetchNotifications } = useNotifications();
 
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -86,12 +89,12 @@ const AdminDashboardPage = () => {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [selectedReport, setSelectedReport] = useState(null);
   const [showModal, setShowModal] = useState(false);
+
   const [modalType, setModalType] = useState("");
   const [selectedService, setSelectedService] = useState(null);
   const [showServiceModal, setShowServiceModal] = useState(false);
   const [serviceModalType, setServiceModalType] = useState("create");
   const [formData, setFormData] = useState({});
-  const [showAnalytics, setShowAnalytics] = useState(false);
 
   const totalUsers = stats?.totalUsers || 0;
 
@@ -185,6 +188,19 @@ const AdminDashboardPage = () => {
   const handleServiceSearch = (search) => {
     fetchServices({ search });
   };
+  const handleToggleFeatured = async (announcement) => {
+    await updateAnnouncement(announcement._id, {
+      isFeatured: !announcement.isFeatured,
+    });
+    fetchAnnouncements();
+  };
+
+  const handleTogglePublish = async (announcement) => {
+    await updateAnnouncement(announcement._id, {
+      isPublished: !announcement.isPublished,
+    });
+    fetchAnnouncements();
+  };
 
   useEffect(() => {
     if (activeTab === "services") {
@@ -210,28 +226,10 @@ const AdminDashboardPage = () => {
         title="Admin Dashboard"
         unreadCount={unreadCount}
         onExport={exportData}
-        showAnalytics={showAnalytics}
-        setShowAnalytics={setShowAnalytics}
         onMenuClick={() => setMobileSidebarOpen(true)}
       />
 
-      <AnimatePresence>
-        {showAnalytics && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="bg-gray-800 border-b border-gray-700 overflow-hidden relative z-50"
-          >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-              <AnalyticsTab />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       <div className="flex">
-        {/* Desktop Sidebar */}
         <aside
           className={`hidden md:block fixed left-0 top-16 h-[calc(100vh-4rem)] transition-all duration-300 bg-gray-800/50 border-r border-gray-700 ${
             sidebarCollapsed ? "w-20" : "w-64"
@@ -339,13 +337,11 @@ const AdminDashboardPage = () => {
           )}
         </AnimatePresence>
 
-        {/* Main Content */}
         <main
           className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? "md:ml-20" : "md:ml-64"}`}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="animate-fadeIn">
-              {/* Dashboard Tab */}
               {activeTab === "dashboard" && (
                 <div>
                   <AdminStatsCards
@@ -354,7 +350,6 @@ const AdminDashboardPage = () => {
                   />
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-                    {/* Recent Requests */}
                     <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden">
                       <div className="px-6 py-4 border-b border-gray-700 flex justify-between items-center">
                         <h2 className="text-lg font-semibold text-white flex items-center gap-2">
@@ -403,7 +398,6 @@ const AdminDashboardPage = () => {
                       </div>
                     </div>
 
-                    {/* Recent Reports */}
                     <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden">
                       <div className="px-6 py-4 border-b border-gray-700 flex justify-between items-center">
                         <h2 className="text-lg font-semibold text-white flex items-center gap-2">
@@ -464,7 +458,6 @@ const AdminDashboardPage = () => {
                     </div>
                   </div>
 
-                  {/* Quick Actions */}
                   <div className="mt-6 bg-linear-to-r from-emerald-600 to-teal-700 rounded-xl p-6">
                     <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
                       <Zap className="w-5 h-5" />
@@ -507,18 +500,11 @@ const AdminDashboardPage = () => {
                       >
                         <Clock className="w-4 h-4" /> Review Pending
                       </button>
-                      <button
-                        onClick={() => exportData()}
-                        className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition flex items-center gap-2 text-white"
-                      >
-                        <Download className="w-4 h-4" /> Export Data
-                      </button>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* Services Tab */}
               {activeTab === "services" && (
                 <ServiceCatalogList
                   services={services}
@@ -540,7 +526,6 @@ const AdminDashboardPage = () => {
                 />
               )}
 
-              {/* Requests Tab */}
               {activeTab === "requests" && (
                 <PendingRequestsTable
                   requests={pendingRequests}
@@ -552,7 +537,6 @@ const AdminDashboardPage = () => {
                 />
               )}
 
-              {/* Users Tab */}
               {activeTab === "users" && (
                 <UsersList
                   users={users}
@@ -561,7 +545,6 @@ const AdminDashboardPage = () => {
                 />
               )}
 
-              {/* Directorates Tab */}
               {activeTab === "directorates" && (
                 <DirectoratesList
                   directorates={directorates}
@@ -579,7 +562,6 @@ const AdminDashboardPage = () => {
                 />
               )}
 
-              {/* Staff Tab */}
               {activeTab === "staff" && (
                 <StaffList
                   staff={staff}
@@ -598,7 +580,6 @@ const AdminDashboardPage = () => {
                 />
               )}
 
-              {/* Reports Tab */}
               {activeTab === "reports" && (
                 <DirectorReportsList
                   reports={directorReports}
@@ -613,7 +594,6 @@ const AdminDashboardPage = () => {
                 />
               )}
 
-              {/* Announcements Tab */}
               {activeTab === "announcements" && (
                 <AnnouncementsList
                   announcements={announcements}
@@ -628,6 +608,8 @@ const AdminDashboardPage = () => {
                     setModalType("announcement_create");
                     setShowModal(true);
                   }}
+                  onToggleFeatured={handleToggleFeatured}
+                  onTogglePublish={handleTogglePublish}
                 />
               )}
             </div>
@@ -635,7 +617,6 @@ const AdminDashboardPage = () => {
         </main>
       </div>
 
-      {/* Modals (same as before) */}
       {showServiceModal && (
         <ServiceCatalogModal
           service={serviceModalType === "edit" ? selectedService : null}
@@ -709,11 +690,11 @@ const AdminDashboardPage = () => {
           isEditing
         />
       )}
-
       {showModal && modalType === "announcement_create" && (
         <CreateAnnouncementModal
           onClose={() => setShowModal(false)}
           onSubmit={createAnnouncement}
+          isEditing={false}
         />
       )}
 
@@ -722,7 +703,7 @@ const AdminDashboardPage = () => {
           onClose={() => setShowModal(false)}
           onSubmit={(data) => updateAnnouncement(formData._id, data)}
           initialData={formData}
-          isEditing
+          isEditing={true}
         />
       )}
     </div>

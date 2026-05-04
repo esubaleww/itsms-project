@@ -83,7 +83,7 @@ export default function NewsPage() {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900">
-      {/* Sticky Back Button - Always visible while scrolling */}
+      {/* Sticky Back Button */}
       <div className="sticky top-0 z-30 bg-gray-900/95 backdrop-blur-md border-b border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <button
@@ -117,7 +117,7 @@ export default function NewsPage() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Featured News - Full width with image */}
+        {/* Featured News Section */}
         {featuredNews.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -126,61 +126,74 @@ export default function NewsPage() {
             className="mb-16"
           >
             <h2 className="text-2xl font-bold text-white mb-6">Featured</h2>
-            {featuredNews.map((item) => {
-              const categoryColor =
-                categoryColors[item.category] || categoryColors.announcement;
-              const categoryLabel =
-                categoryLabels[item.category] || "Announcement";
-              return (
-                <div
-                  key={item._id}
-                  className="bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700 overflow-hidden hover:border-emerald-500/50 transition-all duration-300"
-                >
-                  <div className="grid lg:grid-cols-2 gap-0">
-                    <div className="relative h-64 lg:h-auto overflow-hidden">
-                      <img
-                        src="https://images.unsplash.com/photo-1769740333462-9a63bfa914bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjB0ZWFtJTIwY29sbGFib3JhdGlvbiUyMG9mZmljZXxlbnwxfHx8fDE3NzM5ODQ5NjR8MA&ixlib=rb-4.1.0&q=80&w=1080"
-                        alt={item.title}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-linear-to-t from-gray-900/50 to-transparent"></div>
-                    </div>
-                    <div className="p-8 flex flex-col justify-between">
-                      <div>
-                        <div className="flex items-center gap-3 mb-4">
-                          <span
-                            className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${categoryColor}`}
-                          >
-                            {categoryLabel}
-                          </span>
-                          <span className="text-sm text-gray-500 flex items-center gap-1">
-                            <Calendar className="w-4 h-4" />
-                            {formatDate(item.publishedDate)}
-                          </span>
+            <div className="space-y-8">
+              {featuredNews.map((item, index) => {
+                const categoryColor =
+                  categoryColors[item.category] || categoryColors.announcement;
+                const categoryLabel =
+                  categoryLabels[item.category] || "Announcement";
+                return (
+                  <motion.div
+                    key={item._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700 overflow-hidden hover:border-emerald-500/50 transition-all duration-300"
+                  >
+                    <div className="grid lg:grid-cols-2 gap-0">
+                      {/* Image - full height, object-cover maintains aspect ratio */}
+                      <div className="relative overflow-hidden">
+                        {item.image?.url ? (
+                          <img
+                            src={item.image.url}
+                            alt={item.title}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                          />
+                        ) : (
+                          <div className="w-full h-full min-h-75 bg-gray-700 flex items-center justify-center">
+                            <Newspaper className="w-16 h-16 text-gray-500" />
+                          </div>
+                        )}
+                      </div>
+                      {/* Content - natural height, no scrolling */}
+                      <div className="p-8 flex flex-col">
+                        <div>
+                          <div className="flex items-center gap-3 mb-4 flex-wrap">
+                            <span
+                              className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${categoryColor}`}
+                            >
+                              {categoryLabel}
+                            </span>
+                            <span className="text-sm text-gray-500 flex items-center gap-1">
+                              <Calendar className="w-4 h-4" />
+                              {formatDate(item.publishedDate)}
+                            </span>
+                          </div>
+                          <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">
+                            {item.title}
+                          </h3>
+                          <p className="text-gray-400 mb-6">
+                            {item.excerpt || item.content?.substring(0, 300)}
+                            {item.content?.length > 300 && "..."}
+                          </p>
                         </div>
-                        <h3 className="text-3xl font-bold text-white mb-4">
-                          {item.title}
-                        </h3>
-                        <p className="text-gray-400 mb-6">
-                          {item.excerpt || item.content?.substring(0, 200)}
-                        </p>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-500 flex items-center gap-1">
-                          <Clock className="w-4 h-4" />
-                          {formatReadTime(item.content)}
-                        </span>
-                        <Link to={`/news/${item._id}`}>
-                          <button className="px-5 py-2 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white rounded-lg transition flex items-center gap-2 text-sm font-medium border border-emerald-500/20 hover:border-transparent">
-                            Read More <ArrowRight className="w-4 h-4" />
-                          </button>
-                        </Link>
+                        <div className="flex items-center justify-between mt-auto pt-4">
+                          <span className="text-sm text-gray-500 flex items-center gap-1">
+                            <Clock className="w-4 h-4" />
+                            {formatReadTime(item.content)}
+                          </span>
+                          <Link to={`/news/${item._id}`}>
+                            <button className="px-5 py-2 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white rounded-lg transition flex items-center gap-2 text-sm font-medium border border-emerald-500/20 hover:border-transparent">
+                              Read More <ArrowRight className="w-4 h-4" />
+                            </button>
+                          </Link>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              );
-            })}
+                  </motion.div>
+                );
+              })}
+            </div>
           </motion.div>
         )}
 
@@ -206,15 +219,21 @@ export default function NewsPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="h-full"
                   >
                     <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden hover:shadow-xl hover:border-emerald-500/50 transition-all duration-300 group h-full flex flex-col">
+                      {/* Image - fixed height, object-cover */}
                       <div className="relative h-48 overflow-hidden shrink-0">
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
+                        {item.image?.url ? (
+                          <img
+                            src={item.image.url}
+                            alt={item.title}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gray-700 flex items-center justify-center">
+                            <Newspaper className="w-8 h-8 text-gray-500" />
+                          </div>
+                        )}
                         <div className="absolute top-4 left-4">
                           <span
                             className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${categoryColor}`}
@@ -237,11 +256,11 @@ export default function NewsPage() {
                         <h3 className="text-lg font-bold text-white mb-2 line-clamp-2 group-hover:text-emerald-400 transition">
                           {item.title}
                         </h3>
-                        <p className="text-gray-400 text-sm mb-4 line-clamp-3 flex-1">
+                        <p className="text-gray-400 text-sm mb-4 line-clamp-3">
                           {item.excerpt || item.content?.substring(0, 120)}
                         </p>
                         <Link to={`/news/${item._id}`}>
-                          <div className="inline-flex items-center text-emerald-400 text-sm font-medium group-hover:gap-2 transition-all">
+                          <div className="inline-flex items-center text-emerald-400 text-sm font-medium group-hover:gap-2 transition-all mt-auto">
                             Read More{" "}
                             <ArrowRight className="w-4 h-4 ml-1 group-hover:ml-2 transition" />
                           </div>

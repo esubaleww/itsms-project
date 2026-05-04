@@ -45,6 +45,30 @@ export const getPublicAnnouncements = async (filters = {}) => {
 
   return { success: true, announcements };
 };
+export const getPublicAnnouncementById = async (id) => {
+  const announcement = await Announcement.findByIdAndUpdate(
+    id,
+    { $inc: { views: 1 } },
+    { returnDocument: "after" },
+  ).populate("createdBy", "fullName");
+
+  if (!announcement) {
+    throw new Error("Announcement not found");
+  }
+
+  if (!announcement.isPublished) {
+    throw new Error("Announcement is not available");
+  }
+
+  if (
+    announcement.expiryDate &&
+    new Date(announcement.expiryDate) < new Date()
+  ) {
+    throw new Error("Announcement has expired");
+  }
+
+  return { success: true, announcement };
+};
 
 export const getAllAnnouncements = async () => {
   const announcements = await Announcement.find()

@@ -1,14 +1,16 @@
 import { motion } from "framer-motion";
 import {
   CheckSquare,
-  TrendingUp,
   GraduationCap,
   Lightbulb,
   School,
+  Users,
+  Clock,
 } from "lucide-react";
 
 const StaffStatsCards = ({
   stats,
+  isServiceStaff,
   canAdvise,
   canMentor,
   canTrain,
@@ -18,8 +20,7 @@ const StaffStatsCards = ({
 }) => {
   const cards = [];
 
-  // Service Tasks Stats - always show if staff has tasks
-  if (stats && stats.totalTasks !== undefined) {
+  if (isServiceStaff && stats && stats.totalTasks !== undefined) {
     cards.push({
       title: "My Tasks",
       value: stats?.totalTasks || 0,
@@ -28,43 +29,42 @@ const StaffStatsCards = ({
       color: "from-emerald-500 to-teal-700",
       bg: "bg-emerald-500/20",
     });
-    cards.push({
-      title: "Completion Rate",
-      value: `${stats?.completionRate || 0}%`,
-      icon: <TrendingUp className="w-6 h-6" />,
-      color: "from-blue-500 to-cyan-700",
-      bg: "bg-blue-500/20",
-    });
   }
 
-  // Advisor Stats - only if staff has canAdvise permission
   if (canAdvise && advisorStats && advisorStats.totalInterns > 0) {
     cards.push({
-      title: "My Interns",
-      value: advisorStats.totalInterns,
-      subValue: `${advisorStats.pendingReports || 0} pending reports`,
+      title: "Pending Reports",
+      value: advisorStats.pendingReports || 0,
+      subValue: `${advisorStats.totalInterns} total interns`,
       icon: <GraduationCap className="w-6 h-6" />,
       color: "from-purple-500 to-pink-700",
       bg: "bg-purple-500/20",
     });
   }
 
-  // Mentor Stats - only if staff has canMentor permission
-  if (canMentor && mentorStats && mentorStats.totalMentees > 0) {
+  if (canMentor && mentorStats) {
     cards.push({
-      title: "My Mentees",
-      value: mentorStats.totalMentees,
-      subValue: `${mentorStats.pendingMilestones || 0} pending milestones`,
+      title: "Pending Reviews",
+      value: mentorStats.pendingReviews || 0,
+      subValue: "Milestones awaiting feedback",
       icon: <Lightbulb className="w-6 h-6" />,
       color: "from-orange-500 to-red-700",
       bg: "bg-orange-500/20",
     });
+
+    cards.push({
+      title: "Active Mentees",
+      value: mentorStats.totalMentees || 0,
+      subValue: `${mentorStats.completedMentees || 0} completed`,
+      icon: <Users className="w-6 h-6" />,
+      color: "from-emerald-500 to-teal-700",
+      bg: "bg-emerald-500/20",
+    });
   }
 
-  // Trainer Stats - only if staff has canTrain permission
   if (canTrain && trainerStats && trainerStats.totalTrainees > 0) {
     cards.push({
-      title: "My Trainees",
+      title: "Active Trainees",
       value: trainerStats.totalTrainees,
       subValue: `${trainerStats.pendingSessions || 0} upcoming sessions`,
       icon: <School className="w-6 h-6" />,

@@ -63,7 +63,6 @@ export const useAuthStore = create(
         }
       },
 
-      // Logout
       logout: async () => {
         try {
           await authService.logout();
@@ -91,7 +90,6 @@ export const useAuthStore = create(
           });
           return data;
         } catch (error) {
-          // If token expired, logout
           if (error.response?.status === 401) {
             get().logout();
           }
@@ -140,12 +138,10 @@ export const useAuthStore = create(
         }
       },
 
-      // Update Profile
       updateProfile: async (updateData) => {
         set({ loading: true, error: null });
         try {
           const data = await authService.updateProfile(updateData);
-          // ✅ Update user with new profile data
           set({
             user: { ...get().user, ...data.user },
             loading: false,
@@ -160,7 +156,6 @@ export const useAuthStore = create(
         }
       },
 
-      // Change Password
       changePassword: async (currentPassword, newPassword) => {
         set({ loading: true, error: null });
         try {
@@ -179,7 +174,6 @@ export const useAuthStore = create(
         }
       },
 
-      // Forgot Password
       forgotPassword: async (email) => {
         set({ loading: true, error: null });
         try {
@@ -194,7 +188,6 @@ export const useAuthStore = create(
         }
       },
 
-      // Reset Password
       resetPassword: async (token, newPassword) => {
         set({ loading: true, error: null });
         try {
@@ -209,7 +202,6 @@ export const useAuthStore = create(
         }
       },
 
-      // Clear Error
       clearError: () => set({ error: null }),
     }),
     {

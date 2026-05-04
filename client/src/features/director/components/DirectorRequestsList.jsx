@@ -1,3 +1,4 @@
+// client/src/features/director/components/DirectorRequestsList.jsx
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -19,6 +20,7 @@ import {
   Rocket,
   FileText,
   Users,
+  History,
 } from "lucide-react";
 
 const DirectorRequestsList = ({
@@ -74,6 +76,14 @@ const DirectorRequestsList = ({
           border: "border-purple-500/30",
           icon: Users,
           label: "Assigned to Team",
+        };
+      case "completed":
+        return {
+          color: "text-emerald-400",
+          bg: "bg-emerald-500/20",
+          border: "border-emerald-500/30",
+          icon: Check,
+          label: "Completed",
         };
       case "pending_admin":
         return {
@@ -250,25 +260,16 @@ const DirectorRequestsList = ({
   };
 
   const handleAdvisorClick = (requestId) => {
-    const instructions = prompt(
-      "Enter instructions for the advisor (optional):",
-    );
     setShowAdvisorAssign(requestId);
     setSelectedStaff("");
   };
 
   const handleMentorClick = (requestId) => {
-    const instructions = prompt(
-      "Enter instructions for the mentor (optional):",
-    );
     setShowMentorAssign(requestId);
     setSelectedStaff("");
   };
 
   const handleTrainerClick = (requestId) => {
-    const instructions = prompt(
-      "Enter instructions for the trainer (optional):",
-    );
     setShowTrainerAssign(requestId);
     setSelectedStaff("");
   };
@@ -308,13 +309,22 @@ const DirectorRequestsList = ({
   };
 
   const needsMentor = (req) => {
+    console.log("Mentor check - req:", {
+      type: req.type,
+      status: req.status,
+      assignedMentor: req.assignedMentor,
+      mentor: req.mentor,
+      assignedTo: req.assignedTo,
+      assignments: req.assignments,
+    });
+
     return (
       (req.type === "innovation" || req.type === "startup") &&
       req.status === "approved" &&
-      !req.assignedMentor
+      !req.assignedMentor &&
+      !req.mentor
     );
   };
-
   const needsTrainer = (req) => {
     return (
       req.type === "training" &&
@@ -559,90 +569,6 @@ const DirectorRequestsList = ({
                       </button>
                     ))}
 
-                  {showAssign &&
-                    needsAdvisor(req) &&
-                    (isAdvisorAssigning ? (
-                      <StaffAssignmentDropdown
-                        options={advisorOptions}
-                        selectedStaff={selectedStaff}
-                        onSelect={setSelectedStaff}
-                        onConfirm={() =>
-                          handleConfirmStaffAssign(
-                            "advisor",
-                            req._id,
-                            selectedStaff,
-                          )
-                        }
-                        onCancel={handleCancelStaffAssign}
-                        isLoading={isLoading}
-                        placeholder="Select Advisor..."
-                      />
-                    ) : (
-                      <button
-                        onClick={() => handleAdvisorClick(req._id)}
-                        className="text-emerald-400 text-xs font-medium px-2 py-1 rounded-lg hover:bg-emerald-500/20 transition flex items-center gap-1"
-                      >
-                        <UserPlus className="w-3 h-3" />
-                        Assign Advisor
-                      </button>
-                    ))}
-
-                  {showAssign &&
-                    needsMentor(req) &&
-                    (isMentorAssigning ? (
-                      <StaffAssignmentDropdown
-                        options={mentorOptions}
-                        selectedStaff={selectedStaff}
-                        onSelect={setSelectedStaff}
-                        onConfirm={() =>
-                          handleConfirmStaffAssign(
-                            "mentor",
-                            req._id,
-                            selectedStaff,
-                          )
-                        }
-                        onCancel={handleCancelStaffAssign}
-                        isLoading={isLoading}
-                        placeholder="Select Mentor..."
-                      />
-                    ) : (
-                      <button
-                        onClick={() => handleMentorClick(req._id)}
-                        className="text-purple-400 text-xs font-medium px-2 py-1 rounded-lg hover:bg-purple-500/20 transition flex items-center gap-1"
-                      >
-                        <UserPlus className="w-3 h-3" />
-                        Assign Mentor
-                      </button>
-                    ))}
-
-                  {showAssign &&
-                    needsTrainer(req) &&
-                    (isTrainerAssigning ? (
-                      <StaffAssignmentDropdown
-                        options={trainerOptions}
-                        selectedStaff={selectedStaff}
-                        onSelect={setSelectedStaff}
-                        onConfirm={() =>
-                          handleConfirmStaffAssign(
-                            "trainer",
-                            req._id,
-                            selectedStaff,
-                          )
-                        }
-                        onCancel={handleCancelStaffAssign}
-                        isLoading={isLoading}
-                        placeholder="Select Trainer..."
-                      />
-                    ) : (
-                      <button
-                        onClick={() => handleTrainerClick(req._id)}
-                        className="text-cyan-400 text-xs font-medium px-2 py-1 rounded-lg hover:bg-cyan-500/20 transition flex items-center gap-1"
-                      >
-                        <UserPlus className="w-3 h-3" />
-                        Assign Trainer
-                      </button>
-                    ))}
-
                   <button
                     onClick={() => onViewDetails?.(req._id)}
                     className="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-gray-700 transition"
@@ -651,6 +577,7 @@ const DirectorRequestsList = ({
                     <Eye className="w-4 h-4" />
                   </button>
 
+                  {/* Timeline button - show for all requests */}
                   {req.timeline && req.timeline.length > 0 && (
                     <button
                       onClick={() => setExpandedId(isExpanded ? null : req._id)}
@@ -661,17 +588,14 @@ const DirectorRequestsList = ({
                       }`}
                       title={isExpanded ? "Hide timeline" : "Show timeline"}
                     >
-                      <ChevronRight
-                        className={`w-4 h-4 transition-transform duration-200 ${
-                          isExpanded ? "rotate-90" : ""
-                        }`}
-                      />
+                      <History className="w-4 h-4" />
                     </button>
                   )}
                 </div>
               </div>
             </div>
 
+            {/* Timeline Section - Show for all requests when expanded */}
             <AnimatePresence>
               {isExpanded && req.timeline && req.timeline.length > 0 && (
                 <motion.div
@@ -691,13 +615,16 @@ const DirectorRequestsList = ({
                           <div className="flex flex-col items-center">
                             <div
                               className={`w-2.5 h-2.5 rounded-full ${
-                                event.action === "Approved"
+                                event.action === "Application approved" ||
+                                event.action === "Request completed"
                                   ? "bg-emerald-500"
-                                  : event.action === "Rejected"
+                                  : event.action === "Application rejected"
                                     ? "bg-red-500"
-                                    : event.action === "Completed"
+                                    : event.action === "Task completed"
                                       ? "bg-purple-500"
-                                      : "bg-blue-500"
+                                      : event.action === "Assigned to team"
+                                        ? "bg-blue-500"
+                                        : "bg-gray-500"
                               } mt-1.5`}
                             ></div>
                             {idx < req.timeline.length - 1 && (
@@ -717,7 +644,9 @@ const DirectorRequestsList = ({
                               <User className="w-3 h-3" />
                               {event.by?.fullName || "System"} •{" "}
                               {formatDateTime(
-                                event.timestamp || event.createdAt,
+                                event.date ||
+                                  event.timestamp ||
+                                  event.createdAt,
                               )}
                             </p>
                           </div>

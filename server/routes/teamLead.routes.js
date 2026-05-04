@@ -2,8 +2,8 @@ import express from "express";
 import { protect } from "../middleware/auth.middleware.js";
 import { checkTeamLead } from "../middleware/permission.middleware.js";
 import * as teamleadController from "../controllers/teamLead.controller.js";
-import * as teamLeadAnalyticsController from "../controllers/teamLeadAnalytics.controller.js";
-import * as teamLeadExportController from "../controllers/teamLeadExport.controller.js";
+import * as teamLeadAnalyticsController from "../controllers/teamLead.analytics.controller.js";
+import * as teamLeadExportController from "../controllers/teamLead.export.controller.js";
 
 const router = express.Router();
 

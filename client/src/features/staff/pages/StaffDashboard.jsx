@@ -1,26 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../hooks/useAuth";
 import { useStaff } from "../../../hooks/useStaff";
 import { useNotifications } from "../../../hooks/useNotifications";
-import { useAuth } from "../../../hooks/useAuth";
 import { useStaffProfile } from "../../../hooks/useStaffProfile";
 import { useAdvisor } from "../../../hooks/useAdvisor";
 import { useMentor } from "../../../hooks/useMentor";
 import { useTrainer } from "../../../hooks/useTrainer";
-
-import StaffHeader from "../components/StaffHeader";
-import StaffStatsCards from "../components/StaffStatsCards";
-import TasksList from "../components/TasksList";
-import RecentActivity from "../components/RecentActivity";
-import TaskDetailModal from "../components/TaskDetailModal";
-
-// Role-specific modals
-import ReportReviewModal from "../components/ReportReviewModal";
-import MilestoneReviewModal from "../components/MilestoneReviewModal";
-import SessionManagementModal from "../components/SessionManagementModal";
-import InternProgressModal from "../components/InternProgressModal";
-import MenteeProgressModal from "../components/MenteeProgressModal";
-import TraineeProgressModal from "../components/TraineeProgressModal";
-
+import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
   CheckSquare,
@@ -33,12 +20,36 @@ import {
   Eye,
   FileText,
   Briefcase,
+  Menu,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Calendar,
 } from "lucide-react";
 
-const StaffDashboardPage = () => {
-  const { user } = useAuth();
+import StaffHeader from "../components/StaffHeader";
+import StaffStatsCards from "../components/StaffStatsCards";
+import MyTasksList from "../components/MyTasksList";
+import TaskDetailModal from "../components/TaskDetailModal";
+import AdvisorInternsList from "../components/AdvisorInternsList";
+import MentorMenteesList from "../components/MentorMenteesList";
+import TrainerTraineesList from "../components/TrainerTraineesList";
+import WeeklyReportReviewModal from "../components/WeeklyReportReviewModal";
+import FinalSummaryModal from "../components/FinalSummaryModal";
+import TrainerFinalReviewModal from "../components/TrainerFinalReviewModal";
+import MentorFinalReviewModal from "../components/MentorFinalReviewModal";
+import MilestoneReviewModal from "../components/MilestoneReviewModal";
+import SessionManagementModal from "../components/SessionManagementModal";
+import InternProgressModal from "../components/InternProgressModal";
+import MenteeProgressModal from "../components/MenteeProgressModal";
+import TraineeProgressModal from "../components/TraineeProgressModal";
+import SessionsList from "../components/SessionsList";
+import SessionQRModal from "../components/SessionQRModal";
 
-  // Service/Technical Staff Hook - for tasks assigned by team leads
+const StaffDashboardPage = () => {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
   const {
     stats: serviceStats,
     tasks,
@@ -47,26 +58,27 @@ const StaffDashboardPage = () => {
     updateTaskStatus,
   } = useStaff();
 
-  const { notifications, unreadCount, fetchNotifications } = useNotifications();
+  const { fetchNotifications } = useNotifications();
   const {
     staffProfile,
     fetchStaffProfile,
     loading: profileLoading,
   } = useStaffProfile();
 
-  // Advisor Hook - only if staff has canAdvise permission
   const {
     interns,
+    internReports,
     loading: advisorLoading,
     fetchInterns,
+    fetchInternReports,
     fetchInternProgress,
     reviewReport,
     submitSummary,
     internProgress,
     selectedIntern,
+    setSelectedIntern,
   } = useAdvisor();
 
-  // Mentor Hook - only if staff has canMentor permission
   const {
     innovators,
     startups,
@@ -76,118 +88,179 @@ const StaffDashboardPage = () => {
     fetchMenteeProgress,
     reviewMilestone,
     addMilestone,
+    submitFinalReview,
     menteeProgress,
     selectedMentee,
   } = useMentor();
 
-  // Trainer Hook - only if staff has canTrain permission
   const {
     trainees,
     loading: trainerLoading,
     fetchTrainees,
     fetchTraineeProgress,
     createSession,
-    recordAttendance,
     generateCertificate,
     traineeProgress,
     selectedTrainee,
+    setSelectedTrainee,
+    getSessions,
+    submitTrainerSummary,
   } = useTrainer();
 
+  const [greeting, setGreeting] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
   const [selectedTask, setSelectedTask] = useState(null);
   const [selectedParticipant, setSelectedParticipant] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
   const [showTaskModal, setShowTaskModal] = useState(false);
-  const [showReportModal, setShowReportModal] = useState(false);
+  const [showWeeklyReportModal, setShowWeeklyReportModal] = useState(false);
+  const [showFinalSummaryModal, setShowFinalSummaryModal] = useState(false);
+  const [showMentorFinalModal, setShowMentorFinalModal] = useState(false);
+  const [showTrainerFinalModal, setShowTrainerFinalModal] = useState(false);
   const [showMilestoneModal, setShowMilestoneModal] = useState(false);
   const [showSessionModal, setShowSessionModal] = useState(false);
   const [showProgressModal, setShowProgressModal] = useState(false);
+  const [sessions, setSessions] = useState([]);
+  const [selectedSession, setSelectedSession] = useState(null);
+  const [showQRModal, setShowQRModal] = useState(false);
+  const [trainerSubTab, setTrainerSubTab] = useState("sessions");
 
-  // Get permissions from staff profile
-  const canAdvise = staffProfile?.canAdvise || false;
-  const canMentor = staffProfile?.canMentor || false;
-  const canTrain = staffProfile?.canTrain || false;
-  const hasServiceTasks = tasks && tasks.length > 0;
+  const directorateType =
+    user?.directorate?.type || staffProfile?.directorate?.type || "service";
+
+  const isServiceStaff = directorateType === "service";
+  const canAdvise = directorateType === "internship";
+  const canMentor =
+    directorateType === "innovation" || directorateType === "startup";
+  const canTrain = directorateType === "training";
+  const hasServiceTasks = isServiceStaff && tasks && tasks.length > 0;
+
+  const navItems = [
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      icon: <LayoutDashboard className="w-5 h-5" />,
+    },
+  ];
+
+  if (hasServiceTasks) {
+    navItems.push({
+      id: "tasks",
+      label: "My Tasks",
+      icon: <Briefcase className="w-5 h-5" />,
+      count: tasks?.filter((t) => t.status !== "completed").length,
+    });
+  }
+
+  if (canAdvise) {
+    navItems.push({
+      id: "advisor",
+      label: "Advisor",
+      icon: <GraduationCap className="w-5 h-5" />,
+      count: interns?.filter((i) => i.pendingReports > 0)?.length || 0,
+    });
+  }
+
+  if (canMentor) {
+    navItems.push({
+      id: "mentor",
+      label: "Mentor",
+      icon: <Lightbulb className="w-5 h-5" />,
+      count:
+        [...(innovators || []), ...(startups || [])].filter(
+          (m) => m.pendingMilestones > 0,
+        )?.length || 0,
+    });
+  }
+
+  if (canTrain) {
+    navItems.push({
+      id: "trainer",
+      label: "Trainer",
+      icon: <School className="w-5 h-5" />,
+      count: trainees?.filter((t) => t.upcomingSessions > 0)?.length || 0,
+    });
+  }
+
+  const fetchSessions = useCallback(async () => {
+    if (!canTrain) return;
+    try {
+      const data = await getSessions();
+      setSessions(data.sessions || []);
+    } catch (error) {
+      console.error("Failed to fetch sessions:", error);
+    }
+  }, [canTrain, getSessions]);
+
+  const handleCreateSession = async (sessionData) => {
+    try {
+      await createSession(sessionData);
+      await fetchSessions();
+      await fetchTrainees();
+    } catch (error) {
+      console.error("Failed to create session:", error);
+    }
+  };
+
+  const handleGenerateQR = (session) => {
+    setSelectedSession(session);
+    setShowQRModal(true);
+  };
 
   useEffect(() => {
     const loadData = async () => {
-      await Promise.all([
-        fetchStaffProfile(),
-        fetchAll(), // Load service tasks
-        fetchNotifications(),
-      ]);
-
-      // Load role-specific data based on permissions from StaffProfile
-      if (canAdvise) {
-        await fetchInterns();
-      }
-      if (canMentor) {
-        await Promise.all([fetchInnovators(), fetchStartups()]);
-      }
-      if (canTrain) {
-        await fetchTrainees();
+      try {
+        await Promise.all([
+          fetchStaffProfile(),
+          fetchAll(),
+          fetchNotifications(),
+        ]);
+        if (canAdvise) await fetchInterns();
+        if (canMentor) await Promise.all([fetchInnovators(), fetchStartups()]);
+        if (canTrain) {
+          await fetchTrainees();
+          await fetchSessions();
+        }
+      } catch (error) {
+        console.error("Failed to load dashboard data:", error);
       }
     };
     loadData();
+
+    const hour = new Date().getHours();
+    if (hour < 12) setGreeting("Good Morning");
+    else if (hour < 18) setGreeting("Good Afternoon");
+    else setGreeting("Good Evening");
   }, []);
 
-  // Build tabs based on permissions from StaffProfile
-  const getTabs = () => {
-    const tabs = [
-      {
-        id: "dashboard",
-        label: "Dashboard",
-        icon: <LayoutDashboard className="w-4 h-4" />,
-      },
-    ];
-
-    // Service Tasks - if staff has any service tasks
-    if (hasServiceTasks) {
-      tabs.push({
-        id: "tasks",
-        label: "My Tasks",
-        icon: <Briefcase className="w-4 h-4" />,
-        count: tasks?.filter((t) => t.status !== "completed").length,
-      });
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await Promise.all([
+        fetchAll(),
+        fetchNotifications(),
+        fetchStaffProfile(),
+      ]);
+      if (canAdvise) await fetchInterns();
+      if (canMentor) await Promise.all([fetchInnovators(), fetchStartups()]);
+      if (canTrain) {
+        await fetchTrainees();
+        await fetchSessions();
+      }
+    } finally {
+      setRefreshing(false);
     }
-
-    // Advisor tab - based on canAdvise permission
-    if (canAdvise && interns?.length > 0) {
-      tabs.push({
-        id: "advisor",
-        label: "Advisor",
-        icon: <GraduationCap className="w-4 h-4" />,
-        count: interns?.filter((i) => i.pendingReports > 0)?.length || 0,
-      });
-    }
-
-    // Mentor tab - based on canMentor permission
-    if (canMentor && (innovators?.length > 0 || startups?.length > 0)) {
-      tabs.push({
-        id: "mentor",
-        label: "Mentor",
-        icon: <Lightbulb className="w-4 h-4" />,
-        count:
-          [...(innovators || []), ...(startups || [])].filter(
-            (m) => m.pendingMilestones > 0,
-          )?.length || 0,
-      });
-    }
-
-    // Trainer tab - based on canTrain permission
-    if (canTrain && trainees?.length > 0) {
-      tabs.push({
-        id: "trainer",
-        label: "Trainer",
-        icon: <School className="w-4 h-4" />,
-        count: trainees?.filter((t) => t.upcomingSessions > 0)?.length || 0,
-      });
-    }
-
-    return tabs;
   };
 
-  const tabs = getTabs();
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+  };
+
   const isLoading =
     staffLoading ||
     profileLoading ||
@@ -195,410 +268,429 @@ const StaffDashboardPage = () => {
     mentorLoading ||
     trainerLoading;
 
+  const totalInterns = interns?.length || 0;
+  const pendingReports =
+    interns?.filter((i) => i.pendingReports > 0).length || 0;
+
+  const allMentees = [...(innovators || []), ...(startups || [])];
+  let pendingReviewsCount = 0;
+  allMentees.forEach((mentee) => {
+    const milestones = mentee.milestones || [];
+    const pending = milestones.filter(
+      (m) => m.status === "completed" && !m.feedback,
+    ).length;
+    pendingReviewsCount += pending;
+  });
+
+  const totalTrainees = trainees?.length || 0;
+
   if (isLoading && !serviceStats && !interns && !innovators && !trainees) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-gray-900 to-gray-800">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500 mx-auto"></div>
-          <p className="mt-4 text-gray-400">Loading dashboard...</p>
-        </div>
+      <div className="min-h-screen bg-linear-to-br from-gray-900 to-gray-800 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500" />
       </div>
     );
   }
 
+  const handleViewProgress = async (menteeId, type) => {
+    await fetchMenteeProgress(menteeId, type);
+    setSelectedType(type);
+    setShowProgressModal(true);
+  };
+
+  const handleReviewMilestones = (mentee, type) => {
+    setSelectedParticipant(mentee);
+    setSelectedType(type);
+    setShowMilestoneModal(true);
+  };
+
+  const handleFinalReview = (mentee, type) => {
+    setSelectedParticipant(mentee);
+    setSelectedType(type);
+    setShowMentorFinalModal(true);
+  };
+
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900">
+    <div className="h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden flex flex-col">
       <StaffHeader
-        onRefresh={async () => {
-          await Promise.all([
-            fetchAll(),
-            fetchNotifications(),
-            fetchStaffProfile(),
-          ]);
-          if (canAdvise) await fetchInterns();
-          if (canMentor) {
-            await Promise.all([fetchInnovators(), fetchStartups()]);
-          }
-          if (canTrain) await fetchTrainees();
-        }}
+        onRefresh={handleRefresh}
+        refreshing={refreshing}
         title="Staff Dashboard"
-        unreadCount={unreadCount}
+        teamName={user?.fullName?.split(" ")[0]}
+        onMenuClick={() => setMobileSidebarOpen(true)}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Tabs Navigation */}
-        <div className="border-b border-gray-700 mb-6 overflow-x-auto">
-          <nav className="flex space-x-4 sm:space-x-8">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`
-                  flex items-center gap-2 py-3 px-1 border-b-2 transition-all whitespace-nowrap
-                  ${
-                    activeTab === tab.id
-                      ? "border-emerald-500 text-emerald-400"
-                      : "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600"
-                  }
-                `}
-              >
-                {tab.icon}
-                <span className="text-sm font-medium">{tab.label}</span>
-                {tab.count !== undefined && tab.count > 0 && (
-                  <span className="text-xs px-2 py-0.5 bg-yellow-500/20 text-yellow-400 rounded-full">
-                    {tab.count}
-                  </span>
-                )}
-              </button>
-            ))}
-          </nav>
-        </div>
-
-        <div className="animate-fadeIn">
-          {/* Dashboard Tab */}
-          {activeTab === "dashboard" && (
-            <div>
-              <StaffStatsCards
-                stats={serviceStats}
-                canAdvise={canAdvise}
-                canMentor={canMentor}
-                canTrain={canTrain}
-                advisorStats={{
-                  totalInterns: interns?.length || 0,
-                  pendingReports:
-                    interns?.filter((i) => i.pendingReports > 0)?.length || 0,
-                }}
-                mentorStats={{
-                  totalMentees:
-                    (innovators?.length || 0) + (startups?.length || 0),
-                  pendingMilestones:
-                    [...(innovators || []), ...(startups || [])].filter(
-                      (m) => m.pendingMilestones > 0,
-                    )?.length || 0,
-                }}
-                trainerStats={{
-                  totalTrainees: trainees?.length || 0,
-                  pendingSessions:
-                    trainees?.filter((t) => t.upcomingSessions > 0)?.length ||
-                    0,
-                }}
-              />
-
-              <div className="mt-6 bg-linear-to-r from-emerald-600 to-teal-700 rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-                  <Zap className="w-5 h-5" />
-                  Quick Actions
-                </h3>
-                <div className="flex flex-wrap gap-3">
-                  {hasServiceTasks && (
-                    <button
-                      onClick={() => setActiveTab("tasks")}
-                      className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition flex items-center gap-2 text-white"
-                    >
-                      <Briefcase className="w-4 h-4" /> View My Tasks
-                    </button>
-                  )}
-                  {canAdvise && interns?.length > 0 && (
-                    <button
-                      onClick={() => setActiveTab("advisor")}
-                      className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition flex items-center gap-2 text-white"
-                    >
-                      <GraduationCap className="w-4 h-4" /> Review Intern
-                      Reports
-                    </button>
-                  )}
-                  {canMentor &&
-                    (innovators?.length > 0 || startups?.length > 0) && (
-                      <button
-                        onClick={() => setActiveTab("mentor")}
-                        className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition flex items-center gap-2 text-white"
-                      >
-                        <Lightbulb className="w-4 h-4" /> Review Milestones
-                      </button>
-                    )}
-                  {canTrain && trainees?.length > 0 && (
-                    <button
-                      onClick={() => setActiveTab("trainer")}
-                      className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition flex items-center gap-2 text-white"
-                    >
-                      <School className="w-4 h-4" /> Manage Sessions
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              <RecentActivity activities={notifications} />
-            </div>
-          )}
-
-          {/* Tasks Tab - Service Requests */}
-          {activeTab === "tasks" && hasServiceTasks && (
-            <TasksList
-              tasks={tasks}
-              loading={staffLoading}
-              onUpdateStatus={updateTaskStatus}
-              onViewTask={(task) => {
-                setSelectedTask(task);
-                setShowTaskModal(true);
-              }}
-            />
-          )}
-
-          {/* Advisor Tab - only if canAdvise is true */}
-          {activeTab === "advisor" && canAdvise && interns?.length > 0 && (
-            <div className="space-y-6">
-              <div className="flex justify-between items-center">
-                <div>
-                  <h2 className="text-xl font-bold text-white">My Interns</h2>
-                  <p className="text-gray-400 text-sm">
-                    Review reports and track intern progress
-                  </p>
-                </div>
+      <div className="flex flex-1 overflow-hidden relative">
+        <aside
+          className={`hidden md:block fixed left-0 top-16 h-[calc(100vh-4rem)] transition-all duration-300 bg-gray-800/50 border-r border-gray-700 ${
+            sidebarCollapsed ? "w-20" : "w-64"
+          }`}
+          style={{ zIndex: 40 }}
+        >
+          <div className="h-full overflow-y-auto overflow-x-hidden">
+            <nav className="p-4 space-y-1">
+              {navItems.map((item) => (
                 <button
-                  onClick={() => fetchInterns()}
-                  className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm text-white transition"
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`
+                    w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap
+                    ${
+                      activeTab === item.id
+                        ? "bg-emerald-500/20 text-emerald-400 border-l-2 border-emerald-500"
+                        : "text-gray-400 hover:bg-gray-700/50 hover:text-white"
+                    }
+                    ${sidebarCollapsed ? "justify-center px-2" : ""}
+                  `}
+                  title={sidebarCollapsed ? item.label : ""}
                 >
-                  Refresh
+                  <div className="shrink-0">{item.icon}</div>
+                  {!sidebarCollapsed && (
+                    <span className="text-sm font-medium flex-1 text-left truncate">
+                      {item.label}
+                    </span>
+                  )}
+                  {!sidebarCollapsed && item.count > 0 && (
+                    <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full shrink-0">
+                      {item.count}
+                    </span>
+                  )}
                 </button>
-              </div>
+              ))}
+            </nav>
+          </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {interns?.map((intern) => (
-                  <div
-                    key={intern._id}
-                    className="bg-gray-800/60 rounded-xl border border-gray-700 p-4 hover:border-emerald-500/50 transition group"
+          <button
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            className="absolute -right-3 top-1/2 -translate-y-1/2 bg-gray-700 hover:bg-gray-600 rounded-full p-1.5 shadow-lg z-20 transition-colors border border-gray-600"
+          >
+            {sidebarCollapsed ? (
+              <ChevronRight className="w-4 h-4 text-gray-300" />
+            ) : (
+              <ChevronLeft className="w-4 h-4 text-gray-300" />
+            )}
+          </button>
+        </aside>
+
+        <AnimatePresence>
+          {mobileSidebarOpen && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setMobileSidebarOpen(false)}
+                className="fixed inset-0 bg-black/60 z-40 md:hidden"
+              />
+              <motion.aside
+                initial={{ x: -280 }}
+                animate={{ x: 0 }}
+                exit={{ x: -280 }}
+                transition={{ type: "tween", duration: 0.3 }}
+                className="fixed left-0 top-0 bottom-0 w-64 bg-gray-800 border-r border-gray-700 z-50 md:hidden"
+              >
+                <div className="flex justify-between items-center p-4 border-b border-gray-700">
+                  <span className="text-white font-bold">Menu</span>
+                  <button
+                    onClick={() => setMobileSidebarOpen(false)}
+                    className="p-1 hover:bg-gray-700 rounded-lg"
                   >
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <h3 className="font-semibold text-white group-hover:text-emerald-400 transition">
-                          {intern.intern?.fullName || intern.fullName}
-                        </h3>
-                        <p className="text-xs text-gray-400">
-                          {intern.university?.name}
-                        </p>
-                      </div>
-                      {intern.pendingReports > 0 && (
-                        <span className="text-xs px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full">
-                          {intern.pendingReports} Pending
+                    <X className="w-5 h-5 text-gray-400" />
+                  </button>
+                </div>
+                <nav className="p-4 space-y-1 overflow-y-auto h-[calc(100%-4rem)]">
+                  {navItems.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        setActiveTab(item.id);
+                        setMobileSidebarOpen(false);
+                      }}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
+                        ${activeTab === item.id ? "bg-emerald-500/20 text-emerald-400" : "text-gray-400 hover:bg-gray-700/50 hover:text-white"}`}
+                    >
+                      {item.icon}
+                      <span className="text-sm font-medium flex-1 text-left">
+                        {item.label}
+                      </span>
+                      {item.count > 0 && (
+                        <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full">
+                          {item.count}
                         </span>
                       )}
-                    </div>
-                    <div className="flex gap-2 mt-3">
-                      <button
-                        onClick={async () => {
-                          await fetchInternProgress(intern._id);
-                          setShowProgressModal(true);
-                        }}
-                        className="flex-1 px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white rounded-lg transition text-sm flex items-center justify-center gap-1"
-                      >
-                        <Eye className="w-3 h-3" /> Progress
-                      </button>
-                      <button
-                        onClick={() => {
-                          setSelectedParticipant(intern);
-                          setShowReportModal(true);
-                        }}
-                        className="flex-1 px-3 py-1.5 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white rounded-lg transition text-sm flex items-center justify-center gap-1"
-                      >
-                        <FileText className="w-3 h-3" /> Review
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+                    </button>
+                  ))}
+                </nav>
+              </motion.aside>
+            </>
           )}
+        </AnimatePresence>
 
-          {/* Mentor Tab - only if canMentor is true */}
-          {activeTab === "mentor" && canMentor && (
-            <div className="space-y-8">
-              {innovators?.length > 0 && (
-                <div>
-                  <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                    <Lightbulb className="w-5 h-5 text-purple-400" />
-                    My Innovators
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {innovators?.map((innovator) => (
-                      <div
-                        key={innovator._id}
-                        className="bg-gray-800/60 rounded-xl border border-gray-700 p-4 group"
-                      >
-                        <div className="flex justify-between items-start mb-3">
-                          <div>
-                            <h3 className="font-semibold text-white group-hover:text-purple-400 transition">
-                              {innovator.user?.fullName}
-                            </h3>
-                            <p className="text-xs text-gray-400 line-clamp-1">
-                              {innovator.ideaTitle}
-                            </p>
+        <main
+          className={`flex-1 overflow-y-auto transition-all duration-300 ${sidebarCollapsed ? "md:ml-20" : "md:ml-64"}`}
+        >
+          <div className="px-4 sm:px-6 lg:px-8 py-6">
+            <div className="animate-fadeIn">
+              {activeTab === "dashboard" && (
+                <div className="space-y-6">
+                  {showWelcome && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="relative overflow-hidden bg-linear-to-r from-emerald-600/20 to-teal-600/20 border border-emerald-500/20 rounded-xl"
+                    >
+                      <div className="relative z-10 px-5 py-4 flex items-center justify-between">
+                        <div>
+                          <div className="flex items-center gap-2 text-emerald-400 text-sm mb-1">
+                            <Zap className="w-4 h-4" />
+                            <span>{greeting}</span>
                           </div>
-                          {innovator.pendingMilestones > 0 && (
-                            <span className="text-xs px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full">
-                              {innovator.pendingMilestones} Pending
-                            </span>
-                          )}
+                          <h2 className="text-xl font-bold text-white mb-1">
+                            {user?.fullName?.split(" ")[0]}!
+                          </h2>
+                          <p className="text-gray-400 text-sm">
+                            {canAdvise &&
+                              "Review intern reports and track progress"}
+                            {canMentor &&
+                              "Review milestones and guide your mentees"}
+                            {canTrain &&
+                              "Manage training sessions and track attendance"}
+                            {isServiceStaff &&
+                              hasServiceTasks &&
+                              "Complete your assigned tasks"}
+                          </p>
                         </div>
-                        <div className="flex gap-2 mt-3">
-                          <button
-                            onClick={async () => {
-                              await fetchMenteeProgress(
-                                innovator.user?._id,
-                                "innovator",
-                              );
-                              setSelectedType("innovator");
-                              setShowProgressModal(true);
-                            }}
-                            className="flex-1 px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white rounded-lg transition text-sm"
-                          >
-                            View Progress
-                          </button>
-                          <button
-                            onClick={() => {
-                              setSelectedParticipant(innovator);
-                              setSelectedType("innovator");
-                              setShowMilestoneModal(true);
-                            }}
-                            className="flex-1 px-3 py-1.5 bg-purple-600/20 hover:bg-purple-600 text-purple-400 hover:text-white rounded-lg transition text-sm"
-                          >
-                            Review Milestones
-                          </button>
-                        </div>
+                        <button
+                          onClick={() => setShowWelcome(false)}
+                          className="text-gray-500 hover:text-gray-400 transition"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
                       </div>
-                    ))}
+                    </motion.div>
+                  )}
+
+                  <StaffStatsCards
+                    stats={serviceStats}
+                    isServiceStaff={isServiceStaff}
+                    canAdvise={canAdvise}
+                    canMentor={canMentor}
+                    canTrain={canTrain}
+                    advisorStats={{ totalInterns, pendingReports }}
+                    mentorStats={{
+                      totalMentees: allMentees.length,
+                      pendingReviews: pendingReviewsCount,
+                    }}
+                    trainerStats={{
+                      totalTrainees,
+                      pendingSessions:
+                        trainees?.filter((t) => t.upcomingSessions > 0)
+                          ?.length || 0,
+                    }}
+                  />
+
+                  <div className="bg-linear-to-r from-emerald-600 to-teal-700 rounded-xl p-5">
+                    <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
+                      <Zap className="w-5 h-5" />
+                      Quick Actions
+                    </h3>
+                    <div className="flex flex-wrap gap-3">
+                      {hasServiceTasks && (
+                        <button
+                          onClick={() => setActiveTab("tasks")}
+                          className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition text-white text-sm flex items-center gap-2"
+                        >
+                          <Briefcase className="w-4 h-4" /> View My Tasks
+                        </button>
+                      )}
+                      {canAdvise && interns?.length > 0 && (
+                        <button
+                          onClick={() => setActiveTab("advisor")}
+                          className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition text-white text-sm flex items-center gap-2"
+                        >
+                          <GraduationCap className="w-4 h-4" /> Review Reports
+                        </button>
+                      )}
+                      {canMentor &&
+                        (innovators?.length > 0 || startups?.length > 0) && (
+                          <button
+                            onClick={() => setActiveTab("mentor")}
+                            className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition text-white text-sm flex items-center gap-2"
+                          >
+                            <Lightbulb className="w-4 h-4" /> Review Milestones
+                          </button>
+                        )}
+                      {canTrain && trainees?.length > 0 && (
+                        <button
+                          onClick={() => setActiveTab("trainer")}
+                          className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition text-white text-sm flex items-center gap-2"
+                        >
+                          <School className="w-4 h-4" /> Manage Sessions
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
 
-              {startups?.length > 0 && (
+              {activeTab === "tasks" && hasServiceTasks && (
                 <div>
-                  <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                    <Rocket className="w-5 h-5 text-orange-400" />
-                    My Startups
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {startups?.map((startup) => (
-                      <div
-                        key={startup._id}
-                        className="bg-gray-800/60 rounded-xl border border-gray-700 p-4 group"
-                      >
-                        <div className="flex justify-between items-start mb-3">
-                          <div>
-                            <h3 className="font-semibold text-white group-hover:text-orange-400 transition">
-                              {startup.companyName}
-                            </h3>
-                            <p className="text-xs text-gray-400">
-                              {startup.sector}
-                            </p>
-                          </div>
-                          {startup.pendingMilestones > 0 && (
-                            <span className="text-xs px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full">
-                              {startup.pendingMilestones} Pending
-                            </span>
-                          )}
-                        </div>
-                        <div className="flex gap-2 mt-3">
-                          <button
-                            onClick={async () => {
-                              await fetchMenteeProgress(
-                                startup.user?._id,
-                                "startup",
-                              );
-                              setSelectedType("startup");
-                              setShowProgressModal(true);
-                            }}
-                            className="flex-1 px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white rounded-lg transition text-sm"
-                          >
-                            View Progress
-                          </button>
-                          <button
-                            onClick={() => {
-                              setSelectedParticipant(startup);
-                              setSelectedType("startup");
-                              setShowMilestoneModal(true);
-                            }}
-                            className="flex-1 px-3 py-1.5 bg-orange-600/20 hover:bg-orange-600 text-orange-400 hover:text-white rounded-lg transition text-sm"
-                          >
-                            Review Milestones
-                          </button>
-                        </div>
-                      </div>
-                    ))}
+                  <div className="mb-5">
+                    <h2 className="text-xl font-bold text-white">My Tasks</h2>
+                    <p className="text-xs text-gray-400">
+                      Tasks assigned to you
+                    </p>
                   </div>
+                  <MyTasksList
+                    tasks={tasks}
+                    loading={staffLoading}
+                    onUpdateStatus={updateTaskStatus}
+                    onViewTask={(task) => {
+                      setSelectedTask(task);
+                      setShowTaskModal(true);
+                    }}
+                  />
                 </div>
               )}
-            </div>
-          )}
 
-          {/* Trainer Tab - only if canTrain is true */}
-          {activeTab === "trainer" && canTrain && trainees?.length > 0 && (
-            <div>
-              <div className="flex justify-between items-center mb-4">
+              {activeTab === "advisor" && canAdvise && interns?.length > 0 && (
                 <div>
-                  <h2 className="text-xl font-bold text-white">My Trainees</h2>
-                  <p className="text-gray-400 text-sm">
-                    Manage sessions and track attendance
-                  </p>
+                  <div className="flex justify-between items-center mb-5">
+                    <div>
+                      <h2 className="text-xl font-bold text-white">
+                        My Interns
+                      </h2>
+                      <p className="text-xs text-gray-400">
+                        Review reports and track intern progress
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => fetchInterns()}
+                      className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm text-white transition"
+                    >
+                      Refresh
+                    </button>
+                  </div>
+                  <AdvisorInternsList
+                    interns={interns}
+                    onReviewReport={async (intern) => {
+                      await fetchInternReports(intern._id);
+                      setSelectedParticipant(intern);
+                      setShowWeeklyReportModal(true);
+                    }}
+                    onFinalSummary={(intern) => {
+                      setSelectedParticipant(intern);
+                      setShowFinalSummaryModal(true);
+                    }}
+                    onViewProgress={async (intern) => {
+                      await fetchInternProgress(intern._id);
+                      setSelectedIntern(intern);
+                      setShowProgressModal(true);
+                    }}
+                  />
                 </div>
-                <button
-                  onClick={() => {
-                    setSelectedParticipant(null);
-                    setShowSessionModal(true);
-                  }}
-                  className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 rounded-lg text-sm text-white transition"
-                >
-                  + Create Session
-                </button>
-              </div>
+              )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {trainees?.map((trainee) => (
-                  <div
-                    key={trainee._id}
-                    className="bg-gray-800/60 rounded-xl border border-gray-700 p-4 group"
-                  >
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <h3 className="font-semibold text-white group-hover:text-blue-400 transition">
-                          {trainee.user?.fullName}
-                        </h3>
-                        <p className="text-xs text-gray-400">
-                          {trainee.profession}
-                        </p>
-                      </div>
-                      <span className="text-xs px-2 py-1 bg-green-500/20 text-green-400 rounded-full">
-                        {trainee.progress?.completionRate || 0}% Complete
+              {activeTab === "mentor" && canMentor && (
+                <div>
+                  <div className="flex justify-between items-center mb-5">
+                    <div>
+                      <h2 className="text-xl font-bold text-white">
+                        My{" "}
+                        {directorateType === "innovation"
+                          ? "Innovators"
+                          : "Startups"}
+                      </h2>
+                      <p className="text-xs text-gray-400">
+                        Review milestones and track progress
+                      </p>
+                    </div>
+                    <button
+                      onClick={() =>
+                        directorateType === "innovation"
+                          ? fetchInnovators()
+                          : fetchStartups()
+                      }
+                      className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm text-white transition"
+                    >
+                      Refresh
+                    </button>
+                  </div>
+                  <MentorMenteesList
+                    mentees={
+                      directorateType === "innovation" ? innovators : startups
+                    }
+                    type={
+                      directorateType === "innovation" ? "innovator" : "startup"
+                    }
+                    onViewProgress={handleViewProgress}
+                    onReviewMilestones={handleReviewMilestones}
+                    onFinalReview={handleFinalReview}
+                    loading={mentorLoading}
+                  />
+                </div>
+              )}
+
+              {activeTab === "trainer" && canTrain && (
+                <div>
+                  <div className="flex gap-4 border-b border-gray-700 mb-6">
+                    <button
+                      onClick={() => setTrainerSubTab("sessions")}
+                      className={`pb-3 px-4 text-sm font-medium transition-all duration-200 ${
+                        trainerSubTab === "sessions"
+                          ? "text-emerald-400 border-b-2 border-emerald-400"
+                          : "text-gray-400 hover:text-gray-300"
+                      }`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4" />
+                        Sessions
                       </span>
-                    </div>
-                    <div className="flex gap-2 mt-3">
-                      <button
-                        onClick={async () => {
-                          await fetchTraineeProgress(trainee.user?._id);
-                          setShowProgressModal(true);
-                        }}
-                        className="flex-1 px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white rounded-lg transition text-sm"
-                      >
-                        View Progress
-                      </button>
-                      <button
-                        onClick={() => {
-                          setSelectedParticipant(trainee);
-                          setShowSessionModal(true);
-                        }}
-                        className="flex-1 px-3 py-1.5 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white rounded-lg transition text-sm"
-                      >
-                        Manage Sessions
-                      </button>
-                    </div>
+                    </button>
+                    <button
+                      onClick={() => setTrainerSubTab("trainees")}
+                      className={`pb-3 px-4 text-sm font-medium transition-all duration-200 ${
+                        trainerSubTab === "trainees"
+                          ? "text-emerald-400 border-b-2 border-emerald-400"
+                          : "text-gray-400 hover:text-gray-300"
+                      }`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <School className="w-4 h-4" />
+                        My Trainees
+                      </span>
+                    </button>
                   </div>
-                ))}
-              </div>
+
+                  {trainerSubTab === "sessions" && (
+                    <SessionsList
+                      sessions={sessions}
+                      loading={trainerLoading}
+                      onCreateSession={handleCreateSession}
+                    />
+                  )}
+
+                  {trainerSubTab === "trainees" && (
+                    <TrainerTraineesList
+                      trainees={trainees}
+                      loading={trainerLoading}
+                      onViewProgress={async (traineeId) => {
+                        await fetchTraineeProgress(traineeId);
+                        setShowProgressModal(true);
+                      }}
+                      onFinalReview={(trainee) => {
+                        setSelectedParticipant(trainee);
+                        setShowTrainerFinalModal(true);
+                      }}
+                    />
+                  )}
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </div>
+        </main>
       </div>
 
-      {/* All Modals - same as before */}
       {showTaskModal && selectedTask && (
         <TaskDetailModal
           task={selectedTask}
@@ -610,20 +702,70 @@ const StaffDashboardPage = () => {
         />
       )}
 
-      {showReportModal && selectedParticipant && (
-        <ReportReviewModal
+      {showWeeklyReportModal && selectedParticipant && (
+        <WeeklyReportReviewModal
           intern={selectedParticipant}
+          reports={internReports}
           onClose={() => {
-            setShowReportModal(false);
+            setShowWeeklyReportModal(false);
             setSelectedParticipant(null);
           }}
-          onReview={async (internId, week, feedback, rating) => {
-            await reviewReport(internId, week, feedback, rating);
+          onReview={async (week, feedback, rating) => {
+            await reviewReport(selectedParticipant._id, week, feedback, rating);
             await fetchInterns();
           }}
-          onSubmitSummary={async (internId, summaryData) => {
-            await submitSummary(internId, summaryData);
+        />
+      )}
+
+      {showFinalSummaryModal && selectedParticipant && (
+        <FinalSummaryModal
+          intern={selectedParticipant}
+          onClose={() => {
+            setShowFinalSummaryModal(false);
+            setSelectedParticipant(null);
+          }}
+          onSubmitSummary={async (summaryData) => {
+            await submitSummary(selectedParticipant._id, summaryData);
             await fetchInterns();
+          }}
+        />
+      )}
+
+      {showMentorFinalModal && selectedParticipant && (
+        <MentorFinalReviewModal
+          mentee={selectedParticipant}
+          type={selectedType}
+          onClose={() => {
+            setShowMentorFinalModal(false);
+            setSelectedParticipant(null);
+            setSelectedType(null);
+          }}
+          onSubmit={async (reviewData) => {
+            await submitFinalReview(
+              selectedParticipant._id,
+              selectedType,
+              reviewData,
+            );
+            setShowMentorFinalModal(false);
+            if (selectedType === "innovator") await fetchInnovators();
+            else await fetchStartups();
+          }}
+        />
+      )}
+      {showTrainerFinalModal && selectedParticipant && (
+        <TrainerFinalReviewModal
+          trainee={selectedParticipant}
+          onSubmit={async (summaryData) => {
+            await submitTrainerSummary(
+              selectedParticipant.trainee?._id,
+              summaryData,
+            );
+            setShowTrainerFinalModal(false);
+            await fetchTrainees();
+          }}
+          onClose={() => {
+            setShowTrainerFinalModal(false);
+            setSelectedParticipant(null);
           }}
         />
       )}
@@ -645,81 +787,71 @@ const StaffDashboardPage = () => {
               status,
               feedback,
             );
-            if (selectedType === "innovator") {
-              await fetchInnovators();
-            } else {
-              await fetchStartups();
-            }
+            if (selectedType === "innovator") await fetchInnovators();
+            else await fetchStartups();
           }}
           onAddMilestone={async (participantId, milestoneData) => {
             await addMilestone(participantId, selectedType, milestoneData);
-            if (selectedType === "innovator") {
-              await fetchInnovators();
-            } else {
-              await fetchStartups();
-            }
+            if (selectedType === "innovator") await fetchInnovators();
+            else await fetchStartups();
           }}
         />
       )}
 
-      {showSessionModal && (
+      {showSessionModal && selectedParticipant && (
         <SessionManagementModal
           trainee={selectedParticipant}
           onClose={() => {
             setShowSessionModal(false);
             setSelectedParticipant(null);
           }}
-          onCreateSession={async (sessionData) => {
-            if (selectedParticipant) {
-              await createSession(selectedParticipant.user?._id, sessionData);
-              await fetchTrainees();
-            }
-          }}
-          onRecordAttendance={async (sessionId, traineeId) => {
-            await recordAttendance(sessionId, traineeId);
-            await fetchTrainees();
-          }}
-          onGenerateCertificate={async (traineeId, sessionId) => {
-            await generateCertificate(traineeId, sessionId);
+          onRefresh={fetchTrainees}
+        />
+      )}
+
+      {showProgressModal && selectedIntern && (
+        <InternProgressModal
+          intern={selectedIntern}
+          progress={internProgress}
+          onClose={() => {
+            setShowProgressModal(false);
+            setSelectedIntern(null);
           }}
         />
       )}
 
-      {showProgressModal && (
-        <>
-          {selectedIntern && (
-            <InternProgressModal
-              intern={selectedIntern}
-              progress={internProgress}
-              onClose={() => {
-                setShowProgressModal(false);
-                setSelectedIntern(null);
-              }}
-            />
-          )}
-          {selectedMentee && (
-            <MenteeProgressModal
-              mentee={selectedMentee}
-              progress={menteeProgress}
-              type={selectedType}
-              onClose={() => {
-                setShowProgressModal(false);
-                setSelectedMentee(null);
-                setSelectedType(null);
-              }}
-            />
-          )}
-          {selectedTrainee && (
-            <TraineeProgressModal
-              trainee={selectedTrainee}
-              progress={traineeProgress}
-              onClose={() => {
-                setShowProgressModal(false);
-                setSelectedTrainee(null);
-              }}
-            />
-          )}
-        </>
+      {showProgressModal && selectedMentee && (
+        <MenteeProgressModal
+          mentee={selectedMentee}
+          progress={menteeProgress}
+          type={selectedType}
+          onClose={() => {
+            setShowProgressModal(false);
+            setSelectedMentee(null);
+            setSelectedType(null);
+          }}
+        />
+      )}
+
+      {showProgressModal && selectedTrainee && (
+        <TraineeProgressModal
+          trainee={selectedTrainee}
+          progress={traineeProgress}
+          onClose={() => {
+            setShowProgressModal(false);
+            setSelectedTrainee(null);
+          }}
+        />
+      )}
+
+      {showQRModal && selectedSession && (
+        <SessionQRModal
+          session={selectedSession}
+          onClose={() => {
+            setShowQRModal(false);
+            setSelectedSession(null);
+          }}
+        />
       )}
     </div>
   );

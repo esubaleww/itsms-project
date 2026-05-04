@@ -1,4 +1,3 @@
-// client/src/features/director/components/AssignAdvisorModal.jsx
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {

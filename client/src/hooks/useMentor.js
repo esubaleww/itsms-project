@@ -1,9 +1,13 @@
 import { useState, useCallback } from "react";
 import { mentorService } from "../services/mentor.service";
-import { useToast } from "../components/ui/Toast";
+import { useToast } from "../common/ui/Toast";
+import { useAuth } from "./useAuth";
 
 export const useMentor = () => {
   const { addToast } = useToast();
+  const { user } = useAuth();
+  const mentorId = user?._id;
+
   const [loading, setLoading] = useState(false);
   const [innovators, setInnovators] = useState([]);
   const [startups, setStartups] = useState([]);
@@ -105,7 +109,7 @@ export const useMentor = () => {
   );
 
   const reviewMilestone = useCallback(
-    async (menteeId, milestoneId, type, status, feedback) => {
+    async (menteeId, milestoneId, type, feedback) => {
       setLoading(true);
       try {
         let data;
@@ -113,22 +117,20 @@ export const useMentor = () => {
           data = await mentorService.reviewInnovatorMilestone(
             menteeId,
             milestoneId,
-            status,
             feedback,
           );
         } else {
           data = await mentorService.reviewStartupMilestone(
             menteeId,
             milestoneId,
-            status,
             feedback,
           );
         }
-        addToast(`Milestone marked as ${status}!`, "success");
+        addToast("Feedback added successfully!", "success");
         await fetchMenteeProgress(menteeId, type);
         return data;
       } catch (error) {
-        addToast(error.message || "Failed to review milestone", "error");
+        addToast(error.message || "Failed to add feedback", "error");
         throw error;
       } finally {
         setLoading(false);
@@ -167,6 +169,55 @@ export const useMentor = () => {
     }
   }, [addToast]);
 
+  const submitFinalReview = useCallback(
+    async (menteeId, type, reviewData) => {
+      setLoading(true);
+      try {
+        let data;
+        if (type === "innovator") {
+          data = await mentorService.submitInnovatorFinalReview(
+            menteeId,
+            reviewData,
+          );
+        } else {
+          data = await mentorService.submitStartupFinalReview(
+            menteeId,
+            reviewData,
+          );
+        }
+        addToast("Final review submitted successfully!", "success");
+        return data;
+      } catch (error) {
+        addToast(error.message || "Failed to submit final review", "error");
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [addToast],
+  );
+
+  const updateMenteeStatus = useCallback(
+    async (menteeId, type, status) => {
+      setLoading(true);
+      try {
+        const data = await mentorService.updateMenteeStatus(
+          menteeId,
+          type,
+          status,
+        );
+        addToast(`Status updated to ${status}!`, "success");
+        return data;
+      } catch (error) {
+        addToast(error.message || "Failed to update status", "error");
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [addToast],
+  );
+
   return {
     loading,
     innovators,
@@ -182,5 +233,7 @@ export const useMentor = () => {
     reviewMilestone,
     fetchStats,
     fetchDashboard,
+    submitFinalReview,
+    updateMenteeStatus,
   };
 };

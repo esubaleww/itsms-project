@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { directorService } from "../services/director.service";
-import { useToast } from "../components/ui/Toast";
+import { useToast } from "../common/ui/Toast";
 
 export const useDirector = () => {
   const { addToast } = useToast();
@@ -14,6 +14,11 @@ export const useDirector = () => {
   const [startupSummaries, setStartupSummaries] = useState([]);
   const [traineeSummaries, setTraineeSummaries] = useState([]);
   const [teamReports, setTeamReports] = useState([]);
+  const [advisorReports, setAdvisorReports] = useState([]);
+  const [mentorReports, setMentorReports] = useState([]);
+  const [startupMentorReports, setStartupMentorReports] = useState([]);
+  const [trainerReports, setTrainerReports] = useState([]);
+  const [allReports, setAllReports] = useState([]);
   const [myReports, setMyReports] = useState([]);
   const [availableStaff, setAvailableStaff] = useState([]);
 
@@ -72,7 +77,6 @@ export const useDirector = () => {
     [addToast, fetchRequests],
   );
 
-  // ==================== TEAMS ====================
   const fetchTeams = useCallback(async () => {
     setLoading(true);
     try {
@@ -247,7 +251,6 @@ export const useDirector = () => {
     [addToast, fetchInternSummaries],
   );
 
-  // ==================== INNOVATORS ====================
   const fetchInnovatorSummaries = useCallback(
     async (params = {}) => {
       setLoading(true);
@@ -341,7 +344,6 @@ export const useDirector = () => {
     [addToast],
   );
 
-  // ==================== STARTUPS ====================
   const fetchStartupSummaries = useCallback(
     async (params = {}) => {
       setLoading(true);
@@ -435,7 +437,6 @@ export const useDirector = () => {
     [addToast],
   );
 
-  // ==================== TRAINEES ====================
   const fetchTraineeSummaries = useCallback(
     async (params = {}) => {
       setLoading(true);
@@ -560,6 +561,79 @@ export const useDirector = () => {
     [addToast],
   );
 
+  const fetchAdvisorReports = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await directorService.getAdvisorReports();
+      setAdvisorReports(data.reports || []);
+      return data;
+    } catch (error) {
+      addToast(error.message || "Failed to fetch advisor reports", "error");
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, [addToast]);
+
+  const fetchMentorReports = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await directorService.getMentorReports();
+      setMentorReports(data.reports || []);
+      return data;
+    } catch (error) {
+      addToast(error.message || "Failed to fetch mentor reports", "error");
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, [addToast]);
+
+  const fetchStartupMentorReports = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await directorService.getStartupMentorReports();
+      setStartupMentorReports(data.reports || []);
+      return data;
+    } catch (error) {
+      addToast(
+        error.message || "Failed to fetch startup mentor reports",
+        "error",
+      );
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, [addToast]);
+
+  const fetchTrainerReports = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await directorService.getTrainerReports();
+      setTrainerReports(data.reports || []);
+      return data;
+    } catch (error) {
+      addToast(error.message || "Failed to fetch trainer reports", "error");
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, [addToast]);
+
+  const fetchAllReports = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await directorService.getAllReports();
+      setAllReports(data.reports || []);
+      return data;
+    } catch (error) {
+      addToast(error.message || "Failed to fetch all reports", "error");
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, [addToast]);
+
   const reviewReport = useCallback(
     async (reportId, feedback, status = "reviewed") => {
       setLoading(true);
@@ -620,9 +694,48 @@ export const useDirector = () => {
     },
     [addToast, fetchTeamReports],
   );
+  const approveSummaryReport = useCallback(
+    async (reportId, type, comments) => {
+      setLoading(true);
+      try {
+        const data = await directorService.approveSummaryReport(
+          reportId,
+          type,
+          comments,
+        );
+        addToast("Report approved successfully!", "success");
+        return data;
+      } catch (error) {
+        addToast(error.message || "Failed to approve report", "error");
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [addToast],
+  );
 
-  // ==================== DIRECTOR REPORTS ====================
-  // Define fetchMyDirectorReports FIRST before using it in createDirectorReport
+  const rejectSummaryReport = useCallback(
+    async (reportId, type, reason) => {
+      setLoading(true);
+      try {
+        const data = await directorService.rejectSummaryReport(
+          reportId,
+          type,
+          reason,
+        );
+        addToast("Report rejected", "warning");
+        return data;
+      } catch (error) {
+        addToast(error.message || "Failed to reject report", "error");
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [addToast],
+  );
+
   const fetchMyDirectorReports = useCallback(async () => {
     setLoading(true);
     try {
@@ -637,14 +750,13 @@ export const useDirector = () => {
     }
   }, [addToast]);
 
-  // Now createDirectorReport can safely reference fetchMyDirectorReports
   const createDirectorReport = useCallback(
     async (reportData) => {
       setLoading(true);
       try {
         const data = await directorService.createDirectorReport(reportData);
         addToast("Report submitted successfully!", "success");
-        await fetchMyDirectorReports(); // This is now defined
+        await fetchMyDirectorReports();
         return data;
       } catch (error) {
         addToast(error.message || "Failed to submit report", "error");
@@ -653,10 +765,9 @@ export const useDirector = () => {
         setLoading(false);
       }
     },
-    [addToast, fetchMyDirectorReports], // fetchMyDirectorReports is now defined
+    [addToast, fetchMyDirectorReports],
   );
 
-  // ==================== AVAILABLE STAFF ====================
   const fetchAvailableStaff = useCallback(async () => {
     setLoading(true);
     try {
@@ -671,7 +782,6 @@ export const useDirector = () => {
     }
   }, [addToast]);
 
-  // ==================== INITIAL LOAD ====================
   const fetchAll = useCallback(async () => {
     await Promise.all([
       fetchStats(),
@@ -699,7 +809,6 @@ export const useDirector = () => {
   ]);
 
   return {
-    // Data
     loading,
     stats,
     requests,
@@ -710,10 +819,14 @@ export const useDirector = () => {
     startupSummaries,
     traineeSummaries,
     teamReports,
+    advisorReports,
+    mentorReports,
+    startupMentorReports,
+    trainerReports,
+    allReports,
     myReports,
     availableStaff,
 
-    // Actions
     fetchAll,
     fetchStats,
     fetchRequests,
@@ -723,47 +836,47 @@ export const useDirector = () => {
     fetchStartupSummaries,
     fetchTraineeSummaries,
     fetchTeamReports,
+    fetchAdvisorReports,
+    fetchMentorReports,
+    fetchStartupMentorReports,
+    fetchTrainerReports,
+    fetchAllReports,
     fetchMyDirectorReports,
     fetchAvailableStaff,
 
-    // Team Management
     createTeam,
     deleteTeam,
     assignTeamLead,
     assignToTeam,
     removeFromTeam,
 
-    // Request Management
     assignRequestToTeam,
 
-    // Intern Management
     assignAdvisor,
     getInternProgress,
     updateInternStatus,
 
-    // Innovator Management
     assignMentor,
     removeInnovatorMentor,
     updateInnovatorStatus,
     getInnovatorProgress,
 
-    // Startup Management
     assignStartupMentor,
     removeStartupMentor,
     updateStartupStatus,
     getStartupProgress,
 
-    // Trainee Management
     assignTrainer,
     removeTrainer,
     updateTraineeStatus,
     getTraineeProgress,
     getTraineeSessions,
 
-    // Report Management
     reviewReport,
     approveReport,
     rejectReport,
+    approveSummaryReport,
+    rejectSummaryReport,
     createDirectorReport,
   };
 };

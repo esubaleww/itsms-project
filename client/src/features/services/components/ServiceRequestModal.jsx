@@ -16,8 +16,9 @@ import {
   Eye,
   ExternalLink,
 } from "lucide-react";
-import { DocumentUpload } from "../../../components/common/DocumentUpload";
-import ErrorBoundary from "../../../components/common/ErrorBoundary";
+import { DocumentUpload } from "../../../common/components/DocumentUpload";
+import ErrorBoundary from "../../../common/components/ErrorBoundary";
+import { useToast } from "../../../common/ui/Toast";
 
 const ServiceRequestModal = ({
   service,
@@ -27,6 +28,7 @@ const ServiceRequestModal = ({
   user,
   loading,
 }) => {
+  const { addToast } = useToast();
   const [formData, setFormData] = useState({
     organizationName: user?.organizationName || "",
     department: user?.department || "",

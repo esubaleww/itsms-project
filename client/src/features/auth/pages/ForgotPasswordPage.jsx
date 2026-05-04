@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { Mail, ArrowLeft, Send, Loader, CheckCircle } from "lucide-react";
 import { useAuth } from "../../../hooks/useAuth";
-import { useToast } from "../../../components/ui/Toast";
+import { useToast } from "../../../common/ui/Toast";
 
 const ForgotPasswordPage = () => {
   const navigate = useNavigate();

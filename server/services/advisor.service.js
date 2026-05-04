@@ -26,12 +26,19 @@ export const getMyInterns = async (advisorId, queryParams) => {
   return {
     success: true,
     data: interns.map((i) => ({
-      intern: i.user,
+      _id: i.user._id,
+      fullName: i.user.fullName,
+      email: i.user.email,
+      phone: i.user.phone,
       university: i.university,
       placement: i.placement,
       status: i.status,
       reports: i.reports,
       advisorSummary: i.advisorSummary,
+      pendingReports:
+        i.reports?.filter(
+          (r) => r.status === "submitted" || r.status === "pending",
+        )?.length || 0,
     })),
     pagination: {
       total,

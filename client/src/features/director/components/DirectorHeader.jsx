@@ -13,14 +13,12 @@ import { useAuth } from "../../../hooks/useAuth";
 import { useNotifications } from "../../../hooks/useNotifications";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import DirectorExportModal from "./DirectorExportModal";
+import ExportModal from "../../../common/components/ExportModal";
 
 const DirectorHeader = ({
   onRefresh,
   title = "Director Dashboard",
   onExport,
-  showAnalytics,
-  setShowAnalytics,
   onMenuClick,
   directorateType,
 }) => {
@@ -155,12 +153,8 @@ const DirectorHeader = ({
 
               {/* Analytics Button */}
               <button
-                onClick={() => setShowAnalytics(!showAnalytics)}
-                className={`p-2 rounded-lg transition ${
-                  showAnalytics
-                    ? "bg-emerald-500/20 text-emerald-400"
-                    : "text-gray-400 hover:bg-gray-700"
-                }`}
+                onClick={() => navigate("/director/analytics")}
+                className="p-2 rounded-lg transition-colors text-gray-400 hover:bg-gray-700"
                 title="Analytics"
               >
                 <BarChart3 className="w-5 h-5" />
@@ -300,10 +294,12 @@ const DirectorHeader = ({
         </div>
       </div>
 
-      <DirectorExportModal
+      <ExportModal
         isOpen={showExportModal}
         onClose={() => setShowExportModal(false)}
         onExport={onExport}
+        role="director"
+        directorateType={directorateType}
       />
     </>
   );

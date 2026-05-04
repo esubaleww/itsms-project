@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { internService } from "../services/intern.service";
-import { useToast } from "../components/ui/Toast";
+import { useToast } from "../common/ui/Toast";
 
 export const useIntern = () => {
   const { addToast } = useToast();

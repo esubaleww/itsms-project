@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useServiceCatalog } from "../../../hooks/useServiceCatalog";
 import { useApplications } from "../../../hooks/useApplications";
 import { useAuth } from "../../../hooks/useAuth";
-import { useToast } from "../../../components/ui/Toast";
+import { useToast } from "../../../common/ui/Toast";
 import { motion } from "framer-motion";
 import {
   ChevronLeft,

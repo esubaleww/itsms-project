@@ -5,10 +5,10 @@ export const startupService = {
     const response = await API.get("/startup/milestones");
     return response.data;
   },
-  updateMilestoneStatus: async (milestoneId, status) => {
+  updateMilestoneStatus: async (milestoneId, status, evidenceData = null) => {
     const response = await API.put(
       `/startup/milestones/${milestoneId}/status`,
-      { status },
+      { status, evidenceData },
     );
     return response.data;
   },

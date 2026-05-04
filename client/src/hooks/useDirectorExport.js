@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useToast } from "../components/ui/Toast";
+import { useToast } from "../common/ui/Toast";
 import { directorService } from "../services/director.service";
 
 export const useDirectorExport = () => {
@@ -19,12 +19,19 @@ export const useDirectorExport = () => {
         directorId,
       });
 
+      let filename = `${type}_export_${new Date().toISOString().split("T")[0]}.${format}`;
+
+      const contentDisposition = blob.headers?.get?.("content-disposition");
+      if (contentDisposition) {
+        const match = contentDisposition.match(/filename="?([^"]+)"?/);
+        if (match) {
+          filename = match[1];
+        }
+      }
+
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-
-      const timestamp = new Date().toISOString().split("T")[0];
-      const filename = `${type}_export_${timestamp}.${format}`;
       link.download = filename;
 
       document.body.appendChild(link);
@@ -32,12 +39,38 @@ export const useDirectorExport = () => {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
 
-      addToast(`${type.replace("-", " ")} exported successfully!`, "success");
+      const typeLabels = {
+        "service-requests": "Service Requests",
+        "program-applications": "Program Applications",
+        interns: "Interns",
+        innovators: "Innovators",
+        startups: "Startups",
+        trainees: "Trainees",
+        teams: "Teams",
+        "team-reports": "Team Reports",
+        "participant-reports": "Participant Reports",
+        "my-reports": "My Reports",
+      };
+
+      const displayType = typeLabels[type] || type.replace("-", " ");
+      addToast(`${displayType} exported successfully!`, "success");
       return { success: true };
     } catch (err) {
       console.error("Export error:", err);
-      setError(err.message);
-      addToast(err.message || "Export failed", "error");
+      let errorMessage = "Export failed. Please try again.";
+
+      if (err.response?.data instanceof Blob) {
+        try {
+          const text = await err.response.data.text();
+          const errorJson = JSON.parse(text);
+          errorMessage = errorJson.message || errorMessage;
+        } catch (e) {}
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+
+      setError(errorMessage);
+      addToast(errorMessage, "error");
       throw err;
     } finally {
       setLoading(false);

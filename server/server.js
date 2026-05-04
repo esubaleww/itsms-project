@@ -18,8 +18,7 @@ import startupRoutes from "./routes/startup.routes.js";
 import traineeRoutes from "./routes/trainee.routes.js";
 import notificationRoutes from "./routes/notification.routes.js";
 import serviceCatalogRoutes from "./routes/serviceCatalog.routes.js";
-import analyticsRoutes from "./routes/analytics.routes.js";
-import statsRoute from "./routes/stats.routes.js";
+import adminAnalyticsRoutes from "./routes/admin.analytics.routes.js";
 import documentRoutes from "./routes/document.routes.js";
 import { handleValidationErrors } from "./middleware/validation.js";
 import staffRoutes from "./routes/staff.routes.js";
@@ -53,7 +52,7 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/admin", adminReportRoutes);
 app.use("/api/admin", adminAnnouncementRoutes);
-app.use("/api/analytics", analyticsRoutes);
+app.use("/api/admin/analytics", adminAnalyticsRoutes);
 
 app.use("/api/director", directorRoutes);
 app.use("/api/director", directorReportRoutes);
@@ -65,17 +64,15 @@ app.use("/api/staff", staffRoutes);
 
 app.use("/api/public", publicAnnouncementRoutes);
 
-app.use("/api/advisor", advisorRoutes);
-app.use("/api/mentor", mentorRoutes);
-app.use("/api/trainer", trainerRoutes);
+app.use("/api/staff/advisor", advisorRoutes);
+app.use("/api/staff/mentor", mentorRoutes);
+app.use("/api/staff/trainer", trainerRoutes);
 
 app.use("/api/intern", internRoutes);
 app.use("/api/innovator", innovatorRoutes);
 app.use("/api/startup", startupRoutes);
 app.use("/api/trainee", traineeRoutes);
 app.use("/api/service-catalog", serviceCatalogRoutes);
-
-app.use("/api/get", statsRoute);
 
 app.use("/api/documents", documentRoutes);
 app.use((req, res) => {
