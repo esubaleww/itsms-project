@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 import { useIntern } from "../../../hooks/useIntern";
@@ -84,11 +84,11 @@ const SubmitReportPage = () => {
   const nextWeekNumber = currentWeek || 1;
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 py-8">
+    <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] py-8">
       <div className="max-w-3xl mx-auto px-4">
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition group"
+          className="flex items-center gap-2 text-[#6b7280] hover:text-[#111827] mb-6 transition group"
         >
           <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition" />
           <span>Back</span>
@@ -97,37 +97,37 @@ const SubmitReportPage = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700 p-6 md:p-8"
+          className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-2xl border border-[#E5E7EB] p-6 md:p-8"
         >
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <FileText className="w-8 h-8 text-emerald-400" />
+            <div className="w-16 h-16 bg-[#EEF2FF] rounded-full flex items-center justify-center mx-auto mb-4">
+              <FileText className="w-8 h-8 text-[#2563eb]" />
             </div>
-            <h1 className="text-2xl font-bold text-white">
+            <h1 className="text-2xl font-bold text-[#111827]">
               Submit Weekly Report
             </h1>
-            <p className="text-gray-400 mt-2">
+            <p className="text-[#6b7280] mt-2">
               Share your progress for this week
             </p>
           </div>
 
           {/* Internship Progress Card */}
-          <div className="bg-gray-700/30 rounded-xl p-4 mb-6 border border-gray-700">
+          <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-4 mb-6 border border-[#E5E7EB]">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center">
-                  <TrendingUp className="w-4 h-4 text-emerald-400" />
+                <div className="w-8 h-8 bg-[#EEF2FF] rounded-lg flex items-center justify-center">
+                  <TrendingUp className="w-4 h-4 text-[#2563eb]" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-white">
+                  <p className="text-sm font-medium text-[#111827]">
                     Internship Progress
                   </p>
-                  <p className="text-xs text-gray-400">Week {nextWeekNumber}</p>
+                  <p className="text-xs text-[#6b7280]">Week {nextWeekNumber}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-gray-500" />
-                <span className="text-xs text-gray-400">
+                <Clock className="w-4 h-4 text-[#6b7280]" />
+                <span className="text-xs text-[#6b7280]">
                   {reportsSubmitted} report{reportsSubmitted !== 1 ? "s" : ""}{" "}
                   submitted
                 </span>
@@ -141,7 +141,7 @@ const SubmitReportPage = () => {
                 }}
               />
             </div>
-            <p className="text-xs text-gray-500 mt-2">
+            <p className="text-xs text-[#6b7280] mt-2">
               {reportsSubmitted === 0
                 ? "First report - Welcome!"
                 : `${reportsSubmitted} week${reportsSubmitted !== 1 ? "s" : ""} completed`}
@@ -168,23 +168,23 @@ const SubmitReportPage = () => {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Week Number - Auto-calculated, read-only */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Week Number <span className="text-red-400">*</span>
+              <label className="block text-sm font-medium text-[#374151] mb-2">
+                Week Number <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                 <input
                   type="number"
                   name="week"
                   required
                   value={formData.week}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 opacity-75 cursor-not-allowed"
+                  className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] opacity-75 cursor-not-allowed"
                   readOnly
                   disabled
                 />
               </div>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-[#6b7280] mt-1">
                 Week number is automatically calculated based on your submitted
                 reports
               </p>
@@ -192,8 +192,8 @@ const SubmitReportPage = () => {
 
             {/* Work Content */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                What did you work on? <span className="text-red-400">*</span>
+              <label className="block text-sm font-medium text-[#374151] mb-2">
+                What did you work on? <span className="text-red-500">*</span>
               </label>
               <textarea
                 name="content"
@@ -201,14 +201,14 @@ const SubmitReportPage = () => {
                 rows={5}
                 value={formData.content}
                 onChange={handleChange}
-                className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                 placeholder="Describe your tasks and accomplishments this week..."
               />
             </div>
 
             {/* Challenges */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-[#374151] mb-2">
                 Challenges faced
               </label>
               <textarea
@@ -216,14 +216,14 @@ const SubmitReportPage = () => {
                 rows={3}
                 value={formData.challenges}
                 onChange={handleChange}
-                className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                 placeholder="Any obstacles you encountered?"
               />
             </div>
 
             {/* Key Learnings */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-[#374151] mb-2">
                 Key Learnings
               </label>
               <textarea
@@ -231,14 +231,14 @@ const SubmitReportPage = () => {
                 rows={3}
                 value={formData.learnings}
                 onChange={handleChange}
-                className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                 placeholder="What new skills or knowledge did you gain?"
               />
             </div>
 
             {/* Next Week Plan */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-[#374151] mb-2">
                 Plan for next week
               </label>
               <textarea
@@ -246,25 +246,25 @@ const SubmitReportPage = () => {
                 rows={3}
                 value={formData.nextPlan}
                 onChange={handleChange}
-                className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                 placeholder="What are your goals for next week?"
               />
             </div>
 
             {/* Hours Worked */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Hours worked this week <span className="text-red-400">*</span>
+              <label className="block text-sm font-medium text-[#374151] mb-2">
+                Hours worked this week <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                 <input
                   type="number"
                   name="hoursWorked"
                   required
                   value={formData.hoursWorked}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                   placeholder="e.g., 40"
                   min="1"
                   max="168"
@@ -276,7 +276,7 @@ const SubmitReportPage = () => {
             <button
               type="submit"
               disabled={loading || hookLoading}
-              className="w-full bg-linear-to-r from-emerald-600 to-teal-600 text-white py-3 rounded-xl hover:from-emerald-500 hover:to-teal-500 transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg mt-6"
+              className="w-full bg-[#2563eb] hover:bg-[#1d4ed8] font-medium shadow-md text-[#111827] py-3 rounded-xl hover:from-emerald-500 hover:to-teal-500 transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg mt-6"
             >
               {loading ? (
                 <>
@@ -293,7 +293,7 @@ const SubmitReportPage = () => {
           </form>
 
           {/* Footer Note */}
-          <p className="text-xs text-gray-500 text-center mt-6">
+          <p className="text-xs text-[#6b7280] text-center mt-6">
             Your report will be reviewed by your advisor. You'll be notified
             once reviewed.
           </p>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Download,
@@ -138,24 +138,24 @@ const ExportModal = ({
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-gray-800 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden border border-gray-700"
+        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden border border-[#E5E7EB]"
       >
-        <div className="flex justify-between items-center p-5 border-b border-gray-700">
+        <div className="flex justify-between items-center p-5 border-b border-[#E5E7EB]">
           <div className="flex items-center gap-2">
-            <Download className="w-5 h-5 text-emerald-400" />
-            <h2 className="text-xl font-bold text-white">Export Data</h2>
+            <Download className="w-5 h-5 text-[#2563eb]" />
+            <h2 className="text-xl font-bold text-[#111827]">Export Data</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-gray-700 rounded-lg transition"
+            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
           >
-            <X className="w-5 h-5 text-gray-400" />
+            <X className="w-5 h-5 text-[#6b7280]" />
           </button>
         </div>
 
         <div className="p-5 overflow-y-auto max-h-[calc(90vh-120px)] space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-3">
+            <label className="block text-sm font-medium text-[#374151] mb-3">
               Data Type
             </label>
             <div className="grid grid-cols-2 gap-3">
@@ -165,8 +165,8 @@ const ExportModal = ({
                   onClick={() => setType(et.id)}
                   className={`p-3 rounded-lg border transition-all text-left ${
                     type === et.id
-                      ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-400"
-                      : "bg-gray-700/30 border-gray-600 text-gray-400 hover:border-gray-500"
+                      ? "bg-[#EEF2FF] border-[#2563eb]/50 text-[#2563eb]"
+                      : "bg-[#F9FAFB] border border-[#E5E7EB] border-[#D1D5DB] text-[#6b7280] hover:border-gray-500"
                   }`}
                 >
                   <div className="flex items-center gap-2 mb-1">
@@ -179,7 +179,7 @@ const ExportModal = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-3">
+            <label className="block text-sm font-medium text-[#374151] mb-3">
               Format
             </label>
             <div className="flex gap-3">
@@ -187,8 +187,8 @@ const ExportModal = ({
                 onClick={() => setFormat("csv")}
                 className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg border transition-all ${
                   format === "csv"
-                    ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-400"
-                    : "bg-gray-700/30 border-gray-600 text-gray-400 hover:border-gray-500"
+                    ? "bg-[#EEF2FF] border-[#2563eb]/50 text-[#2563eb]"
+                    : "bg-[#F9FAFB] border border-[#E5E7EB] border-[#D1D5DB] text-[#6b7280] hover:border-gray-500"
                 }`}
               >
                 <FileSpreadsheet className="w-4 h-4" />
@@ -198,8 +198,8 @@ const ExportModal = ({
                 onClick={() => setFormat("pdf")}
                 className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg border transition-all ${
                   format === "pdf"
-                    ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-400"
-                    : "bg-gray-700/30 border-gray-600 text-gray-400 hover:border-gray-500"
+                    ? "bg-[#EEF2FF] border-[#2563eb]/50 text-[#2563eb]"
+                    : "bg-[#F9FAFB] border border-[#E5E7EB] border-[#D1D5DB] text-[#6b7280] hover:border-gray-500"
                 }`}
               >
                 <FileText className="w-4 h-4" />
@@ -209,7 +209,7 @@ const ExportModal = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-3">
+            <label className="block text-sm font-medium text-[#374151] mb-3">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4" />
                 <span>Date Range (Optional)</span>
@@ -222,7 +222,7 @@ const ExportModal = ({
                 onChange={(e) =>
                   setDateRange({ ...dateRange, start: e.target.value })
                 }
-                className="px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white text-sm focus:outline-none focus:border-emerald-500"
+                className="px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] text-sm focus:outline-none focus:border-[#2563eb]"
               />
               <input
                 type="date"
@@ -230,7 +230,7 @@ const ExportModal = ({
                 onChange={(e) =>
                   setDateRange({ ...dateRange, end: e.target.value })
                 }
-                className="px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white text-sm focus:outline-none focus:border-emerald-500"
+                className="px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] text-sm focus:outline-none focus:border-[#2563eb]"
               />
             </div>
           </div>
@@ -238,7 +238,7 @@ const ExportModal = ({
           <button
             onClick={handleExport}
             disabled={isExporting || !type}
-            className="w-full bg-linear-to-r from-emerald-500 to-teal-700 text-white py-3 rounded-lg hover:opacity-90 transition flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] py-3 rounded-lg hover:opacity-90 transition flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {isExporting ? (
               <>

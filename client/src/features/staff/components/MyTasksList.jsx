@@ -1,4 +1,4 @@
-// client/src/features/staff/components/MyTasksList.jsx
+﻿// client/src/features/staff/components/MyTasksList.jsx
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -21,7 +21,7 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
   const getStatusColor = (status) => {
     switch (status) {
       case "completed":
-        return "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+        return "bg-[#EEF2FF] text-[#2563eb] border border-[#2563eb]/30";
       case "in_progress":
         return "bg-blue-500/20 text-blue-400 border border-blue-500/30";
       default:
@@ -56,17 +56,17 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
   if (loading) {
     return (
       <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2563eb]" />
       </div>
     );
   }
 
   if (!tasks || tasks.length === 0) {
     return (
-      <div className="text-center py-12 bg-gray-800/50 rounded-xl border border-gray-700">
-        <Clock className="w-12 h-12 text-gray-600 mx-auto mb-3" />
-        <p className="text-gray-400">No tasks assigned to you</p>
-        <p className="text-sm text-gray-500 mt-1">
+      <div className="text-center py-12 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB]">
+        <Clock className="w-12 h-12 text-[#9ca3af] mx-auto mb-3" />
+        <p className="text-[#6b7280]">No tasks assigned to you</p>
+        <p className="text-sm text-[#6b7280] mt-1">
           Tasks assigned by your team lead will appear here
         </p>
       </div>
@@ -88,7 +88,7 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.05 }}
-            className="bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-700 hover:border-gray-600 transition-all overflow-hidden"
+            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all overflow-hidden"
           >
             <div className="p-4">
               <div className="flex justify-between items-start">
@@ -104,7 +104,7 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
                       <span
                         className={`text-xs px-2 py-1 rounded-full ${
                           task.metadata.priority === "urgent"
-                            ? "bg-red-500/20 text-red-400 border border-red-500/30"
+                            ? "bg-red-500/20 text-red-500 border border-red-500/30"
                             : task.metadata.priority === "high"
                               ? "bg-orange-500/20 text-orange-400 border border-orange-500/30"
                               : "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
@@ -114,13 +114,13 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
                       </span>
                     )}
                   </div>
-                  <h3 className="font-semibold text-white mb-1">
+                  <h3 className="font-semibold text-[#111827] mb-1">
                     {task.title || task.metadata?.serviceType || "Task"}
                   </h3>
-                  <p className="text-sm text-gray-400 mb-2">
+                  <p className="text-sm text-[#6b7280] mb-2">
                     {task.description || task.metadata?.description}
                   </p>
-                  <div className="flex items-center gap-4 text-xs text-gray-500">
+                  <div className="flex items-center gap-4 text-xs text-[#6b7280]">
                     <span className="flex items-center gap-1">
                       <User className="w-3 h-3" />
                       Assigned by: {task.assignedBy?.fullName || "Team Lead"}
@@ -135,7 +135,7 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
 
                   {/* Show instructions preview */}
                   {instructions && (
-                    <div className="mt-2 text-xs text-gray-500 flex items-center gap-1">
+                    <div className="mt-2 text-xs text-[#6b7280] flex items-center gap-1">
                       <FileText className="w-3 h-3" />
                       <span className="line-clamp-1">
                         Instructions: {instructions}
@@ -154,11 +154,11 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
                         )
                       }
                       disabled={updatingTask === task._id}
-                      className="p-1.5 text-gray-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition disabled:opacity-50"
+                      className="p-1.5 text-[#6b7280] hover:text-[#2563eb] hover:bg-[#EEF2FF] rounded-lg transition disabled:opacity-50"
                       title="Mark Complete"
                     >
                       {updatingTask === task._id ? (
-                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-emerald-500 border-t-transparent" />
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-[#2563eb] border-t-transparent" />
                       ) : (
                         <CheckCircle className="w-4 h-4" />
                       )}
@@ -175,7 +175,7 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
                           )
                         }
                         disabled={updatingTask === task._id}
-                        className="p-1.5 text-gray-500 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition disabled:opacity-50"
+                        className="p-1.5 text-[#6b7280] hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition disabled:opacity-50"
                         title="Start Task"
                       >
                         <PlayCircle className="w-4 h-4" />
@@ -183,7 +183,7 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
                     )}
                   <button
                     onClick={() => toggleExpand(task._id)}
-                    className="p-1.5 text-gray-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition"
+                    className="p-1.5 text-[#6b7280] hover:text-[#2563eb] hover:bg-[#EEF2FF] rounded-lg transition"
                     title={isExpanded ? "Show Less" : "View Details"}
                   >
                     {isExpanded ? (
@@ -201,7 +201,7 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="mt-4 pt-4 border-t border-gray-700 space-y-3"
+                  className="mt-4 pt-4 border-t border-[#E5E7EB] space-y-3"
                 >
                   {/* Full Instructions */}
                   {instructions && (
@@ -210,7 +210,7 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
                         <FileText className="w-3 h-3" />
                         Instructions from Team Lead
                       </h4>
-                      <p className="text-sm text-gray-300 whitespace-pre-wrap">
+                      <p className="text-sm text-[#374151] whitespace-pre-wrap">
                         {instructions}
                       </p>
                     </div>
@@ -219,7 +219,7 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
                   {/* Timeline */}
                   {task.timeline && task.timeline.length > 0 && (
                     <div>
-                      <h4 className="text-xs font-semibold text-gray-400 mb-2">
+                      <h4 className="text-xs font-semibold text-[#6b7280] mb-2">
                         Timeline
                       </h4>
                       <div className="space-y-2">
@@ -230,12 +230,12 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
                           >
                             <div className="w-1.5 h-1.5 mt-1.5 rounded-full bg-emerald-500" />
                             <div>
-                              <p className="text-gray-300">{event.action}</p>
-                              <p className="text-gray-500">
+                              <p className="text-[#374151]">{event.action}</p>
+                              <p className="text-[#6b7280]">
                                 {new Date(event.date).toLocaleString()}
                               </p>
                               {event.details && (
-                                <p className="text-gray-500 text-xs mt-0.5">
+                                <p className="text-[#6b7280] text-xs mt-0.5">
                                   {event.details}
                                 </p>
                               )}
@@ -248,32 +248,32 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
 
                   {/* Task Details */}
                   <div className="grid grid-cols-2 gap-3 text-xs">
-                    <div className="bg-gray-700/30 rounded-lg p-2">
-                      <span className="text-gray-500">Created</span>
-                      <p className="text-white">
+                    <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-2">
+                      <span className="text-[#6b7280]">Created</span>
+                      <p className="text-[#111827]">
                         {new Date(task.createdAt).toLocaleDateString()}
                       </p>
                     </div>
                     {task.deadline && (
-                      <div className="bg-gray-700/30 rounded-lg p-2">
-                        <span className="text-gray-500">Deadline</span>
-                        <p className="text-white">
+                      <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-2">
+                        <span className="text-[#6b7280]">Deadline</span>
+                        <p className="text-[#111827]">
                           {new Date(task.deadline).toLocaleDateString()}
                         </p>
                       </div>
                     )}
                     {task.completedAt && (
-                      <div className="bg-gray-700/30 rounded-lg p-2">
-                        <span className="text-gray-500">Completed</span>
-                        <p className="text-white">
+                      <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-2">
+                        <span className="text-[#6b7280]">Completed</span>
+                        <p className="text-[#111827]">
                           {new Date(task.completedAt).toLocaleDateString()}
                         </p>
                       </div>
                     )}
                     {task.assignedTo && (
-                      <div className="bg-gray-700/30 rounded-lg p-2">
-                        <span className="text-gray-500">Assigned To</span>
-                        <p className="text-white">
+                      <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-2">
+                        <span className="text-[#6b7280]">Assigned To</span>
+                        <p className="text-[#111827]">
                           {task.assignedTo?.fullName || "You"}
                         </p>
                       </div>

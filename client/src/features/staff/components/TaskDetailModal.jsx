@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   X,
@@ -102,21 +102,21 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-gray-800 rounded-2xl max-w-lg w-full max-h-[90vh] flex flex-col border border-gray-700 shadow-2xl"
+        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl max-w-lg w-full max-h-[90vh] flex flex-col border border-[#E5E7EB] shadow-2xl"
       >
         {/* Header */}
-        <div className="p-5 border-b border-gray-700 flex justify-between items-center sticky top-0 bg-gray-800/90">
+        <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-sm">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-linear-to-br from-emerald-500 to-teal-700 rounded-lg flex items-center justify-center">
-              <FileText className="w-4 h-4 text-white" />
+            <div className="w-8 h-8 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg flex items-center justify-center">
+              <FileText className="w-4 h-4 text-[#111827]" />
             </div>
-            <h2 className="text-xl font-bold text-white">Task Details</h2>
+            <h2 className="text-xl font-bold text-[#111827]">Task Details</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-gray-700 rounded-lg transition"
+            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
           >
-            <X className="w-5 h-5 text-gray-400 hover:text-white" />
+            <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
           </button>
         </div>
 
@@ -125,7 +125,7 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
           {/* Type Badge */}
           <div className="flex items-center gap-2">
             <div
-              className={`flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium bg-gray-700/50 text-gray-300`}
+              className={`flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium bg-white text-[#374151]`}
             >
               {getTypeIcon(task.type)}
               <span className="capitalize">{task.type}</span>
@@ -139,19 +139,19 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
 
           {/* Title */}
           <div>
-            <label className="text-xs text-gray-400 uppercase tracking-wide">
+            <label className="text-xs text-[#6b7280] uppercase tracking-wide">
               Title
             </label>
-            <p className="text-white font-medium text-lg mt-1">{task.title}</p>
+            <p className="text-[#111827] font-medium text-lg mt-1">{task.title}</p>
           </div>
 
           {/* Description */}
           {task.description && (
             <div>
-              <label className="text-xs text-gray-400 uppercase tracking-wide">
+              <label className="text-xs text-[#6b7280] uppercase tracking-wide">
                 Description
               </label>
-              <p className="text-gray-300 mt-1 whitespace-pre-wrap">
+              <p className="text-[#374151] mt-1 whitespace-pre-wrap">
                 {task.description}
               </p>
             </div>
@@ -160,36 +160,36 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
           {/* Details Grid */}
           <div className="grid grid-cols-2 gap-4 pt-2">
             <div>
-              <label className="text-xs text-gray-400 uppercase tracking-wide">
+              <label className="text-xs text-[#6b7280] uppercase tracking-wide">
                 Request Type
               </label>
-              <p className="text-white capitalize mt-1">{task.type}</p>
+              <p className="text-[#111827] capitalize mt-1">{task.type}</p>
             </div>
             <div>
-              <label className="text-xs text-gray-400 uppercase tracking-wide">
+              <label className="text-xs text-[#6b7280] uppercase tracking-wide">
                 Applicant
               </label>
-              <p className="text-white">{task.applicant?.fullName || "N/A"}</p>
+              <p className="text-[#111827]">{task.applicant?.fullName || "N/A"}</p>
             </div>
             <div>
-              <label className="text-xs text-gray-400 uppercase tracking-wide">
+              <label className="text-xs text-[#6b7280] uppercase tracking-wide">
                 Assigned By
               </label>
               <div className="flex items-center gap-2 mt-1">
-                <User className="w-3 h-3 text-gray-500" />
-                <span className="text-white">
+                <User className="w-3 h-3 text-[#6b7280]" />
+                <span className="text-[#111827]">
                   {task.assignedBy?.fullName || "Team Lead"}
                 </span>
               </div>
             </div>
             {task.deadline && (
               <div>
-                <label className="text-xs text-gray-400 uppercase tracking-wide">
+                <label className="text-xs text-[#6b7280] uppercase tracking-wide">
                   Deadline
                 </label>
                 <div className="flex items-center gap-2 mt-1">
-                  <Calendar className="w-3 h-3 text-gray-500" />
-                  <span className="text-white">
+                  <Calendar className="w-3 h-3 text-[#6b7280]" />
+                  <span className="text-[#111827]">
                     {new Date(task.deadline).toLocaleDateString()}
                   </span>
                 </div>
@@ -199,13 +199,13 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
 
           {/* Subtasks Section */}
           {task.tasks && task.tasks.length > 0 && (
-            <div className="border-t border-gray-700 pt-4">
-              <label className="text-xs text-gray-400 uppercase tracking-wide mb-2 block">
+            <div className="border-t border-[#E5E7EB] pt-4">
+              <label className="text-xs text-[#6b7280] uppercase tracking-wide mb-2 block">
                 Subtasks
               </label>
               <div className="space-y-2">
                 {task.tasks.map((subtask, idx) => (
-                  <div key={idx} className="bg-gray-700/30 rounded-lg p-3">
+                  <div key={idx} className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         {subtask.status === "completed" ? (
@@ -215,7 +215,7 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
                         ) : (
                           <Clock className="w-4 h-4 text-yellow-400" />
                         )}
-                        <span className="text-white text-sm">
+                        <span className="text-[#111827] text-sm">
                           {subtask.title}
                         </span>
                       </div>
@@ -226,7 +226,7 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
                       </span>
                     </div>
                     {subtask.description && (
-                      <p className="text-xs text-gray-400 mt-1 ml-6">
+                      <p className="text-xs text-[#6b7280] mt-1 ml-6">
                         {subtask.description}
                       </p>
                     )}
@@ -238,8 +238,8 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
 
           {/* Timeline Section */}
           {task.timeline && task.timeline.length > 0 && (
-            <div className="border-t border-gray-700 pt-4">
-              <label className="text-xs text-gray-400 uppercase tracking-wide mb-2 block">
+            <div className="border-t border-[#E5E7EB] pt-4">
+              <label className="text-xs text-[#6b7280] uppercase tracking-wide mb-2 block">
                 Timeline
               </label>
               <div className="space-y-2 max-h-40 overflow-y-auto">
@@ -250,12 +250,12 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
                     <div key={idx} className="flex items-start gap-2 text-xs">
                       <div className="w-2 h-2 mt-1.5 rounded-full bg-emerald-400 shrink-0" />
                       <div>
-                        <p className="text-gray-300">{event.action}</p>
-                        <p className="text-gray-500">
+                        <p className="text-[#374151]">{event.action}</p>
+                        <p className="text-[#6b7280]">
                           {new Date(event.date).toLocaleString()}
                         </p>
                         {event.details && (
-                          <p className="text-gray-500 mt-0.5">
+                          <p className="text-[#6b7280] mt-0.5">
                             {event.details}
                           </p>
                         )}
@@ -267,8 +267,8 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
           )}
 
           {/* Update Status Section */}
-          <div className="border-t border-gray-700 pt-4">
-            <label className="text-xs text-gray-400 uppercase tracking-wide mb-2 block">
+          <div className="border-t border-[#E5E7EB] pt-4">
+            <label className="text-xs text-[#6b7280] uppercase tracking-wide mb-2 block">
               Update Status
             </label>
             <div className="flex gap-3 flex-wrap mb-3">
@@ -282,7 +282,7 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
                       selectedStatus === status.value
                         ? status.color + " ring-2 ring-emerald-500"
-                        : "bg-gray-700/50 text-gray-400 hover:bg-gray-700"
+                        : "bg-white text-[#6b7280] hover:bg-[#F3F4F6]"
                     }`}
                   >
                     <StatusIcon className="w-4 h-4" />
@@ -295,19 +295,19 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
               placeholder="Add notes (optional)..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 text-sm"
+              className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] text-sm"
               rows="2"
             />
           </div>
         </div>
 
         {/* Buttons */}
-        <div className="p-5 border-t border-gray-700 bg-gray-800/90 rounded-b-2xl">
+        <div className="p-5 border-t border-[#E5E7EB] bg-white/90 backdrop-blur-sm rounded-b-2xl">
           <div className="flex gap-3">
             <button
               onClick={handleUpdate}
               disabled={updating || selectedStatus === task.status}
-              className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-white py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {updating ? (
                 <>
@@ -324,7 +324,7 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 border border-gray-600 text-gray-300 py-2.5 rounded-lg hover:bg-gray-700 transition-all duration-200"
+              className="flex-1 border border-[#D1D5DB] text-[#374151] py-2.5 rounded-lg hover:bg-[#F3F4F6] transition-all duration-200"
             >
               Close
             </button>

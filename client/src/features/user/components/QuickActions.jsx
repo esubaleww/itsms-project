@@ -20,13 +20,13 @@ const QuickActions = ({
       return {
         show: true,
         disabled: false,
-        icon: <GraduationCap className="w-5 h-5 text-emerald-400" />,
+        icon: <GraduationCap className="w-5 h-5 text-[#2563eb]" />,
         title: "Apply for Program",
         description: "Internship, Innovation & more",
-        bgColor: "bg-emerald-500/10",
-        borderColor: "border-emerald-500/30",
-        hoverColor: "hover:bg-emerald-500/20",
-        textColor: "text-emerald-400",
+        bgColor: "bg-[#EEF2FF]",
+        borderColor: "border-[#2563eb]/30",
+        hoverColor: "hover:bg-[#EEF2FF]",
+        textColor: "text-[#2563eb]",
         tooltip: null,
       };
     }
@@ -39,13 +39,13 @@ const QuickActions = ({
       return {
         show: false, // Hide completely
         disabled: true,
-        icon: <CheckCircle className="w-5 h-5 text-emerald-400" />,
+        icon: <CheckCircle className="w-5 h-5 text-[#2563eb]" />,
         title: "Program Active",
         description: "You're already enrolled",
-        bgColor: "bg-emerald-500/10",
-        borderColor: "border-emerald-500/30",
+        bgColor: "bg-[#EEF2FF]",
+        borderColor: "border-[#2563eb]/30",
         hoverColor: "",
-        textColor: "text-emerald-400",
+        textColor: "text-[#2563eb]",
         tooltip: `You are already enrolled in an active ${programStatus} program.`,
       };
     }
@@ -99,13 +99,13 @@ const QuickActions = ({
     return {
       show: false,
       disabled: true,
-      icon: <AlertCircle className="w-5 h-5 text-gray-400" />,
+      icon: <AlertCircle className="w-5 h-5 text-[#6b7280]" />,
       title: "Cannot Apply",
       description: "Contact admin for assistance",
       bgColor: "bg-gray-500/10",
       borderColor: "border-gray-500/30",
       hoverColor: "hover:bg-gray-500/20",
-      textColor: "text-gray-400",
+      textColor: "text-[#6b7280]",
       tooltip: "Please contact the administrator for assistance.",
     };
   };
@@ -119,13 +119,13 @@ const QuickActions = ({
         className="flex items-center gap-3 p-4 bg-blue-500/10 border border-blue-500/30 rounded-xl hover:bg-blue-500/20 transition-all duration-200 hover:scale-[1.02] group"
       >
         <div className="p-2 bg-blue-500/20 rounded-lg">
-          <PlusCircle className="w-5 h-5 text-blue-400" />
+          <PlusCircle className="w-5 h-5 text-blue-600" />
         </div>
         <div className="text-left">
-          <p className="font-semibold text-white text-sm">Request Service</p>
-          <p className="text-xs text-gray-400">Get technical support</p>
+          <p className="font-semibold text-[#0f172a] text-sm">Request Service</p>
+          <p className="text-xs text-[#4b5563]">Get technical support</p>
         </div>
-        <ChevronRight className="w-4 h-4 text-gray-500 ml-auto group-hover:text-blue-400 transition" />
+        <ChevronRight className="w-4 h-4 text-[#64748b] ml-auto group-hover:text-blue-400 transition" />
       </button>
 
       <button
@@ -133,13 +133,13 @@ const QuickActions = ({
         className="flex items-center gap-3 p-4 bg-purple-500/10 border border-purple-500/30 rounded-xl hover:bg-purple-500/20 transition-all duration-200 hover:scale-[1.02] group"
       >
         <div className="p-2 bg-purple-500/20 rounded-lg">
-          <List className="w-5 h-5 text-purple-400" />
+          <List className="w-5 h-5 text-purple-600" />
         </div>
         <div className="text-left">
-          <p className="font-semibold text-white text-sm">View All Requests</p>
-          <p className="text-xs text-gray-400">Track your service tickets</p>
+          <p className="font-semibold text-[#0f172a] text-sm">View All Requests</p>
+          <p className="text-xs text-[#4b5563]">Track your service tickets</p>
         </div>
-        <ChevronRight className="w-4 h-4 text-gray-500 ml-auto group-hover:text-purple-400 transition" />
+        <ChevronRight className="w-4 h-4 text-[#64748b] ml-auto group-hover:text-purple-400 transition" />
       </button>
 
       {programButtonState.show && (
@@ -160,22 +160,22 @@ const QuickActions = ({
             </div>
             <div className="text-left">
               <p
-                className={`font-semibold text-white text-sm ${programButtonState.disabled ? "" : programButtonState.textColor}`}
+                className={`font-semibold text-[#0f172a] text-sm ${programButtonState.disabled ? "" : programButtonState.textColor}`}
               >
                 {programButtonState.title}
               </p>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-[#4b5563]">
                 {programButtonState.description}
               </p>
             </div>
             {!programButtonState.disabled && (
               <ChevronRight
-                className={`w-4 h-4 text-gray-500 ml-auto transition group-hover:${programButtonState.textColor}`}
+                className={`w-4 h-4 text-[#6b7280] ml-auto transition group-hover:${programButtonState.textColor}`}
               />
             )}
           </button>
           {programButtonState.disabled && programButtonState.tooltip && (
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tooltip:block bg-gray-900 text-white text-xs rounded-lg px-3 py-1.5 whitespace-nowrap z-10 shadow-lg">
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tooltip:block bg-[#F9FAFB] text-[#111827] text-xs rounded-lg px-3 py-1.5 whitespace-nowrap z-10 shadow-lg">
               {programButtonState.tooltip}
             </div>
           )}

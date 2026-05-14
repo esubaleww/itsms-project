@@ -73,7 +73,7 @@ const ResetPasswordPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-800 via-slate-700 to-slate-600 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           {/* Left Side - Image */}
@@ -84,17 +84,17 @@ const ResetPasswordPage = () => {
             transition={{ duration: 0.8 }}
           >
             <div className="relative">
-              <div className="absolute inset-0 bg-linear-to-r from-emerald-500/20 to-teal-500/20 rounded-2xl blur-3xl" />
+              <div className="absolute inset-0 bg-[#EEF2FF] rounded-2xl blur-3xl" />
               <img
                 src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1164&q=80"
                 alt="Reset password illustration"
-                className="relative rounded-2xl shadow-2xl object-cover w-full h-150"
+                className="relative rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] object-cover w-full h-150"
               />
-              <div className="absolute bottom-8 left-8 right-8 bg-slate-900/80 backdrop-blur-sm p-6 rounded-xl border border-slate-700">
-                <h3 className="text-white text-xl font-bold mb-2">
+              <div className="absolute bottom-8 left-8 right-8 bg-white/90 backdrop-blur-sm p-6 rounded-xl border border-[#E5E7EB] shadow-sm">
+                <h3 className="text-[#111827] text-xl font-bold mb-2">
                   Create New Password
                 </h3>
-                <p className="text-slate-300 text-sm">
+                <p className="text-[#374151] text-sm">
                   Choose a strong password to keep your account secure
                 </p>
               </div>
@@ -108,18 +108,18 @@ const ResetPasswordPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="bg-slate-800/50 backdrop-blur-sm py-8 px-6 sm:px-10 rounded-2xl shadow-2xl border border-slate-700">
+            <div className="bg-white py-8 px-6 sm:px-10 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[#E5E7EB]">
               {/* Header */}
               <div className="text-center mb-8">
                 <div className="flex justify-center mb-4">
-                  <div className="w-12 h-12 bg-linear-to-r from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center">
-                    <Lock className="w-6 h-6 text-white" />
+                  <div className="w-12 h-12 bg-[#EEF2FF] rounded-xl flex items-center justify-center">
+                    <Lock className="w-6 h-6 text-[#2563eb]" />
                   </div>
                 </div>
-                <h2 className="text-3xl font-bold text-white mb-2">
+                <h2 className="text-3xl font-bold text-[#111827] mb-2">
                   Reset Password
                 </h2>
-                <p className="text-slate-400 text-sm">
+                <p className="text-[#6b7280] text-sm">
                   Enter your new password below
                 </p>
               </div>
@@ -130,13 +130,13 @@ const ResetPasswordPage = () => {
                   <div>
                     <label
                       htmlFor="password"
-                      className="block text-sm font-medium text-slate-300 mb-2"
+                      className="block text-sm font-medium text-[#374151] mb-2"
                     >
                       New Password
                     </label>
                     <div className="relative rounded-md shadow-sm">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Lock className="h-5 w-5 text-slate-400" />
+                        <Lock className="h-5 w-5 text-[#6b7280]" />
                       </div>
                       <input
                         id="password"
@@ -146,13 +146,13 @@ const ResetPasswordPage = () => {
                         minLength="8"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="block w-full px-3 py-2.5 pl-10 pr-10 bg-slate-700 border border-slate-600 rounded-lg shadow-sm placeholder-slate-400 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent sm:text-sm transition duration-150"
+                        className="block w-full px-3 py-2.5 pl-10 pr-10 bg-white border border-[#D1D5DB] rounded-lg shadow-sm placeholder-[#9ca3af] text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent sm:text-sm transition duration-150"
                         placeholder="••••••••"
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-300"
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#6b7280] hover:text-[#374151]"
                       >
                         {showPassword ? (
                           <EyeOff className="h-5 w-5" />
@@ -170,13 +170,13 @@ const ResetPasswordPage = () => {
                   <div>
                     <label
                       htmlFor="confirmPassword"
-                      className="block text-sm font-medium text-slate-300 mb-2"
+                      className="block text-sm font-medium text-[#374151] mb-2"
                     >
                       Confirm Password
                     </label>
                     <div className="relative rounded-md shadow-sm">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Lock className="h-5 w-5 text-slate-400" />
+                        <Lock className="h-5 w-5 text-[#6b7280]" />
                       </div>
                       <input
                         id="confirmPassword"
@@ -185,7 +185,7 @@ const ResetPasswordPage = () => {
                         required
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        className="block w-full px-3 py-2.5 pl-10 pr-10 bg-slate-700 border border-slate-600 rounded-lg shadow-sm placeholder-slate-400 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent sm:text-sm transition duration-150"
+                        className="block w-full px-3 py-2.5 pl-10 pr-10 bg-white border border-[#D1D5DB] rounded-lg shadow-sm placeholder-[#9ca3af] text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent sm:text-sm transition duration-150"
                         placeholder="••••••••"
                       />
                       <button
@@ -193,7 +193,7 @@ const ResetPasswordPage = () => {
                         onClick={() =>
                           setShowConfirmPassword(!showConfirmPassword)
                         }
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-300"
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#6b7280] hover:text-[#374151]"
                       >
                         {showConfirmPassword ? (
                           <EyeOff className="h-5 w-5" />
@@ -208,11 +208,11 @@ const ResetPasswordPage = () => {
                   {password.length > 0 && (
                     <div className="mt-2">
                       <div className="flex items-center gap-2">
-                        <div className="flex-1 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                        <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
                           <div
                             className={`h-full transition-all duration-300 ${
                               password.length >= 8
-                                ? "w-full bg-emerald-500"
+                                ? "w-full bg-[#2563eb]"
                                 : "bg-yellow-500"
                             }`}
                             style={{
@@ -220,7 +220,7 @@ const ResetPasswordPage = () => {
                             }}
                           />
                         </div>
-                        <span className="text-xs text-slate-400">
+                        <span className="text-xs text-[#6b7280]">
                           {password.length}/8
                         </span>
                       </div>
@@ -237,7 +237,7 @@ const ResetPasswordPage = () => {
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg text-sm"
+                      className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm"
                     >
                       {error}
                     </motion.div>
@@ -247,7 +247,7 @@ const ResetPasswordPage = () => {
                   <button
                     type="submit"
                     disabled={loading || password.length < 8}
-                    className="w-full flex justify-center items-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-linear-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full flex justify-center items-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#2563eb] hover:bg-[#1d4ed8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2563eb] transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loading ? (
                       <>
@@ -266,7 +266,7 @@ const ResetPasswordPage = () => {
                   <div className="text-center">
                     <Link
                       to="/login"
-                      className="inline-flex items-center text-sm text-emerald-400 hover:text-emerald-300 transition"
+                      className="inline-flex items-center text-sm text-[#2563eb] hover:text-[#1d4ed8] transition"
                     >
                       <ArrowLeft className="mr-2 h-4 w-4" />
                       Back to Sign In
@@ -280,22 +280,22 @@ const ResetPasswordPage = () => {
                   className="text-center space-y-6"
                 >
                   <div className="flex justify-center">
-                    <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center">
-                      <CheckCircle className="w-8 h-8 text-emerald-400" />
+                    <div className="w-16 h-16 bg-[#EEF2FF] rounded-full flex items-center justify-center">
+                      <CheckCircle className="w-8 h-8 text-[#2563eb]" />
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-white text-xl font-semibold mb-2">
+                    <h3 className="text-[#111827] text-xl font-semibold mb-2">
                       Password Reset Successfully!
                     </h3>
-                    <p className="text-slate-400 text-sm">
+                    <p className="text-[#6b7280] text-sm">
                       Your password has been updated. You can now log in with
                       your new password.
                     </p>
                   </div>
                   <button
                     onClick={() => navigate("/login")}
-                    className="w-full flex justify-center items-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-linear-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 transition duration-150"
+                    className="w-full flex justify-center items-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#2563eb] hover:bg-[#1d4ed8] transition duration-150"
                   >
                     Go to Sign In
                   </button>

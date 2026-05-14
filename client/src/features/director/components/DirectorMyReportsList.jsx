@@ -1,4 +1,4 @@
-// client/src/features/dashboard/components/DirectorMyReportsList.jsx
+﻿// client/src/features/dashboard/components/DirectorMyReportsList.jsx
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -24,15 +24,15 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
     switch (status) {
       case "approved":
         return {
-          color: "text-emerald-400",
-          bg: "bg-emerald-500/20",
-          border: "border-emerald-500/30",
+          color: "text-[#2563eb]",
+          bg: "bg-[#EEF2FF]",
+          border: "border-[#2563eb]/30",
           icon: CheckCircle,
           label: "Approved",
         };
       case "rejected":
         return {
-          color: "text-red-400",
+          color: "text-red-500",
           bg: "bg-red-500/20",
           border: "border-red-500/30",
           icon: XCircle,
@@ -92,7 +92,7 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="bg-gray-800 rounded-xl border border-gray-700 p-5 animate-pulse"
+            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] p-5 animate-pulse"
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
@@ -114,11 +114,11 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
   if (!reports || reports.length === 0) {
     return (
       <div className="text-center py-16">
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-800 rounded-full mb-4 border border-gray-700">
-          <FileText className="w-10 h-10 text-gray-600" />
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-full mb-4 border border-[#E5E7EB]">
+          <FileText className="w-10 h-10 text-[#9ca3af]" />
         </div>
-        <p className="text-gray-400 text-lg">No reports submitted</p>
-        <p className="text-sm text-gray-500 mt-1 max-w-md mx-auto">
+        <p className="text-[#6b7280] text-lg">No reports submitted</p>
+        <p className="text-sm text-[#6b7280] mt-1 max-w-md mx-auto">
           Your submitted director reports will appear here. Reports help track
           progress and performance metrics.
         </p>
@@ -144,7 +144,7 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.05 }}
-            className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden hover:border-gray-600 transition-all duration-200"
+            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200"
           >
             {/* Main Content */}
             <div className="p-5">
@@ -159,20 +159,20 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                       <StatusIcon className="w-3 h-3" />
                       {statusConfig.label}
                     </span>
-                    <span className="flex items-center gap-1 text-xs text-gray-500">
+                    <span className="flex items-center gap-1 text-xs text-[#6b7280]">
                       <Calendar className="w-3 h-3" />
                       {formatDateTime(report.createdAt)}
                     </span>
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-white font-semibold text-lg mb-2">
+                  <h3 className="text-[#111827] font-semibold text-lg mb-2">
                     {report.title}
                   </h3>
 
                   {/* Period */}
                   {report.period && (
-                    <div className="flex items-center gap-2 text-sm text-gray-400 mb-3">
+                    <div className="flex items-center gap-2 text-sm text-[#6b7280] mb-3">
                       <Calendar className="w-4 h-4" />
                       <span>
                         {formatDate(report.period?.startDate)} -{" "}
@@ -183,7 +183,7 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
 
                   {/* Summary Preview */}
                   {report.summary && (
-                    <p className="text-gray-300 text-sm line-clamp-2 mb-3">
+                    <p className="text-[#374151] text-sm line-clamp-2 mb-3">
                       {report.summary}
                     </p>
                   )}
@@ -192,25 +192,25 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                   {hasMetrics && (
                     <div className="flex flex-wrap gap-3 mt-2">
                       {report.metrics.applicationsProcessed !== undefined && (
-                        <div className="flex items-center gap-1 text-xs bg-gray-700/50 px-2 py-1 rounded-lg">
+                        <div className="flex items-center gap-1 text-xs bg-white px-2 py-1 rounded-lg">
                           <FileText className="w-3 h-3 text-blue-400" />
-                          <span className="text-gray-300">
+                          <span className="text-[#374151]">
                             {report.metrics.applicationsProcessed} processed
                           </span>
                         </div>
                       )}
                       {report.metrics.approvedApplications !== undefined && (
-                        <div className="flex items-center gap-1 text-xs bg-gray-700/50 px-2 py-1 rounded-lg">
-                          <CheckCircle className="w-3 h-3 text-emerald-400" />
-                          <span className="text-gray-300">
+                        <div className="flex items-center gap-1 text-xs bg-white px-2 py-1 rounded-lg">
+                          <CheckCircle className="w-3 h-3 text-[#2563eb]" />
+                          <span className="text-[#374151]">
                             {report.metrics.approvedApplications} approved
                           </span>
                         </div>
                       )}
                       {report.metrics.completedRequests !== undefined && (
-                        <div className="flex items-center gap-1 text-xs bg-gray-700/50 px-2 py-1 rounded-lg">
+                        <div className="flex items-center gap-1 text-xs bg-white px-2 py-1 rounded-lg">
                           <Award className="w-3 h-3 text-purple-400" />
-                          <span className="text-gray-300">
+                          <span className="text-[#374151]">
                             {report.metrics.completedRequests} completed
                           </span>
                         </div>
@@ -222,7 +222,7 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                   {hasFeedback && !isExpanded && (
                     <div className="mt-3 flex items-start gap-2 text-xs bg-blue-500/10 border border-blue-500/20 rounded-lg p-2">
                       <MessageSquare className="w-3 h-3 text-blue-400 mt-0.5 shrink-0" />
-                      <span className="text-gray-400 line-clamp-1">
+                      <span className="text-[#6b7280] line-clamp-1">
                         Feedback: {report.feedback}
                       </span>
                     </div>
@@ -234,7 +234,7 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                   {onViewDetails && (
                     <button
                       onClick={() => onViewDetails?.(report._id)}
-                      className="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-gray-700 transition"
+                      className="text-[#6b7280] hover:text-[#111827] p-2 rounded-lg hover:bg-[#F3F4F6] transition"
                       title="View Full Report"
                     >
                       <Eye className="w-4 h-4" />
@@ -246,8 +246,8 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                     }
                     className={`p-2 rounded-lg transition ${
                       isExpanded
-                        ? "text-emerald-400 bg-emerald-500/20"
-                        : "text-gray-400 hover:text-white hover:bg-gray-700"
+                        ? "text-[#2563eb] bg-[#EEF2FF]"
+                        : "text-[#6b7280] hover:text-[#111827] hover:bg-[#F3F4F6]"
                     }`}
                   >
                     <ChevronRight
@@ -268,18 +268,18 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="border-t border-gray-700 overflow-hidden"
+                  className="border-t border-[#E5E7EB] overflow-hidden"
                 >
-                  <div className="p-5 bg-gray-800/50 space-y-5">
+                  <div className="p-5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] space-y-5">
                     {/* Full Summary */}
                     {report.summary && (
                       <div>
-                        <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
                           <FileText className="w-3 h-3" />
                           Full Summary
                         </h4>
-                        <div className="bg-gray-700/30 rounded-lg p-4">
-                          <p className="text-gray-300 whitespace-pre-wrap">
+                        <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4">
+                          <p className="text-[#374151] whitespace-pre-wrap">
                             {report.summary}
                           </p>
                         </div>
@@ -289,16 +289,16 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                     {/* Achievements */}
                     {report.achievements?.length > 0 && (
                       <div>
-                        <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-                          <TrendingUp className="w-3 h-3 text-emerald-400" />
+                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
+                          <TrendingUp className="w-3 h-3 text-[#2563eb]" />
                           Key Achievements
                         </h4>
-                        <div className="bg-gray-700/30 rounded-lg p-4">
+                        <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4">
                           <ul className="space-y-2">
                             {report.achievements.map((achievement, idx) => (
                               <li key={idx} className="flex items-start gap-2">
-                                <CheckCircle className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                                <span className="text-gray-300 text-sm">
+                                <CheckCircle className="w-4 h-4 text-[#2563eb] mt-0.5 shrink-0" />
+                                <span className="text-[#374151] text-sm">
                                   {achievement}
                                 </span>
                               </li>
@@ -311,16 +311,16 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                     {/* Challenges */}
                     {report.challenges?.length > 0 && (
                       <div>
-                        <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-                          <TrendingDown className="w-3 h-3 text-red-400" />
+                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
+                          <TrendingDown className="w-3 h-3 text-red-500" />
                           Challenges Faced
                         </h4>
-                        <div className="bg-gray-700/30 rounded-lg p-4">
+                        <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4">
                           <ul className="space-y-2">
                             {report.challenges.map((challenge, idx) => (
                               <li key={idx} className="flex items-start gap-2">
-                                <AlertCircle className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
-                                <span className="text-gray-300 text-sm">
+                                <AlertCircle className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
+                                <span className="text-[#374151] text-sm">
                                   {challenge}
                                 </span>
                               </li>
@@ -333,18 +333,18 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                     {/* Next Steps */}
                     {report.nextSteps?.length > 0 && (
                       <div>
-                        <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
                           <Calendar className="w-3 h-3 text-blue-400" />
                           Next Steps
                         </h4>
-                        <div className="bg-gray-700/30 rounded-lg p-4">
+                        <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4">
                           <ul className="space-y-2">
                             {report.nextSteps.map((step, idx) => (
                               <li key={idx} className="flex items-start gap-2">
                                 <div className="w-4 h-4 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs mt-0.5">
                                   {idx + 1}
                                 </div>
-                                <span className="text-gray-300 text-sm">
+                                <span className="text-[#374151] text-sm">
                                   {step}
                                 </span>
                               </li>
@@ -357,46 +357,46 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                     {/* Full Metrics */}
                     {hasMetrics && (
                       <div>
-                        <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
                           <Award className="w-3 h-3" />
                           Detailed Metrics
                         </h4>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                           {report.metrics.applicationsProcessed !==
                             undefined && (
-                            <div className="bg-gray-700/30 rounded-lg p-3 text-center">
+                            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 text-center">
                               <p className="text-2xl font-bold text-blue-400">
                                 {report.metrics.applicationsProcessed}
                               </p>
-                              <p className="text-xs text-gray-400">
+                              <p className="text-xs text-[#6b7280]">
                                 Applications Processed
                               </p>
                             </div>
                           )}
                           {report.metrics.approvedApplications !==
                             undefined && (
-                            <div className="bg-gray-700/30 rounded-lg p-3 text-center">
-                              <p className="text-2xl font-bold text-emerald-400">
+                            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 text-center">
+                              <p className="text-2xl font-bold text-[#2563eb]">
                                 {report.metrics.approvedApplications}
                               </p>
-                              <p className="text-xs text-gray-400">Approved</p>
+                              <p className="text-xs text-[#6b7280]">Approved</p>
                             </div>
                           )}
                           {report.metrics.rejectedApplications !==
                             undefined && (
-                            <div className="bg-gray-700/30 rounded-lg p-3 text-center">
-                              <p className="text-2xl font-bold text-red-400">
+                            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 text-center">
+                              <p className="text-2xl font-bold text-red-500">
                                 {report.metrics.rejectedApplications}
                               </p>
-                              <p className="text-xs text-gray-400">Rejected</p>
+                              <p className="text-xs text-[#6b7280]">Rejected</p>
                             </div>
                           )}
                           {report.metrics.completedRequests !== undefined && (
-                            <div className="bg-gray-700/30 rounded-lg p-3 text-center">
+                            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 text-center">
                               <p className="text-2xl font-bold text-purple-400">
                                 {report.metrics.completedRequests}
                               </p>
-                              <p className="text-xs text-gray-400">Completed</p>
+                              <p className="text-xs text-[#6b7280]">Completed</p>
                             </div>
                           )}
                         </div>
@@ -405,16 +405,16 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
 
                     {/* Performance Trend */}
                     {performanceTrend !== null && (
-                      <div className="bg-gray-700/30 rounded-lg p-3">
+                      <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm text-gray-300">
+                          <span className="text-sm text-[#374151]">
                             Approval Rate Change
                           </span>
                           <div
                             className={`flex items-center gap-1 ${
                               performanceTrend >= 0
-                                ? "text-emerald-400"
-                                : "text-red-400"
+                                ? "text-[#2563eb]"
+                                : "text-red-500"
                             }`}
                           >
                             {performanceTrend >= 0 ? (
@@ -449,16 +449,16 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                     {/* Full Feedback */}
                     {hasFeedback && (
                       <div>
-                        <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
                           <MessageSquare className="w-3 h-3 text-blue-400" />
                           Feedback & Comments
                         </h4>
                         <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
-                          <p className="text-gray-300 whitespace-pre-wrap">
+                          <p className="text-[#374151] whitespace-pre-wrap">
                             {report.feedback}
                           </p>
                           {report.reviewedBy && (
-                            <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                            <p className="text-xs text-[#6b7280] mt-2 flex items-center gap-1">
                               <User className="w-3 h-3" />
                               Reviewed by:{" "}
                               {report.reviewedBy?.fullName || "Admin"}

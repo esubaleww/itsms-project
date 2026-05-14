@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { motion } from "framer-motion";
 import { Eye, FileText, GraduationCap, User, Mail, Award } from "lucide-react";
 
@@ -10,10 +10,10 @@ const AdvisorInternsList = ({
 }) => {
   if (!interns || interns.length === 0) {
     return (
-      <div className="text-center py-12 bg-gray-800/50 rounded-xl border border-gray-700">
-        <GraduationCap className="w-12 h-12 text-gray-600 mx-auto mb-3" />
-        <p className="text-gray-400">No interns assigned to you</p>
-        <p className="text-sm text-gray-500 mt-1">
+      <div className="text-center py-12 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB]">
+        <GraduationCap className="w-12 h-12 text-[#9ca3af] mx-auto mb-3" />
+        <p className="text-[#6b7280]">No interns assigned to you</p>
+        <p className="text-sm text-[#6b7280] mt-1">
           Interns will appear here once assigned by the director
         </p>
       </div>
@@ -27,14 +27,14 @@ const AdvisorInternsList = ({
           key={intern._id}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gray-800/60 rounded-xl border border-gray-700 p-4 hover:border-emerald-500/50 transition group"
+          className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] p-4 hover:border-[#2563eb]/50 transition group"
         >
           <div className="flex justify-between items-start mb-3">
             <div>
-              <h3 className="font-semibold text-white group-hover:text-emerald-400 transition">
+              <h3 className="font-semibold text-[#111827] group-hover:text-[#2563eb] transition">
                 {intern.fullName}
               </h3>
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-xs text-[#6b7280] mt-1">
                 {intern.university?.name || "University not set"}
               </p>
             </div>
@@ -45,7 +45,7 @@ const AdvisorInternsList = ({
             )}
           </div>
 
-          <div className="space-y-1 text-xs text-gray-500 mb-3">
+          <div className="space-y-1 text-xs text-[#6b7280] mb-3">
             <div className="flex items-center gap-2">
               <User className="w-3 h-3" />
               <span>ID: {intern.university?.studentId || "N/A"}</span>
@@ -64,7 +64,7 @@ const AdvisorInternsList = ({
           <div className="flex gap-2 mt-3">
             <button
               onClick={() => onViewProgress(intern)}
-              className="flex-1 px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white rounded-lg transition text-sm flex items-center justify-center gap-1"
+              className="flex-1 px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-[#111827] rounded-lg transition text-sm flex items-center justify-center gap-1"
             >
               <Eye className="w-3 h-3" /> Progress
             </button>
@@ -73,15 +73,15 @@ const AdvisorInternsList = ({
               disabled={intern.pendingReports === 0}
               className={`flex-1 px-3 py-1.5 rounded-lg transition text-sm flex items-center justify-center gap-1 ${
                 intern.pendingReports > 0
-                  ? "bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white"
-                  : "bg-gray-700 text-gray-500 cursor-not-allowed"
+                  ? "bg-emerald-600/20 hover:bg-emerald-600 text-[#2563eb] hover:text-[#111827]"
+                  : "bg-gray-700 text-[#6b7280] cursor-not-allowed"
               }`}
             >
               <FileText className="w-3 h-3" /> Review
             </button>
             <button
               onClick={() => onFinalSummary(intern)}
-              className="flex-1 px-3 py-1.5 bg-purple-600/20 hover:bg-purple-600 text-purple-400 hover:text-white rounded-lg transition text-sm flex items-center justify-center gap-1"
+              className="flex-1 px-3 py-1.5 bg-purple-600/20 hover:bg-purple-600 text-purple-400 hover:text-[#111827] rounded-lg transition text-sm flex items-center justify-center gap-1"
             >
               <Award className="w-3 h-3" /> Final
             </button>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   X,
@@ -26,7 +26,7 @@ const TaskDetailsModal = ({ task, onClose, onUpdateStatus }) => {
   const getStatusColor = (status) => {
     switch (status) {
       case "completed":
-        return "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+        return "bg-[#EEF2FF] text-[#2563eb] border border-[#2563eb]/30";
       case "in_progress":
         return "bg-blue-500/20 text-blue-400 border border-blue-500/30";
       default:
@@ -40,15 +40,15 @@ const TaskDetailsModal = ({ task, onClose, onUpdateStatus }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-gray-800 rounded-2xl w-full max-w-lg max-h-[90vh] overflow-hidden border border-gray-700"
+        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-lg max-h-[90vh] overflow-hidden border border-[#E5E7EB]"
       >
-        <div className="flex justify-between items-center p-5 border-b border-gray-700">
-          <h2 className="text-xl font-bold text-white">Task Details</h2>
+        <div className="flex justify-between items-center p-5 border-b border-[#E5E7EB]">
+          <h2 className="text-xl font-bold text-[#111827]">Task Details</h2>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-gray-700 rounded-lg transition"
+            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
           >
-            <X className="w-5 h-5 text-gray-400" />
+            <X className="w-5 h-5 text-[#6b7280]" />
           </button>
         </div>
 
@@ -63,7 +63,7 @@ const TaskDetailsModal = ({ task, onClose, onUpdateStatus }) => {
               <span
                 className={`text-xs px-2 py-1 rounded-full ${
                   task.priority === "urgent"
-                    ? "bg-red-500/20 text-red-400"
+                    ? "bg-red-500/20 text-red-500"
                     : task.priority === "high"
                       ? "bg-orange-500/20 text-orange-400"
                       : "bg-yellow-500/20 text-yellow-400"
@@ -74,24 +74,24 @@ const TaskDetailsModal = ({ task, onClose, onUpdateStatus }) => {
             )}
           </div>
 
-          <h3 className="text-xl font-bold text-white">{task.title}</h3>
-          <p className="text-gray-300">{task.description}</p>
+          <h3 className="text-xl font-bold text-[#111827]">{task.title}</h3>
+          <p className="text-[#374151]">{task.description}</p>
 
           <div className="space-y-2 pt-2">
-            <div className="flex items-center gap-2 text-sm text-gray-400">
+            <div className="flex items-center gap-2 text-sm text-[#6b7280]">
               <User className="w-4 h-4" />
               <span>
                 Assigned to: {task.assignedTo?.fullName || "Unassigned"}
               </span>
             </div>
             {task.deadline && (
-              <div className="flex items-center gap-2 text-sm text-gray-400">
+              <div className="flex items-center gap-2 text-sm text-[#6b7280]">
                 <Calendar className="w-4 h-4" />
                 <span>Due: {new Date(task.deadline).toLocaleDateString()}</span>
               </div>
             )}
             {task.completedAt && (
-              <div className="flex items-center gap-2 text-sm text-emerald-400">
+              <div className="flex items-center gap-2 text-sm text-[#2563eb]">
                 <CheckCircle className="w-4 h-4" />
                 <span>
                   Completed: {new Date(task.completedAt).toLocaleDateString()}
@@ -101,12 +101,12 @@ const TaskDetailsModal = ({ task, onClose, onUpdateStatus }) => {
           </div>
 
           {task.status !== "completed" && (
-            <div className="flex gap-3 pt-4 border-t border-gray-700">
+            <div className="flex gap-3 pt-4 border-t border-[#E5E7EB]">
               {task.status !== "in_progress" && (
                 <button
                   onClick={() => handleStatusUpdate("in_progress")}
                   disabled={updating}
-                  className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-2"
+                  className="flex-1 bg-blue-600 text-[#111827] py-2 rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-2"
                 >
                   <PlayCircle className="w-4 h-4" /> Start Task
                 </button>
@@ -114,7 +114,7 @@ const TaskDetailsModal = ({ task, onClose, onUpdateStatus }) => {
               <button
                 onClick={() => handleStatusUpdate("completed")}
                 disabled={updating}
-                className="flex-1 bg-emerald-600 text-white py-2 rounded-lg hover:bg-emerald-700 transition flex items-center justify-center gap-2"
+                className="flex-1 bg-emerald-600 text-[#111827] py-2 rounded-lg hover:bg-emerald-700 transition flex items-center justify-center gap-2"
               >
                 <CheckCircle className="w-4 h-4" /> Mark Complete
               </button>

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+﻿import { useRef, useState } from "react";
 import { useCloudinaryUpload } from "../../hooks/useCloudinaryUpload";
 import { Upload, X, Loader, Eye, Download, FileText } from "lucide-react";
 
@@ -48,30 +48,30 @@ export const DocumentUpload = ({
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-gray-300">
-        {label} {required && <span className="text-red-400">*</span>}
+      <label className="block text-sm font-medium text-[#374151]">
+        {label} {required && <span className="text-red-500">*</span>}
       </label>
 
       {!value ? (
         <div
           onClick={() => inputRef.current?.click()}
-          className="group cursor-pointer bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-3 hover:border-emerald-500/50 hover:bg-gray-700 transition-all duration-200"
+          className="group cursor-pointer bg-white border border-[#D1D5DB] rounded-lg px-4 py-3 hover:border-[#2563eb]/50 hover:bg-[#F3F4F6] transition-all duration-200"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               {isLoading ? (
-                <Loader className="w-5 h-5 text-emerald-400 animate-spin" />
+                <Loader className="w-5 h-5 text-[#2563eb] animate-spin" />
               ) : (
-                <Upload className="w-5 h-5 text-gray-400 group-hover:text-emerald-400 transition" />
+                <Upload className="w-5 h-5 text-[#6b7280] group-hover:text-[#2563eb] transition" />
               )}
-              <span className="text-sm text-gray-300 group-hover:text-white transition">
+              <span className="text-sm text-[#374151] group-hover:text-[#111827] transition">
                 {isLoading
                   ? `Uploading... ${progress}%`
                   : `Upload ${label.toLowerCase()}`}
               </span>
             </div>
             {!isLoading && (
-              <span className="text-xs text-gray-500 group-hover:text-gray-400 transition">
+              <span className="text-xs text-[#6b7280] group-hover:text-[#6b7280] transition">
                 {`≤${maxSizeMB}MB`}
               </span>
             )}
@@ -86,16 +86,16 @@ export const DocumentUpload = ({
           />
         </div>
       ) : (
-        <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-3 flex items-center justify-between">
+        <div className="bg-[#EEF2FF] border border-[#2563eb]/30 rounded-lg p-3 flex items-center justify-between">
           <div className="flex items-center gap-3 flex-1 min-w-0">
             {value.isImage && (
               <img src={value.url} className="w-10 h-10 object-cover rounded" />
             )}
             <div className="flex-1 min-w-0">
-              <p className="text-white text-sm font-medium truncate">
+              <p className="text-[#111827] text-sm font-medium truncate">
                 {value.name}
               </p>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-[#6b7280]">
                 {(value.size / 1024 / 1024).toFixed(2)} MB
               </p>
             </div>
@@ -110,20 +110,20 @@ export const DocumentUpload = ({
             <a
               href={value.url}
               download
-              className="p-1 text-gray-400 hover:text-emerald-400"
+              className="p-1 text-[#6b7280] hover:text-[#2563eb]"
             >
               <Download className="w-4 h-4" />
             </a>
             <button
               onClick={removeFile}
-              className="p-1 text-red-400 hover:text-red-300"
+              className="p-1 text-red-500 hover:text-red-600"
             >
               <X className="w-4 h-4" />
             </button>
           </div>
         </div>
       )}
-      {error && <p className="text-xs text-red-400 mt-1">{error}</p>}
+      {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
     </div>
   );
 };

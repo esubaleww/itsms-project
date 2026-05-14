@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { motion } from "framer-motion";
 import { X, Send, Award, CheckCircle } from "lucide-react";
 import { useToast } from "../../../common/ui/Toast";
@@ -44,38 +44,38 @@ const FinalSummaryModal = ({ intern, onSubmitSummary, onClose }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-gray-800 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col border border-gray-700 shadow-2xl"
+        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col border border-[#E5E7EB] shadow-2xl"
       >
-        <div className="p-5 border-b border-gray-700 flex justify-between items-center sticky top-0 bg-gray-800/90 rounded-t-2xl">
+        <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-sm rounded-t-2xl">
           <div>
-            <h2 className="text-xl font-bold text-white">
+            <h2 className="text-xl font-bold text-[#111827]">
               Final Summary Report
             </h2>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-[#6b7280]">
               {intern.intern?.fullName || intern.fullName} •{" "}
               {intern.university?.name || "University"}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-gray-700 rounded-lg transition"
+            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
           >
-            <X className="w-5 h-5 text-gray-400 hover:text-white" />
+            <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-5">
-          <div className="bg-gray-700/30 rounded-xl p-6 border border-gray-600">
+          <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-6 border border-[#D1D5DB]">
             <div className="text-center mb-6">
-              <Award className="w-12 h-12 text-emerald-400 mx-auto mb-3" />
-              <h3 className="text-xl font-bold text-white">
+              <Award className="w-12 h-12 text-[#2563eb] mx-auto mb-3" />
+              <h3 className="text-xl font-bold text-[#111827]">
                 End of Internship Summary
               </h3>
-              <p className="text-sm text-gray-400 mt-1">
+              <p className="text-sm text-[#6b7280] mt-1">
                 Complete this form at the end of the internship period
               </p>
               {hasSubmitted && (
-                <div className="mt-2 inline-flex items-center gap-1 px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-sm">
+                <div className="mt-2 inline-flex items-center gap-1 px-3 py-1 bg-[#EEF2FF] text-[#2563eb] rounded-full text-sm">
                   <CheckCircle className="w-3 h-3" />
                   Summary already submitted
                 </div>
@@ -84,7 +84,7 @@ const FinalSummaryModal = ({ intern, onSubmitSummary, onClose }) => {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-[#374151] mb-2">
                   Overall Performance *
                 </label>
                 <select
@@ -95,7 +95,7 @@ const FinalSummaryModal = ({ intern, onSubmitSummary, onClose }) => {
                       overallPerformance: e.target.value,
                     })
                   }
-                  className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white"
+                  className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827]"
                 >
                   <option value="">Select</option>
                   <option value="excellent">Excellent</option>
@@ -106,7 +106,7 @@ const FinalSummaryModal = ({ intern, onSubmitSummary, onClose }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-[#374151] mb-2">
                   Recommendation *
                 </label>
                 <select
@@ -117,7 +117,7 @@ const FinalSummaryModal = ({ intern, onSubmitSummary, onClose }) => {
                       recommendation: e.target.value,
                     })
                   }
-                  className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white"
+                  className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827]"
                 >
                   <option value="">Select</option>
                   <option value="hire">
@@ -131,7 +131,7 @@ const FinalSummaryModal = ({ intern, onSubmitSummary, onClose }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-[#374151] mb-2">
                   Strengths
                 </label>
                 <textarea
@@ -143,13 +143,13 @@ const FinalSummaryModal = ({ intern, onSubmitSummary, onClose }) => {
                       strengths: e.target.value,
                     })
                   }
-                  className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white"
+                  className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827]"
                   placeholder="Key strengths observed during the internship..."
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-[#374151] mb-2">
                   Areas for Improvement
                 </label>
                 <textarea
@@ -161,13 +161,13 @@ const FinalSummaryModal = ({ intern, onSubmitSummary, onClose }) => {
                       weaknesses: e.target.value,
                     })
                   }
-                  className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white"
+                  className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827]"
                   placeholder="Areas where improvement is needed..."
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-[#374151] mb-2">
                   Additional Comments
                 </label>
                 <textarea
@@ -176,7 +176,7 @@ const FinalSummaryModal = ({ intern, onSubmitSummary, onClose }) => {
                   onChange={(e) =>
                     setSummaryData({ ...summaryData, comments: e.target.value })
                   }
-                  className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white"
+                  className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827]"
                   placeholder="Any additional comments for the director..."
                 />
               </div>
@@ -184,7 +184,7 @@ const FinalSummaryModal = ({ intern, onSubmitSummary, onClose }) => {
               <button
                 onClick={handleSubmit}
                 disabled={loading || hasSubmitted}
-                className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg transition flex items-center justify-center gap-2 mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-purple-600 hover:bg-purple-700 text-[#111827] py-3 rounded-lg transition flex items-center justify-center gap-2 mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent" />

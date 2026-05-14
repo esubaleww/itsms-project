@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import UserDashboard from "../../features/user/pages/UserDashboard";
@@ -24,7 +24,7 @@ const DashboardPage = () => {
   if (loading || !authChecked) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563eb]"></div>
       </div>
     );
   }

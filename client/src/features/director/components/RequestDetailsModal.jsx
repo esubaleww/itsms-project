@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -62,9 +62,9 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
         return {
           label: "Internship Application",
           icon: GraduationCap,
-          color: "text-emerald-400",
-          bg: "bg-emerald-500/20",
-          border: "border-emerald-500/30",
+          color: "text-[#2563eb]",
+          bg: "bg-[#EEF2FF]",
+          border: "border-[#2563eb]/30",
         };
       case "innovator":
         return {
@@ -94,7 +94,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
         return {
           label: type || "Application",
           icon: FileText,
-          color: "text-gray-400",
+          color: "text-[#6b7280]",
           bg: "bg-gray-500/20",
           border: "border-gray-500/30",
         };
@@ -105,15 +105,15 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
     switch (status) {
       case "approved":
         return {
-          color: "text-emerald-400",
-          bg: "bg-emerald-500/20",
-          border: "border-emerald-500/30",
+          color: "text-[#2563eb]",
+          bg: "bg-[#EEF2FF]",
+          border: "border-[#2563eb]/30",
           icon: CheckCircle,
           label: "Approved",
         };
       case "rejected":
         return {
-          color: "text-red-400",
+          color: "text-red-500",
           bg: "bg-red-500/20",
           border: "border-red-500/30",
           icon: XCircle,
@@ -145,7 +145,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
         };
       default:
         return {
-          color: "text-gray-400",
+          color: "text-[#6b7280]",
           bg: "bg-gray-500/20",
           border: "border-gray-500/30",
           icon: AlertCircle,
@@ -158,7 +158,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
     switch (priority) {
       case "urgent":
         return {
-          color: "text-red-400",
+          color: "text-red-500",
           bg: "bg-red-500/20",
           border: "border-red-500/30",
           label: "Urgent",
@@ -179,7 +179,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
         };
       default:
         return {
-          color: "text-gray-400",
+          color: "text-[#6b7280]",
           bg: "bg-gray-500/20",
           border: "border-gray-500/30",
           label: "Low",
@@ -225,10 +225,10 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-gray-800 rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden border border-gray-700 shadow-2xl"
+        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden border border-[#E5E7EB] shadow-2xl"
       >
         {/* Header */}
-        <div className="sticky top-0 bg-gray-800/90 border-b border-gray-700 p-6 flex justify-between items-center z-10 backdrop-blur-sm">
+        <div className="sticky top-0 bg-white/90 backdrop-blur-sm border-b border-[#E5E7EB] p-6 flex justify-between items-center z-10 backdrop-blur-sm">
           <div className="flex items-center gap-3">
             <div
               className={`w-10 h-10 rounded-xl ${typeConfig.bg} flex items-center justify-center`}
@@ -236,7 +236,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
               <TypeIcon className={`w-5 h-5 ${typeConfig.color}`} />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white">
+              <h2 className="text-xl font-bold text-[#111827]">
                 {typeConfig.label}
               </h2>
               <div className="flex items-center gap-2 mt-1">
@@ -254,7 +254,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                     {priorityConfig.label}
                   </span>
                 )}
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-[#6b7280]">
                   ID: {request._id?.slice(-8) || "N/A"}
                 </span>
               </div>
@@ -262,9 +262,9 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-700 rounded-lg transition"
+            className="p-2 hover:bg-[#F3F4F6] rounded-lg transition"
           >
-            <X className="w-5 h-5 text-gray-400 hover:text-white" />
+            <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
           </button>
         </div>
 
@@ -272,42 +272,42 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
         <div className="overflow-y-auto flex-1 p-6 space-y-6">
           {/* Applicant Info Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-gray-700/30 rounded-xl p-4 border border-gray-700">
-              <div className="flex items-center gap-2 text-gray-400 text-sm mb-2">
+            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-4 border border-[#E5E7EB]">
+              <div className="flex items-center gap-2 text-[#6b7280] text-sm mb-2">
                 <User className="w-4 h-4" />
                 <span>Applicant</span>
               </div>
-              <p className="font-medium text-white">
+              <p className="font-medium text-[#111827]">
                 {request.applicant?.fullName || "Unknown"}
               </p>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-[#6b7280] mt-1">
                 {request.applicant?.position || "User"}
               </p>
             </div>
-            <div className="bg-gray-700/30 rounded-xl p-4 border border-gray-700">
-              <div className="flex items-center gap-2 text-gray-400 text-sm mb-2">
+            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-4 border border-[#E5E7EB]">
+              <div className="flex items-center gap-2 text-[#6b7280] text-sm mb-2">
                 <Mail className="w-4 h-4" />
                 <span>Contact</span>
               </div>
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-[#374151]">
                 {request.applicant?.email || "No email"}
               </p>
               {request.applicant?.phone && (
-                <p className="text-sm text-gray-500 mt-1 flex items-center gap-1">
+                <p className="text-sm text-[#6b7280] mt-1 flex items-center gap-1">
                   <Phone className="w-3 h-3" />
                   {request.applicant.phone}
                 </p>
               )}
             </div>
-            <div className="bg-gray-700/30 rounded-xl p-4 border border-gray-700">
-              <div className="flex items-center gap-2 text-gray-400 text-sm mb-2">
+            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-4 border border-[#E5E7EB]">
+              <div className="flex items-center gap-2 text-[#6b7280] text-sm mb-2">
                 <Calendar className="w-4 h-4" />
                 <span>Submitted</span>
               </div>
-              <p className="font-medium text-white">
+              <p className="font-medium text-[#111827]">
                 {formatDate(request.createdAt)}
               </p>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-[#6b7280] mt-1">
                 {formatDateTime(request.createdAt)}
               </p>
             </div>
@@ -315,19 +315,19 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
 
           {/* Description Section */}
           {(request.description || request.title) && (
-            <div className="bg-gray-700/30 rounded-xl border border-gray-700 overflow-hidden">
+            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl border border-[#E5E7EB] overflow-hidden">
               <button
                 onClick={() => toggleSection("details")}
-                className="w-full flex justify-between items-center p-4 hover:bg-gray-700/50 transition"
+                className="w-full flex justify-between items-center p-4 hover:bg-[#F3F4F6] transition"
               >
                 <div className="flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-emerald-400" />
-                  <span className="font-semibold text-white">Description</span>
+                  <FileText className="w-4 h-4 text-[#2563eb]" />
+                  <span className="font-semibold text-[#111827]">Description</span>
                 </div>
                 {expandedSections.details ? (
-                  <ChevronDown className="w-4 h-4 text-gray-400" />
+                  <ChevronDown className="w-4 h-4 text-[#6b7280]" />
                 ) : (
-                  <ChevronRight className="w-4 h-4 text-gray-400" />
+                  <ChevronRight className="w-4 h-4 text-[#6b7280]" />
                 )}
               </button>
               <AnimatePresence>
@@ -336,10 +336,10 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    className="border-t border-gray-700"
+                    className="border-t border-[#E5E7EB]"
                   >
                     <div className="p-4">
-                      <p className="text-gray-300 whitespace-pre-wrap">
+                      <p className="text-[#374151] whitespace-pre-wrap">
                         {request.description ||
                           request.title ||
                           "No description provided"}
@@ -353,21 +353,21 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
 
           {/* Application Details */}
           {request.relatedProfile && (
-            <div className="bg-gray-700/30 rounded-xl border border-gray-700 overflow-hidden">
+            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl border border-[#E5E7EB] overflow-hidden">
               <button
                 onClick={() => toggleSection("personal")}
-                className="w-full flex justify-between items-center p-4 hover:bg-gray-700/50 transition"
+                className="w-full flex justify-between items-center p-4 hover:bg-[#F3F4F6] transition"
               >
                 <div className="flex items-center gap-2">
                   <TypeIcon className={`w-4 h-4 ${typeConfig.color}`} />
-                  <span className="font-semibold text-white">
+                  <span className="font-semibold text-[#111827]">
                     Application Details
                   </span>
                 </div>
                 {expandedSections.personal ? (
-                  <ChevronDown className="w-4 h-4 text-gray-400" />
+                  <ChevronDown className="w-4 h-4 text-[#6b7280]" />
                 ) : (
-                  <ChevronRight className="w-4 h-4 text-gray-400" />
+                  <ChevronRight className="w-4 h-4 text-[#6b7280]" />
                 )}
               </button>
               <AnimatePresence>
@@ -376,7 +376,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    className="border-t border-gray-700"
+                    className="border-t border-[#E5E7EB]"
                   >
                     <div className="p-4 space-y-4">
                       {/* Intern Profile */}
@@ -385,20 +385,20 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                           <div className="space-y-3">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                               <div>
-                                <label className="text-xs text-gray-400 uppercase tracking-wider flex items-center gap-1">
+                                <label className="text-xs text-[#6b7280] uppercase tracking-wider flex items-center gap-1">
                                   <GraduationCap className="w-3 h-3" />
                                   University
                                 </label>
-                                <p className="text-white mt-1">
+                                <p className="text-[#111827] mt-1">
                                   {request.relatedProfile.university.name ||
                                     "N/A"}
                                 </p>
                               </div>
                               <div>
-                                <label className="text-xs text-gray-400 uppercase tracking-wider">
+                                <label className="text-xs text-[#6b7280] uppercase tracking-wider">
                                   Student ID
                                 </label>
-                                <p className="text-white mt-1">
+                                <p className="text-[#111827] mt-1">
                                   {request.relatedProfile.university
                                     .studentId || "N/A"}
                                 </p>
@@ -406,19 +406,19 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                               <div>
-                                <label className="text-xs text-gray-400 uppercase tracking-wider">
+                                <label className="text-xs text-[#6b7280] uppercase tracking-wider">
                                   Department
                                 </label>
-                                <p className="text-gray-300 mt-1">
+                                <p className="text-[#374151] mt-1">
                                   {request.relatedProfile.university
                                     .department || "N/A"}
                                 </p>
                               </div>
                               <div>
-                                <label className="text-xs text-gray-400 uppercase tracking-wider">
+                                <label className="text-xs text-[#6b7280] uppercase tracking-wider">
                                   Year of Study
                                 </label>
-                                <p className="text-gray-300 mt-1">
+                                <p className="text-[#374151] mt-1">
                                   {request.relatedProfile.university.year ||
                                     "N/A"}
                                 </p>
@@ -426,7 +426,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                             </div>
                             {request.relatedProfile.skills?.length > 0 && (
                               <div>
-                                <label className="text-xs text-gray-400 uppercase tracking-wider">
+                                <label className="text-xs text-[#6b7280] uppercase tracking-wider">
                                   Skills
                                 </label>
                                 <div className="flex flex-wrap gap-2 mt-2">
@@ -434,7 +434,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                                     (skill, i) => (
                                       <span
                                         key={i}
-                                        className="bg-gray-600/50 text-gray-300 px-2 py-1 rounded-lg text-sm"
+                                        className="bg-gray-600/50 text-[#374151] px-2 py-1 rounded-lg text-sm"
                                       >
                                         {skill}
                                       </span>
@@ -451,36 +451,36 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                         request.relatedProfile.ideaTitle && (
                           <div className="space-y-3">
                             <div>
-                              <label className="text-xs text-gray-400 uppercase tracking-wider">
+                              <label className="text-xs text-[#6b7280] uppercase tracking-wider">
                                 Idea Title
                               </label>
-                              <p className="font-semibold text-emerald-400 text-lg mt-1">
+                              <p className="font-semibold text-[#2563eb] text-lg mt-1">
                                 {request.relatedProfile.ideaTitle}
                               </p>
                             </div>
                             <div>
-                              <label className="text-xs text-gray-400 uppercase tracking-wider">
+                              <label className="text-xs text-[#6b7280] uppercase tracking-wider">
                                 Idea Description
                               </label>
-                              <p className="text-gray-300 mt-1">
+                              <p className="text-[#374151] mt-1">
                                 {request.relatedProfile.ideaDescription}
                               </p>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                               <div>
-                                <label className="text-xs text-gray-400 uppercase tracking-wider">
+                                <label className="text-xs text-[#6b7280] uppercase tracking-wider">
                                   Problem Solved
                                 </label>
-                                <p className="text-gray-300 mt-1">
+                                <p className="text-[#374151] mt-1">
                                   {request.relatedProfile.problemSolved ||
                                     "N/A"}
                                 </p>
                               </div>
                               <div>
-                                <label className="text-xs text-gray-400 uppercase tracking-wider">
+                                <label className="text-xs text-[#6b7280] uppercase tracking-wider">
                                   Target Market
                                 </label>
-                                <p className="text-gray-300 mt-1">
+                                <p className="text-[#374151] mt-1">
                                   {request.relatedProfile.targetMarket || "N/A"}
                                 </p>
                               </div>
@@ -488,7 +488,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                             {request.relatedProfile.areasOfInterest?.length >
                               0 && (
                               <div>
-                                <label className="text-xs text-gray-400 uppercase tracking-wider">
+                                <label className="text-xs text-[#6b7280] uppercase tracking-wider">
                                   Areas of Interest
                                 </label>
                                 <div className="flex flex-wrap gap-2 mt-2">
@@ -514,7 +514,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                           <div className="space-y-3">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                               <div>
-                                <label className="text-xs text-gray-400 uppercase tracking-wider">
+                                <label className="text-xs text-[#6b7280] uppercase tracking-wider">
                                   Company Name
                                 </label>
                                 <p className="font-semibold text-orange-400 text-lg mt-1">
@@ -522,25 +522,25 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                                 </p>
                               </div>
                               <div>
-                                <label className="text-xs text-gray-400 uppercase tracking-wider">
+                                <label className="text-xs text-[#6b7280] uppercase tracking-wider">
                                   Registration Number
                                 </label>
-                                <p className="text-gray-300 mt-1">
+                                <p className="text-[#374151] mt-1">
                                   {request.relatedProfile.registrationNumber}
                                 </p>
                               </div>
                             </div>
                             <div>
-                              <label className="text-xs text-gray-400 uppercase tracking-wider">
+                              <label className="text-xs text-[#6b7280] uppercase tracking-wider">
                                 Sector / Industry
                               </label>
-                              <p className="text-gray-300 mt-1">
+                              <p className="text-[#374151] mt-1">
                                 {request.relatedProfile.sector || "N/A"}
                               </p>
                             </div>
                             {request.relatedProfile.founders?.length > 0 && (
                               <div>
-                                <label className="text-xs text-gray-400 uppercase tracking-wider">
+                                <label className="text-xs text-[#6b7280] uppercase tracking-wider">
                                   Founders / Team
                                 </label>
                                 <div className="space-y-2 mt-2">
@@ -548,16 +548,16 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                                     (founder, i) => (
                                       <div
                                         key={i}
-                                        className="bg-gray-700/50 p-3 rounded-lg"
+                                        className="bg-white p-3 rounded-lg"
                                       >
-                                        <p className="font-medium text-white">
+                                        <p className="font-medium text-[#111827]">
                                           {founder.name}
                                         </p>
-                                        <p className="text-sm text-gray-400">
+                                        <p className="text-sm text-[#6b7280]">
                                           {founder.role}
                                         </p>
                                         {founder.email && (
-                                          <p className="text-xs text-gray-500 mt-1">
+                                          <p className="text-xs text-[#6b7280] mt-1">
                                             {founder.email}
                                           </p>
                                         )}
@@ -575,15 +575,15 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                         <div className="space-y-3">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                              <label className="text-xs text-gray-400 uppercase tracking-wider">
+                              <label className="text-xs text-[#6b7280] uppercase tracking-wider">
                                 Service Type
                               </label>
-                              <p className="text-white mt-1 font-medium">
+                              <p className="text-[#111827] mt-1 font-medium">
                                 {request.serviceType || "N/A"}
                               </p>
                             </div>
                             <div>
-                              <label className="text-xs text-gray-400 uppercase tracking-wider">
+                              <label className="text-xs text-[#6b7280] uppercase tracking-wider">
                                 Priority
                               </label>
                               <p className="mt-1">
@@ -600,10 +600,10 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                           </div>
                           {request.requirements && (
                             <div>
-                              <label className="text-xs text-gray-400 uppercase tracking-wider">
+                              <label className="text-xs text-[#6b7280] uppercase tracking-wider">
                                 Special Requirements
                               </label>
-                              <p className="text-gray-300 mt-1">
+                              <p className="text-[#374151] mt-1">
                                 {request.requirements}
                               </p>
                             </div>
@@ -619,24 +619,24 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
 
           {/* Documents Section */}
           {request.documents && request.documents.length > 0 && (
-            <div className="bg-gray-700/30 rounded-xl border border-gray-700 overflow-hidden">
+            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl border border-[#E5E7EB] overflow-hidden">
               <button
                 onClick={() => toggleSection("documents")}
-                className="w-full flex justify-between items-center p-4 hover:bg-gray-700/50 transition"
+                className="w-full flex justify-between items-center p-4 hover:bg-[#F3F4F6] transition"
               >
                 <div className="flex items-center gap-2">
-                  <Download className="w-4 h-4 text-emerald-400" />
-                  <span className="font-semibold text-white">
+                  <Download className="w-4 h-4 text-[#2563eb]" />
+                  <span className="font-semibold text-[#111827]">
                     Attached Documents
                   </span>
-                  <span className="text-xs bg-gray-600 px-2 py-0.5 rounded-full text-gray-300">
+                  <span className="text-xs bg-gray-600 px-2 py-0.5 rounded-full text-[#374151]">
                     {request.documents.length}
                   </span>
                 </div>
                 {expandedSections.documents ? (
-                  <ChevronDown className="w-4 h-4 text-gray-400" />
+                  <ChevronDown className="w-4 h-4 text-[#6b7280]" />
                 ) : (
-                  <ChevronRight className="w-4 h-4 text-gray-400" />
+                  <ChevronRight className="w-4 h-4 text-[#6b7280]" />
                 )}
               </button>
               <AnimatePresence>
@@ -645,7 +645,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    className="border-t border-gray-700"
+                    className="border-t border-[#E5E7EB]"
                   >
                     <div className="p-4">
                       <div className="space-y-2">
@@ -655,15 +655,15 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                             href={doc.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-between p-3 bg-gray-700/50 rounded-lg hover:bg-gray-700 transition group"
+                            className="flex items-center justify-between p-3 bg-white rounded-lg hover:bg-[#F3F4F6] transition group"
                           >
                             <div className="flex items-center gap-2">
-                              <FileText className="w-4 h-4 text-gray-400" />
-                              <span className="text-sm text-gray-300 group-hover:text-white">
+                              <FileText className="w-4 h-4 text-[#6b7280]" />
+                              <span className="text-sm text-[#374151] group-hover:text-[#111827]">
                                 {doc.name || `Document ${i + 1}`}
                               </span>
                             </div>
-                            <ExternalLink className="w-4 h-4 text-gray-500 group-hover:text-emerald-400" />
+                            <ExternalLink className="w-4 h-4 text-[#6b7280] group-hover:text-[#2563eb]" />
                           </a>
                         ))}
                       </div>
@@ -676,21 +676,21 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
 
           {/* Timeline Section */}
           {request.timeline && request.timeline.length > 0 && (
-            <div className="bg-gray-700/30 rounded-xl border border-gray-700 overflow-hidden">
+            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl border border-[#E5E7EB] overflow-hidden">
               <button
                 onClick={() => toggleSection("timeline")}
-                className="w-full flex justify-between items-center p-4 hover:bg-gray-700/50 transition"
+                className="w-full flex justify-between items-center p-4 hover:bg-[#F3F4F6] transition"
               >
                 <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-emerald-400" />
-                  <span className="font-semibold text-white">
+                  <Clock className="w-4 h-4 text-[#2563eb]" />
+                  <span className="font-semibold text-[#111827]">
                     Activity Timeline
                   </span>
                 </div>
                 {expandedSections.timeline ? (
-                  <ChevronDown className="w-4 h-4 text-gray-400" />
+                  <ChevronDown className="w-4 h-4 text-[#6b7280]" />
                 ) : (
-                  <ChevronRight className="w-4 h-4 text-gray-400" />
+                  <ChevronRight className="w-4 h-4 text-[#6b7280]" />
                 )}
               </button>
               <AnimatePresence>
@@ -699,7 +699,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    className="border-t border-gray-700"
+                    className="border-t border-[#E5E7EB]"
                   >
                     <div className="p-4">
                       <div className="space-y-3">
@@ -712,15 +712,15 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                               )}
                             </div>
                             <div className="flex-1 pb-3">
-                              <p className="text-sm font-medium text-white">
+                              <p className="text-sm font-medium text-[#111827]">
                                 {event.action || "Status Update"}
                               </p>
                               {event.details && (
-                                <p className="text-xs text-gray-400 mt-0.5">
+                                <p className="text-xs text-[#6b7280] mt-0.5">
                                   {event.details}
                                 </p>
                               )}
-                              <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                              <p className="text-xs text-[#6b7280] mt-1 flex items-center gap-1">
                                 <User className="w-3 h-3" />
                                 {event.by?.fullName || "System"} •{" "}
                                 {formatDateTime(
@@ -743,7 +743,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
             <div className="bg-purple-500/10 border border-purple-500/30 rounded-xl p-4">
               <div className="flex items-center gap-2">
                 <Users className="w-4 h-4 text-purple-400" />
-                <span className="font-medium text-white">
+                <span className="font-medium text-[#111827]">
                   Assigned to Team:
                 </span>
                 <span className="text-purple-400">
@@ -751,7 +751,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                 </span>
               </div>
               {request.assignedTo && request.assignedTo.length > 0 && (
-                <div className="mt-2 text-sm text-gray-400">
+                <div className="mt-2 text-sm text-[#6b7280]">
                   Assigned to:{" "}
                   {request.assignedTo
                     .map((m) => m.user?.fullName || m.user)
@@ -764,18 +764,18 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
 
         {/* Actions */}
         {isAssignable ? (
-          <div className="sticky bottom-0 bg-gray-800/90 border-t border-gray-700 p-4 backdrop-blur-sm rounded-b-2xl">
+          <div className="sticky bottom-0 bg-white/90 backdrop-blur-sm border-t border-[#E5E7EB] p-4 backdrop-blur-sm rounded-b-2xl">
             {!showAssignForm ? (
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowAssignForm(true)}
-                  className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-white py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg"
+                  className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg"
                 >
                   <UserPlus className="w-4 h-4" /> Assign to Team
                 </button>
                 <button
                   onClick={onClose}
-                  className="flex-1 border border-gray-600 text-gray-300 py-2.5 rounded-lg hover:bg-gray-700 transition-all duration-200"
+                  className="flex-1 border border-[#D1D5DB] text-[#374151] py-2.5 rounded-lg hover:bg-[#F3F4F6] transition-all duration-200"
                 >
                   Close
                 </button>
@@ -785,16 +785,16 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                 <select
                   value={selectedTeam}
                   onChange={(e) => setSelectedTeam(e.target.value)}
-                  className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                 >
-                  <option value="" className="bg-gray-800">
+                  <option value="" className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
                     Select a team...
                   </option>
                   {teams.map((team) => (
                     <option
                       key={team._id}
                       value={team._id}
-                      className="bg-gray-800"
+                      className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
                     >
                       {team.name} ({team.members?.length || 0} members)
                     </option>
@@ -802,7 +802,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                 </select>
                 <textarea
                   placeholder="Assignment instructions (optional)..."
-                  className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 resize-none"
+                  className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] resize-none"
                   rows="2"
                   value={comments}
                   onChange={(e) => setComments(e.target.value)}
@@ -811,7 +811,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                   <button
                     onClick={handleAssign}
                     disabled={!selectedTeam || assigning}
-                    className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-white py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
+                    className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
                   >
                     {assigning ? (
                       <>
@@ -827,7 +827,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                   </button>
                   <button
                     onClick={() => setShowAssignForm(false)}
-                    className="flex-1 border border-gray-600 text-gray-300 py-2.5 rounded-lg hover:bg-gray-700 transition-all duration-200"
+                    className="flex-1 border border-[#D1D5DB] text-[#374151] py-2.5 rounded-lg hover:bg-[#F3F4F6] transition-all duration-200"
                   >
                     Cancel
                   </button>
@@ -836,10 +836,10 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
             )}
           </div>
         ) : (
-          <div className="sticky bottom-0 bg-gray-800/90 border-t border-gray-700 p-4 backdrop-blur-sm rounded-b-2xl">
+          <div className="sticky bottom-0 bg-white/90 backdrop-blur-sm border-t border-[#E5E7EB] p-4 backdrop-blur-sm rounded-b-2xl">
             <button
               onClick={onClose}
-              className="w-full border border-gray-600 text-gray-300 py-2.5 rounded-lg hover:bg-gray-700 transition-all duration-200"
+              className="w-full border border-[#D1D5DB] text-[#374151] py-2.5 rounded-lg hover:bg-[#F3F4F6] transition-all duration-200"
             >
               Close
             </button>

@@ -79,37 +79,37 @@ const StaffHeader = ({ onRefresh, title = "Staff Dashboard", onMenuClick }) => {
 
   return (
     <>
-      <div className="bg-gray-800/80 backdrop-blur-sm border-b border-gray-700 sticky top-0 z-20">
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-2 sm:py-3">
-          <div className="flex justify-between items-center">
+      <header className="bg-white/80 backdrop-blur-sm border-b border-[#E5E7EB] sticky top-0 z-[60]">
+        <div className="max-w-7xl mx-auto px-4 h-16">
+          <div className="flex justify-between items-center h-full">
             {/* Logo and Title */}
-            <div className="flex items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-4">
               {/* Mobile Menu Button */}
               <button
                 onClick={onMenuClick}
-                className="md:hidden p-2 hover:bg-gray-700 rounded-lg transition-colors"
+                className="md:hidden p-2 hover:bg-[#F3F4F6] rounded-lg transition-colors"
               >
-                <Menu className="w-5 h-5 text-gray-400" />
+                <Menu className="w-5 h-5 text-[#6b7280]" />
               </button>
 
               {/* Circular logo */}
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-linear-to-br from-emerald-500 to-teal-700 rounded-full flex items-center justify-center shadow-lg">
-                <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-full flex items-center justify-center shadow-lg">
+                <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-[#111827]" />
               </div>
 
               {/* Title - hide on mobile, show on sm and up */}
               <div className="hidden sm:block">
-                <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
+                <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-[#111827]">
                   {title}
                 </h1>
-                <p className="text-xs text-gray-400 hidden md:block">
+                <p className="text-xs text-[#6b7280] hidden md:block">
                   Welcome back, {user?.fullName?.split(" ")[0] || "Staff"}
                 </p>
               </div>
 
               {/* Mobile title only */}
               <div className="sm:hidden">
-                <h1 className="text-sm font-bold text-white">Staff</h1>
+                <h1 className="text-sm font-bold text-[#111827]">Staff</h1>
               </div>
             </div>
 
@@ -118,22 +118,22 @@ const StaffHeader = ({ onRefresh, title = "Staff Dashboard", onMenuClick }) => {
               {/* Refresh Button */}
               <button
                 onClick={onRefresh}
-                className="p-2 hover:bg-gray-700 rounded-lg transition-colors duration-200 group"
+                className="p-2 hover:bg-[#F3F4F6] rounded-lg transition-colors duration-200 group"
                 title="Refresh Dashboard"
               >
-                <RefreshCw className="w-5 h-5 text-gray-400 group-hover:text-emerald-400 transition-colors" />
+                <RefreshCw className="w-5 h-5 text-[#6b7280] group-hover:text-[#2563eb] transition-colors" />
               </button>
 
               {/* Notifications */}
               <div className="relative" ref={notificationRef}>
                 <button
                   onClick={() => setShowNotifications(!showNotifications)}
-                  className="p-2 hover:bg-gray-700 rounded-lg transition-colors duration-200 relative group"
+                  className="p-2 hover:bg-[#F3F4F6] rounded-lg transition-colors duration-200 relative group"
                   title="Notifications"
                 >
-                  <Bell className="w-5 h-5 text-gray-400 group-hover:text-emerald-400 transition-colors" />
+                  <Bell className="w-5 h-5 text-[#6b7280] group-hover:text-[#2563eb] transition-colors" />
                   {unreadCount > 0 && (
-                    <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse">
+                    <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 text-[#111827] text-xs rounded-full flex items-center justify-center animate-pulse">
                       {unreadCount > 9 ? "9+" : unreadCount}
                     </span>
                   )}
@@ -141,15 +141,15 @@ const StaffHeader = ({ onRefresh, title = "Staff Dashboard", onMenuClick }) => {
 
                 {/* Notifications Dropdown */}
                 {showNotifications && (
-                  <div className="absolute right-0 mt-2 w-80 bg-gray-800 rounded-xl shadow-2xl border border-gray-700 overflow-hidden z-20 animate-fadeIn">
-                    <div className="p-3 border-b border-gray-700 flex justify-between items-center bg-gray-800/90">
-                      <h3 className="font-semibold text-white">
+                  <div className="absolute right-0 mt-2 w-80 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl shadow-2xl border border-[#E5E7EB] overflow-hidden z-20 animate-fadeIn">
+                    <div className="p-3 border-b border-[#E5E7EB] flex justify-between items-center bg-white/90 backdrop-blur-sm">
+                      <h3 className="font-semibold text-[#111827]">
                         Notifications
                       </h3>
                       {unreadCount > 0 && (
                         <button
                           onClick={markAllAsRead}
-                          className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
+                          className="text-xs text-[#2563eb] hover:text-[#1d4ed8] transition-colors"
                         >
                           Mark all as read
                         </button>
@@ -157,8 +157,8 @@ const StaffHeader = ({ onRefresh, title = "Staff Dashboard", onMenuClick }) => {
                     </div>
                     <div className="max-h-96 overflow-y-auto">
                       {notifications.length === 0 ? (
-                        <div className="p-8 text-center text-gray-500">
-                          <Bell className="w-10 h-10 mx-auto text-gray-600 mb-2" />
+                        <div className="p-8 text-center text-[#6b7280]">
+                          <Bell className="w-10 h-10 mx-auto text-[#9ca3af] mb-2" />
                           <p className="text-sm">No notifications</p>
                         </div>
                       ) : (
@@ -166,24 +166,24 @@ const StaffHeader = ({ onRefresh, title = "Staff Dashboard", onMenuClick }) => {
                           <div
                             key={notif._id}
                             onClick={() => handleNotificationClick(notif)}
-                            className={`p-3 border-b border-gray-700 hover:bg-gray-700 cursor-pointer transition-all duration-200 ${
-                              !notif.isRead ? "bg-gray-700/50" : ""
+                            className={`p-3 border-b border-[#E5E7EB] hover:bg-[#F3F4F6] cursor-pointer transition-all duration-200 ${
+                              !notif.isRead ? "bg-white" : ""
                             }`}
                           >
                             <div className="flex items-start gap-2">
                               {!notif.isRead && (
-                                <div className="w-2 h-2 bg-emerald-500 rounded-full mt-1.5 shrink-0" />
+                                <div className="w-2 h-2 bg-[#2563eb] rounded-full mt-1.5 shrink-0" />
                               )}
                               <div className="flex-1">
                                 <p
-                                  className={`text-sm ${!notif.isRead ? "text-white font-medium" : "text-gray-300"}`}
+                                  className={`text-sm ${!notif.isRead ? "text-[#111827] font-medium" : "text-[#374151]"}`}
                                 >
                                   {notif.title}
                                 </p>
-                                <p className="text-xs text-gray-400 mt-1 line-clamp-2">
+                                <p className="text-xs text-[#6b7280] mt-1 line-clamp-2">
                                   {notif.message}
                                 </p>
-                                <p className="text-xs text-gray-500 mt-1">
+                                <p className="text-xs text-[#6b7280] mt-1">
                                   {new Date(notif.createdAt).toLocaleString()}
                                 </p>
                               </div>
@@ -192,10 +192,10 @@ const StaffHeader = ({ onRefresh, title = "Staff Dashboard", onMenuClick }) => {
                         ))
                       )}
                     </div>
-                    <div className="p-2 border-t border-gray-700 bg-gray-800/90">
+                    <div className="p-2 border-t border-[#E5E7EB] bg-white/90 backdrop-blur-sm">
                       <button
                         onClick={handleViewAll}
-                        className="w-full text-center text-sm text-emerald-400 hover:text-emerald-300 py-1 transition-colors"
+                        className="w-full text-center text-sm text-[#2563eb] hover:text-[#1d4ed8] py-1 transition-colors"
                       >
                         View all notifications
                       </button>
@@ -208,25 +208,25 @@ const StaffHeader = ({ onRefresh, title = "Staff Dashboard", onMenuClick }) => {
               <div className="relative" ref={userMenuRef}>
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center gap-2 p-1.5 hover:bg-gray-700 rounded-lg transition-colors duration-200 group"
+                  className="flex items-center gap-2 p-1.5 hover:bg-[#F3F4F6] rounded-lg transition-colors duration-200 group"
                 >
-                  <div className="w-8 h-8 bg-linear-to-br from-emerald-500 to-teal-700 rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-medium">
+                  <div className="w-8 h-8 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-full flex items-center justify-center">
+                    <span className="text-[#111827] text-sm font-medium">
                       {getUserInitials()}
                     </span>
                   </div>
-                  <ChevronDown className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors hidden sm:block" />
+                  <ChevronDown className="w-4 h-4 text-[#6b7280] group-hover:text-[#111827] transition-colors hidden sm:block" />
                 </button>
 
                 {/* User Dropdown */}
                 {showUserMenu && (
-                  <div className="absolute right-0 mt-2 w-56 bg-gray-800 rounded-xl shadow-2xl border border-gray-700 overflow-hidden z-20 animate-fadeIn">
-                    <div className="p-3 border-b border-gray-700 bg-gray-800/90">
-                      <p className="text-white font-medium">{user?.fullName}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">
+                  <div className="absolute right-0 mt-2 w-56 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl shadow-2xl border border-[#E5E7EB] overflow-hidden z-20 animate-fadeIn">
+                    <div className="p-3 border-b border-[#E5E7EB] bg-white/90 backdrop-blur-sm">
+                      <p className="text-[#111827] font-medium">{user?.fullName}</p>
+                      <p className="text-xs text-[#6b7280] mt-0.5">
                         {user?.email}
                       </p>
-                      <p className="text-xs text-emerald-400 mt-1 capitalize">
+                      <p className="text-xs text-[#2563eb] mt-1 capitalize">
                         {getRoleDisplay()}
                       </p>
                     </div>
@@ -236,15 +236,15 @@ const StaffHeader = ({ onRefresh, title = "Staff Dashboard", onMenuClick }) => {
                           setShowUserMenu(false);
                           navigate("/profile");
                         }}
-                        className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:bg-gray-700 transition-colors flex items-center gap-2"
+                        className="w-full px-4 py-2 text-left text-sm text-[#374151] hover:bg-[#F3F4F6] transition-colors flex items-center gap-2"
                       >
                         <User className="w-4 h-4" />
                         Profile Settings
                       </button>
-                      <div className="border-t border-gray-700 my-1" />
+                      <div className="border-t border-[#E5E7EB] my-1" />
                       <button
                         onClick={handleLogout}
-                        className="w-full px-4 py-2 text-left text-sm text-red-400 hover:bg-gray-700 transition-colors flex items-center gap-2"
+                        className="w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-[#F3F4F6] transition-colors flex items-center gap-2"
                       >
                         <LogOut className="w-4 h-4" />
                         Sign Out
@@ -256,7 +256,7 @@ const StaffHeader = ({ onRefresh, title = "Staff Dashboard", onMenuClick }) => {
             </div>
           </div>
         </div>
-      </div>
+      </header>
     </>
   );
 };

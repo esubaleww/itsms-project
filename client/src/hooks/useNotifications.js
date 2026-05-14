@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { notificationService } from "../services/notification.service";
 
 export const useNotifications = () => {
@@ -6,7 +6,7 @@ export const useNotifications = () => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const fetchNotifications = async () => {
+  const fetchNotifications = useCallback(async () => {
     setLoading(true);
     try {
       const data = await notificationService.getMyNotifications();
@@ -17,7 +17,7 @@ export const useNotifications = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const markAsRead = async (id) => {
     await notificationService.markAsRead(id);

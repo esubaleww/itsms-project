@@ -52,7 +52,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-800 via-slate-700 to-slate-600 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#F9FAFB] flex items-start justify-center pt-14 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           {/* Left Side - Image */}
@@ -69,6 +69,15 @@ const RegisterPage = () => {
                 alt="Team collaboration"
                 className="relative rounded-2xl shadow-2xl object-cover w-full h-150"
               />
+              <div className="absolute bottom-8 left-8 right-8 bg-slate-900/80 backdrop-blur-sm p-6 rounded-xl border border-white/10 shadow-2xl">
+                <h3 className="text-white text-xl font-bold mb-2">
+                  Join Innovation Bureau
+                </h3>
+                <p className="text-slate-100 text-sm font-medium">
+                  Start your journey with us and explore a world of
+                  opportunities
+                </p>
+              </div>
             </div>
           </motion.div>
 
@@ -79,18 +88,18 @@ const RegisterPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="bg-slate-800/50 backdrop-blur-sm py-8 px-6 sm:px-10 rounded-2xl shadow-2xl border border-slate-700">
+            <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] py-8 px-6 sm:px-10 rounded-2xl shadow-2xl border border-[#E5E7EB]">
               {/* Header */}
               <div className="text-center mb-8">
                 <div className="flex justify-center mb-4">
-                  <div className="w-12 h-12 bg-linear-to-r from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center">
-                    <UserPlus className="w-6 h-6 text-white" />
+                  <div className="w-12 h-12 bg-[#2563eb] rounded-xl flex items-center justify-center">
+                    <UserPlus className="w-6 h-6 text-[#0f172a]" />
                   </div>
                 </div>
-                <h2 className="text-3xl font-bold text-white mb-2">
+                <h2 className="text-3xl font-bold text-[#0f172a] mb-2">
                   Create Account
                 </h2>
-                <p className="text-slate-400 text-sm">
+                <p className="text-[#4b5563] text-sm">
                   Join ITSMS in seconds. Choose your path after login.
                 </p>
               </div>
@@ -101,13 +110,13 @@ const RegisterPage = () => {
                 <div>
                   <label
                     htmlFor="fullName"
-                    className="block text-sm font-medium text-slate-300 mb-2"
+                    className="block text-sm font-medium text-[#374151] mb-2"
                   >
                     Full Name
                   </label>
                   <div className="relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <User className="h-5 w-5 text-slate-400" />
+                      <User className="h-5 w-5 text-[#6b7280]" />
                     </div>
                     <input
                       id="fullName"
@@ -117,7 +126,7 @@ const RegisterPage = () => {
                       required
                       value={formData.fullName}
                       onChange={handleChange}
-                      className="block w-full px-3 py-2.5 pl-10 bg-slate-700 border border-slate-600 rounded-lg shadow-sm placeholder-slate-400 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent sm:text-sm transition duration-150"
+                      className="block w-full px-3 py-2.5 pl-10 bg-white border border-[#D1D5DB] rounded-lg shadow-sm placeholder-gray-400 text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent sm:text-sm transition duration-150"
                       placeholder="Enter your full name"
                     />
                   </div>
@@ -127,13 +136,13 @@ const RegisterPage = () => {
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium text-slate-300 mb-2"
+                    className="block text-sm font-medium text-[#374151] mb-2"
                   >
                     Email Address
                   </label>
                   <div className="relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Mail className="h-5 w-5 text-slate-400" />
+                      <Mail className="h-5 w-5 text-[#6b7280]" />
                     </div>
                     <input
                       id="email"
@@ -143,7 +152,7 @@ const RegisterPage = () => {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="block w-full px-3 py-2.5 pl-10 bg-slate-700 border border-slate-600 rounded-lg shadow-sm placeholder-slate-400 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent sm:text-sm transition duration-150"
+                      className="block w-full px-3 py-2.5 pl-10 bg-white border border-[#D1D5DB] rounded-lg shadow-sm placeholder-gray-400 text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent sm:text-sm transition duration-150"
                       placeholder="you@example.com"
                     />
                   </div>
@@ -153,13 +162,13 @@ const RegisterPage = () => {
                 <div>
                   <label
                     htmlFor="password"
-                    className="block text-sm font-medium text-slate-300 mb-2"
+                    className="block text-sm font-medium text-[#374151] mb-2"
                   >
                     Password
                   </label>
                   <div className="relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Lock className="h-5 w-5 text-slate-400" />
+                      <Lock className="h-5 w-5 text-[#6b7280]" />
                     </div>
                     <input
                       id="password"
@@ -170,13 +179,13 @@ const RegisterPage = () => {
                       minLength="6"
                       value={formData.password}
                       onChange={handleChange}
-                      className="block w-full px-3 py-2.5 pl-10 pr-10 bg-slate-700 border border-slate-600 rounded-lg shadow-sm placeholder-slate-400 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent sm:text-sm transition duration-150"
+                      className="block w-full px-3 py-2.5 pl-10 pr-10 bg-white border border-[#D1D5DB] rounded-lg shadow-sm placeholder-gray-400 text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent sm:text-sm transition duration-150"
                       placeholder="••••••••"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-300"
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#6b7280] hover:text-[#374151]"
                     >
                       {showPassword ? (
                         <EyeOff className="h-5 w-5" />
@@ -195,7 +204,7 @@ const RegisterPage = () => {
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg text-sm"
+                    className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm"
                   >
                     {error}
                   </motion.div>
@@ -205,7 +214,7 @@ const RegisterPage = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex justify-center items-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-linear-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex justify-center items-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#2563eb] hover:bg-[#1d4ed8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2563eb] transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <>
@@ -222,11 +231,11 @@ const RegisterPage = () => {
 
                 {/* Login Link */}
                 <div className="text-center">
-                  <p className="text-sm text-slate-400">
+                  <p className="text-sm text-[#6b7280]">
                     Already have an account?{" "}
                     <Link
                       to="/login"
-                      className="font-medium text-emerald-400 hover:text-emerald-300 transition inline-flex items-center"
+                      className="font-medium text-[#2563eb] hover:text-[#1d4ed8] transition inline-flex items-center"
                     >
                       Sign in
                       <ArrowRight className="ml-1 h-4 w-4" />
@@ -240,11 +249,11 @@ const RegisterPage = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="mt-6 bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4"
+                className="mt-6 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg p-4"
               >
                 <div className="flex items-start gap-3">
-                  <Mail className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                  <p className="text-sm text-emerald-300">
+                  <Mail className="w-5 h-5 text-[#2563eb] shrink-0 mt-0.5" />
+                  <p className="text-sm text-[#1d4ed8]">
                     📧 After registration, you will receive a verification
                     email. Please check your inbox and click the link to verify
                     your email address before logging in.

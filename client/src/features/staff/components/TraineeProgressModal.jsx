@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { X, Calendar, CheckCircle, TrendingUp, XCircle } from "lucide-react";
 
 const TraineeProgressModal = ({ trainee, progress, onClose }) => {
@@ -24,55 +24,55 @@ const TraineeProgressModal = ({ trainee, progress, onClose }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-gray-800 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col border border-gray-700 shadow-2xl"
+        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col border border-[#E5E7EB] shadow-2xl"
       >
-        <div className="p-5 border-b border-gray-700 flex justify-between items-center sticky top-0 bg-gray-800/90">
+        <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-sm">
           <div>
-            <h2 className="text-xl font-bold text-white">Trainee Progress</h2>
-            <p className="text-sm text-gray-400">
+            <h2 className="text-xl font-bold text-[#111827]">Trainee Progress</h2>
+            <p className="text-sm text-[#6b7280]">
               {progress?.trainee?.fullName || trainee?.trainee?.fullName}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-gray-700 rounded-lg transition"
+            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
           >
-            <X className="w-5 h-5 text-gray-400 hover:text-white" />
+            <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-5 space-y-6">
           <div className="grid grid-cols-4 gap-4">
-            <div className="bg-gray-700/30 rounded-lg p-4 text-center">
+            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4 text-center">
               <Calendar className="w-8 h-8 text-blue-400 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-white">{totalSessions}</p>
-              <p className="text-xs text-gray-400">Total Sessions</p>
+              <p className="text-2xl font-bold text-[#111827]">{totalSessions}</p>
+              <p className="text-xs text-[#6b7280]">Total Sessions</p>
             </div>
-            <div className="bg-gray-700/30 rounded-lg p-4 text-center">
+            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4 text-center">
               <CheckCircle className="w-8 h-8 text-green-400 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-white">
+              <p className="text-2xl font-bold text-[#111827]">
                 {attendedSessions}
               </p>
-              <p className="text-xs text-gray-400">Attended</p>
+              <p className="text-xs text-[#6b7280]">Attended</p>
             </div>
-            <div className="bg-gray-700/30 rounded-lg p-4 text-center">
-              <XCircle className="w-8 h-8 text-red-400 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-red-400">{missedCount}</p>
-              <p className="text-xs text-gray-400">Missed</p>
+            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4 text-center">
+              <XCircle className="w-8 h-8 text-red-500 mx-auto mb-2" />
+              <p className="text-2xl font-bold text-red-500">{missedCount}</p>
+              <p className="text-xs text-[#6b7280]">Missed</p>
             </div>
-            <div className="bg-gray-700/30 rounded-lg p-4 text-center">
-              <TrendingUp className="w-8 h-8 text-emerald-400 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-white">
+            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4 text-center">
+              <TrendingUp className="w-8 h-8 text-[#2563eb] mx-auto mb-2" />
+              <p className="text-2xl font-bold text-[#111827]">
                 {stats.completionRate || 0}%
               </p>
-              <p className="text-xs text-gray-400">Attendance Rate</p>
+              <p className="text-xs text-[#6b7280]">Attendance Rate</p>
             </div>
           </div>
 
           {stats.startDate && (
-            <div className="bg-gray-700/30 rounded-lg p-3">
-              <p className="text-xs text-gray-400">Program Start Date</p>
-              <p className="text-sm text-white font-medium">
+            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+              <p className="text-xs text-[#6b7280]">Program Start Date</p>
+              <p className="text-sm text-[#111827] font-medium">
                 {new Date(stats.startDate).toLocaleDateString()}
               </p>
             </div>
@@ -89,7 +89,7 @@ const TraineeProgressModal = ({ trainee, progress, onClose }) => {
 
           {sessions.length > 0 && (
             <div>
-              <h3 className="text-lg font-semibold text-white mb-3">
+              <h3 className="text-lg font-semibold text-[#111827] mb-3">
                 Session History
               </h3>
               <div className="space-y-3">
@@ -101,24 +101,24 @@ const TraineeProgressModal = ({ trainee, progress, onClose }) => {
                   const isUpcoming = sessionDate > now && !attended;
 
                   let statusLabel = "Missed";
-                  let statusColor = "bg-red-500/20 text-red-400";
+                  let statusColor = "bg-red-500/20 text-red-500";
 
                   if (attended) {
                     statusLabel = "Attended";
-                    statusColor = "bg-emerald-500/20 text-emerald-400";
+                    statusColor = "bg-[#EEF2FF] text-[#2563eb]";
                   } else if (isUpcoming) {
                     statusLabel = "Upcoming";
                     statusColor = "bg-yellow-500/20 text-yellow-400";
                   }
 
                   return (
-                    <div key={idx} className="bg-gray-700/30 rounded-lg p-4">
+                    <div key={idx} className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4">
                       <div className="flex justify-between items-start">
                         <div className="flex-1">
-                          <p className="font-medium text-white">
+                          <p className="font-medium text-[#111827]">
                             {session.title || "Untitled Session"}
                           </p>
-                          <div className="flex flex-wrap gap-3 mt-1 text-xs text-gray-400">
+                          <div className="flex flex-wrap gap-3 mt-1 text-xs text-[#6b7280]">
                             {session.date && (
                               <span>
                                 📅 {new Date(session.date).toLocaleDateString()}
@@ -137,7 +137,7 @@ const TraineeProgressModal = ({ trainee, progress, onClose }) => {
                             )}
                           </div>
                           {attendedAt && (
-                            <p className="text-xs text-emerald-400/70 mt-2">
+                            <p className="text-xs text-[#2563eb]/70 mt-2">
                               ✅ Attended on{" "}
                               {new Date(attendedAt).toLocaleString()}
                             </p>
@@ -164,8 +164,8 @@ const TraineeProgressModal = ({ trainee, progress, onClose }) => {
 
           {sessions.length === 0 && (
             <div className="text-center py-8">
-              <Calendar className="w-12 h-12 text-gray-600 mx-auto mb-3" />
-              <p className="text-gray-400">No sessions found</p>
+              <Calendar className="w-12 h-12 text-[#9ca3af] mx-auto mb-3" />
+              <p className="text-[#6b7280]">No sessions found</p>
             </div>
           )}
         </div>

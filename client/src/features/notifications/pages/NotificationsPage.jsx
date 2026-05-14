@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useNotifications } from "../../../hooks/useNotifications";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -31,11 +31,11 @@ const NotificationsPage = () => {
   const getIcon = (type) => {
     switch (type) {
       case "success":
-        return <CheckCircle className="w-5 h-5 text-emerald-400" />;
+        return <CheckCircle className="w-5 h-5 text-[#2563eb]" />;
       case "warning":
         return <AlertCircle className="w-5 h-5 text-yellow-400" />;
       case "error":
-        return <AlertCircle className="w-5 h-5 text-red-400" />;
+        return <AlertCircle className="w-5 h-5 text-red-500" />;
       default:
         return <Info className="w-5 h-5 text-blue-400" />;
     }
@@ -87,13 +87,13 @@ const NotificationsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 py-8">
+    <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] py-8">
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
         <div className="mb-6">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-gray-400 hover:text-white mb-4 transition group"
+            className="flex items-center gap-2 text-[#6b7280] hover:text-[#111827] mb-4 transition group"
           >
             <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition" />
             <span className="text-sm">Back</span>
@@ -103,13 +103,13 @@ const NotificationsPage = () => {
             <div>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-linear-to-r from-emerald-500 to-teal-700 rounded-xl flex items-center justify-center">
-                  <Bell className="w-5 h-5 text-white" />
+                  <Bell className="w-5 h-5 text-[#111827]" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-white">
+                  <h1 className="text-2xl font-bold text-[#111827]">
                     Notifications
                   </h1>
-                  <p className="text-gray-400 text-sm mt-0.5">
+                  <p className="text-[#6b7280] text-sm mt-0.5">
                     Stay updated with your activity
                   </p>
                 </div>
@@ -119,7 +119,7 @@ const NotificationsPage = () => {
             {unreadCount > 0 && (
               <button
                 onClick={markAllAsRead}
-                className="flex items-center gap-2 px-4 py-2 bg-emerald-600/20 text-emerald-400 rounded-lg hover:bg-emerald-600/30 transition border border-emerald-500/30"
+                className="flex items-center gap-2 px-4 py-2 bg-emerald-600/20 text-[#2563eb] rounded-lg hover:bg-emerald-600/30 transition border border-[#2563eb]/30"
               >
                 <Check className="w-4 h-4" /> Mark all as read
               </button>
@@ -129,30 +129,30 @@ const NotificationsPage = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-3 gap-4 mb-6">
-          <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl p-4 text-center border border-gray-700">
-            <p className="text-2xl font-bold text-emerald-400">{stats.total}</p>
-            <p className="text-sm text-gray-400">Total</p>
+          <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl p-4 text-center border border-[#E5E7EB]">
+            <p className="text-2xl font-bold text-[#2563eb]">{stats.total}</p>
+            <p className="text-sm text-[#6b7280]">Total</p>
           </div>
-          <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl p-4 text-center border border-gray-700">
+          <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl p-4 text-center border border-[#E5E7EB]">
             <p className="text-2xl font-bold text-yellow-400">{stats.unread}</p>
-            <p className="text-sm text-gray-400">Unread</p>
+            <p className="text-sm text-[#6b7280]">Unread</p>
           </div>
-          <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl p-4 text-center border border-gray-700">
+          <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl p-4 text-center border border-[#E5E7EB]">
             <p className="text-2xl font-bold text-blue-400">{stats.read}</p>
-            <p className="text-sm text-gray-400">Read</p>
+            <p className="text-sm text-[#6b7280]">Read</p>
           </div>
         </div>
 
         {/* Filters & Actions */}
-        <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-700 mb-4 overflow-hidden">
+        <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] mb-4 overflow-hidden">
           <div className="p-4 flex flex-wrap justify-between items-center gap-4">
             <div className="flex gap-2">
               <button
                 onClick={() => setFilter("all")}
                 className={`px-3 py-1.5 rounded-lg text-sm transition ${
                   filter === "all"
-                    ? "bg-emerald-600 text-white"
-                    : "bg-gray-700/50 text-gray-300 hover:bg-gray-700"
+                    ? "bg-emerald-600 text-[#111827]"
+                    : "bg-white text-[#374151] hover:bg-[#F3F4F6]"
                 }`}
               >
                 <div className="flex items-center gap-1">
@@ -164,8 +164,8 @@ const NotificationsPage = () => {
                 onClick={() => setFilter("unread")}
                 className={`px-3 py-1.5 rounded-lg text-sm transition ${
                   filter === "unread"
-                    ? "bg-emerald-600 text-white"
-                    : "bg-gray-700/50 text-gray-300 hover:bg-gray-700"
+                    ? "bg-emerald-600 text-[#111827]"
+                    : "bg-white text-[#374151] hover:bg-[#F3F4F6]"
                 }`}
               >
                 <div className="flex items-center gap-1">
@@ -182,8 +182,8 @@ const NotificationsPage = () => {
                 onClick={() => setFilter("read")}
                 className={`px-3 py-1.5 rounded-lg text-sm transition ${
                   filter === "read"
-                    ? "bg-emerald-600 text-white"
-                    : "bg-gray-700/50 text-gray-300 hover:bg-gray-700"
+                    ? "bg-emerald-600 text-[#111827]"
+                    : "bg-white text-[#374151] hover:bg-[#F3F4F6]"
                 }`}
               >
                 <div className="flex items-center gap-1">
@@ -195,18 +195,18 @@ const NotificationsPage = () => {
 
             {selectedNotifications.length > 0 && (
               <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-400">
+                <span className="text-xs text-[#6b7280]">
                   {selectedNotifications.length} selected
                 </span>
                 <button
                   onClick={handleMarkSelectedAsRead}
-                  className="flex items-center gap-1 px-3 py-1.5 text-sm text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition"
+                  className="flex items-center gap-1 px-3 py-1.5 text-sm text-[#2563eb] hover:bg-[#EEF2FF] rounded-lg transition"
                 >
                   <Check className="w-4 h-4" /> Mark read
                 </button>
                 <button
                   onClick={handleClearSelection}
-                  className="flex items-center gap-1 px-3 py-1.5 text-sm text-gray-400 hover:bg-gray-700 rounded-lg transition"
+                  className="flex items-center gap-1 px-3 py-1.5 text-sm text-[#6b7280] hover:bg-[#F3F4F6] rounded-lg transition"
                 >
                   <X className="w-4 h-4" /> Clear
                 </button>
@@ -216,8 +216,8 @@ const NotificationsPage = () => {
 
           {/* Bulk Actions Bar when items selected */}
           {selectedNotifications.length > 0 && (
-            <div className="border-t border-gray-700 p-3 bg-gray-800/40 flex justify-between items-center">
-              <span className="text-xs text-gray-400">
+            <div className="border-t border-[#E5E7EB] p-3 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/40 flex justify-between items-center">
+              <span className="text-xs text-[#6b7280]">
                 <input
                   type="checkbox"
                   checked={
@@ -225,13 +225,13 @@ const NotificationsPage = () => {
                     filteredNotifications.length
                   }
                   onChange={handleSelectAll}
-                  className="mr-2 rounded border-gray-600 bg-gray-700 text-emerald-500 focus:ring-emerald-500"
+                  className="mr-2 rounded border-[#D1D5DB] bg-gray-700 text-[#2563eb] focus:ring-[#2563eb]"
                 />
                 Select all ({filteredNotifications.length})
               </span>
               <button
                 onClick={handleMarkSelectedAsRead}
-                className="text-sm text-emerald-400 hover:text-emerald-300"
+                className="text-sm text-[#2563eb] hover:text-[#1d4ed8]"
               >
                 Mark selected as read
               </button>
@@ -245,15 +245,15 @@ const NotificationsPage = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-gray-800/60 backdrop-blur-sm rounded-2xl border border-gray-700 p-12 text-center"
+              className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-2xl border border-[#E5E7EB] p-12 text-center"
             >
-              <div className="w-20 h-20 bg-gray-700/50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Bell className="w-10 h-10 text-gray-500" />
+              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
+                <Bell className="w-10 h-10 text-[#6b7280]" />
               </div>
-              <h3 className="text-lg font-medium text-gray-400">
+              <h3 className="text-lg font-medium text-[#6b7280]">
                 No notifications
               </h3>
-              <p className="text-gray-500 text-sm mt-1">
+              <p className="text-[#6b7280] text-sm mt-1">
                 You're all caught up!
               </p>
             </motion.div>
@@ -264,11 +264,11 @@ const NotificationsPage = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className={`bg-gray-800/60 backdrop-blur-sm rounded-xl border ${
+                className={`bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border ${
                   !notif.isRead
-                    ? "border-emerald-500/30 bg-linear-to-r " +
+                    ? "border-[#2563eb]/30 bg-linear-to-r " +
                       getTypeGradient(notif.type)
-                    : "border-gray-700"
+                    : "border-[#E5E7EB]"
                 } hover:shadow-lg transition-all cursor-pointer group`}
                 onClick={() => {
                   if (!notif.isRead) markAsRead(notif._id);
@@ -295,7 +295,7 @@ const NotificationsPage = () => {
                           );
                         }
                       }}
-                      className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-0"
+                      className="w-4 h-4 rounded border-[#D1D5DB] bg-gray-700 text-[#2563eb] focus:ring-[#2563eb] focus:ring-offset-0"
                     />
                   </div>
 
@@ -305,20 +305,20 @@ const NotificationsPage = () => {
                     <div className="flex flex-wrap justify-between items-start gap-2">
                       <h3
                         className={`font-semibold ${
-                          !notif.isRead ? "text-white" : "text-gray-300"
+                          !notif.isRead ? "text-[#111827]" : "text-[#374151]"
                         }`}
                       >
                         {notif.title}
                       </h3>
-                      <span className="text-xs text-gray-500 shrink-0">
+                      <span className="text-xs text-[#6b7280] shrink-0">
                         {new Date(notif.createdAt).toLocaleString()}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-400 mt-1">
+                    <p className="text-sm text-[#6b7280] mt-1">
                       {notif.message}
                     </p>
                     {notif.actionUrl && (
-                      <div className="mt-2 text-xs text-emerald-400 flex items-center gap-1">
+                      <div className="mt-2 text-xs text-[#2563eb] flex items-center gap-1">
                         Click to view details →
                       </div>
                     )}
@@ -339,11 +339,11 @@ const NotificationsPage = () => {
         {filteredNotifications.length > 10 && (
           <div className="mt-6 flex justify-center">
             <div className="flex gap-2">
-              <button className="px-3 py-1.5 rounded-lg bg-gray-800/60 border border-gray-700 text-gray-400 hover:bg-gray-700 transition text-sm">
+              <button className="px-3 py-1.5 rounded-lg bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-[#E5E7EB] text-[#6b7280] hover:bg-[#F3F4F6] transition text-sm">
                 Previous
               </button>
-              <span className="px-3 py-1.5 text-gray-400 text-sm">1 / 2</span>
-              <button className="px-3 py-1.5 rounded-lg bg-gray-800/60 border border-gray-700 text-gray-400 hover:bg-gray-700 transition text-sm">
+              <span className="px-3 py-1.5 text-[#6b7280] text-sm">1 / 2</span>
+              <button className="px-3 py-1.5 rounded-lg bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-[#E5E7EB] text-[#6b7280] hover:bg-[#F3F4F6] transition text-sm">
                 Next
               </button>
             </div>

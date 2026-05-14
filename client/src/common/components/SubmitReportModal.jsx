@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   X,
@@ -146,38 +146,38 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-gray-800 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden border border-gray-700 shadow-2xl"
+        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden border border-[#E5E7EB] shadow-2xl"
       >
-        <div className="p-5 border-b border-gray-700 flex justify-between items-center sticky top-0 bg-gray-800/90">
+        <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-sm">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-linear-to-br from-emerald-500 to-teal-700 rounded-lg flex items-center justify-center">
-              <FileText className="w-4 h-4 text-white" />
+            <div className="w-8 h-8 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg flex items-center justify-center">
+              <FileText className="w-4 h-4 text-[#111827]" />
             </div>
-            <h2 className="text-xl font-bold text-white">
+            <h2 className="text-xl font-bold text-[#111827]">
               Submit Directorate Report
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-gray-700 rounded-lg transition"
+            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
           >
-            <X className="w-5 h-5 text-gray-400 hover:text-white" />
+            <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
           </button>
         </div>
 
         <div className="overflow-y-auto flex-1 p-5 space-y-5">
           <form onSubmit={handleSubmit} className="space-y-5" id="report-form">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
-                Report Title <span className="text-red-400">*</span>
+              <label className="block text-sm font-medium text-[#374151] mb-1">
+                Report Title <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <FileText className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <FileText className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                 <input
                   type="text"
                   required
-                  className={`w-full pl-9 pr-3 py-2 bg-gray-700/50 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all ${
-                    errors.title ? "border-red-500" : "border-gray-600"
+                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all ${
+                    errors.title ? "border-red-500" : "border-[#D1D5DB]"
                   }`}
                   value={formData.title || ""}
                   onChange={(e) => handleInputChange("title", e.target.value)}
@@ -185,7 +185,7 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
                 />
               </div>
               {errors.title && (
-                <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+                <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" /> {errors.title}
                 </p>
               )}
@@ -193,16 +193,16 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Start Date <span className="text-red-400">*</span>
+                <label className="block text-sm font-medium text-[#374151] mb-1">
+                  Start Date <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                   <input
                     type="date"
                     required
-                    className={`w-full pl-9 pr-3 py-2 bg-gray-700/50 border rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all ${
-                      errors.startDate ? "border-red-500" : "border-gray-600"
+                    className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all ${
+                      errors.startDate ? "border-red-500" : "border-[#D1D5DB]"
                     }`}
                     value={formData.startDate || ""}
                     onChange={(e) =>
@@ -211,22 +211,22 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
                   />
                 </div>
                 {errors.startDate && (
-                  <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
                     <AlertCircle className="w-3 h-3" /> {errors.startDate}
                   </p>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
-                  End Date <span className="text-red-400">*</span>
+                <label className="block text-sm font-medium text-[#374151] mb-1">
+                  End Date <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                   <input
                     type="date"
                     required
-                    className={`w-full pl-9 pr-3 py-2 bg-gray-700/50 border rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all ${
-                      errors.endDate ? "border-red-500" : "border-gray-600"
+                    className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all ${
+                      errors.endDate ? "border-red-500" : "border-[#D1D5DB]"
                     }`}
                     value={formData.endDate || ""}
                     onChange={(e) =>
@@ -235,7 +235,7 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
                   />
                 </div>
                 {errors.endDate && (
-                  <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
                     <AlertCircle className="w-3 h-3" /> {errors.endDate}
                   </p>
                 )}
@@ -243,29 +243,29 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
-                Summary <span className="text-red-400">*</span>
+              <label className="block text-sm font-medium text-[#374151] mb-1">
+                Summary <span className="text-red-500">*</span>
               </label>
               <textarea
                 required
                 rows="4"
-                className={`w-full px-3 py-2 bg-gray-700/50 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all resize-y ${
-                  errors.summary ? "border-red-500" : "border-gray-600"
+                className={`w-full px-3 py-2 bg-white border rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all resize-y ${
+                  errors.summary ? "border-red-500" : "border-[#D1D5DB]"
                 }`}
                 value={formData.summary || ""}
                 onChange={(e) => handleInputChange("summary", e.target.value)}
                 placeholder="Overall summary of the reporting period..."
               />
               {errors.summary && (
-                <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+                <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" /> {errors.summary}
                 </p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
-                <TrendingUp className="inline w-4 h-4 mr-1 text-emerald-400" />
+              <label className="block text-sm font-medium text-[#374151] mb-1">
+                <TrendingUp className="inline w-4 h-4 mr-1 text-[#2563eb]" />
                 Achievements
               </label>
               <div className="flex gap-2">
@@ -276,13 +276,13 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
                   onKeyPress={(e) =>
                     e.key === "Enter" && (e.preventDefault(), addAchievement())
                   }
-                  className="flex-1 px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                  className="flex-1 px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all"
                   placeholder="e.g., Completed 5 projects"
                 />
                 <button
                   type="button"
                   onClick={addAchievement}
-                  className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition text-gray-300"
+                  className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition text-[#374151]"
                 >
                   <Plus className="w-4 h-4" />
                 </button>
@@ -292,14 +292,14 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
                   {(formData.achievements || []).map((item, index) => (
                     <span
                       key={index}
-                      className="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-sm flex items-center gap-2 border border-emerald-500/30"
+                      className="bg-[#EEF2FF] text-[#2563eb] px-3 py-1 rounded-full text-sm flex items-center gap-2 border border-[#2563eb]/30"
                     >
                       <CheckCircle className="w-3 h-3" />
                       {item}
                       <button
                         type="button"
                         onClick={() => removeAchievement(index)}
-                        className="text-emerald-400 hover:text-emerald-300"
+                        className="text-[#2563eb] hover:text-[#1d4ed8]"
                       >
                         <Trash2 className="w-3 h-3" />
                       </button>
@@ -310,8 +310,8 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
-                <TrendingDown className="inline w-4 h-4 mr-1 text-red-400" />
+              <label className="block text-sm font-medium text-[#374151] mb-1">
+                <TrendingDown className="inline w-4 h-4 mr-1 text-red-500" />
                 Challenges
               </label>
               <div className="flex gap-2">
@@ -322,13 +322,13 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
                   onKeyPress={(e) =>
                     e.key === "Enter" && (e.preventDefault(), addChallenge())
                   }
-                  className="flex-1 px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                  className="flex-1 px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all"
                   placeholder="e.g., Staff shortage"
                 />
                 <button
                   type="button"
                   onClick={addChallenge}
-                  className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition text-gray-300"
+                  className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition text-[#374151]"
                 >
                   <Plus className="w-4 h-4" />
                 </button>
@@ -338,14 +338,14 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
                   {(formData.challenges || []).map((item, index) => (
                     <span
                       key={index}
-                      className="bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm flex items-center gap-2 border border-red-500/30"
+                      className="bg-red-500/20 text-red-500 px-3 py-1 rounded-full text-sm flex items-center gap-2 border border-red-500/30"
                     >
                       <AlertCircle className="w-3 h-3" />
                       {item}
                       <button
                         type="button"
                         onClick={() => removeChallenge(index)}
-                        className="text-red-400 hover:text-red-300"
+                        className="text-red-500 hover:text-red-600"
                       >
                         <Trash2 className="w-3 h-3" />
                       </button>
@@ -356,7 +356,7 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-[#374151] mb-1">
                 <ArrowRight className="inline w-4 h-4 mr-1 text-blue-400" />
                 Next Steps
               </label>
@@ -368,13 +368,13 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
                   onKeyPress={(e) =>
                     e.key === "Enter" && (e.preventDefault(), addNextStep())
                   }
-                  className="flex-1 px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                  className="flex-1 px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all"
                   placeholder="e.g., Hire new staff"
                 />
                 <button
                   type="button"
                   onClick={addNextStep}
-                  className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition text-gray-300"
+                  className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition text-[#374151]"
                 >
                   <Plus className="w-4 h-4" />
                 </button>
@@ -403,14 +403,14 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
 
             <div>
               <div className="flex justify-between items-center mb-2">
-                <label className="block text-sm font-medium text-gray-300">
-                  <File className="inline w-4 h-4 mr-1 text-emerald-400" />
+                <label className="block text-sm font-medium text-[#374151]">
+                  <File className="inline w-4 h-4 mr-1 text-[#2563eb]" />
                   Attachments
                 </label>
                 <button
                   type="button"
                   onClick={() => setShowUpload(!showUpload)}
-                  className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1"
+                  className="text-xs text-[#2563eb] hover:text-[#1d4ed8] flex items-center gap-1"
                 >
                   <Plus className="w-3 h-3" /> Add Attachment
                 </button>
@@ -421,7 +421,7 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
                   {attachments.map((file, index) => (
                     <div
                       key={index}
-                      className="bg-gray-700/30 rounded-lg p-3 flex items-center justify-between border border-gray-600"
+                      className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 flex items-center justify-between border border-[#D1D5DB]"
                     >
                       <div className="flex items-center gap-3 flex-1 min-w-0">
                         {file.isImage && file.url ? (
@@ -430,13 +430,13 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
                             className="w-8 h-8 object-cover rounded"
                           />
                         ) : (
-                          <FileText className="w-5 h-5 text-emerald-400" />
+                          <FileText className="w-5 h-5 text-[#2563eb]" />
                         )}
                         <div className="flex-1 min-w-0">
-                          <p className="text-white text-sm font-medium truncate">
+                          <p className="text-[#111827] text-sm font-medium truncate">
                             {file.name || "Document"}
                           </p>
-                          <p className="text-xs text-gray-400">
+                          <p className="text-xs text-[#6b7280]">
                             {(file.size / 1024 / 1024).toFixed(2)} MB
                           </p>
                         </div>
@@ -451,13 +451,13 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
                         <a
                           href={file.url}
                           download
-                          className="p-1 text-gray-400 hover:text-emerald-400"
+                          className="p-1 text-[#6b7280] hover:text-[#2563eb]"
                         >
                           <Download className="w-4 h-4" />
                         </a>
                         <button
                           onClick={() => removeFile(index)}
-                          className="p-1 text-red-400 hover:text-red-300"
+                          className="p-1 text-red-500 hover:text-red-600"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -484,13 +484,13 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
           </form>
         </div>
 
-        <div className="p-5 border-t border-gray-700 bg-gray-800/90 rounded-b-2xl">
+        <div className="p-5 border-t border-[#E5E7EB] bg-white/90 backdrop-blur-sm rounded-b-2xl">
           <div className="flex gap-3">
             <button
               type="submit"
               form="report-form"
               disabled={loading}
-              className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-white py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg flex items-center justify-center gap-2"
+              className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -507,7 +507,7 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 border border-gray-600 text-gray-300 py-2.5 rounded-lg hover:bg-gray-700 transition-all duration-200"
+              className="flex-1 border border-[#D1D5DB] text-[#374151] py-2.5 rounded-lg hover:bg-[#F3F4F6] transition-all duration-200"
             >
               Cancel
             </button>

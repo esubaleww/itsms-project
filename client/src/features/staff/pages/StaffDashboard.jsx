@@ -286,8 +286,8 @@ const StaffDashboardPage = () => {
 
   if (isLoading && !serviceStats && !interns && !innovators && !trainees) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-gray-900 to-gray-800 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500" />
+      <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563eb]" />
       </div>
     );
   }
@@ -311,7 +311,7 @@ const StaffDashboardPage = () => {
   };
 
   return (
-    <div className="h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden flex flex-col">
+    <div className="h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] overflow-hidden flex flex-col">
       <StaffHeader
         onRefresh={handleRefresh}
         refreshing={refreshing}
@@ -322,7 +322,7 @@ const StaffDashboardPage = () => {
 
       <div className="flex flex-1 overflow-hidden relative">
         <aside
-          className={`hidden md:block fixed left-0 top-16 h-[calc(100vh-4rem)] transition-all duration-300 bg-gray-800/50 border-r border-gray-700 ${
+          className={`hidden md:block fixed left-0 top-16 h-[calc(100vh-4rem)] transition-all duration-300 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-r border-[#E5E7EB] ${
             sidebarCollapsed ? "w-20" : "w-64"
           }`}
           style={{ zIndex: 40 }}
@@ -337,8 +337,8 @@ const StaffDashboardPage = () => {
                     w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap
                     ${
                       activeTab === item.id
-                        ? "bg-emerald-500/20 text-emerald-400 border-l-2 border-emerald-500"
-                        : "text-gray-400 hover:bg-gray-700/50 hover:text-white"
+                        ? "bg-[#EEF2FF] text-[#2563eb] border-l-2 border-[#2563eb]"
+                        : "text-[#6b7280] hover:bg-[#F3F4F6] hover:text-[#111827]"
                     }
                     ${sidebarCollapsed ? "justify-center px-2" : ""}
                   `}
@@ -351,7 +351,7 @@ const StaffDashboardPage = () => {
                     </span>
                   )}
                   {!sidebarCollapsed && item.count > 0 && (
-                    <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full shrink-0">
+                    <span className="text-xs px-2 py-0.5 bg-[#EEF2FF] text-[#2563eb] rounded-full shrink-0">
                       {item.count}
                     </span>
                   )}
@@ -362,12 +362,12 @@ const StaffDashboardPage = () => {
 
           <button
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            className="absolute -right-3 top-1/2 -translate-y-1/2 bg-gray-700 hover:bg-gray-600 rounded-full p-1.5 shadow-lg z-20 transition-colors border border-gray-600"
+            className="absolute -right-3 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-100 rounded-full p-1.5 shadow-lg z-20 transition-colors border border-[#E5E7EB]"
           >
             {sidebarCollapsed ? (
-              <ChevronRight className="w-4 h-4 text-gray-300" />
+              <ChevronRight className="w-4 h-4 text-[#334155]" />
             ) : (
-              <ChevronLeft className="w-4 h-4 text-gray-300" />
+              <ChevronLeft className="w-4 h-4 text-[#334155]" />
             )}
           </button>
         </aside>
@@ -387,15 +387,15 @@ const StaffDashboardPage = () => {
                 animate={{ x: 0 }}
                 exit={{ x: -280 }}
                 transition={{ type: "tween", duration: 0.3 }}
-                className="fixed left-0 top-0 bottom-0 w-64 bg-gray-800 border-r border-gray-700 z-50 md:hidden"
+                className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-r border-[#E5E7EB] z-50 md:hidden"
               >
-                <div className="flex justify-between items-center p-4 border-b border-gray-700">
-                  <span className="text-white font-bold">Menu</span>
+                <div className="flex justify-between items-center p-4 border-b border-[#E5E7EB]">
+                  <span className="text-[#111827] font-bold">Menu</span>
                   <button
                     onClick={() => setMobileSidebarOpen(false)}
-                    className="p-1 hover:bg-gray-700 rounded-lg"
+                    className="p-1 hover:bg-[#F3F4F6] rounded-lg"
                   >
-                    <X className="w-5 h-5 text-gray-400" />
+                    <X className="w-5 h-5 text-[#6b7280]" />
                   </button>
                 </div>
                 <nav className="p-4 space-y-1 overflow-y-auto h-[calc(100%-4rem)]">
@@ -407,14 +407,14 @@ const StaffDashboardPage = () => {
                         setMobileSidebarOpen(false);
                       }}
                       className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
-                        ${activeTab === item.id ? "bg-emerald-500/20 text-emerald-400" : "text-gray-400 hover:bg-gray-700/50 hover:text-white"}`}
+                        ${activeTab === item.id ? "bg-[#EEF2FF] text-[#2563eb]" : "text-[#6b7280] hover:bg-[#F3F4F6] hover:text-[#111827]"}`}
                     >
                       {item.icon}
                       <span className="text-sm font-medium flex-1 text-left">
                         {item.label}
                       </span>
                       {item.count > 0 && (
-                        <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full">
+                        <span className="text-xs px-2 py-0.5 bg-[#EEF2FF] text-[#2563eb] rounded-full">
                           {item.count}
                         </span>
                       )}
@@ -437,18 +437,18 @@ const StaffDashboardPage = () => {
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="relative overflow-hidden bg-linear-to-r from-emerald-600/20 to-teal-600/20 border border-emerald-500/20 rounded-xl"
+                      className="relative overflow-hidden bg-linear-to-r from-emerald-600/20 to-teal-600/20 border border-[#2563eb]/20 rounded-xl"
                     >
                       <div className="relative z-10 px-5 py-4 flex items-center justify-between">
                         <div>
-                          <div className="flex items-center gap-2 text-emerald-400 text-sm mb-1">
+                          <div className="flex items-center gap-2 text-[#2563eb] text-sm mb-1">
                             <Zap className="w-4 h-4" />
                             <span>{greeting}</span>
                           </div>
-                          <h2 className="text-xl font-bold text-white mb-1">
+                          <h2 className="text-xl font-bold text-[#111827] mb-1">
                             {user?.fullName?.split(" ")[0]}!
                           </h2>
-                          <p className="text-gray-400 text-sm">
+                          <p className="text-[#6b7280] text-sm">
                             {canAdvise &&
                               "Review intern reports and track progress"}
                             {canMentor &&
@@ -462,7 +462,7 @@ const StaffDashboardPage = () => {
                         </div>
                         <button
                           onClick={() => setShowWelcome(false)}
-                          className="text-gray-500 hover:text-gray-400 transition"
+                          className="text-[#6b7280] hover:text-[#6b7280] transition"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -489,43 +489,43 @@ const StaffDashboardPage = () => {
                     }}
                   />
 
-                  <div className="bg-linear-to-r from-emerald-600 to-teal-700 rounded-xl p-5">
-                    <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
-                      <Zap className="w-5 h-5" />
+                  <div className="bg-[#F3F4F6] border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-5">
+                    <h3 className="text-[#111827] font-semibold mb-3 flex items-center gap-2">
+                      <Zap className="w-5 h-5 text-[#2563eb]" />
                       Quick Actions
                     </h3>
                     <div className="flex flex-wrap gap-3">
                       {hasServiceTasks && (
                         <button
                           onClick={() => setActiveTab("tasks")}
-                          className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition text-white text-sm flex items-center gap-2"
+                          className="px-5 py-2.5 rounded-full border border-[#93C5FD] text-[#1D4ED8] bg-[#2563eb]/[0.04] font-medium tracking-[0.2px] transition-all duration-200 hover:bg-[#2563eb] hover:text-white hover:-translate-y-px hover:shadow-[0_6px_16px_rgba(37,99,235,0.2)] flex items-center gap-2 group shadow-sm"
                         >
-                          <Briefcase className="w-4 h-4" /> View My Tasks
+                          <Briefcase className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity" /> View My Tasks
                         </button>
                       )}
                       {canAdvise && interns?.length > 0 && (
                         <button
                           onClick={() => setActiveTab("advisor")}
-                          className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition text-white text-sm flex items-center gap-2"
+                          className="px-5 py-2.5 rounded-full border border-[#93C5FD] text-[#1D4ED8] bg-[#2563eb]/[0.04] font-medium tracking-[0.2px] transition-all duration-200 hover:bg-[#2563eb] hover:text-white hover:-translate-y-px hover:shadow-[0_6px_16px_rgba(37,99,235,0.2)] flex items-center gap-2 group shadow-sm"
                         >
-                          <GraduationCap className="w-4 h-4" /> Review Reports
+                          <GraduationCap className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity" /> Review Reports
                         </button>
                       )}
                       {canMentor &&
                         (innovators?.length > 0 || startups?.length > 0) && (
                           <button
                             onClick={() => setActiveTab("mentor")}
-                            className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition text-white text-sm flex items-center gap-2"
+                            className="px-5 py-2.5 rounded-full border border-[#93C5FD] text-[#1D4ED8] bg-[#2563eb]/[0.04] font-medium tracking-[0.2px] transition-all duration-200 hover:bg-[#2563eb] hover:text-white hover:-translate-y-px hover:shadow-[0_6px_16px_rgba(37,99,235,0.2)] flex items-center gap-2 group shadow-sm"
                           >
-                            <Lightbulb className="w-4 h-4" /> Review Milestones
+                            <Lightbulb className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity" /> Review Milestones
                           </button>
                         )}
                       {canTrain && trainees?.length > 0 && (
                         <button
                           onClick={() => setActiveTab("trainer")}
-                          className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition text-white text-sm flex items-center gap-2"
+                          className="px-5 py-2.5 rounded-full border border-[#93C5FD] text-[#1D4ED8] bg-[#2563eb]/[0.04] font-medium tracking-[0.2px] transition-all duration-200 hover:bg-[#2563eb] hover:text-white hover:-translate-y-px hover:shadow-[0_6px_16px_rgba(37,99,235,0.2)] flex items-center gap-2 group shadow-sm"
                         >
-                          <School className="w-4 h-4" /> Manage Sessions
+                          <School className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity" /> Manage Sessions
                         </button>
                       )}
                     </div>
@@ -536,8 +536,8 @@ const StaffDashboardPage = () => {
               {activeTab === "tasks" && hasServiceTasks && (
                 <div>
                   <div className="mb-5">
-                    <h2 className="text-xl font-bold text-white">My Tasks</h2>
-                    <p className="text-xs text-gray-400">
+                    <h2 className="text-xl font-bold text-[#111827]">My Tasks</h2>
+                    <p className="text-xs text-[#6b7280]">
                       Tasks assigned to you
                     </p>
                   </div>
@@ -557,16 +557,16 @@ const StaffDashboardPage = () => {
                 <div>
                   <div className="flex justify-between items-center mb-5">
                     <div>
-                      <h2 className="text-xl font-bold text-white">
+                      <h2 className="text-xl font-bold text-[#111827]">
                         My Interns
                       </h2>
-                      <p className="text-xs text-gray-400">
+                      <p className="text-xs text-[#6b7280]">
                         Review reports and track intern progress
                       </p>
                     </div>
                     <button
                       onClick={() => fetchInterns()}
-                      className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm text-white transition"
+                      className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm text-[#111827] transition"
                     >
                       Refresh
                     </button>
@@ -595,13 +595,13 @@ const StaffDashboardPage = () => {
                 <div>
                   <div className="flex justify-between items-center mb-5">
                     <div>
-                      <h2 className="text-xl font-bold text-white">
+                      <h2 className="text-xl font-bold text-[#111827]">
                         My{" "}
                         {directorateType === "innovation"
                           ? "Innovators"
                           : "Startups"}
                       </h2>
-                      <p className="text-xs text-gray-400">
+                      <p className="text-xs text-[#6b7280]">
                         Review milestones and track progress
                       </p>
                     </div>
@@ -611,7 +611,7 @@ const StaffDashboardPage = () => {
                           ? fetchInnovators()
                           : fetchStartups()
                       }
-                      className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm text-white transition"
+                      className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm text-[#111827] transition"
                     >
                       Refresh
                     </button>
@@ -633,13 +633,13 @@ const StaffDashboardPage = () => {
 
               {activeTab === "trainer" && canTrain && (
                 <div>
-                  <div className="flex gap-4 border-b border-gray-700 mb-6">
+                  <div className="flex gap-4 border-b border-[#E5E7EB] mb-6">
                     <button
                       onClick={() => setTrainerSubTab("sessions")}
                       className={`pb-3 px-4 text-sm font-medium transition-all duration-200 ${
                         trainerSubTab === "sessions"
-                          ? "text-emerald-400 border-b-2 border-emerald-400"
-                          : "text-gray-400 hover:text-gray-300"
+                          ? "text-[#2563eb] border-b-2 border-emerald-400"
+                          : "text-[#6b7280] hover:text-[#374151]"
                       }`}
                     >
                       <span className="flex items-center gap-2">
@@ -651,8 +651,8 @@ const StaffDashboardPage = () => {
                       onClick={() => setTrainerSubTab("trainees")}
                       className={`pb-3 px-4 text-sm font-medium transition-all duration-200 ${
                         trainerSubTab === "trainees"
-                          ? "text-emerald-400 border-b-2 border-emerald-400"
-                          : "text-gray-400 hover:text-gray-300"
+                          ? "text-[#2563eb] border-b-2 border-emerald-400"
+                          : "text-[#6b7280] hover:text-[#374151]"
                       }`}
                     >
                       <span className="flex items-center gap-2">

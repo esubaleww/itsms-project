@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { CheckCircle, Clock, TrendingUp, Users, Award } from "lucide-react";
 
 const TeamStatsCards = ({ stats, membersCount }) => {
@@ -41,18 +41,18 @@ const TeamStatsCards = ({ stats, membersCount }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: idx * 0.1 }}
-          className="bg-gray-800/60 rounded-xl p-4 border border-gray-700 hover:border-gray-600 transition-all"
+          className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-4 border border-[#E5E7EB] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all"
         >
           <div className="flex items-center justify-between mb-2">
-            <span className="text-gray-400 text-xs uppercase tracking-wide">
+            <span className="text-[#6b7280] text-xs uppercase tracking-wide">
               {card.description}
             </span>
             <card.icon className={`w-5 h-5 text-${card.color}-400`} />
           </div>
           <div className="mt-2">
-            <span className="text-2xl font-bold text-white">{card.value}</span>
+            <span className="text-2xl font-bold text-[#111827]">{card.value}</span>
           </div>
-          <p className="text-xs text-gray-500 mt-1">{card.title}</p>
+          <p className="text-xs text-[#6b7280] mt-1">{card.title}</p>
         </motion.div>
       ))}
     </div>
