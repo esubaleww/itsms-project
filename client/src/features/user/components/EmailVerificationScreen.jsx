@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { Mail, Send, RefreshCw, Settings, LogOut } from "lucide-react";
 import NotificationBell from "../../../common/components//NotificationBell";
 
@@ -23,8 +23,8 @@ const EmailVerificationScreen = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-            <p className="text-gray-400 text-sm">
+            <h1 className="text-2xl font-bold text-[#111827]">Dashboard</h1>
+            <p className="text-[#6b7280] text-sm">
               {getGreeting()}, {user?.fullName}
             </p>
           </div>
@@ -32,24 +32,24 @@ const EmailVerificationScreen = ({
             <button
               onClick={onRefresh}
               disabled={refreshing}
-              className="p-2 hover:bg-gray-700 rounded-lg"
+              className="p-2 hover:bg-[#F3F4F6] rounded-lg"
             >
               <RefreshCw
-                className={`w-5 h-5 text-gray-400 ${refreshing ? "animate-spin" : ""}`}
+                className={`w-5 h-5 text-[#6b7280] ${refreshing ? "animate-spin" : ""}`}
               />
             </button>
             <NotificationBell />
             <button
               onClick={() => onNavigate("/profile")}
-              className="p-2 hover:bg-gray-700 rounded-lg"
+              className="p-2 hover:bg-[#F3F4F6] rounded-lg"
             >
-              <Settings className="w-5 h-5 text-gray-400" />
+              <Settings className="w-5 h-5 text-[#6b7280]" />
             </button>
             <button
               onClick={onLogout}
-              className="p-2 hover:bg-gray-700 rounded-lg"
+              className="p-2 hover:bg-[#F3F4F6] rounded-lg"
             >
-              <LogOut className="w-5 h-5 text-gray-400" />
+              <LogOut className="w-5 h-5 text-[#6b7280]" />
             </button>
           </div>
         </div>
@@ -67,11 +67,11 @@ const EmailVerificationScreen = ({
               <h2 className="text-2xl font-bold text-yellow-400 mb-2">
                 Verify Your Email Address
               </h2>
-              <p className="text-gray-300 mb-2">
+              <p className="text-[#374151] mb-2">
                 Please verify your email address to access all features and
                 apply for programs.
               </p>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-[#6b7280]">
                 We've sent a verification link to{" "}
                 <strong className="text-yellow-400">{user?.email}</strong>
               </p>
@@ -79,7 +79,7 @@ const EmailVerificationScreen = ({
             <button
               onClick={onResend}
               disabled={isVerifying}
-              className="flex items-center gap-2 bg-yellow-600 text-white px-6 py-3 rounded-xl hover:bg-yellow-700 transition disabled:opacity-50"
+              className="flex items-center gap-2 bg-yellow-600 text-[#111827] px-6 py-3 rounded-xl hover:bg-yellow-700 transition disabled:opacity-50"
             >
               {isVerifying ? (
                 <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />

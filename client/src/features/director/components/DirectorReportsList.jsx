@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Eye,
@@ -40,15 +40,15 @@ const DirectorReportsList = ({
     switch (status) {
       case "approved":
         return {
-          color: "text-emerald-400",
-          bg: "bg-emerald-500/20",
-          border: "border-emerald-500/30",
+          color: "text-[#2563eb]",
+          bg: "bg-[#EEF2FF]",
+          border: "border-[#2563eb]/30",
           icon: CheckCircle,
           label: "Approved",
         };
       case "rejected":
         return {
-          color: "text-red-400",
+          color: "text-red-500",
           bg: "bg-red-500/20",
           border: "border-red-500/30",
           icon: XCircle,
@@ -212,7 +212,7 @@ const DirectorReportsList = ({
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="bg-gray-800 rounded-xl border border-gray-700 p-5 animate-pulse"
+            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] p-5 animate-pulse"
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
@@ -233,11 +233,11 @@ const DirectorReportsList = ({
   if (!reports || reports.length === 0) {
     return (
       <div className="text-center py-16">
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-800 rounded-full mb-4 border border-gray-700">
-          <FileText className="w-10 h-10 text-gray-600" />
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-full mb-4 border border-[#E5E7EB]">
+          <FileText className="w-10 h-10 text-[#9ca3af]" />
         </div>
-        <p className="text-gray-400 text-lg">No reports submitted</p>
-        <p className="text-sm text-gray-500 mt-1 max-w-md mx-auto">
+        <p className="text-[#6b7280] text-lg">No reports submitted</p>
+        <p className="text-sm text-[#6b7280] mt-1 max-w-md mx-auto">
           Reports will appear here once submitted.
         </p>
       </div>
@@ -267,13 +267,13 @@ const DirectorReportsList = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}
-              className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden hover:border-gray-600 transition-all duration-200"
+              className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200"
             >
               <div className="p-5">
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex flex-wrap items-center gap-2 mb-3">
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-700/50 text-gray-300 border border-gray-600">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-white text-[#374151] border border-[#D1D5DB]">
                         {getReportTypeIcon(report.type)}
                         {getReportTypeLabel(report.type)}
                       </span>
@@ -283,17 +283,17 @@ const DirectorReportsList = ({
                         <StatusIcon className="w-3 h-3" />
                         {statusConfig.label}
                       </span>
-                      <span className="flex items-center gap-1 text-xs text-gray-500">
+                      <span className="flex items-center gap-1 text-xs text-[#6b7280]">
                         <Calendar className="w-3 h-3" />
                         {formatDateTime(report.createdAt)}
                       </span>
                     </div>
 
-                    <h3 className="text-white font-semibold text-lg mb-2">
+                    <h3 className="text-[#111827] font-semibold text-lg mb-2">
                       {report.title}
                     </h3>
 
-                    <div className="flex flex-wrap items-center gap-3 text-sm text-gray-400 mb-3">
+                    <div className="flex flex-wrap items-center gap-3 text-sm text-[#6b7280] mb-3">
                       <span className="flex items-center gap-1">
                         <User className="w-3 h-3" />
                         Submitted by: {getSubmittedByName(report)}
@@ -314,7 +314,7 @@ const DirectorReportsList = ({
 
                     {report.data?.overallPerformance && (
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="text-xs text-gray-400">
+                        <span className="text-xs text-[#6b7280]">
                           Performance:
                         </span>
                         <span className="text-xs px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400">
@@ -331,27 +331,27 @@ const DirectorReportsList = ({
                             .map((skill, i) => (
                               <span
                                 key={i}
-                                className="text-xs px-2 py-0.5 bg-gray-700 rounded-full text-gray-300"
+                                className="text-xs px-2 py-0.5 bg-gray-700 rounded-full text-[#374151]"
                               >
                                 {skill}
                               </span>
                             ))}
                           {report.data.skillsAcquired.length > 3 && (
-                            <span className="text-xs px-2 py-0.5 bg-gray-700 rounded-full text-gray-400">
+                            <span className="text-xs px-2 py-0.5 bg-gray-700 rounded-full text-[#6b7280]">
                               +{report.data.skillsAcquired.length - 3} more
                             </span>
                           )}
                         </div>
                       )}
 
-                    <p className="text-gray-300 text-sm line-clamp-2 mb-3">
+                    <p className="text-[#374151] text-sm line-clamp-2 mb-3">
                       {getSummaryText(report)}
                     </p>
 
                     {hasFeedback && !isExpanded && (
                       <div className="mt-3 flex items-start gap-2 text-xs bg-blue-500/10 border border-blue-500/20 rounded-lg p-2">
                         <MessageSquare className="w-3 h-3 text-blue-400 mt-0.5 shrink-0" />
-                        <span className="text-gray-400 line-clamp-1">
+                        <span className="text-[#6b7280] line-clamp-1">
                           Feedback: {report.feedback}
                         </span>
                       </div>
@@ -374,7 +374,7 @@ const DirectorReportsList = ({
                         {!showApprove && (
                           <button
                             onClick={() => setShowApproveForm(report._id)}
-                            className="p-2 rounded-lg transition text-emerald-400 hover:bg-emerald-500/20"
+                            className="p-2 rounded-lg transition text-[#2563eb] hover:bg-[#EEF2FF]"
                             title="Approve Report"
                           >
                             <CheckCircle className="w-4 h-4" />
@@ -383,7 +383,7 @@ const DirectorReportsList = ({
                         {!showReject && (
                           <button
                             onClick={() => setShowRejectForm(report._id)}
-                            className="p-2 rounded-lg transition text-red-400 hover:bg-red-500/20"
+                            className="p-2 rounded-lg transition text-red-500 hover:bg-red-500/20"
                             title="Reject Report"
                           >
                             <XCircle className="w-4 h-4" />
@@ -394,7 +394,7 @@ const DirectorReportsList = ({
 
                     <button
                       onClick={() => handleViewDetails(report._id)}
-                      className="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-gray-700 transition"
+                      className="text-[#6b7280] hover:text-[#111827] p-2 rounded-lg hover:bg-[#F3F4F6] transition"
                       title="View Details"
                     >
                       <Eye className="w-4 h-4" />
@@ -405,8 +405,8 @@ const DirectorReportsList = ({
                       }
                       className={`p-2 rounded-lg transition ${
                         isExpanded
-                          ? "text-emerald-400 bg-emerald-500/20"
-                          : "text-gray-400 hover:text-white hover:bg-gray-700"
+                          ? "text-[#2563eb] bg-[#EEF2FF]"
+                          : "text-[#6b7280] hover:text-[#111827] hover:bg-[#F3F4F6]"
                       }`}
                     >
                       <ChevronRight
@@ -419,8 +419,8 @@ const DirectorReportsList = ({
                 </div>
 
                 {showReview && (
-                  <div className="mt-4 p-4 bg-gray-700/30 rounded-lg border border-gray-600">
-                    <p className="text-sm text-gray-300 mb-2">
+                  <div className="mt-4 p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg border border-[#D1D5DB]">
+                    <p className="text-sm text-[#374151] mb-2">
                       Provide feedback for this report:
                     </p>
                     <textarea
@@ -433,7 +433,7 @@ const DirectorReportsList = ({
                         }))
                       }
                       placeholder="Enter your feedback and comments..."
-                      className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500"
+                      className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb]"
                     />
                     <div className="flex gap-3 mt-3">
                       <button
@@ -444,14 +444,14 @@ const DirectorReportsList = ({
                             [report._id]: "",
                           }));
                         }}
-                        className="px-4 py-2 border border-gray-600 rounded-lg text-gray-300 hover:bg-gray-700"
+                        className="px-4 py-2 border border-[#D1D5DB] rounded-lg text-[#374151] hover:bg-[#F3F4F6]"
                       >
                         Cancel
                       </button>
                       <button
                         onClick={() => handleReview(report._id)}
                         disabled={!reviewFeedback[report._id]?.trim()}
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
+                        className="px-4 py-2 bg-blue-600 text-[#111827] rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
                       >
                         {isLoading ? (
                           <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
@@ -465,8 +465,8 @@ const DirectorReportsList = ({
                 )}
 
                 {showApprove && (
-                  <div className="mt-4 p-4 bg-gray-700/30 rounded-lg border border-gray-600">
-                    <p className="text-sm text-gray-300 mb-2">
+                  <div className="mt-4 p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg border border-[#D1D5DB]">
+                    <p className="text-sm text-[#374151] mb-2">
                       Approve this report?
                     </p>
                     <div className="flex gap-3">
@@ -474,13 +474,13 @@ const DirectorReportsList = ({
                         onClick={() => {
                           setShowApproveForm(null);
                         }}
-                        className="px-4 py-2 border border-gray-600 rounded-lg text-gray-300 hover:bg-gray-700"
+                        className="px-4 py-2 border border-[#D1D5DB] rounded-lg text-[#374151] hover:bg-[#F3F4F6]"
                       >
                         Cancel
                       </button>
                       <button
                         onClick={() => handleApprove(report._id)}
-                        className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 flex items-center gap-2"
+                        className="px-4 py-2 bg-emerald-600 text-[#111827] rounded-lg hover:bg-emerald-700 flex items-center gap-2"
                       >
                         {isLoading ? (
                           <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
@@ -494,8 +494,8 @@ const DirectorReportsList = ({
                 )}
 
                 {showReject && (
-                  <div className="mt-4 p-4 bg-gray-700/30 rounded-lg border border-gray-600">
-                    <p className="text-sm text-gray-300 mb-2">
+                  <div className="mt-4 p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg border border-[#D1D5DB]">
+                    <p className="text-sm text-[#374151] mb-2">
                       Reason for rejection:
                     </p>
                     <textarea
@@ -503,7 +503,7 @@ const DirectorReportsList = ({
                       value={rejectReason}
                       onChange={(e) => setRejectReason(e.target.value)}
                       placeholder="Please provide a reason for rejection..."
-                      className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500"
+                      className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-red-500"
                     />
                     <div className="flex gap-3 mt-3">
                       <button
@@ -511,14 +511,14 @@ const DirectorReportsList = ({
                           setShowRejectForm(null);
                           setRejectReason("");
                         }}
-                        className="px-4 py-2 border border-gray-600 rounded-lg text-gray-300 hover:bg-gray-700"
+                        className="px-4 py-2 border border-[#D1D5DB] rounded-lg text-[#374151] hover:bg-[#F3F4F6]"
                       >
                         Cancel
                       </button>
                       <button
                         onClick={() => handleReject(report._id)}
                         disabled={!rejectReason.trim()}
-                        className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 flex items-center gap-2"
+                        className="px-4 py-2 bg-red-600 text-[#111827] rounded-lg hover:bg-red-700 disabled:opacity-50 flex items-center gap-2"
                       >
                         {isLoading ? (
                           <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
@@ -539,24 +539,24 @@ const DirectorReportsList = ({
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="border-t border-gray-700 overflow-hidden"
+                    className="border-t border-[#E5E7EB] overflow-hidden"
                   >
-                    <div className="p-5 bg-gray-800/50 space-y-5">
+                    <div className="p-5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] space-y-5">
                       <div>
-                        <h4 className="text-sm font-medium text-gray-400 mb-2">
+                        <h4 className="text-sm font-medium text-[#6b7280] mb-2">
                           Detailed Summary
                         </h4>
-                        <p className="text-white text-sm">
+                        <p className="text-[#111827] text-sm">
                           {getSummaryText(report)}
                         </p>
                       </div>
 
                       {report.data?.recommendation && (
                         <div>
-                          <h4 className="text-sm font-medium text-gray-400 mb-2">
+                          <h4 className="text-sm font-medium text-[#6b7280] mb-2">
                             Recommendation
                           </h4>
-                          <p className="text-gray-300 text-sm">
+                          <p className="text-[#374151] text-sm">
                             {report.data.recommendation}
                           </p>
                         </div>
@@ -565,14 +565,14 @@ const DirectorReportsList = ({
                       {report.data?.skillsAcquired &&
                         report.data.skillsAcquired.length > 0 && (
                           <div>
-                            <h4 className="text-sm font-medium text-gray-400 mb-2">
+                            <h4 className="text-sm font-medium text-[#6b7280] mb-2">
                               Skills Acquired
                             </h4>
                             <div className="flex flex-wrap gap-2">
                               {report.data.skillsAcquired.map((skill, i) => (
                                 <span
                                   key={i}
-                                  className="text-xs px-2 py-1 bg-gray-700 rounded-full text-gray-300"
+                                  className="text-xs px-2 py-1 bg-gray-700 rounded-full text-[#374151]"
                                 >
                                   {skill}
                                 </span>
@@ -583,10 +583,10 @@ const DirectorReportsList = ({
 
                       {report.data?.certificationRecommended !== undefined && (
                         <div>
-                          <h4 className="text-sm font-medium text-gray-400 mb-2">
+                          <h4 className="text-sm font-medium text-[#6b7280] mb-2">
                             Certification Recommendation
                           </h4>
-                          <p className="text-gray-300 text-sm">
+                          <p className="text-[#374151] text-sm">
                             {report.data.certificationRecommended
                               ? "Yes, recommended"
                               : "Not recommended"}
@@ -596,11 +596,11 @@ const DirectorReportsList = ({
 
                       {hasFeedback && (
                         <div>
-                          <h4 className="text-sm font-medium text-gray-400 mb-2">
+                          <h4 className="text-sm font-medium text-[#6b7280] mb-2">
                             Director Feedback
                           </h4>
                           <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
-                            <p className="text-gray-300 text-sm">
+                            <p className="text-[#374151] text-sm">
                               {report.feedback}
                             </p>
                           </div>

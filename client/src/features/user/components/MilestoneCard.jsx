@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Target,
@@ -33,7 +33,7 @@ const statusConfig = {
   },
   completed: {
     label: "Completed",
-    color: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+    color: "bg-[#EEF2FF] text-[#2563eb] border-[#2563eb]/30",
     icon: CheckCircle,
     nextStatus: null,
   },
@@ -106,20 +106,20 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
-      className="bg-gray-700/30 rounded-xl border border-gray-700 overflow-hidden hover:border-gray-600 transition-all duration-200"
+      className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200"
     >
       <div
-        className="p-4 cursor-pointer hover:bg-gray-700/20 transition"
+        className="p-4 cursor-pointer hover:bg-[#F3F4F6]/20 transition"
         onClick={() => setExpanded(!expanded)}
       >
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3 flex-1">
             <div className="w-10 h-10 rounded-lg bg-gray-700 flex items-center justify-center">
-              <Target className="w-5 h-5 text-emerald-400" />
+              <Target className="w-5 h-5 text-[#2563eb]" />
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="font-semibold text-white">
+                <h3 className="font-semibold text-[#111827]">
                   Milestone {index + 1}: {milestone.title}
                 </h3>
                 <span
@@ -129,23 +129,23 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
                   {status.label}
                 </span>
               </div>
-              <p className="text-sm text-gray-400 mt-1 line-clamp-1">
+              <p className="text-sm text-[#6b7280] mt-1 line-clamp-1">
                 {milestone.description}
               </p>
             </div>
           </div>
           {expanded ? (
-            <ChevronUp className="w-5 h-5 text-gray-500" />
+            <ChevronUp className="w-5 h-5 text-[#6b7280]" />
           ) : (
-            <ChevronDown className="w-5 h-5 text-gray-500" />
+            <ChevronDown className="w-5 h-5 text-[#6b7280]" />
           )}
         </div>
       </div>
 
       {expanded && (
-        <div className="px-4 pb-4 pt-2 border-t border-gray-700 space-y-3">
-          <div className="bg-gray-800/50 rounded-lg p-3">
-            <p className="text-sm text-gray-300">{milestone.description}</p>
+        <div className="px-4 pb-4 pt-2 border-t border-[#E5E7EB] space-y-3">
+          <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-lg p-3">
+            <p className="text-sm text-[#374151]">{milestone.description}</p>
           </div>
 
           {/* Show Mentor Resources if available */}
@@ -169,7 +169,7 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
           )}
 
           {milestone.dueDate && (
-            <div className="flex items-center gap-2 text-xs text-gray-500">
+            <div className="flex items-center gap-2 text-xs text-[#6b7280]">
               <Clock className="w-3 h-3" />
               <span>
                 Due: {new Date(milestone.dueDate).toLocaleDateString()}
@@ -194,7 +194,7 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
           {isInProgress && !showEvidenceForm && (
             <button
               onClick={() => setShowEvidenceForm(true)}
-              className="w-full py-2 rounded-lg transition font-medium text-sm flex items-center justify-center gap-2 bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30"
+              className="w-full py-2 rounded-lg transition font-medium text-sm flex items-center justify-center gap-2 bg-[#EEF2FF] text-[#2563eb] hover:bg-emerald-500/30"
             >
               <Upload className="w-4 h-4" />
               Submit Work for Review
@@ -202,9 +202,9 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
           )}
 
           {showEvidenceForm && (
-            <div className="space-y-3 bg-gray-800/50 rounded-lg p-4">
+            <div className="space-y-3 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-lg p-4">
               <div className="flex justify-between items-center">
-                <h4 className="text-sm font-semibold text-white">
+                <h4 className="text-sm font-semibold text-[#111827]">
                   Submit Your Work
                 </h4>
                 <button
@@ -212,7 +212,7 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
                     setShowEvidenceForm(false);
                     setEvidence({ description: "", files: [] });
                   }}
-                  className="text-gray-400 hover:text-white"
+                  className="text-[#6b7280] hover:text-[#111827]"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -225,7 +225,7 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
                   setEvidence({ ...evidence, description: e.target.value })
                 }
                 rows={3}
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm focus:outline-none focus:border-emerald-500"
+                className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] text-sm focus:outline-none focus:border-[#2563eb]"
               />
 
               <DocumentUpload
@@ -237,11 +237,11 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
 
               {evidence.files.length > 0 && (
                 <div className="space-y-2">
-                  <p className="text-xs text-gray-400">Attached Files:</p>
+                  <p className="text-xs text-[#6b7280]">Attached Files:</p>
                   {evidence.files.map((file, idx) => (
                     <div
                       key={idx}
-                      className="bg-gray-700/30 rounded-lg p-3 flex items-center justify-between border border-gray-600"
+                      className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 flex items-center justify-between border border-[#D1D5DB]"
                     >
                       <div className="flex items-center gap-3 flex-1 min-w-0">
                         {file.isImage && file.url ? (
@@ -251,13 +251,13 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
                             alt="preview"
                           />
                         ) : (
-                          <FileText className="w-5 h-5 text-emerald-400" />
+                          <FileText className="w-5 h-5 text-[#2563eb]" />
                         )}
                         <div className="flex-1 min-w-0">
-                          <p className="text-white text-sm font-medium truncate">
+                          <p className="text-[#111827] text-sm font-medium truncate">
                             {file.name || "Document"}
                           </p>
-                          <p className="text-xs text-gray-400">
+                          <p className="text-xs text-[#6b7280]">
                             {(file.size / 1024 / 1024).toFixed(2)} MB
                           </p>
                         </div>
@@ -274,7 +274,7 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
                             <a
                               href={file.url}
                               download
-                              className="p-1 text-gray-400 hover:text-emerald-400"
+                              className="p-1 text-[#6b7280] hover:text-[#2563eb]"
                             >
                               <Download className="w-4 h-4" />
                             </a>
@@ -282,7 +282,7 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
                         )}
                         <button
                           onClick={() => removeFile(idx)}
-                          className="p-1 text-red-400 hover:text-red-300"
+                          className="p-1 text-red-500 hover:text-red-600"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -295,7 +295,7 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
               <button
                 onClick={handleSubmitEvidence}
                 disabled={!evidence.description.trim() || uploading}
-                className="w-full py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full py-2 bg-emerald-600 text-[#111827] rounded-lg hover:bg-emerald-700 disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {uploading ? (
                   <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
@@ -311,15 +311,15 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
 
           {/* Show Submitted Evidence using DocumentItem */}
           {milestone.status === "completed" && milestone.evidence && (
-            <div className="bg-gray-800/50 rounded-lg p-3">
-              <p className="text-xs text-emerald-400 mb-2 flex items-center gap-1">
+            <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-lg p-3">
+              <p className="text-xs text-[#2563eb] mb-2 flex items-center gap-1">
                 <FileText className="w-3 h-3" />
                 Work Submitted:
               </p>
               {milestone.evidence.description && (
                 <div className="mb-3">
-                  <p className="text-xs text-gray-400 mb-1">Description:</p>
-                  <p className="text-sm text-gray-300">
+                  <p className="text-xs text-[#6b7280] mb-1">Description:</p>
+                  <p className="text-sm text-[#374151]">
                     {milestone.evidence.description}
                   </p>
                 </div>
@@ -341,7 +341,7 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
           )}
 
           {milestone.status === "completed" && milestone.completedAt && (
-            <div className="text-xs text-emerald-400/70 flex items-center gap-2">
+            <div className="text-xs text-[#2563eb]/70 flex items-center gap-2">
               <CheckCircle className="w-3 h-3" />
               <span>
                 Completed on:{" "}
@@ -353,7 +353,7 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
           {milestone.feedback && (
             <div className="bg-purple-500/10 rounded-lg p-3 border border-purple-500/20">
               <p className="text-xs text-purple-400 mb-1">Mentor Feedback:</p>
-              <p className="text-sm text-gray-300">{milestone.feedback}</p>
+              <p className="text-sm text-[#374151]">{milestone.feedback}</p>
             </div>
           )}
         </div>

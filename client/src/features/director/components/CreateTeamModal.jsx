@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { motion } from "framer-motion";
 import { X, Users, Briefcase, AlertCircle, Send } from "lucide-react";
 
@@ -59,21 +59,21 @@ const CreateTeamModal = ({ onClose, onSubmit }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-gray-800 rounded-2xl w-full max-w-md overflow-hidden border border-gray-700 shadow-2xl"
+        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-md overflow-hidden border border-[#E5E7EB] shadow-2xl"
       >
         {/* Header */}
-        <div className="p-5 border-b border-gray-700 flex justify-between items-center">
+        <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-linear-to-br from-emerald-500 to-teal-700 rounded-lg flex items-center justify-center">
-              <Users className="w-4 h-4 text-white" />
+            <div className="w-8 h-8 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg flex items-center justify-center">
+              <Users className="w-4 h-4 text-[#111827]" />
             </div>
-            <h2 className="text-xl font-bold text-white">Create Team</h2>
+            <h2 className="text-xl font-bold text-[#111827]">Create Team</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-gray-700 rounded-lg transition"
+            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
           >
-            <X className="w-5 h-5 text-gray-400 hover:text-white" />
+            <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
           </button>
         </div>
 
@@ -81,16 +81,16 @@ const CreateTeamModal = ({ onClose, onSubmit }) => {
         <form onSubmit={handleSubmit} className="p-5 space-y-5" id="team-form">
           {/* Team Name */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
-              Team Name <span className="text-red-400">*</span>
+            <label className="block text-sm font-medium text-[#374151] mb-1">
+              Team Name <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+              <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
               <input
                 type="text"
                 required
-                className={`w-full pl-9 pr-3 py-2 bg-gray-700/50 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all ${
-                  errors.name ? "border-red-500" : "border-gray-600"
+                className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all ${
+                  errors.name ? "border-red-500" : "border-[#D1D5DB]"
                 }`}
                 value={formData.name}
                 onChange={(e) => handleInputChange("name", e.target.value)}
@@ -98,26 +98,26 @@ const CreateTeamModal = ({ onClose, onSubmit }) => {
               />
             </div>
             {errors.name && (
-              <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+              <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
                 <AlertCircle className="w-3 h-3" /> {errors.name}
               </p>
             )}
-            <p className="text-gray-500 text-xs mt-1">
+            <p className="text-[#6b7280] text-xs mt-1">
               Choose a descriptive name for your team (3-50 characters)
             </p>
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-[#374151] mb-1">
               Description
             </label>
             <div className="relative">
-              <Briefcase className="absolute left-3 top-3 w-4 h-4 text-gray-500" />
+              <Briefcase className="absolute left-3 top-3 w-4 h-4 text-[#6b7280]" />
               <textarea
                 rows="3"
-                className={`w-full pl-9 pr-3 py-2 bg-gray-700/50 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all resize-none ${
-                  errors.description ? "border-red-500" : "border-gray-600"
+                className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all resize-none ${
+                  errors.description ? "border-red-500" : "border-[#D1D5DB]"
                 }`}
                 value={formData.description}
                 onChange={(e) =>
@@ -127,16 +127,16 @@ const CreateTeamModal = ({ onClose, onSubmit }) => {
               />
             </div>
             {errors.description && (
-              <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+              <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
                 <AlertCircle className="w-3 h-3" /> {errors.description}
               </p>
             )}
             <div className="flex justify-between items-center mt-1">
-              <p className="text-gray-500 text-xs">
+              <p className="text-[#6b7280] text-xs">
                 Optional: Describe the team's purpose and goals
               </p>
               <p
-                className={`text-xs ${formData.description.length > 400 ? "text-yellow-500" : "text-gray-500"}`}
+                className={`text-xs ${formData.description.length > 400 ? "text-yellow-500" : "text-[#6b7280]"}`}
               >
                 {formData.description.length}/500
               </p>
@@ -144,12 +144,12 @@ const CreateTeamModal = ({ onClose, onSubmit }) => {
           </div>
 
           {/* Tips Section */}
-          <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-3">
-            <p className="text-xs text-emerald-400 flex items-center gap-1">
+          <div className="bg-[#EEF2FF] border border-[#2563eb]/30 rounded-lg p-3">
+            <p className="text-xs text-[#2563eb] flex items-center gap-1">
               <Users className="w-3 h-3" />
               <span className="font-medium">Team Creation Tips:</span>
             </p>
-            <ul className="text-xs text-gray-400 mt-1 space-y-1 ml-4 list-disc">
+            <ul className="text-xs text-[#6b7280] mt-1 space-y-1 ml-4 list-disc">
               <li>
                 Use clear, descriptive names that reflect the team's purpose
               </li>
@@ -159,13 +159,13 @@ const CreateTeamModal = ({ onClose, onSubmit }) => {
         </form>
 
         {/* Buttons */}
-        <div className="p-5 border-t border-gray-700 bg-gray-800/90">
+        <div className="p-5 border-t border-[#E5E7EB] bg-white/90 backdrop-blur-sm">
           <div className="flex gap-3">
             <button
               type="submit"
               form="team-form"
               disabled={loading}
-              className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-white py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg flex items-center justify-center gap-2"
+              className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -182,7 +182,7 @@ const CreateTeamModal = ({ onClose, onSubmit }) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 border border-gray-600 text-gray-300 py-2.5 rounded-lg hover:bg-gray-700 transition-all duration-200"
+              className="flex-1 border border-[#D1D5DB] text-[#374151] py-2.5 rounded-lg hover:bg-[#F3F4F6] transition-all duration-200"
             >
               Cancel
             </button>

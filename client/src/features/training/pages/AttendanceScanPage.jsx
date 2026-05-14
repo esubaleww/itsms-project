@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import { useTrainee } from "../../../hooks/useTrainee";
@@ -52,15 +52,15 @@ const AttendanceScanPage = () => {
   }, [sessionId, markAttendance, navigate]);
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
-      <div className="bg-gray-800/60 rounded-2xl p-8 max-w-md w-full text-center border border-gray-700">
+    <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] flex items-center justify-center p-4">
+      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl p-8 max-w-md w-full text-center border border-[#E5E7EB]">
         {status === "loading" && (
           <>
-            <Loader2 className="w-16 h-16 text-emerald-400 animate-spin mx-auto mb-4" />
-            <h2 className="text-xl font-bold text-white mb-2">
+            <Loader2 className="w-16 h-16 text-[#2563eb] animate-spin mx-auto mb-4" />
+            <h2 className="text-xl font-bold text-[#111827] mb-2">
               Recording Attendance...
             </h2>
-            <p className="text-gray-400">
+            <p className="text-[#6b7280]">
               Please wait while we record your attendance
             </p>
           </>
@@ -68,12 +68,12 @@ const AttendanceScanPage = () => {
 
         {status === "success" && (
           <>
-            <CheckCircle className="w-16 h-16 text-emerald-400 mx-auto mb-4" />
-            <h2 className="text-xl font-bold text-white mb-2">
+            <CheckCircle className="w-16 h-16 text-[#2563eb] mx-auto mb-4" />
+            <h2 className="text-xl font-bold text-[#111827] mb-2">
               Attendance Recorded!
             </h2>
-            <p className="text-emerald-400 text-sm">{message}</p>
-            <p className="text-gray-500 text-xs mt-4">
+            <p className="text-[#2563eb] text-sm">{message}</p>
+            <p className="text-[#6b7280] text-xs mt-4">
               Redirecting to dashboard...
             </p>
           </>
@@ -81,14 +81,14 @@ const AttendanceScanPage = () => {
 
         {status === "error" && (
           <>
-            <XCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
-            <h2 className="text-xl font-bold text-white mb-2">
+            <XCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+            <h2 className="text-xl font-bold text-[#111827] mb-2">
               Cannot Mark Attendance
             </h2>
-            <p className="text-red-400 text-sm">{message}</p>
+            <p className="text-red-500 text-sm">{message}</p>
             <button
               onClick={() => navigate("/dashboard?tab=my-sessions")}
-              className="mt-6 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition"
+              className="mt-6 px-4 py-2 bg-emerald-600 text-[#111827] rounded-lg hover:bg-emerald-700 transition"
             >
               Go to Dashboard
             </button>

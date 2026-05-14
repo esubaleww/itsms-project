@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { motion } from "framer-motion";
 import { X, Award } from "lucide-react";
 
@@ -57,23 +57,23 @@ const TrainerFinalReviewModal = ({ trainee, onSubmit, onClose }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-gray-800 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col border border-gray-700 shadow-2xl"
+        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col border border-[#E5E7EB] shadow-2xl"
       >
-        <div className="p-5 border-b border-gray-700 flex justify-between items-center sticky top-0 bg-gray-800/90">
+        <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-sm">
           <div>
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+            <h2 className="text-xl font-bold text-[#111827] flex items-center gap-2">
               <Award className="w-5 h-5 text-purple-400" />
               Final Trainee Review
             </h2>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-[#6b7280]">
               {trainee?.trainee?.fullName || trainee?.fullName}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-gray-700 rounded-lg transition"
+            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
           >
-            <X className="w-5 h-5 text-gray-400 hover:text-white" />
+            <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
           </button>
         </div>
 
@@ -82,7 +82,7 @@ const TrainerFinalReviewModal = ({ trainee, onSubmit, onClose }) => {
           className="flex-1 overflow-y-auto p-5 space-y-5"
         >
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-[#374151] mb-2">
               Overall Performance
             </label>
             <select
@@ -91,7 +91,7 @@ const TrainerFinalReviewModal = ({ trainee, onSubmit, onClose }) => {
               onChange={(e) =>
                 setFormData({ ...formData, overallPerformance: e.target.value })
               }
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-purple-500"
+              className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-purple-500"
             >
               <option value="">Select performance</option>
               <option value="Excellent">Excellent</option>
@@ -102,7 +102,7 @@ const TrainerFinalReviewModal = ({ trainee, onSubmit, onClose }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-[#374151] mb-2">
               Skills Acquired
             </label>
             <div className="flex gap-2 mb-2">
@@ -114,12 +114,12 @@ const TrainerFinalReviewModal = ({ trainee, onSubmit, onClose }) => {
                   e.key === "Enter" && (e.preventDefault(), addSkill())
                 }
                 placeholder="Add a skill..."
-                className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-purple-500"
+                className="flex-1 px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-purple-500"
               />
               <button
                 type="button"
                 onClick={addSkill}
-                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+                className="px-4 py-2 bg-purple-600 text-[#111827] rounded-lg hover:bg-purple-700 transition"
               >
                 Add
               </button>
@@ -144,7 +144,7 @@ const TrainerFinalReviewModal = ({ trainee, onSubmit, onClose }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-[#374151] mb-2">
               Recommendation
             </label>
             <textarea
@@ -154,7 +154,7 @@ const TrainerFinalReviewModal = ({ trainee, onSubmit, onClose }) => {
                 setFormData({ ...formData, recommendation: e.target.value })
               }
               placeholder="Recommendation for the trainee..."
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-purple-500"
+              className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-purple-500"
             />
           </div>
 
@@ -173,14 +173,14 @@ const TrainerFinalReviewModal = ({ trainee, onSubmit, onClose }) => {
             />
             <label
               htmlFor="certificationRecommended"
-              className="text-sm text-gray-300"
+              className="text-sm text-[#374151]"
             >
               Recommend for Certification
             </label>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-[#374151] mb-2">
               Additional Comments
             </label>
             <textarea
@@ -190,7 +190,7 @@ const TrainerFinalReviewModal = ({ trainee, onSubmit, onClose }) => {
                 setFormData({ ...formData, comments: e.target.value })
               }
               placeholder="Any additional feedback or comments..."
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-purple-500"
+              className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-purple-500"
             />
           </div>
 
@@ -198,14 +198,14 @@ const TrainerFinalReviewModal = ({ trainee, onSubmit, onClose }) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-700 transition"
+              className="flex-1 px-4 py-2 border border-[#D1D5DB] text-[#374151] rounded-lg hover:bg-[#F3F4F6] transition"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition disabled:opacity-50"
+              className="flex-1 px-4 py-2 bg-purple-600 text-[#111827] rounded-lg hover:bg-purple-700 transition disabled:opacity-50"
             >
               {submitting ? "Submitting..." : "Submit Final Review"}
             </button>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { requestService } from "../services/request.service";
 
 export const useRequests = () => {
@@ -15,7 +15,7 @@ export const useRequests = () => {
   const [error, setError] = useState(null);
 
   // Fetch all requests for the current user
-  const fetchMyRequests = async () => {
+  const fetchMyRequests = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -42,7 +42,7 @@ export const useRequests = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Get request statistics
   const getRequestStats = async () => {

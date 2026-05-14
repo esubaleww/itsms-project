@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   X,
@@ -78,7 +78,7 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
   const getTypeColor = (type) => {
     switch (type) {
       case "internship":
-        return "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+        return "bg-[#EEF2FF] text-[#2563eb] border border-[#2563eb]/30";
       case "innovation":
         return "bg-purple-500/20 text-purple-400 border border-purple-500/30";
       case "startup":
@@ -88,7 +88,7 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
       case "service":
         return "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30";
       default:
-        return "bg-gray-500/20 text-gray-400 border border-gray-500/30";
+        return "bg-gray-500/20 text-[#6b7280] border border-gray-500/30";
     }
   };
 
@@ -196,31 +196,31 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
   const TypeIcon = getTypeIcon(request.type);
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-gray-800 rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden border border-gray-700 shadow-2xl"
+        className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden border border-[#E5E7EB] shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
       >
         {/* Header */}
-        <div className="p-5 border-b border-gray-700 flex justify-between items-center sticky top-0 bg-gray-800/90 z-10">
+        <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-sm z-10">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-linear-to-br from-emerald-500 to-teal-700 rounded-xl flex items-center justify-center">
-              <FileText className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-xl flex items-center justify-center">
+              <FileText className="w-5 h-5 text-[#2563eb]" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white">Request Details</h2>
-              <p className="text-sm text-gray-400">
+              <h2 className="text-xl font-bold text-[#111827]">Request Details</h2>
+              <p className="text-sm text-[#6b7280]">
                 Review and process application
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-700 rounded-lg transition"
+            className="p-2 hover:bg-[#F3F4F6] rounded-lg transition"
           >
-            <X className="w-5 h-5 text-gray-400 hover:text-white" />
+            <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
           </button>
         </div>
 
@@ -250,8 +250,8 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
           {(!request.relatedProfile ||
             typeof request.relatedProfile !== "object") && (
             <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 flex items-start gap-2">
-              <AlertCircle className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
-              <p className="text-red-400 text-sm">
+              <AlertCircle className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
+              <p className="text-red-500 text-sm">
                 ⚠️ Profile data not loaded. Please ensure the API is populating
                 the relatedProfile field.
               </p>
@@ -259,23 +259,23 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
           )}
           {/* Applicant Info Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-gray-700/30 rounded-lg p-3">
-              <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+              <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                 <User className="w-3 h-3" />
                 <label>Applicant</label>
               </div>
-              <p className="text-white font-medium">
+              <p className="text-[#111827] font-medium">
                 {request.applicant?.fullName ||
                   request.applicant?.name ||
                   "N/A"}
               </p>
             </div>
-            <div className="bg-gray-700/30 rounded-lg p-3">
-              <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+              <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                 <Mail className="w-3 h-3" />
                 <label>Email</label>
               </div>
-              <p className="text-white font-medium">
+              <p className="text-[#111827] font-medium">
                 {request.applicant?.email || "N/A"}
               </p>
             </div>
@@ -283,39 +283,39 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
             {/* Profile-specific fields */}
             {isIntern && profile && (
               <>
-                <div className="bg-gray-700/30 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <GraduationCap className="w-3 h-3" />
                     <label>University</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.university?.name || "N/A"}
                   </p>
                 </div>
-                <div className="bg-gray-700/30 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <BookOpen className="w-3 h-3" />
                     <label>Department</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.university?.department || "N/A"}
                   </p>
                 </div>
-                <div className="bg-gray-700/30 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <Tag className="w-3 h-3" />
                     <label>Student ID</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.university?.studentId || "N/A"}
                   </p>
                 </div>
-                <div className="bg-gray-700/30 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <Target className="w-3 h-3" />
                     <label>Year of Study</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.university?.year || "N/A"}
                   </p>
                 </div>
@@ -324,30 +324,30 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
 
             {isInnovator && profile && (
               <>
-                <div className="bg-gray-700/30 rounded-lg p-3 md:col-span-2">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 md:col-span-2">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <Lightbulb className="w-3 h-3" />
                     <label>Idea Title</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.ideaTitle || "N/A"}
                   </p>
                 </div>
-                <div className="bg-gray-700/30 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <Building2 className="w-3 h-3" />
                     <label>Institution</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.institution || "N/A"}
                   </p>
                 </div>
-                <div className="bg-gray-700/30 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <Target className="w-3 h-3" />
                     <label>Education Level</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.education?.level || "N/A"}
                   </p>
                 </div>
@@ -356,39 +356,39 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
 
             {isStartup && profile && (
               <>
-                <div className="bg-gray-700/30 rounded-lg p-3 md:col-span-2">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 md:col-span-2">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <Building2 className="w-3 h-3" />
                     <label>Company Name</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.companyName || "N/A"}
                   </p>
                 </div>
-                <div className="bg-gray-700/30 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <Award className="w-3 h-3" />
                     <label>Registration Number</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.registrationNumber || "N/A"}
                   </p>
                 </div>
-                <div className="bg-gray-700/30 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <Users className="w-3 h-3" />
                     <label>Employee Count</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.employeeCount || "1"}
                   </p>
                 </div>
-                <div className="bg-gray-700/30 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <TrendingUp className="w-3 h-3" />
                     <label>Sector</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.sector || "N/A"}
                   </p>
                 </div>
@@ -398,48 +398,48 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
             {/* Service Request Fields (RequesterProfile) */}
             {(isService || isTraining) && profile && (
               <>
-                <div className="bg-gray-700/30 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <Building2 className="w-3 h-3" />
                     <label>Organization Name</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.organizationName || "N/A"}
                   </p>
                 </div>
-                <div className="bg-gray-700/30 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <Briefcase className="w-3 h-3" />
                     <label>Department</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.department || "N/A"}
                   </p>
                 </div>
-                <div className="bg-gray-700/30 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <User className="w-3 h-3" />
                     <label>Position</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.position || "N/A"}
                   </p>
                 </div>
-                <div className="bg-gray-700/30 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <Phone className="w-3 h-3" />
                     <label>Contact Person</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.contactPerson || "N/A"}
                   </p>
                 </div>
-                <div className="bg-gray-700/30 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <Phone className="w-3 h-3" />
                     <label>Contact Phone</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.contactPhone || "N/A"}
                   </p>
                 </div>
@@ -449,51 +449,51 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
             {/* Training Specific Fields */}
             {isTraining && profile && profile.trainingDetails && (
               <>
-                <div className="bg-gray-700/30 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <School className="w-3 h-3" />
                     <label>Training Type</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.trainingDetails?.type || "N/A"}
                   </p>
                 </div>
-                <div className="bg-gray-700/30 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <CalendarIcon className="w-3 h-3" />
                     <label>Preferred Dates</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.trainingDetails?.preferredDates || "N/A"}
                   </p>
                 </div>
-                <div className="bg-gray-700/30 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                     <Users className="w-3 h-3" />
                     <label>Number of Participants</label>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-[#111827] font-medium">
                     {profile.trainingDetails?.participants || "N/A"}
                   </p>
                 </div>
               </>
             )}
 
-            <div className="bg-gray-700/30 rounded-lg p-3">
-              <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+              <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                 <Calendar className="w-3 h-3" />
                 <label>Submitted</label>
               </div>
-              <p className="text-white font-medium">
+              <p className="text-[#111827] font-medium">
                 {new Date(request.createdAt).toLocaleString()}
               </p>
             </div>
-            <div className="bg-gray-700/30 rounded-lg p-3">
-              <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+              <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
                 <Clock className="w-3 h-3" />
                 <label>Status</label>
               </div>
-              <p className="text-white font-medium capitalize">
+              <p className="text-[#111827] font-medium capitalize">
                 {request.status?.replace(/_/g, " ") || "N/A"}
               </p>
             </div>
@@ -501,29 +501,29 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
           {/* Service/Training Request Details */}
           {(isService || isTraining) && request.metadata && (
             <div className="space-y-4">
-              <div className="border-t border-gray-700 pt-4">
-                <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
-                  <ClipboardList className="w-4 h-4 text-emerald-400" />
+              <div className="border-t border-[#E5E7EB] pt-4">
+                <h3 className="font-semibold text-[#111827] mb-3 flex items-center gap-2">
+                  <ClipboardList className="w-4 h-4 text-[#2563eb]" />
                   Request Details
                 </h3>
                 <div className="grid grid-cols-1 gap-3">
                   {request.metadata.serviceType && (
-                    <div className="bg-gray-700/30 rounded-lg p-3">
-                      <span className="text-gray-400 text-xs">
+                    <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                      <span className="text-[#6b7280] text-xs">
                         Service Type
                       </span>
-                      <p className="text-white font-medium">
+                      <p className="text-[#111827] font-medium">
                         {request.metadata.serviceType}
                       </p>
                     </div>
                   )}
                   {request.metadata.priority && (
-                    <div className="bg-gray-700/30 rounded-lg p-3">
-                      <span className="text-gray-400 text-xs">Priority</span>
+                    <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                      <span className="text-[#6b7280] text-xs">Priority</span>
                       <p
                         className={`font-medium capitalize ${
                           request.metadata.priority === "urgent"
-                            ? "text-red-400"
+                            ? "text-red-500"
                             : request.metadata.priority === "high"
                               ? "text-orange-400"
                               : request.metadata.priority === "medium"
@@ -536,11 +536,11 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
                     </div>
                   )}
                   {request.metadata.requirements && (
-                    <div className="bg-gray-700/30 rounded-lg p-3">
-                      <span className="text-gray-400 text-xs">
+                    <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                      <span className="text-[#6b7280] text-xs">
                         Special Requirements
                       </span>
-                      <p className="text-white whitespace-pre-wrap">
+                      <p className="text-[#111827] whitespace-pre-wrap">
                         {request.metadata.requirements}
                       </p>
                     </div>
@@ -551,14 +551,14 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
           )}
           {/* Description */}
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-emerald-400">
+            <div className="flex items-center gap-2 text-[#2563eb]">
               <FileText className="w-4 h-4" />
-              <label className="text-sm font-medium text-gray-300">
+              <label className="text-sm font-medium text-[#374151]">
                 Description
               </label>
             </div>
-            <div className="bg-gray-700/30 rounded-lg p-4">
-              <p className="text-gray-200 whitespace-pre-wrap">
+            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4">
+              <p className="text-[#374151] whitespace-pre-wrap">
                 {request.metadata?.description ||
                   request.description ||
                   profile?.ideaDescription ||
@@ -570,14 +570,14 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
           {/* Innovator-specific details */}
           {isInnovator && profile && profile.problemSolved && (
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-emerald-400">
+              <div className="flex items-center gap-2 text-[#2563eb]">
                 <Target className="w-4 h-4" />
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-[#374151]">
                   Problem Solved
                 </label>
               </div>
-              <div className="bg-gray-700/30 rounded-lg p-4">
-                <p className="text-gray-200 whitespace-pre-wrap">
+              <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4">
+                <p className="text-[#374151] whitespace-pre-wrap">
                   {profile.problemSolved}
                 </p>
               </div>
@@ -585,14 +585,14 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
           )}
           {isInnovator && profile && profile.targetMarket && (
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-emerald-400">
+              <div className="flex items-center gap-2 text-[#2563eb]">
                 <Users className="w-4 h-4" />
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-[#374151]">
                   Target Market
                 </label>
               </div>
-              <div className="bg-gray-700/30 rounded-lg p-4">
-                <p className="text-gray-200 whitespace-pre-wrap">
+              <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4">
+                <p className="text-[#374151] whitespace-pre-wrap">
                   {profile.targetMarket}
                 </p>
               </div>
@@ -601,9 +601,9 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
           {/* Skills Section */}
           {profile?.skills && profile.skills.length > 0 && (
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-emerald-400">
+              <div className="flex items-center gap-2 text-[#2563eb]">
                 <Tag className="w-4 h-4" />
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-[#374151]">
                   Skills
                 </label>
               </div>
@@ -611,7 +611,7 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
                 {profile.skills.map((skill, index) => (
                   <span
                     key={index}
-                    className="px-3 py-1.5 bg-gray-700/50 text-gray-300 rounded-lg text-sm"
+                    className="px-3 py-1.5 bg-[#EEF2FF] text-[#2563eb] rounded-lg text-sm"
                   >
                     {skill}
                   </span>
@@ -622,34 +622,34 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
           {/* Startup Founders Section */}
           {isStartup && profile?.founders && profile.founders.length > 0 && (
             <div className="space-y-3">
-              <div className="flex items-center gap-2 text-emerald-400">
+              <div className="flex items-center gap-2 text-[#2563eb]">
                 <Users className="w-4 h-4" />
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-[#374151]">
                   Founders ({profile.founders.length})
                 </label>
               </div>
               <div className="space-y-2">
                 {profile.founders.map((founder, index) => (
-                  <div key={index} className="bg-gray-700/30 rounded-lg p-3">
+                  <div key={index} className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
                     <div className="grid grid-cols-2 gap-2 text-sm">
                       <div>
-                        <span className="text-gray-400 text-xs">Name</span>
-                        <p className="text-white font-medium">{founder.name}</p>
+                        <span className="text-[#6b7280] text-xs">Name</span>
+                        <p className="text-[#111827] font-medium">{founder.name}</p>
                       </div>
                       <div>
-                        <span className="text-gray-400 text-xs">Role</span>
-                        <p className="text-white font-medium">{founder.role}</p>
+                        <span className="text-[#6b7280] text-xs">Role</span>
+                        <p className="text-[#111827] font-medium">{founder.role}</p>
                       </div>
                       <div className="col-span-2">
-                        <span className="text-gray-400 text-xs">Email</span>
-                        <p className="text-white font-medium">
+                        <span className="text-[#6b7280] text-xs">Email</span>
+                        <p className="text-[#111827] font-medium">
                           {founder.email}
                         </p>
                       </div>
                       {founder.share && (
                         <div>
-                          <span className="text-gray-400 text-xs">Share</span>
-                          <p className="text-white font-medium">
+                          <span className="text-[#6b7280] text-xs">Share</span>
+                          <p className="text-[#111827] font-medium">
                             {founder.share}%
                           </p>
                         </div>
@@ -664,9 +664,9 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
           {/* Documents Section */}
           {hasAnyDocuments && (
             <div className="space-y-3">
-              <div className="border-t border-gray-700 pt-4">
-                <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-emerald-400" />
+              <div className="border-t border-[#E5E7EB] pt-4">
+                <h3 className="font-semibold text-[#111827] mb-3 flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-[#2563eb]" />
                   Attached Documents
                 </h3>
                 <div className="space-y-3">
@@ -769,7 +769,7 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
                       {documents.supportingDocs &&
                         documents.supportingDocs.length > 0 && (
                           <div className="space-y-2">
-                            <p className="text-sm font-medium text-gray-300">
+                            <p className="text-sm font-medium text-[#374151]">
                               Supporting Documents (
                               {documents.supportingDocs.length})
                             </p>
@@ -808,29 +808,29 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
           {/* Timeline */}
           {request.timeline && request.timeline.length > 0 && (
             <div className="space-y-3">
-              <div className="border-t border-gray-700 pt-4">
-                <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-emerald-400" />
+              <div className="border-t border-[#E5E7EB] pt-4">
+                <h3 className="font-semibold text-[#111827] mb-3 flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-[#2563eb]" />
                   Timeline
                 </h3>
                 <div className="space-y-3">
                   {request.timeline.map((event, i) => (
                     <div
                       key={i}
-                      className="flex gap-3 text-sm bg-gray-700/30 rounded-lg p-3"
+                      className="flex gap-3 text-sm bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3"
                     >
-                      <div className="w-24 text-emerald-400 font-medium">
+                      <div className="w-24 text-[#2563eb] font-medium">
                         {new Date(event.date).toLocaleDateString()}
                       </div>
                       <div className="flex-1">
-                        <p className="font-medium text-white">{event.action}</p>
+                        <p className="font-medium text-[#111827]">{event.action}</p>
                         {event.details && (
-                          <p className="text-gray-400 text-xs mt-1">
+                          <p className="text-[#6b7280] text-xs mt-1">
                             {event.details}
                           </p>
                         )}
                         {event.by && (
-                          <p className="text-gray-500 text-xs mt-1">
+                          <p className="text-[#6b7280] text-xs mt-1">
                             By:{" "}
                             {typeof event.by === "object"
                               ? event.by.fullName || event.by.name
@@ -848,11 +848,11 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
 
         {/* Actions */}
         {isPending && (
-          <div className="p-5 border-t border-gray-700 bg-gray-800/90 rounded-b-2xl">
+          <div className="p-5 border-t border-[#E5E7EB] bg-[#F9FAFB] rounded-b-2xl">
             <div className="space-y-3">
               <textarea
                 placeholder="Add comments (optional)..."
-                className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all resize-none"
+                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] shadow-sm focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all resize-none"
                 rows="3"
                 value={comments}
                 onChange={(e) => setComments(e.target.value)}
@@ -861,7 +861,7 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
                 <button
                   onClick={handleApprove}
                   disabled={approveLoading}
-                  className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-white py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg flex items-center justify-center gap-2"
+                  className="flex-1 bg-[#2563eb] text-white py-2.5 rounded-lg hover:bg-[#1d4ed8] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md font-medium flex items-center justify-center gap-2"
                 >
                   {approveLoading ? (
                     <>
@@ -878,7 +878,7 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
                 <button
                   onClick={handleReject}
                   disabled={rejectLoading}
-                  className="flex-1 bg-linear-to-r from-red-500 to-red-700 text-white py-2.5 rounded-lg hover:from-red-600 hover:to-red-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg flex items-center justify-center gap-2"
+                  className="flex-1 bg-red-600 text-white py-2.5 rounded-lg hover:bg-red-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md font-medium flex items-center justify-center gap-2"
                 >
                   {rejectLoading ? (
                     <>
@@ -898,10 +898,10 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
         )}
 
         {!isPending && (
-          <div className="p-5 border-t border-gray-700 bg-gray-800/90 rounded-b-2xl">
+          <div className="p-5 border-t border-[#E5E7EB] bg-[#F9FAFB] rounded-b-2xl">
             <button
               onClick={onClose}
-              className="w-full border border-gray-600 text-gray-300 py-2.5 rounded-lg hover:bg-gray-700 transition-all duration-200"
+              className="w-full border border-[#D1D5DB] text-[#374151] py-2.5 rounded-lg hover:bg-[#F3F4F6] transition-all duration-200"
             >
               Close
             </button>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { X, Download, QrCode, Copy, Check } from "lucide-react";
 import { generateSessionQR } from "../../../utils/qrUtils";
@@ -35,18 +35,18 @@ const SessionQRModal = ({ session, onClose }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-gray-800 rounded-2xl w-full max-w-md border border-gray-700 shadow-2xl"
+        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-md border border-[#E5E7EB] shadow-2xl"
       >
-        <div className="flex justify-between items-center p-5 border-b border-gray-700">
+        <div className="flex justify-between items-center p-5 border-b border-[#E5E7EB]">
           <div className="flex items-center gap-2">
-            <QrCode className="w-5 h-5 text-emerald-400" />
-            <h2 className="text-xl font-bold text-white">Session QR Code</h2>
+            <QrCode className="w-5 h-5 text-[#2563eb]" />
+            <h2 className="text-xl font-bold text-[#111827]">Session QR Code</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-gray-700 rounded-lg transition"
+            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
           >
-            <X className="w-5 h-5 text-gray-400" />
+            <X className="w-5 h-5 text-[#6b7280]" />
           </button>
         </div>
 
@@ -56,21 +56,21 @@ const SessionQRModal = ({ session, onClose }) => {
               <img src={qrCode} alt="Session QR Code" className="w-64 h-64" />
             ) : (
               <div className="w-64 h-64 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" />
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2563eb]" />
               </div>
             )}
           </div>
 
           <div className="space-y-2 mb-4">
-            <h3 className="text-white font-semibold">{session.title}</h3>
-            <p className="text-sm text-gray-400">
+            <h3 className="text-[#111827] font-semibold">{session.title}</h3>
+            <p className="text-sm text-[#6b7280]">
               Date: {new Date(session.date).toLocaleDateString()}
             </p>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-[#6b7280]">
               Duration: {session.duration} hours
             </p>
             {session.location && (
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-[#6b7280]">
                 Location: {session.location}
               </p>
             )}
@@ -79,14 +79,14 @@ const SessionQRModal = ({ session, onClose }) => {
           <div className="flex gap-3">
             <button
               onClick={handleDownload}
-              className="flex-1 flex items-center justify-center gap-2 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition"
+              className="flex-1 flex items-center justify-center gap-2 py-2 bg-emerald-600 text-[#111827] rounded-lg hover:bg-emerald-700 transition"
             >
               <Download className="w-4 h-4" />
               Download QR
             </button>
             <button
               onClick={handleCopyLink}
-              className="flex-1 flex items-center justify-center gap-2 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
+              className="flex-1 flex items-center justify-center gap-2 py-2 bg-gray-700 text-[#111827] rounded-lg hover:bg-gray-600 transition"
             >
               {copied ? (
                 <Check className="w-4 h-4" />
@@ -97,7 +97,7 @@ const SessionQRModal = ({ session, onClose }) => {
             </button>
           </div>
 
-          <p className="text-xs text-gray-500 mt-3">
+          <p className="text-xs text-[#6b7280] mt-3">
             Share the link or QR code with trainees to mark attendance
           </p>
         </div>

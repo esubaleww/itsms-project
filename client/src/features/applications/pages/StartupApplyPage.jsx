@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../../hooks/useAuth";
@@ -55,26 +55,26 @@ const StartupApplyPage = () => {
 
   if (user?.profiles?.startup) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center py-12 px-4">
+      <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] flex items-center justify-center py-12 px-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="max-w-md w-full bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700 p-8 text-center"
+          className="max-w-md w-full bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-2xl border border-[#E5E7EB] p-8 text-center"
         >
           <div className="w-20 h-20 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <AlertCircle className="w-10 h-10 text-yellow-400" />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-2">
+          <h2 className="text-2xl font-bold text-[#111827] mb-2">
             Already Registered!
           </h2>
-          <p className="text-gray-400 mb-6">
+          <p className="text-[#6b7280] mb-6">
             You have already submitted a startup registration. Our team is
             reviewing your application. You will be notified once there's an
             update.
           </p>
           <button
             onClick={() => navigate("/dashboard")}
-            className="px-6 py-2 bg-linear-to-r from-emerald-500 to-teal-700 text-white rounded-lg hover:from-emerald-600 hover:to-teal-800 transition flex items-center justify-center gap-2 mx-auto"
+            className="px-6 py-2 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] rounded-lg hover:from-emerald-600 hover:to-teal-800 transition flex items-center justify-center gap-2 mx-auto"
           >
             Back to Dashboard
             <ArrowRight className="w-4 h-4" />
@@ -208,7 +208,7 @@ const StartupApplyPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 py-12 px-4">
+    <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] py-12 px-4">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -216,12 +216,12 @@ const StartupApplyPage = () => {
           className="text-center mb-8"
         >
           <div className="inline-flex items-center justify-center p-3 bg-linear-to-r from-emerald-500 to-teal-700 rounded-2xl mb-4">
-            <Rocket className="w-8 h-8 text-white" />
+            <Rocket className="w-8 h-8 text-[#111827]" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold text-[#111827] mb-2">
             Startup Registration
           </h1>
-          <p className="text-gray-400">
+          <p className="text-[#6b7280]">
             Register your company for incubation support and mentorship
           </p>
         </motion.div>
@@ -237,8 +237,8 @@ const StartupApplyPage = () => {
                   <div
                     className={`relative w-12 h-12 rounded-full flex items-center justify-center mx-auto transition-all duration-300 ${
                       isActive
-                        ? "bg-linear-to-r from-emerald-500 to-teal-700 text-white shadow-lg"
-                        : "bg-gray-700 text-gray-400"
+                        ? "bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] shadow-lg"
+                        : "bg-gray-700 text-[#6b7280]"
                     }`}
                   >
                     {isCompleted ? (
@@ -249,7 +249,7 @@ const StartupApplyPage = () => {
                   </div>
                   <p
                     className={`text-xs mt-2 font-medium ${
-                      isActive ? "text-emerald-400" : "text-gray-500"
+                      isActive ? "text-[#2563eb]" : "text-[#6b7280]"
                     }`}
                   >
                     {step.title}
@@ -271,7 +271,7 @@ const StartupApplyPage = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700 overflow-hidden"
+          className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-2xl border border-[#E5E7EB] overflow-hidden"
         >
           <form onSubmit={handleSubmit}>
             <AnimatePresence mode="wait">
@@ -284,77 +284,77 @@ const StartupApplyPage = () => {
                   className="p-8 space-y-6"
                 >
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-emerald-500/20 rounded-lg">
-                      <Building2 className="w-5 h-5 text-emerald-400" />
+                    <div className="p-2 bg-[#EEF2FF] rounded-lg">
+                      <Building2 className="w-5 h-5 text-[#2563eb]" />
                     </div>
-                    <h2 className="text-xl font-semibold text-white">
+                    <h2 className="text-xl font-semibold text-[#111827]">
                       Company Information
                     </h2>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Company Name <span className="text-red-400">*</span>
+                      <label className="block text-sm font-medium text-[#374151] mb-2">
+                        Company Name <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
-                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                         <input
                           type="text"
                           name="companyName"
                           value={formData.companyName}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="InnovateTech Solutions"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#374151] mb-2">
                         Registration Number{" "}
-                        <span className="text-red-400">*</span>
+                        <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
-                        <FileText className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <FileText className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                         <input
                           type="text"
                           name="registrationNumber"
                           value={formData.registrationNumber}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="REG-2024-001"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#374151] mb-2">
                         Registration Date
                       </label>
                       <div className="relative">
-                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                         <input
                           type="date"
                           name="registrationDate"
                           value={formData.registrationDate}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#374151] mb-2">
                         Sector
                       </label>
                       <div className="relative">
-                        <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                         <select
                           name="sector"
                           value={formData.sector}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 appearance-none"
+                          className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] appearance-none"
                         >
                           <option value="">Select Sector</option>
                           {sectors.map((sector) => (
@@ -367,7 +367,7 @@ const StartupApplyPage = () => {
                     </div>
 
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#374151] mb-2">
                         Company Description
                       </label>
                       <textarea
@@ -375,40 +375,40 @@ const StartupApplyPage = () => {
                         rows="4"
                         value={formData.description}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                        className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                         placeholder="Describe your company's mission, vision, and what you do..."
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#374151] mb-2">
                         Website
                       </label>
                       <div className="relative">
-                        <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                         <input
                           type="url"
                           name="website"
                           value={formData.website}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="https://yourcompany.com"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#374151] mb-2">
                         Employee Count
                       </label>
                       <div className="relative">
-                        <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                         <input
                           type="number"
                           name="employeeCount"
                           value={formData.employeeCount}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           min="1"
                         />
                       </div>
@@ -426,10 +426,10 @@ const StartupApplyPage = () => {
                   className="p-8 space-y-6"
                 >
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-emerald-500/20 rounded-lg">
-                      <FileText className="w-5 h-5 text-emerald-400" />
+                    <div className="p-2 bg-[#EEF2FF] rounded-lg">
+                      <FileText className="w-5 h-5 text-[#2563eb]" />
                     </div>
-                    <h2 className="text-xl font-semibold text-white">
+                    <h2 className="text-xl font-semibold text-[#111827]">
                       Required Documents
                     </h2>
                   </div>
@@ -503,10 +503,10 @@ const StartupApplyPage = () => {
                     </ErrorBoundary>
                   </div>
 
-                  <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4 mt-4">
+                  <div className="bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg p-4 mt-4">
                     <div className="flex items-start gap-3">
-                      <Sparkles className="w-5 h-5 text-emerald-400 mt-0.5" />
-                      <p className="text-sm text-emerald-300">
+                      <Sparkles className="w-5 h-5 text-[#2563eb] mt-0.5" />
+                      <p className="text-sm text-[#1d4ed8]">
                         Your startup will be reviewed by our expert panel. We'll
                         get back to you within 5-7 business days.
                       </p>
@@ -525,17 +525,17 @@ const StartupApplyPage = () => {
                 >
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-emerald-500/20 rounded-lg">
-                        <Users className="w-5 h-5 text-emerald-400" />
+                      <div className="p-2 bg-[#EEF2FF] rounded-lg">
+                        <Users className="w-5 h-5 text-[#2563eb]" />
                       </div>
-                      <h2 className="text-xl font-semibold text-white">
+                      <h2 className="text-xl font-semibold text-[#111827]">
                         Founders & Team Members
                       </h2>
                     </div>
                     <button
                       type="button"
                       onClick={addFounder}
-                      className="px-3 py-1.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition flex items-center gap-2 text-sm"
+                      className="px-3 py-1.5 bg-emerald-600 text-[#111827] rounded-lg hover:bg-emerald-700 transition flex items-center gap-2 text-sm"
                     >
                       <Plus className="w-4 h-4" /> Add Founder
                     </button>
@@ -547,14 +547,14 @@ const StartupApplyPage = () => {
                         key={index}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-gray-700/30 border border-gray-600 rounded-lg p-4"
+                        className="bg-[#F9FAFB] border border-[#E5E7EB] border border-[#D1D5DB] rounded-lg p-4"
                       >
                         <div className="flex justify-between items-center mb-3">
-                          <h3 className="text-white font-medium flex items-center gap-2">
-                            <User className="w-4 h-4 text-emerald-400" />
+                          <h3 className="text-[#111827] font-medium flex items-center gap-2">
+                            <User className="w-4 h-4 text-[#2563eb]" />
                             Founder {index + 1}
                             {index === 0 && (
-                              <span className="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full">
+                              <span className="text-xs bg-[#EEF2FF] text-[#2563eb] px-2 py-0.5 rounded-full">
                                 Primary
                               </span>
                             )}
@@ -563,7 +563,7 @@ const StartupApplyPage = () => {
                             <button
                               type="button"
                               onClick={() => removeFounder(index)}
-                              className="text-red-400 hover:text-red-300 transition p-1"
+                              className="text-red-500 hover:text-red-600 transition p-1"
                             >
                               <X className="w-4 h-4" />
                             </button>
@@ -572,7 +572,7 @@ const StartupApplyPage = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                           <div>
-                            <label className="block text-xs font-medium text-gray-400 mb-1">
+                            <label className="block text-xs font-medium text-[#6b7280] mb-1">
                               Full Name {index === 0 && "*"}
                             </label>
                             <input
@@ -586,12 +586,12 @@ const StartupApplyPage = () => {
                                   e.target.value,
                                 )
                               }
-                              className="w-full px-3 py-1.5 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm"
+                              className="w-full px-3 py-1.5 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] text-sm"
                             />
                           </div>
 
                           <div>
-                            <label className="block text-xs font-medium text-gray-400 mb-1">
+                            <label className="block text-xs font-medium text-[#6b7280] mb-1">
                               Role {index === 0 && "*"}
                             </label>
                             <input
@@ -605,16 +605,16 @@ const StartupApplyPage = () => {
                                   e.target.value,
                                 )
                               }
-                              className="w-full px-3 py-1.5 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm"
+                              className="w-full px-3 py-1.5 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] text-sm"
                             />
                           </div>
 
                           <div>
-                            <label className="block text-xs font-medium text-gray-400 mb-1">
+                            <label className="block text-xs font-medium text-[#6b7280] mb-1">
                               Email {index === 0 && "*"}
                             </label>
                             <div className="relative">
-                              <Mail className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-500" />
+                              <Mail className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-[#6b7280]" />
                               <input
                                 type="email"
                                 placeholder="founder@company.com"
@@ -626,17 +626,17 @@ const StartupApplyPage = () => {
                                     e.target.value,
                                   )
                                 }
-                                className="w-full pl-7 pr-2 py-1.5 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm"
+                                className="w-full pl-7 pr-2 py-1.5 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] text-sm"
                               />
                             </div>
                           </div>
 
                           <div>
-                            <label className="block text-xs font-medium text-gray-400 mb-1">
+                            <label className="block text-xs font-medium text-[#6b7280] mb-1">
                               Equity Share (%)
                             </label>
                             <div className="relative">
-                              <Percent className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-500" />
+                              <Percent className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-[#6b7280]" />
                               <input
                                 type="number"
                                 placeholder="25"
@@ -648,7 +648,7 @@ const StartupApplyPage = () => {
                                     e.target.value,
                                   )
                                 }
-                                className="w-full pl-7 pr-2 py-1.5 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm"
+                                className="w-full pl-7 pr-2 py-1.5 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] text-sm"
                                 min="0"
                                 max="100"
                               />
@@ -671,12 +671,12 @@ const StartupApplyPage = () => {
               )}
             </AnimatePresence>
 
-            <div className="border-t border-gray-700 p-6 flex justify-between">
+            <div className="border-t border-[#E5E7EB] p-6 flex justify-between">
               {currentStep > 1 && (
                 <button
                   type="button"
                   onClick={prevStep}
-                  className="px-6 py-2 border border-gray-600 rounded-lg text-gray-300 hover:bg-gray-700 transition flex items-center gap-2"
+                  className="px-6 py-2 border border-[#D1D5DB] rounded-lg text-[#374151] hover:bg-[#F3F4F6] transition flex items-center gap-2"
                 >
                   Previous
                 </button>
@@ -685,7 +685,7 @@ const StartupApplyPage = () => {
                 <button
                   type="button"
                   onClick={nextStep}
-                  className={`px-6 py-2 bg-linear-to-r from-emerald-600 to-teal-600 text-white rounded-lg hover:from-emerald-500 hover:to-teal-500 transition flex items-center gap-2 ${
+                  className={`px-6 py-2 bg-[#2563eb] hover:bg-[#1d4ed8] font-medium shadow-md text-[#111827] rounded-lg hover:from-emerald-500 hover:to-teal-500 transition flex items-center gap-2 ${
                     currentStep === 1 ? "ml-auto" : ""
                   }`}
                 >
@@ -695,7 +695,7 @@ const StartupApplyPage = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-6 py-2 bg-linear-to-r from-emerald-600 to-teal-600 text-white rounded-lg hover:from-emerald-500 hover:to-teal-500 transition flex items-center gap-2 ml-auto disabled:opacity-50"
+                  className="px-6 py-2 bg-[#2563eb] hover:bg-[#1d4ed8] font-medium shadow-md text-[#111827] rounded-lg hover:from-emerald-500 hover:to-teal-500 transition flex items-center gap-2 ml-auto disabled:opacity-50"
                 >
                   {loading ? (
                     <>
@@ -720,7 +720,7 @@ const StartupApplyPage = () => {
           transition={{ delay: 0.5 }}
           className="mt-6 text-center"
         >
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-[#6b7280]">
             By submitting this registration, you agree to our terms and
             conditions. Your information will be kept confidential and used only
             for the incubation program.

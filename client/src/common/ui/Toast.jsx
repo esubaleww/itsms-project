@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback } from "react";
+﻿import { createContext, useContext, useState, useCallback } from "react";
 import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -72,7 +72,7 @@ export const ToastProvider = ({ children }) => {
               <p className="text-sm flex-1">{toast.message}</p>
               <button
                 onClick={() => removeToast(toast.id)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-[#6b7280] hover:text-gray-600"
               >
                 <X className="w-4 h-4" />
               </button>

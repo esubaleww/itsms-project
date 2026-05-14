@@ -92,29 +92,32 @@ const QRScannerModal = ({ onClose, onSuccess }) => {
           border-radius: 1rem !important;
         }
         #qr-reader__dashboard_section {
-          background: #1f2937 !important;
+          background: #F9FAFB !important;
           padding: 1rem !important;
           border-radius: 0.75rem !important;
+          border: 1px solid #E5E7EB !important;
           margin-top: 1rem !important;
         }
         #qr-reader__dashboard_section button {
-          background: #10b981 !important;
+          background: #2563eb !important;
           color: white !important;
           border: none !important;
           border-radius: 0.5rem !important;
-          padding: 0.5rem 1rem !important;
+          padding: 0.6rem 1.2rem !important;
           font-size: 0.875rem !important;
-          font-weight: 500 !important;
+          font-weight: 600 !important;
           cursor: pointer !important;
           transition: all 0.2s !important;
+          box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1) !important;
         }
         #qr-reader__dashboard_section button:hover {
-          background: #059669 !important;
+          background: #1d4ed8 !important;
+          transform: translateY(-1px) !important;
         }
         #qr-reader__dashboard_section label {
-          background: #374151 !important;
-          color: white !important;
-          border: 1px solid #4b5563 !important;
+          background: white !important;
+          color: #374151 !important;
+          border: 1px solid #D1D5DB !important;
           border-radius: 0.5rem !important;
           padding: 0.5rem 1rem !important;
           font-size: 0.875rem !important;
@@ -122,37 +125,48 @@ const QRScannerModal = ({ onClose, onSuccess }) => {
           transition: all 0.2s !important;
         }
         #qr-reader__dashboard_section label:hover {
-          background: #4b5563 !important;
+          border-color: #2563eb !important;
+          color: #2563eb !important;
         }
         #qr-reader__dashboard_section span,
         #qr-reader__dashboard_section div {
-          color: #f3f4f6 !important;
+          color: #4B5563 !important;
         }
         #qr-reader__dashboard_section select {
-          background: #374151 !important;
-          color: white !important;
-          border: 1px solid #4b5563 !important;
+          background: white !important;
+          color: #111827 !important;
+          border: 1px solid #D1D5DB !important;
           border-radius: 0.5rem !important;
-          padding: 0.25rem 0.5rem !important;
+          padding: 0.4rem 0.8rem !important;
+          font-size: 0.875rem !important;
+          outline: none !important;
+        }
+        #qr-reader__dashboard_section select:focus {
+          border-color: #2563eb !important;
+          ring: 2px solid #2563eb !important;
         }
         #qr-reader__dashboard_section_fps span {
           color: #9ca3af !important;
           font-size: 0.75rem !important;
         }
+        #qr-reader__scan_region img {
+          opacity: 0.6 !important;
+          filter: grayscale(100%) !important;
+        }
       `}</style>
 
-      <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-        <div className="bg-gray-800 rounded-2xl w-full max-w-md border border-gray-700">
-          <div className="flex justify-between items-center p-5 border-b border-gray-700">
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-md border border-[#E5E7EB]">
+          <div className="flex justify-between items-center p-5 border-b border-[#E5E7EB]">
             <div className="flex items-center gap-2">
-              <Camera className="w-5 h-5 text-emerald-400" />
-              <h2 className="text-xl font-bold text-white">Scan QR Code</h2>
+              <Camera className="w-5 h-5 text-[#2563eb]" />
+              <h2 className="text-xl font-bold text-[#111827]">Scan QR Code</h2>
             </div>
             <button
               onClick={onClose}
-              className="p-1 hover:bg-gray-700 rounded-lg transition"
+              className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
             >
-              <X className="w-5 h-5 text-gray-400 hover:text-white" />
+              <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
             </button>
           </div>
 
@@ -170,9 +184,9 @@ const QRScannerModal = ({ onClose, onSuccess }) => {
 
             {status === "processing" && (
               <div className="text-center py-12">
-                <Loader2 className="w-16 h-16 text-emerald-500 animate-spin mx-auto mb-4" />
-                <h3 className="text-white font-semibold mb-2">Processing...</h3>
-                <p className="text-gray-400 text-sm">
+                <Loader2 className="w-16 h-16 text-[#2563eb] animate-spin mx-auto mb-4" />
+                <h3 className="text-[#111827] font-semibold mb-2">Processing...</h3>
+                <p className="text-[#6b7280] text-sm">
                   Recording your attendance
                 </p>
               </div>
@@ -180,11 +194,11 @@ const QRScannerModal = ({ onClose, onSuccess }) => {
 
             {status === "success" && (
               <div className="text-center py-12">
-                <CheckCircle className="w-16 h-16 text-emerald-500 mx-auto mb-4" />
-                <h3 className="text-white font-semibold mb-2">
+                <CheckCircle className="w-16 h-16 text-[#2563eb] mx-auto mb-4" />
+                <h3 className="text-[#111827] font-semibold mb-2">
                   Attendance Recorded!
                 </h3>
-                <p className="text-gray-400 text-sm">
+                <p className="text-[#6b7280] text-sm">
                   Your attendance has been successfully recorded
                 </p>
               </div>
@@ -193,17 +207,17 @@ const QRScannerModal = ({ onClose, onSuccess }) => {
             {status === "error" && (
               <div className="text-center py-12">
                 <XCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-                <h3 className="text-white font-semibold mb-2">
+                <h3 className="text-[#111827] font-semibold mb-2">
                   Cannot Mark Attendance
                 </h3>
-                <p className="text-red-400 text-sm">{errorMessage}</p>
+                <p className="text-red-500 text-sm">{errorMessage}</p>
                 <button
                   onClick={() => {
                     setStatus("scanning");
                     setErrorMessage("");
                     window.location.reload();
                   }}
-                  className="mt-4 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition"
+                  className="mt-4 px-4 py-2 bg-emerald-600 text-[#111827] rounded-lg hover:bg-emerald-700 transition"
                 >
                   Try Again
                 </button>

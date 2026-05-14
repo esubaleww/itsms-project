@@ -1,4 +1,4 @@
-// client/src/features/director/components/DirectorRequestsList.jsx
+﻿// client/src/features/director/components/DirectorRequestsList.jsx
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -47,15 +47,15 @@ const DirectorRequestsList = ({
     switch (status) {
       case "approved":
         return {
-          color: "text-emerald-400",
-          bg: "bg-emerald-500/20",
-          border: "border-emerald-500/30",
+          color: "text-[#2563eb]",
+          bg: "bg-[#EEF2FF]",
+          border: "border-[#2563eb]/30",
           icon: Check,
           label: "Approved",
         };
       case "rejected":
         return {
-          color: "text-red-400",
+          color: "text-red-500",
           bg: "bg-red-500/20",
           border: "border-red-500/30",
           icon: X,
@@ -79,9 +79,9 @@ const DirectorRequestsList = ({
         };
       case "completed":
         return {
-          color: "text-emerald-400",
-          bg: "bg-emerald-500/20",
-          border: "border-emerald-500/30",
+          color: "text-[#2563eb]",
+          bg: "bg-[#EEF2FF]",
+          border: "border-[#2563eb]/30",
           icon: Check,
           label: "Completed",
         };
@@ -95,7 +95,7 @@ const DirectorRequestsList = ({
         };
       default:
         return {
-          color: "text-gray-400",
+          color: "text-[#6b7280]",
           bg: "bg-gray-500/20",
           border: "border-gray-500/30",
           icon: AlertCircle,
@@ -110,8 +110,8 @@ const DirectorRequestsList = ({
         return {
           label: "Internship Application",
           icon: GraduationCap,
-          color: "text-emerald-400",
-          bg: "bg-emerald-500/20",
+          color: "text-[#2563eb]",
+          bg: "bg-[#EEF2FF]",
         };
       case "innovation":
         return {
@@ -145,7 +145,7 @@ const DirectorRequestsList = ({
         return {
           label: type || "Application",
           icon: FileText,
-          color: "text-gray-400",
+          color: "text-[#6b7280]",
           bg: "bg-gray-500/20",
         };
     }
@@ -155,7 +155,7 @@ const DirectorRequestsList = ({
     switch (priority) {
       case "urgent":
         return {
-          color: "text-red-400",
+          color: "text-red-500",
           bg: "bg-red-500/20",
           border: "border-red-500/30",
           label: "Urgent",
@@ -176,7 +176,7 @@ const DirectorRequestsList = ({
         };
       default:
         return {
-          color: "text-gray-400",
+          color: "text-[#6b7280]",
           bg: "bg-gray-500/20",
           border: "border-gray-500/30",
           label: "Low",
@@ -345,7 +345,7 @@ const DirectorRequestsList = ({
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="bg-gray-800 rounded-xl border border-gray-700 p-5 animate-pulse"
+            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] p-5 animate-pulse"
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
@@ -366,11 +366,11 @@ const DirectorRequestsList = ({
   if (!requests || requests.length === 0) {
     return (
       <div className="text-center py-16">
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-800 rounded-full mb-4 border border-gray-700">
-          <AlertCircle className="w-10 h-10 text-gray-600" />
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-full mb-4 border border-[#E5E7EB]">
+          <AlertCircle className="w-10 h-10 text-[#9ca3af]" />
         </div>
-        <p className="text-gray-400 text-lg">No requests found</p>
-        <p className="text-sm text-gray-500 mt-1 max-w-md mx-auto">
+        <p className="text-[#6b7280] text-lg">No requests found</p>
+        <p className="text-sm text-[#6b7280] mt-1 max-w-md mx-auto">
           All caught up! New requests will appear here once submitted.
         </p>
       </div>
@@ -398,7 +398,7 @@ const DirectorRequestsList = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.05 }}
-            className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden hover:border-gray-600 transition-all duration-200"
+            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200"
           >
             <div className="p-5">
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
@@ -418,7 +418,7 @@ const DirectorRequestsList = ({
                         {priorityConfig.label}
                       </span>
                     )}
-                    <span className="flex items-center gap-1 text-xs text-gray-500">
+                    <span className="flex items-center gap-1 text-xs text-[#6b7280]">
                       <Calendar className="w-3 h-3" />
                       {formatDate(req.createdAt)}
                     </span>
@@ -430,25 +430,25 @@ const DirectorRequestsList = ({
                     >
                       <TypeIcon className={`w-4 h-4 ${typeConfig.color}`} />
                     </div>
-                    <p className="font-semibold text-white text-lg">
+                    <p className="font-semibold text-[#111827] text-lg">
                       {typeConfig.label}
                     </p>
                   </div>
 
                   <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
-                    <div className="flex items-center gap-1 text-sm text-gray-300">
-                      <User className="w-3 h-3 text-gray-500" />
+                    <div className="flex items-center gap-1 text-sm text-[#374151]">
+                      <User className="w-3 h-3 text-[#6b7280]" />
                       <span className="font-medium">From:</span>
                       <span>{req.applicant?.fullName || "Unknown"}</span>
                     </div>
                     {req.applicant?.email && (
-                      <div className="flex items-center gap-1 text-xs text-gray-400">
+                      <div className="flex items-center gap-1 text-xs text-[#6b7280]">
                         <Mail className="w-3 h-3" />
                         {req.applicant.email}
                       </div>
                     )}
                     {req.applicant?.phone && (
-                      <div className="flex items-center gap-1 text-xs text-gray-400">
+                      <div className="flex items-center gap-1 text-xs text-[#6b7280]">
                         <Phone className="w-3 h-3" />
                         {req.applicant.phone}
                       </div>
@@ -456,7 +456,7 @@ const DirectorRequestsList = ({
                   </div>
 
                   {req.description && (
-                    <p className="text-sm text-gray-300 mt-3 bg-gray-700/30 rounded-lg p-3 line-clamp-2">
+                    <p className="text-sm text-[#374151] mt-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 line-clamp-2">
                       {req.description}
                     </p>
                   )}
@@ -472,7 +472,7 @@ const DirectorRequestsList = ({
                       </div>
                     )}
                     {req.assignedAdvisor && (
-                      <div className="flex items-center gap-1 text-xs text-emerald-400">
+                      <div className="flex items-center gap-1 text-xs text-[#2563eb]">
                         <UserPlus className="w-3 h-3" />
                         <span>Advisor:</span>
                         <span className="font-medium">
@@ -505,22 +505,22 @@ const DirectorRequestsList = ({
                   {showAssign &&
                     needsTeam(req) &&
                     (isAssigning ? (
-                      <div className="flex flex-col gap-2 bg-gray-700 rounded-lg border border-gray-600 p-2">
+                      <div className="flex flex-col gap-2 bg-gray-700 rounded-lg border border-[#D1D5DB] p-2">
                         <select
                           value={selectedTeam}
                           onChange={(e) => setSelectedTeam(e.target.value)}
-                          className="text-sm bg-transparent px-2 py-1 text-white focus:outline-none min-w-40"
+                          className="text-sm bg-transparent px-2 py-1 text-[#111827] focus:outline-none min-w-40"
                           autoFocus
                           disabled={isLoading}
                         >
-                          <option value="" className="bg-gray-800">
+                          <option value="" className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
                             Select Team...
                           </option>
                           {teams.map((team) => (
                             <option
                               key={team._id}
                               value={team._id}
-                              className="bg-gray-800"
+                              className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
                             >
                               {team.name} ({team.members?.length || 0} members)
                             </option>
@@ -530,7 +530,7 @@ const DirectorRequestsList = ({
                           value={instructions}
                           onChange={(e) => setInstructions(e.target.value)}
                           placeholder="Instructions for the team (optional)..."
-                          className="text-sm bg-gray-800/50 border border-gray-600 rounded-lg p-2 text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500"
+                          className="text-sm bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-[#D1D5DB] rounded-lg p-2 text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb]"
                           rows="2"
                           disabled={isLoading}
                         />
@@ -540,8 +540,8 @@ const DirectorRequestsList = ({
                             disabled={!selectedTeam || isLoading}
                             className={`px-2 py-1 rounded transition ${
                               selectedTeam && !isLoading
-                                ? "bg-emerald-600 text-white hover:bg-emerald-700"
-                                : "bg-gray-600 text-gray-400 cursor-not-allowed"
+                                ? "bg-emerald-600 text-[#111827] hover:bg-emerald-700"
+                                : "bg-gray-600 text-[#6b7280] cursor-not-allowed"
                             }`}
                           >
                             {isLoading ? (
@@ -553,7 +553,7 @@ const DirectorRequestsList = ({
                           <button
                             onClick={handleCancelAssign}
                             disabled={isLoading}
-                            className="px-2 py-1 bg-gray-600 text-gray-300 rounded hover:bg-gray-500 transition"
+                            className="px-2 py-1 bg-gray-600 text-[#374151] rounded hover:bg-gray-500 transition"
                           >
                             Cancel
                           </button>
@@ -571,7 +571,7 @@ const DirectorRequestsList = ({
 
                   <button
                     onClick={() => onViewDetails?.(req._id)}
-                    className="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-gray-700 transition"
+                    className="text-[#6b7280] hover:text-[#111827] p-2 rounded-lg hover:bg-[#F3F4F6] transition"
                     title="View Details"
                   >
                     <Eye className="w-4 h-4" />
@@ -583,8 +583,8 @@ const DirectorRequestsList = ({
                       onClick={() => setExpandedId(isExpanded ? null : req._id)}
                       className={`p-2 rounded-lg transition ${
                         isExpanded
-                          ? "text-emerald-400 bg-emerald-500/20"
-                          : "text-gray-400 hover:text-white hover:bg-gray-700"
+                          ? "text-[#2563eb] bg-[#EEF2FF]"
+                          : "text-[#6b7280] hover:text-[#111827] hover:bg-[#F3F4F6]"
                       }`}
                       title={isExpanded ? "Hide timeline" : "Show timeline"}
                     >
@@ -602,10 +602,10 @@ const DirectorRequestsList = ({
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  className="border-t border-gray-700 overflow-hidden"
+                  className="border-t border-[#E5E7EB] overflow-hidden"
                 >
-                  <div className="p-5 bg-gray-800/50">
-                    <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <div className="p-5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+                    <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-4 flex items-center gap-2">
                       <Clock className="w-3 h-3" />
                       Request Timeline
                     </h4>
@@ -632,15 +632,15 @@ const DirectorRequestsList = ({
                             )}
                           </div>
                           <div className="flex-1 pb-3">
-                            <p className="text-sm font-medium text-white">
+                            <p className="text-sm font-medium text-[#111827]">
                               {event.action || "Status Update"}
                             </p>
                             {event.details && (
-                              <p className="text-xs text-gray-400 mt-0.5">
+                              <p className="text-xs text-[#6b7280] mt-0.5">
                                 {event.details}
                               </p>
                             )}
-                            <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                            <p className="text-xs text-[#6b7280] mt-1 flex items-center gap-1">
                               <User className="w-3 h-3" />
                               {event.by?.fullName || "System"} •{" "}
                               {formatDateTime(
@@ -674,19 +674,19 @@ const StaffAssignmentDropdown = ({
   isLoading,
   placeholder,
 }) => (
-  <div className="flex items-center gap-2 bg-gray-700 rounded-lg border border-gray-600 p-1">
+  <div className="flex items-center gap-2 bg-gray-700 rounded-lg border border-[#D1D5DB] p-1">
     <select
       value={selectedStaff}
       onChange={(e) => onSelect(e.target.value)}
-      className="text-sm bg-transparent px-2 py-1 text-white focus:outline-none min-w-40"
+      className="text-sm bg-transparent px-2 py-1 text-[#111827] focus:outline-none min-w-40"
       autoFocus
       disabled={isLoading}
     >
-      <option value="" className="bg-gray-800">
+      <option value="" className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
         {placeholder}
       </option>
       {options.map((staff) => (
-        <option key={staff._id} value={staff._id} className="bg-gray-800">
+        <option key={staff._id} value={staff._id} className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
           {staff.fullName} - {staff.position}
         </option>
       ))}
@@ -696,8 +696,8 @@ const StaffAssignmentDropdown = ({
       disabled={!selectedStaff || isLoading}
       className={`p-1 rounded transition ${
         selectedStaff && !isLoading
-          ? "text-emerald-400 hover:bg-emerald-500/20"
-          : "text-gray-500 cursor-not-allowed"
+          ? "text-[#2563eb] hover:bg-[#EEF2FF]"
+          : "text-[#6b7280] cursor-not-allowed"
       }`}
     >
       {isLoading ? (
@@ -709,7 +709,7 @@ const StaffAssignmentDropdown = ({
     <button
       onClick={onCancel}
       disabled={isLoading}
-      className="p-1 text-gray-400 hover:text-red-400 hover:bg-red-500/20 rounded transition"
+      className="p-1 text-[#6b7280] hover:text-red-500 hover:bg-red-500/20 rounded transition"
     >
       <X className="w-4 h-4" />
     </button>

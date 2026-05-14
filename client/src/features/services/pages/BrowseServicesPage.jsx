@@ -152,28 +152,28 @@ const BrowseServicesPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-800 via-slate-700 to-slate-600 py-8">
+    <div className="min-h-screen bg-[#F9FAFB] py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Navigation Breadcrumb - Back to Home / Dashboard */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2 text-sm">
+        <div className="flex items-center justify-between bg-[#FFFFFF] border-b border-[#E5E7EB] py-2 px-3 sm:px-5 lg:px-6 -mx-4 sm:-mx-6 lg:-mx-8 -mt-8 mb-8">
+          <div className="flex items-center gap-2 text-xs">
             <Link
               to="/"
-              className="flex items-center gap-1 text-slate-400 hover:text-emerald-400 transition"
+              className="flex items-center gap-1 text-[#4b5563] hover:text-[#2563eb] transition"
             >
-              <Home className="w-4 h-4" />
+              <Home className="w-3.5 h-3.5" />
               <span>Home</span>
             </Link>
-            <ChevronRight className="w-3 h-3 text-slate-500" />
-            <span className="text-slate-300">Service Catalog</span>
+            <ChevronRight className="w-3 h-3 text-[#64748b]" />
+            <span className="text-[#334155]">Service Catalog</span>
           </div>
 
           {user && (
             <Link
               to="/dashboard"
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-700/50 border border-slate-600 text-slate-300 hover:text-emerald-400 hover:border-emerald-500/50 transition-all duration-300 text-sm"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gray-50 border border-[#E5E7EB] text-[#334155] hover:text-[#2563eb] hover:border-[#2563eb]/30 transition-all duration-300 text-xs"
             >
-              <LayoutDashboard className="w-4 h-4" />
+              <LayoutDashboard className="w-3.5 h-3.5" />
               Dashboard
             </Link>
           )}
@@ -181,13 +181,13 @@ const BrowseServicesPage = () => {
 
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center p-3 bg-linear-to-r from-emerald-500 to-teal-600 rounded-2xl mb-4">
-            <Sparkles className="w-8 h-8 text-white" />
+          <div className="inline-flex items-center justify-center p-3 bg-[#2563eb] rounded-2xl mb-4">
+            <Sparkles className="w-8 h-8 text-[#111827]" />
           </div>
-          <h1 className="text-4xl font-bold text-white mb-3">
+          <h1 className="text-4xl font-bold text-[#111827] mb-3">
             Service Catalog
           </h1>
-          <p className="text-slate-300 text-lg max-w-2xl mx-auto">
+          <p className="text-[#374151] text-lg max-w-2xl mx-auto">
             Browse and request technology services from the bureau
           </p>
         </div>
@@ -196,8 +196,8 @@ const BrowseServicesPage = () => {
         {!hasActiveProgram && availablePrograms.length > 0 && (
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-4">
-              <TrendingUp className="w-5 h-5 text-emerald-400" />
-              <h2 className="text-lg font-semibold text-white">
+              <TrendingUp className="w-5 h-5 text-[#2563eb]" />
+              <h2 className="text-lg font-semibold text-[#111827]">
                 Available Programs
               </h2>
             </div>
@@ -214,16 +214,16 @@ const BrowseServicesPage = () => {
                       <div
                         className={`w-10 h-10 rounded-xl bg-linear-to-r ${program.color} flex items-center justify-center shrink-0`}
                       >
-                        <ProgramIcon className="w-5 h-5 text-white" />
+                        <ProgramIcon className="w-5 h-5 text-[#111827]" />
                       </div>
                       <div className="flex-1">
                         <h3 className={`font-semibold ${program.textColor}`}>
                           {program.title}
                         </h3>
-                        <p className="text-xs text-slate-400 mt-1 line-clamp-2">
+                        <p className="text-xs text-[#6b7280] mt-1 line-clamp-2">
                           {program.description}
                         </p>
-                        <div className="mt-2 flex items-center gap-1 text-xs text-emerald-400">
+                        <div className="mt-2 flex items-center gap-1 text-xs text-[#2563eb]">
                           Apply Now <ArrowRight className="w-3 h-3" />
                         </div>
                       </div>
@@ -238,19 +238,19 @@ const BrowseServicesPage = () => {
         {/* Active Program Badge */}
         {hasActiveProgram && (
           <div className="mb-8">
-            <div className="bg-emerald-500/10 backdrop-blur-sm rounded-xl border border-emerald-500/30 p-4">
+            <div className="bg-[#EEF2FF] backdrop-blur-sm rounded-xl border border-[#2563eb]/30 p-4">
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-emerald-500/20 rounded-full flex items-center justify-center">
-                  <CheckCircle className="w-5 h-5 text-emerald-400" />
+                <div className="w-10 h-10 bg-[#EEF2FF] rounded-full flex items-center justify-center">
+                  <CheckCircle className="w-5 h-5 text-[#2563eb]" />
                 </div>
                 <div>
-                  <p className="text-xs text-emerald-400 font-medium">
+                  <p className="text-xs text-[#2563eb] font-medium">
                     Your Active Program
                   </p>
-                  <h3 className="text-white font-semibold text-sm mt-1 capitalize">
+                  <h3 className="text-[#111827] font-semibold text-sm mt-1 capitalize">
                     {currentProgram}
                   </h3>
-                  <p className="text-xs text-slate-400 mt-1">
+                  <p className="text-xs text-[#6b7280] mt-1">
                     You can still request services below.
                   </p>
                 </div>
@@ -267,7 +267,7 @@ const BrowseServicesPage = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search services..."
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition"
+              className="w-full pl-10 pr-4 py-2.5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/50 border border-[#E5E7EB] rounded-xl text-[#111827] placeholder-slate-500 focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
             />
           </div>
           <div className="flex gap-3">
@@ -276,7 +276,7 @@ const BrowseServicesPage = () => {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="pl-9 pr-8 py-2.5 bg-slate-800/50 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-emerald-500 appearance-none cursor-pointer"
+                className="pl-9 pr-8 py-2.5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/50 border border-[#E5E7EB] rounded-xl text-[#111827] focus:outline-none focus:border-[#2563eb] appearance-none cursor-pointer"
               >
                 {categories.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -288,13 +288,13 @@ const BrowseServicesPage = () => {
             </div>
 
             {/* View Toggle */}
-            <div className="flex bg-slate-800/50 border border-slate-700 rounded-xl overflow-hidden">
+            <div className="flex bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/50 border border-[#E5E7EB] rounded-xl overflow-hidden">
               <button
                 onClick={() => setViewMode("grid")}
                 className={`p-2 transition ${
                   viewMode === "grid"
-                    ? "bg-emerald-500/20 text-emerald-400"
-                    : "text-slate-500 hover:text-slate-300"
+                    ? "bg-[#EEF2FF] text-[#2563eb]"
+                    : "text-slate-500 hover:text-[#374151]"
                 }`}
                 title="Grid View"
               >
@@ -304,8 +304,8 @@ const BrowseServicesPage = () => {
                 onClick={() => setViewMode("list")}
                 className={`p-2 transition ${
                   viewMode === "list"
-                    ? "bg-emerald-500/20 text-emerald-400"
-                    : "text-slate-500 hover:text-slate-300"
+                    ? "bg-[#EEF2FF] text-[#2563eb]"
+                    : "text-slate-500 hover:text-[#374151]"
                 }`}
                 title="List View"
               >
@@ -318,7 +318,7 @@ const BrowseServicesPage = () => {
         {/* Loading State */}
         {loading && (
           <div className="flex justify-center items-center py-20">
-            <Loader2 className="w-10 h-10 text-emerald-500 animate-spin" />
+            <Loader2 className="w-10 h-10 text-[#2563eb] animate-spin" />
           </div>
         )}
 
@@ -341,8 +341,8 @@ const BrowseServicesPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
                     className={`
-                      bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 
-                      hover:border-emerald-500/50 hover:shadow-lg hover:shadow-emerald-500/10 
+                      bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/50 backdrop-blur-sm rounded-xl border border-[#E5E7EB] 
+                      hover:border-[#2563eb]/50 hover:shadow-lg hover:shadow-emerald-500/10 
                       transition-all duration-300 group
                       ${viewMode === "list" ? "flex items-center p-4" : "p-5"}
                     `}
@@ -352,15 +352,15 @@ const BrowseServicesPage = () => {
                       <>
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center group-hover:bg-emerald-500/30 transition">
-                              <IconComponent className="w-6 h-6 text-emerald-400" />
+                            <div className="w-12 h-12 bg-[#EEF2FF] rounded-xl flex items-center justify-center group-hover:bg-emerald-500/30 transition">
+                              <IconComponent className="w-6 h-6 text-[#2563eb]" />
                             </div>
                             <div>
-                              <h3 className="font-bold text-white text-lg">
+                              <h3 className="font-bold text-[#111827] text-lg">
                                 {service.name}
                               </h3>
                               {service.popular && (
-                                <span className="inline-flex items-center gap-1 text-xs text-emerald-400">
+                                <span className="inline-flex items-center gap-1 text-xs text-[#2563eb]">
                                   <Sparkles className="w-3 h-3" /> Popular
                                 </span>
                               )}
@@ -368,13 +368,13 @@ const BrowseServicesPage = () => {
                           </div>
                           <Link
                             to={`/services/${service._id}`}
-                            className="p-1 text-slate-500 hover:text-emerald-400 transition"
+                            className="p-1 text-slate-500 hover:text-[#2563eb] transition"
                             title="View Details"
                           >
                             <Eye className="w-5 h-5" />
                           </Link>
                         </div>
-                        <p className="text-sm text-slate-400 line-clamp-2 mb-4">
+                        <p className="text-sm text-[#6b7280] line-clamp-2 mb-4">
                           {service.description}
                         </p>
                         <div className="flex items-center justify-between">
@@ -384,7 +384,7 @@ const BrowseServicesPage = () => {
                           </div>
                           <Link
                             to={`/services/${service._id}`}
-                            className="text-sm text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1"
+                            className="text-sm text-[#2563eb] hover:text-[#1d4ed8] transition flex items-center gap-1"
                           >
                             View Details <ChevronRight className="w-4 h-4" />
                           </Link>
@@ -394,21 +394,21 @@ const BrowseServicesPage = () => {
                       // List View
                       <>
                         <div className="flex items-center gap-4 flex-1">
-                          <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center group-hover:bg-emerald-500/30 transition shrink-0">
-                            <IconComponent className="w-6 h-6 text-emerald-400" />
+                          <div className="w-12 h-12 bg-[#EEF2FF] rounded-xl flex items-center justify-center group-hover:bg-emerald-500/30 transition shrink-0">
+                            <IconComponent className="w-6 h-6 text-[#2563eb]" />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <h3 className="font-bold text-white">
+                              <h3 className="font-bold text-[#111827]">
                                 {service.name}
                               </h3>
                               {service.popular && (
-                                <span className="inline-flex items-center gap-1 text-xs text-emerald-400">
+                                <span className="inline-flex items-center gap-1 text-xs text-[#2563eb]">
                                   <Sparkles className="w-3 h-3" /> Popular
                                 </span>
                               )}
                             </div>
-                            <p className="text-sm text-slate-400 line-clamp-1 mt-1">
+                            <p className="text-sm text-[#6b7280] line-clamp-1 mt-1">
                               {service.description}
                             </p>
                             <div className="flex items-center gap-3 mt-1 text-xs text-slate-500">
@@ -421,7 +421,7 @@ const BrowseServicesPage = () => {
                         </div>
                         <Link
                           to={`/services/${service._id}`}
-                          className="ml-4 flex items-center gap-1 text-sm text-emerald-400 hover:text-emerald-300 transition"
+                          className="ml-4 flex items-center gap-1 text-sm text-[#2563eb] hover:text-[#1d4ed8] transition"
                         >
                           View Details <ChevronRight className="w-4 h-4" />
                         </Link>
@@ -436,7 +436,7 @@ const BrowseServicesPage = () => {
             {services.length === 0 && (
               <div className="text-center py-20">
                 <Briefcase className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-                <p className="text-slate-400 text-lg">No services found</p>
+                <p className="text-[#6b7280] text-lg">No services found</p>
                 <p className="text-slate-500 text-sm mt-1">
                   Try adjusting your search or filter
                 </p>
@@ -445,7 +445,7 @@ const BrowseServicesPage = () => {
                     setSearch("");
                     setCategory("all");
                   }}
-                  className="mt-4 text-emerald-400 hover:text-emerald-300 transition"
+                  className="mt-4 text-[#2563eb] hover:text-[#1d4ed8] transition"
                 >
                   Clear all filters
                 </button>
@@ -462,8 +462,8 @@ const BrowseServicesPage = () => {
               onClick={() => setPage((p) => p - 1)}
               className={`px-4 py-2 rounded-lg border transition ${
                 !pagination.hasPrev
-                  ? "border-slate-700 text-slate-600 cursor-not-allowed"
-                  : "border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white"
+                  ? "border-[#E5E7EB] text-slate-600 cursor-not-allowed"
+                  : "border-[#D1D5DB] text-[#374151] hover:bg-[#F3F4F6] hover:text-[#111827]"
               }`}
             >
               Previous
@@ -489,8 +489,8 @@ const BrowseServicesPage = () => {
                       onClick={() => setPage(pageNum)}
                       className={`w-9 h-9 rounded-lg transition ${
                         pagination.page === pageNum
-                          ? "bg-emerald-600 text-white"
-                          : "text-slate-400 hover:bg-slate-700"
+                          ? "bg-emerald-600 text-[#111827]"
+                          : "text-[#6b7280] hover:bg-[#F3F4F6]"
                       }`}
                     >
                       {pageNum}
@@ -504,8 +504,8 @@ const BrowseServicesPage = () => {
               onClick={() => setPage((p) => p + 1)}
               className={`px-4 py-2 rounded-lg border transition ${
                 !pagination.hasNext
-                  ? "border-slate-700 text-slate-600 cursor-not-allowed"
-                  : "border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white"
+                  ? "border-[#E5E7EB] text-slate-600 cursor-not-allowed"
+                  : "border-[#D1D5DB] text-[#374151] hover:bg-[#F3F4F6] hover:text-[#111827]"
               }`}
             >
               Next

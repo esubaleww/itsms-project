@@ -99,22 +99,22 @@ const CreateAnnouncementModal = ({
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-gray-800 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden border border-gray-700 shadow-2xl"
+        className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden border border-[#E5E7EB] shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
       >
-        <div className="p-5 border-b border-gray-700 flex justify-between items-center sticky top-0 bg-gray-800/90">
+        <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-sm">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-linear-to-br from-emerald-500 to-teal-700 rounded-lg flex items-center justify-center">
-              <Megaphone className="w-4 h-4 text-white" />
+            <div className="w-8 h-8 bg-[#EEF2FF] rounded-lg flex items-center justify-center border border-[#2563eb]/20">
+              <Megaphone className="w-4 h-4 text-[#2563eb]" />
             </div>
-            <h2 className="text-xl font-bold text-white">
+            <h2 className="text-xl font-bold text-[#111827]">
               {isEditing ? "Edit Announcement" : "Create Announcement"}
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-gray-700 rounded-lg transition"
+            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
           >
-            <X className="w-5 h-5 text-gray-400 hover:text-white" />
+            <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
           </button>
         </div>
 
@@ -125,16 +125,16 @@ const CreateAnnouncementModal = ({
             id="announcement-form"
           >
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
-                Title <span className="text-red-400">*</span>
+              <label className="block text-sm font-medium text-[#374151] mb-1">
+                Title <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <FileText className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <FileText className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                 <input
                   type="text"
                   required
-                  className={`w-full pl-9 pr-3 py-2 bg-gray-700/50 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all ${
-                    errors.title ? "border-red-500" : "border-gray-600"
+                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm ${
+                    errors.title ? "border-red-500" : "border-[#D1D5DB]"
                   }`}
                   value={formData.title}
                   onChange={(e) => handleInputChange("title", e.target.value)}
@@ -142,22 +142,22 @@ const CreateAnnouncementModal = ({
                 />
               </div>
               {errors.title && (
-                <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+                <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" /> {errors.title}
                 </p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
-                Category <span className="text-red-400">*</span>
+              <label className="block text-sm font-medium text-[#374151] mb-1">
+                Category <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <CategoryIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <CategoryIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                 <select
                   required
-                  className={`w-full pl-9 pr-3 py-2 bg-gray-700/50 border rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all ${
-                    errors.category ? "border-red-500" : "border-gray-600"
+                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm ${
+                    errors.category ? "border-red-500" : "border-[#D1D5DB]"
                   }`}
                   value={formData.category}
                   onChange={(e) =>
@@ -168,7 +168,7 @@ const CreateAnnouncementModal = ({
                     <option
                       key={c.value}
                       value={c.value}
-                      className="bg-gray-800"
+                      className="bg-white text-[#111827]"
                     >
                       {c.label}
                     </option>
@@ -176,36 +176,36 @@ const CreateAnnouncementModal = ({
                 </select>
               </div>
               {errors.category && (
-                <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+                <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" /> {errors.category}
                 </p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
-                Content <span className="text-red-400">*</span>
+              <label className="block text-sm font-medium text-[#374151] mb-1">
+                Content <span className="text-red-500">*</span>
               </label>
               <textarea
                 required
                 rows="6"
-                className={`w-full px-3 py-2 bg-gray-700/50 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all resize-y ${
-                  errors.content ? "border-red-500" : "border-gray-600"
+                className={`w-full px-3 py-2 bg-white border rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all resize-y shadow-sm ${
+                  errors.content ? "border-red-500" : "border-[#D1D5DB]"
                 }`}
                 value={formData.content}
                 onChange={(e) => handleInputChange("content", e.target.value)}
                 placeholder="Write your announcement content here..."
               />
               {errors.content && (
-                <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+                <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" /> {errors.content}
                 </p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
-                Image <span className="text-gray-500">(Optional)</span>
+              <label className="block text-sm font-medium text-[#374151] mb-1">
+                Image <span className="text-[#6b7280]">(Optional)</span>
               </label>
               <DocumentUpload
                 label="announcement image"
@@ -223,11 +223,11 @@ const CreateAnnouncementModal = ({
                 onChange={(e) =>
                   handleInputChange("isFeatured", e.target.checked)
                 }
-                className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-0 focus:ring-offset-gray-800"
+                className="w-4 h-4 rounded border-[#D1D5DB] bg-white text-[#2563eb] focus:ring-[#2563eb] focus:ring-offset-0 focus:ring-offset-white"
               />
               <label
                 htmlFor="isFeatured"
-                className="text-sm text-gray-300 flex items-center gap-1"
+                className="text-sm text-[#374151] flex items-center gap-1"
               >
                 <Star className="w-4 h-4 text-yellow-400" />
                 Feature this announcement (shows at top of news page)
@@ -242,22 +242,22 @@ const CreateAnnouncementModal = ({
                 onChange={(e) =>
                   handleInputChange("isPublished", e.target.checked)
                 }
-                className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-0 focus:ring-offset-gray-800"
+                className="w-4 h-4 rounded border-[#D1D5DB] bg-white text-[#2563eb] focus:ring-[#2563eb] focus:ring-offset-0 focus:ring-offset-white"
               />
-              <label htmlFor="isPublished" className="text-sm text-gray-300">
+              <label htmlFor="isPublished" className="text-sm text-[#374151]">
                 Publish immediately
               </label>
             </div>
           </form>
         </div>
 
-        <div className="p-5 border-t border-gray-700 bg-gray-800/90 rounded-b-2xl">
+        <div className="p-5 border-t border-[#E5E7EB] bg-[#F9FAFB] rounded-b-2xl">
           <div className="flex gap-3">
             <button
               type="submit"
               form="announcement-form"
               disabled={loading}
-              className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-white py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg flex items-center justify-center gap-2"
+              className="flex-1 bg-[#2563eb] text-white py-2.5 rounded-lg hover:bg-[#1d4ed8] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md flex items-center justify-center gap-2 font-medium"
             >
               {loading ? (
                 <>
@@ -274,7 +274,7 @@ const CreateAnnouncementModal = ({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 border border-gray-600 text-gray-300 py-2.5 rounded-lg hover:bg-gray-700 transition-all duration-200"
+              className="flex-1 border border-[#D1D5DB] text-[#374151] py-2.5 rounded-lg hover:bg-[#F3F4F6] transition-all duration-200"
             >
               Cancel
             </button>

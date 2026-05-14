@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { serviceCatalogApi } from "../services/serviceCatalog.service";
 import { useToast } from "../common/ui/Toast";
 
@@ -11,7 +11,7 @@ export const useServiceCatalog = () => {
   const [pagination, setPagination] = useState(null);
   const [selectedService, setSelectedService] = useState(null);
 
-  const fetchServices = async (params = {}) => {
+  const fetchServices = useCallback(async (params = {}) => {
     setLoading(true);
     try {
       const data = await serviceCatalogApi.getAllServices(params);
@@ -25,9 +25,9 @@ export const useServiceCatalog = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [addToast]);
 
-  const fetchServiceById = async (id) => {
+  const fetchServiceById = useCallback(async (id) => {
     setLoading(true);
     try {
       const data = await serviceCatalogApi.getServiceById(id);
@@ -39,9 +39,9 @@ export const useServiceCatalog = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [addToast]);
 
-  const fetchServiceStats = async () => {
+  const fetchServiceStats = useCallback(async () => {
     try {
       const data = await serviceCatalogApi.getServiceStats();
       setStats(data.stats);
@@ -49,7 +49,7 @@ export const useServiceCatalog = () => {
     } catch (error) {
       console.error("Failed to fetch service stats:", error);
     }
-  };
+  }, []);
 
   const createService = async (data) => {
     setLoading(true);

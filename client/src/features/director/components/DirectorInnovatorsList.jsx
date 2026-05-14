@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+﻿import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -93,7 +93,7 @@ const DirectorInnovatorsList = ({
     switch (status) {
       case "approved":
         return (
-          <span className="bg-emerald-500/20 text-emerald-400 text-xs px-2 py-0.5 rounded-full border border-emerald-500/30">
+          <span className="bg-[#EEF2FF] text-[#2563eb] text-xs px-2 py-0.5 rounded-full border border-[#2563eb]/30">
             Approved
           </span>
         );
@@ -111,7 +111,7 @@ const DirectorInnovatorsList = ({
         );
       default:
         return (
-          <span className="bg-gray-500/20 text-gray-400 text-xs px-2 py-0.5 rounded-full border border-gray-500/30">
+          <span className="bg-gray-500/20 text-[#6b7280] text-xs px-2 py-0.5 rounded-full border border-gray-500/30">
             {status || "Pending"}
           </span>
         );
@@ -134,7 +134,7 @@ const DirectorInnovatorsList = ({
         );
       case "launched":
         return (
-          <span className="bg-emerald-500/20 text-emerald-400 text-xs px-2 py-0.5 rounded-full">
+          <span className="bg-[#EEF2FF] text-[#2563eb] text-xs px-2 py-0.5 rounded-full">
             Launched
           </span>
         );
@@ -155,7 +155,7 @@ const DirectorInnovatorsList = ({
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="bg-gray-800 rounded-xl border border-gray-700 p-4 animate-pulse"
+            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] p-4 animate-pulse"
           >
             <div className="flex items-start gap-4">
               <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
@@ -173,11 +173,11 @@ const DirectorInnovatorsList = ({
   if (!innovators || innovators.length === 0) {
     return (
       <div className="text-center py-16">
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-800 rounded-full mb-4 border border-gray-700">
-          <Lightbulb className="w-10 h-10 text-gray-600" />
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-full mb-4 border border-[#E5E7EB]">
+          <Lightbulb className="w-10 h-10 text-[#9ca3af]" />
         </div>
-        <p className="text-gray-400 text-lg">No innovators found</p>
-        <p className="text-sm text-gray-500 mt-1 max-w-md mx-auto">
+        <p className="text-[#6b7280] text-lg">No innovators found</p>
+        <p className="text-sm text-[#6b7280] mt-1 max-w-md mx-auto">
           Innovators will appear here after their applications are approved and
           assigned to your directorate.
         </p>
@@ -205,25 +205,25 @@ const DirectorInnovatorsList = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.05 }}
-            className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden hover:border-gray-600 transition-all duration-200"
+            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200"
           >
             {/* Main Row */}
             <div className="p-5">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-linear-to-br from-purple-500 to-indigo-700 rounded-xl flex items-center justify-center text-white font-semibold text-lg shadow-lg">
+                    <div className="w-12 h-12 bg-linear-to-br from-purple-500 to-indigo-700 rounded-xl flex items-center justify-center text-[#111827] font-semibold text-lg shadow-lg">
                       {innovatorData.fullName?.charAt(0)?.toUpperCase() || "?"}
                     </div>
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <p className="font-semibold text-white text-lg">
+                        <p className="font-semibold text-[#111827] text-lg">
                           {innovatorData.fullName}
                         </p>
                         {getStatusBadge(innovatorData.status)}
                         {getStageBadge(innovatorData.incubationStage)}
                       </div>
-                      <div className="flex flex-wrap items-center gap-3 mt-1 text-sm text-gray-400">
+                      <div className="flex flex-wrap items-center gap-3 mt-1 text-sm text-[#6b7280]">
                         {innovatorData.email && (
                           <span className="flex items-center gap-1">
                             <Mail className="w-3 h-3" />
@@ -242,14 +242,14 @@ const DirectorInnovatorsList = ({
 
                   {/* Idea Info */}
                   <div className="mt-3">
-                    <div className="flex items-center gap-2 text-emerald-400">
+                    <div className="flex items-center gap-2 text-[#2563eb]">
                       <Lightbulb className="w-4 h-4" />
                       <span className="text-sm font-medium">
                         {innovatorData.ideaTitle || "No title"}
                       </span>
                     </div>
                     {innovatorData.ideaDescription && (
-                      <p className="text-sm text-gray-400 mt-1 line-clamp-2">
+                      <p className="text-sm text-[#6b7280] mt-1 line-clamp-2">
                         {innovatorData.ideaDescription}
                       </p>
                     )}
@@ -257,14 +257,14 @@ const DirectorInnovatorsList = ({
 
                   {/* Stats Row */}
                   <div className="mt-3 flex flex-wrap items-center gap-4 text-sm">
-                    <div className="flex items-center gap-1 text-gray-400">
+                    <div className="flex items-center gap-1 text-[#6b7280]">
                       <Target className="w-4 h-4" />
                       <span>
                         {innovatorData.targetMarket || "Market not defined"}
                       </span>
                     </div>
                     {totalMilestones > 0 && (
-                      <div className="flex items-center gap-1 text-emerald-400">
+                      <div className="flex items-center gap-1 text-[#2563eb]">
                         <CheckCircle className="w-4 h-4" />
                         <span>
                           {milestonesCompleted}/{totalMilestones} milestones
@@ -295,21 +295,21 @@ const DirectorInnovatorsList = ({
                   {!hasMentor &&
                     onAssignMentor &&
                     (isAssigning ? (
-                      <div className="flex items-center gap-2 bg-gray-700 rounded-lg border border-gray-600 p-1">
+                      <div className="flex items-center gap-2 bg-gray-700 rounded-lg border border-[#D1D5DB] p-1">
                         <select
                           value={selectedMentor}
                           onChange={(e) => setSelectedMentor(e.target.value)}
-                          className="text-sm bg-transparent px-2 py-1 text-white focus:outline-none min-w-40"
+                          className="text-sm bg-transparent px-2 py-1 text-[#111827] focus:outline-none min-w-40"
                           autoFocus
                         >
-                          <option value="" className="bg-gray-800">
+                          <option value="" className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
                             Select Mentor...
                           </option>
                           {mentorOptions.map((staff) => (
                             <option
                               key={staff._id}
                               value={staff._id}
-                              className="bg-gray-800"
+                              className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
                             >
                               {staff.fullName} - {staff.position || "Staff"}
                             </option>
@@ -322,7 +322,7 @@ const DirectorInnovatorsList = ({
                             )
                           }
                           disabled={!selectedMentor}
-                          className={`p-1 rounded transition ${selectedMentor ? "text-emerald-400 hover:bg-emerald-500/20" : "text-gray-500 cursor-not-allowed"}`}
+                          className={`p-1 rounded transition ${selectedMentor ? "text-[#2563eb] hover:bg-[#EEF2FF]" : "text-[#6b7280] cursor-not-allowed"}`}
                         >
                           <CheckCircle className="w-4 h-4" />
                         </button>
@@ -331,7 +331,7 @@ const DirectorInnovatorsList = ({
                             setAssigningId(null);
                             setSelectedMentor("");
                           }}
-                          className="p-1 text-gray-400 hover:text-red-400 hover:bg-red-500/20 rounded transition"
+                          className="p-1 text-[#6b7280] hover:text-red-500 hover:bg-red-500/20 rounded transition"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -350,7 +350,7 @@ const DirectorInnovatorsList = ({
                     onClick={() =>
                       setExpandedId(isExpanded ? null : innovatorData.id)
                     }
-                    className={`p-1.5 rounded-lg transition ${isExpanded ? "text-emerald-400 bg-emerald-500/20" : "text-gray-400 hover:text-white hover:bg-gray-700"}`}
+                    className={`p-1.5 rounded-lg transition ${isExpanded ? "text-[#2563eb] bg-[#EEF2FF]" : "text-[#6b7280] hover:text-[#111827] hover:bg-[#F3F4F6]"}`}
                   >
                     <ChevronRight
                       className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? "rotate-90" : ""}`}
@@ -367,41 +367,41 @@ const DirectorInnovatorsList = ({
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  className="border-t border-gray-700 overflow-hidden"
+                  className="border-t border-[#E5E7EB] overflow-hidden"
                 >
-                  <div className="p-5 bg-gray-800/50 space-y-5">
+                  <div className="p-5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] space-y-5">
                     <div>
-                      <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                      <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-3 flex items-center gap-2">
                         <Lightbulb className="w-3 h-3" />
                         Innovation Details
                       </h4>
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         {innovatorData.problemSolved && (
-                          <div className="bg-gray-700/30 rounded-lg p-3">
-                            <span className="text-gray-400 text-xs">
+                          <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                            <span className="text-[#6b7280] text-xs">
                               Problem Solved
                             </span>
-                            <p className="text-white text-sm mt-1">
+                            <p className="text-[#111827] text-sm mt-1">
                               {innovatorData.problemSolved}
                             </p>
                           </div>
                         )}
                         {innovatorData.targetMarket && (
-                          <div className="bg-gray-700/30 rounded-lg p-3">
-                            <span className="text-gray-400 text-xs">
+                          <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                            <span className="text-[#6b7280] text-xs">
                               Target Market
                             </span>
-                            <p className="text-white text-sm mt-1">
+                            <p className="text-[#111827] text-sm mt-1">
                               {innovatorData.targetMarket}
                             </p>
                           </div>
                         )}
                         {innovatorData.education?.level && (
-                          <div className="bg-gray-700/30 rounded-lg p-3">
-                            <span className="text-gray-400 text-xs">
+                          <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                            <span className="text-[#6b7280] text-xs">
                               Education
                             </span>
-                            <p className="text-white text-sm mt-1">
+                            <p className="text-[#111827] text-sm mt-1">
                               {innovatorData.education.level}
                               {innovatorData.education.fieldOfStudy &&
                                 ` - ${innovatorData.education.fieldOfStudy}`}
@@ -409,11 +409,11 @@ const DirectorInnovatorsList = ({
                           </div>
                         )}
                         {innovatorData.startDate && (
-                          <div className="bg-gray-700/30 rounded-lg p-3">
-                            <span className="text-gray-400 text-xs">
+                          <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                            <span className="text-[#6b7280] text-xs">
                               Incubation Start
                             </span>
-                            <p className="text-white text-sm mt-1">
+                            <p className="text-[#111827] text-sm mt-1">
                               {new Date(
                                 innovatorData.startDate,
                               ).toLocaleDateString()}
@@ -425,7 +425,7 @@ const DirectorInnovatorsList = ({
                     {innovatorData.milestones &&
                       innovatorData.milestones.length > 0 && (
                         <div>
-                          <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                          <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-3 flex items-center gap-2">
                             <Award className="w-3 h-3" />
                             Milestones ({milestonesCompleted}/{totalMilestones})
                           </h4>
@@ -433,35 +433,35 @@ const DirectorInnovatorsList = ({
                             {innovatorData.milestones.map((milestone, idx) => (
                               <div
                                 key={idx}
-                                className="bg-gray-700/30 rounded-lg p-3"
+                                className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3"
                               >
                                 <div className="flex justify-between items-start">
                                   <div className="flex items-center gap-2">
                                     {milestone.status === "completed" ? (
-                                      <CheckCircle className="w-4 h-4 text-emerald-400" />
+                                      <CheckCircle className="w-4 h-4 text-[#2563eb]" />
                                     ) : milestone.status === "in_progress" ? (
                                       <Clock className="w-4 h-4 text-blue-400" />
                                     ) : (
-                                      <AlertCircle className="w-4 h-4 text-gray-400" />
+                                      <AlertCircle className="w-4 h-4 text-[#6b7280]" />
                                     )}
-                                    <span className="font-medium text-white text-sm">
+                                    <span className="font-medium text-[#111827] text-sm">
                                       {milestone.title}
                                     </span>
                                   </div>
                                   <span
                                     className={`text-xs px-2 py-0.5 rounded-full ${
                                       milestone.status === "completed"
-                                        ? "bg-emerald-500/20 text-emerald-400"
+                                        ? "bg-[#EEF2FF] text-[#2563eb]"
                                         : milestone.status === "in_progress"
                                           ? "bg-blue-500/20 text-blue-400"
-                                          : "bg-gray-500/20 text-gray-400"
+                                          : "bg-gray-500/20 text-[#6b7280]"
                                     }`}
                                   >
                                     {milestone.status || "Pending"}
                                   </span>
                                 </div>
                                 {milestone.description && (
-                                  <p className="text-sm text-gray-400 mt-1 ml-6">
+                                  <p className="text-sm text-[#6b7280] mt-1 ml-6">
                                     {milestone.description}
                                   </p>
                                 )}
@@ -472,7 +472,7 @@ const DirectorInnovatorsList = ({
                       )}
                     {innovatorData.documents && (
                       <div>
-                        <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-3 flex items-center gap-2">
                           <FileText className="w-3 h-3" />
                           Documents
                         </h4>

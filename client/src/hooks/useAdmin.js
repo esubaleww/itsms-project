@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { adminService } from "../services/admin.service";
 
 export const useAdmin = () => {
@@ -13,7 +13,7 @@ export const useAdmin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchAll = async () => {
+  const fetchAll = useCallback(async () => {
     setLoading(true);
     try {
       const [
@@ -58,7 +58,7 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const approveRequest = async (id, comments) => {
     await adminService.approveRequest(id, comments);

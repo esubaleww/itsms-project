@@ -27,7 +27,7 @@ const StaffStatsCards = ({
       subValue: `${stats?.completedTasks || 0} completed`,
       icon: <CheckSquare className="w-6 h-6" />,
       color: "from-emerald-500 to-teal-700",
-      bg: "bg-emerald-500/20",
+      bg: "bg-[#EEF2FF]",
     });
   }
 
@@ -58,7 +58,7 @@ const StaffStatsCards = ({
       subValue: `${mentorStats.completedMentees || 0} completed`,
       icon: <Users className="w-6 h-6" />,
       color: "from-emerald-500 to-teal-700",
-      bg: "bg-emerald-500/20",
+      bg: "bg-[#EEF2FF]",
     });
   }
 
@@ -81,22 +81,20 @@ const StaffStatsCards = ({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
-          className="bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-700 p-5 hover:border-gray-600 transition-all"
+          className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] p-5 hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all"
         >
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-gray-400 text-sm">{card.title}</p>
-              <p className="text-2xl font-bold text-white mt-1">{card.value}</p>
+              <p className="text-[#6b7280] text-sm">{card.title}</p>
+              <p className="text-2xl font-bold text-[#111827] mt-1">{card.value}</p>
               {card.subValue && (
-                <p className="text-xs text-gray-500 mt-1">{card.subValue}</p>
+                <p className="text-xs text-[#6b7280] mt-1">{card.subValue}</p>
               )}
             </div>
             <div
               className={`w-10 h-10 ${card.bg} rounded-lg flex items-center justify-center`}
             >
-              <div
-                className={`bg-linear-to-r ${card.color} bg-clip-text text-transparent`}
-              >
+              <div className={card.color.split(" ")[0].replace("from-", "text-")}>
                 {card.icon}
               </div>
             </div>

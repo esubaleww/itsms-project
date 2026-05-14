@@ -48,10 +48,14 @@ const ServiceRequestModal = ({
   const [errors, setErrors] = useState({});
 
   const priorities = [
-    { value: "low", label: "Low", color: "bg-gray-600/50 text-gray-300" },
-    { value: "medium", label: "Medium", color: "bg-blue-600/50 text-blue-300" },
-    { value: "high", label: "High", color: "bg-orange-600/50 text-orange-300" },
-    { value: "urgent", label: "Urgent", color: "bg-red-600/50 text-red-300" },
+    { value: "low", label: "Low", color: "bg-[#F3F4F6] text-[#374151]" },
+    {
+      value: "medium",
+      label: "Medium",
+      color: "bg-[#EEF2FF] text-[#2563eb]",
+    },
+    { value: "high", label: "High", color: "bg-[#FFFBEB] text-[#d97706]" },
+    { value: "urgent", label: "Urgent", color: "bg-[#FEF2F2] text-[#ef4444]" },
   ];
 
   const handleChange = (e) => {
@@ -135,13 +139,13 @@ const ServiceRequestModal = ({
     if (!doc) return null;
 
     return (
-      <div className="bg-gray-700/30 rounded-lg p-3 mt-2">
+      <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 mt-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 flex-1 min-w-0">
-            <File className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span className="text-sm text-white truncate">{label}</span>
+            <File className="w-4 h-4 text-[#2563eb] shrink-0" />
+            <span className="text-sm text-[#111827] truncate">{label}</span>
             {doc.name && (
-              <span className="text-xs text-gray-500">({doc.name})</span>
+              <span className="text-xs text-[#6b7280]">({doc.name})</span>
             )}
           </div>
           <div className="flex items-center gap-2">
@@ -156,7 +160,7 @@ const ServiceRequestModal = ({
               href={doc.viewLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-1.5 text-gray-400 hover:text-emerald-400 rounded-lg transition"
+              className="p-1.5 text-[#6b7280] hover:text-[#2563eb] rounded-lg transition"
             >
               <ExternalLink className="w-4 h-4" />
             </a>
@@ -164,14 +168,14 @@ const ServiceRequestModal = ({
               <button
                 type="button"
                 onClick={onRemove}
-                className="p-1.5 text-red-400 hover:text-red-300 rounded-lg transition"
+                className="p-1.5 text-red-500 hover:text-red-600 rounded-lg transition"
               >
                 <X className="w-4 h-4" />
               </button>
             )}
           </div>
         </div>
-        <div className="mt-1 text-xs text-gray-500 truncate">
+        <div className="mt-1 text-xs text-[#6b7280] truncate">
           {doc.viewLink}
         </div>
       </div>
@@ -184,65 +188,65 @@ const ServiceRequestModal = ({
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-gray-800 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-gray-700"
+        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-[#E5E7EB]"
       >
-        <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-5 flex justify-between items-center z-10">
+        <div className="sticky top-0 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-b border-[#E5E7EB] p-5 flex justify-between items-center z-10">
           <div>
-            <h2 className="text-xl font-bold text-white">Request Service</h2>
-            <p className="text-sm text-gray-400 mt-0.5">{service?.name}</p>
+            <h2 className="text-xl font-bold text-[#111827]">Request Service</h2>
+            <p className="text-sm text-[#6b7280] mt-0.5">{service?.name}</p>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-gray-700 rounded-lg transition"
+            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
           >
-            <X className="w-5 h-5 text-gray-400" />
+            <X className="w-5 h-5 text-[#6b7280]" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-5 space-y-5">
-          <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-3 flex items-center gap-3">
-            <Briefcase className="w-5 h-5 text-emerald-400" />
+          <div className="bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg p-3 flex items-center gap-3">
+            <Briefcase className="w-5 h-5 text-[#2563eb]" />
             <div>
-              <p className="text-sm font-medium text-white">{service?.name}</p>
-              <p className="text-xs text-gray-400">
+              <p className="text-sm font-medium text-[#111827]">{service?.name}</p>
+              <p className="text-xs text-[#6b7280]">
                 Estimated: {service?.estimatedTime}
               </p>
             </div>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-emerald-400" />
+            <h3 className="text-sm font-semibold text-[#374151] mb-3 flex items-center gap-2">
+              <Building2 className="w-4 h-4 text-[#2563eb]" />
               Requester Information
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-[#374151] mb-1">
                   Organization Name *
                 </label>
                 <div className="relative">
-                  <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                  <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                   <input
                     type="text"
                     name="organizationName"
                     value={formData.organizationName}
                     onChange={handleChange}
-                    className={`w-full pl-10 pr-3 py-2 bg-gray-700/50 border rounded-lg text-white focus:outline-none focus:border-emerald-500 ${
+                    className={`w-full pl-10 pr-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] ${
                       errors.organizationName
                         ? "border-red-500"
-                        : "border-gray-600"
+                        : "border-[#D1D5DB]"
                     }`}
                     placeholder="Your Organization"
                   />
                 </div>
                 {errors.organizationName && (
-                  <p className="text-xs text-red-400 mt-1">
+                  <p className="text-xs text-red-500 mt-1">
                     {errors.organizationName}
                   </p>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-[#374151] mb-1">
                   Department
                 </label>
                 <input
@@ -250,12 +254,12 @@ const ServiceRequestModal = ({
                   name="department"
                   value={formData.department}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
                   placeholder="e.g., IT Department"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-[#374151] mb-1">
                   Position / Title
                 </label>
                 <input
@@ -263,77 +267,77 @@ const ServiceRequestModal = ({
                   name="position"
                   value={formData.position}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
                   placeholder="e.g., IT Manager"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-[#374151] mb-1">
                   Contact Person *
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                   <input
                     type="text"
                     name="contactPerson"
                     value={formData.contactPerson}
                     onChange={handleChange}
-                    className={`w-full pl-10 pr-3 py-2 bg-gray-700/50 border rounded-lg text-white focus:outline-none focus:border-emerald-500 ${
+                    className={`w-full pl-10 pr-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] ${
                       errors.contactPerson
                         ? "border-red-500"
-                        : "border-gray-600"
+                        : "border-[#D1D5DB]"
                     }`}
                     placeholder="Full Name"
                   />
                 </div>
                 {errors.contactPerson && (
-                  <p className="text-xs text-red-400 mt-1">
+                  <p className="text-xs text-red-500 mt-1">
                     {errors.contactPerson}
                   </p>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-[#374151] mb-1">
                   Contact Phone *
                 </label>
                 <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                   <input
                     type="tel"
                     name="contactPhone"
                     value={formData.contactPhone}
                     onChange={handleChange}
-                    className={`w-full pl-10 pr-3 py-2 bg-gray-700/50 border rounded-lg text-white focus:outline-none focus:border-emerald-500 ${
-                      errors.contactPhone ? "border-red-500" : "border-gray-600"
+                    className={`w-full pl-10 pr-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] ${
+                      errors.contactPhone ? "border-red-500" : "border-[#D1D5DB]"
                     }`}
                     placeholder="+251 912 345 678"
                   />
                 </div>
                 {errors.contactPhone && (
-                  <p className="text-xs text-red-400 mt-1">
+                  <p className="text-xs text-red-500 mt-1">
                     {errors.contactPhone}
                   </p>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-[#374151] mb-1">
                   Contact Email
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                   <input
                     type="email"
                     name="contactEmail"
                     value={formData.contactEmail}
                     onChange={handleChange}
-                    className={`w-full pl-10 pr-3 py-2 bg-gray-700/50 border rounded-lg text-white focus:outline-none focus:border-emerald-500 ${
-                      errors.contactEmail ? "border-red-500" : "border-gray-600"
+                    className={`w-full pl-10 pr-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] ${
+                      errors.contactEmail ? "border-red-500" : "border-[#D1D5DB]"
                     }`}
                     placeholder="contact@example.com"
                   />
                 </div>
                 {errors.contactEmail && (
-                  <p className="text-xs text-red-400 mt-1">
+                  <p className="text-xs text-red-500 mt-1">
                     {errors.contactEmail}
                   </p>
                 )}
@@ -342,13 +346,13 @@ const ServiceRequestModal = ({
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2">
-              <FileText className="w-4 h-4 text-emerald-400" />
+            <h3 className="text-sm font-semibold text-[#374151] mb-3 flex items-center gap-2">
+              <FileText className="w-4 h-4 text-[#2563eb]" />
               Service Details
             </h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-[#374151] mb-1">
                   Service Description *
                 </label>
                 <textarea
@@ -357,19 +361,19 @@ const ServiceRequestModal = ({
                   value={formData.description}
                   onChange={handleChange}
                   placeholder="Please describe what you need in detail..."
-                  className={`w-full px-3 py-2 bg-gray-700/50 border rounded-lg text-white focus:outline-none focus:border-emerald-500 ${
-                    errors.description ? "border-red-500" : "border-gray-600"
+                  className={`w-full px-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] ${
+                    errors.description ? "border-red-500" : "border-[#D1D5DB]"
                   }`}
                 />
                 {errors.description && (
-                  <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
+                  <p className="text-xs text-red-500 mt-1 flex items-center gap-1">
                     <AlertCircle className="w-3 h-3" /> {errors.description}
                   </p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-[#374151] mb-1">
                   Special Requirements
                 </label>
                 <textarea
@@ -378,12 +382,12 @@ const ServiceRequestModal = ({
                   value={formData.requirements}
                   onChange={handleChange}
                   placeholder="Any specific requirements or constraints?"
-                  className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-[#374151] mb-2">
                   Priority Level
                 </label>
                 <div className="flex gap-2">
@@ -397,7 +401,7 @@ const ServiceRequestModal = ({
                       className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition ${
                         formData.priority === p.value
                           ? p.color + " ring-2 ring-offset-1 ring-emerald-500"
-                          : "bg-gray-700/50 text-gray-400 hover:bg-gray-700"
+                          : "bg-white text-[#6b7280] hover:bg-[#F3F4F6]"
                       }`}
                     >
                       {p.label}
@@ -409,8 +413,8 @@ const ServiceRequestModal = ({
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2">
-              <Upload className="w-4 h-4 text-emerald-400" />
+            <h3 className="text-sm font-semibold text-[#374151] mb-3 flex items-center gap-2">
+              <Upload className="w-4 h-4 text-[#2563eb]" />
               Supporting Documents
             </h3>
 
@@ -498,7 +502,7 @@ const ServiceRequestModal = ({
 
                 {formData.supportingDocs.length > 0 && (
                   <div className="mt-3 space-y-2">
-                    <p className="text-xs font-medium text-gray-400">
+                    <p className="text-xs font-medium text-[#6b7280]">
                       Uploaded Documents ({formData.supportingDocs.length})
                     </p>
                     {formData.supportingDocs.map((doc, idx) => (
@@ -518,7 +522,7 @@ const ServiceRequestModal = ({
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-linear-to-r from-emerald-600 to-teal-600 text-white py-3 rounded-xl hover:from-emerald-500 hover:to-teal-500 transition flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full bg-[#2563eb] hover:bg-[#1d4ed8] font-medium shadow-md text-[#111827] py-3 rounded-xl hover:from-emerald-500 hover:to-teal-500 transition flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {loading ? (
               <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>

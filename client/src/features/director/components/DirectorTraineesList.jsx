@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+﻿import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronRight,
@@ -78,7 +78,7 @@ const DirectorTraineesList = ({
     switch (status) {
       case "approved":
         return (
-          <span className="bg-emerald-500/20 text-emerald-400 text-xs px-2 py-0.5 rounded-full border border-emerald-500/30">
+          <span className="bg-[#EEF2FF] text-[#2563eb] text-xs px-2 py-0.5 rounded-full border border-[#2563eb]/30">
             Approved
           </span>
         );
@@ -96,7 +96,7 @@ const DirectorTraineesList = ({
         );
       default:
         return (
-          <span className="bg-gray-500/20 text-gray-400 text-xs px-2 py-0.5 rounded-full border border-gray-500/30">
+          <span className="bg-gray-500/20 text-[#6b7280] text-xs px-2 py-0.5 rounded-full border border-gray-500/30">
             {status || "Pending"}
           </span>
         );
@@ -109,7 +109,7 @@ const DirectorTraineesList = ({
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="bg-gray-800 rounded-xl border border-gray-700 p-4 animate-pulse"
+            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] p-4 animate-pulse"
           >
             <div className="flex items-start gap-4">
               <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
@@ -127,11 +127,11 @@ const DirectorTraineesList = ({
   if (!trainees || trainees.length === 0) {
     return (
       <div className="text-center py-16">
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-800 rounded-full mb-4 border border-gray-700">
-          <School className="w-10 h-10 text-gray-600" />
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-full mb-4 border border-[#E5E7EB]">
+          <School className="w-10 h-10 text-[#9ca3af]" />
         </div>
-        <p className="text-gray-400 text-lg">No trainees found</p>
-        <p className="text-sm text-gray-500 mt-1 max-w-md mx-auto">
+        <p className="text-[#6b7280] text-lg">No trainees found</p>
+        <p className="text-sm text-[#6b7280] mt-1 max-w-md mx-auto">
           Trainees will appear here after their applications are approved and
           assigned to your directorate.
         </p>
@@ -161,23 +161,23 @@ const DirectorTraineesList = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.05 }}
-            className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden hover:border-gray-600 transition-all duration-200"
+            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200"
           >
             <div className="p-5">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-linear-to-br from-blue-500 to-cyan-700 rounded-xl flex items-center justify-center text-white font-semibold text-lg shadow-lg">
+                    <div className="w-12 h-12 bg-linear-to-br from-blue-500 to-cyan-700 rounded-xl flex items-center justify-center text-[#111827] font-semibold text-lg shadow-lg">
                       {traineeData.fullName?.charAt(0)?.toUpperCase() || "?"}
                     </div>
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <p className="font-semibold text-white text-lg">
+                        <p className="font-semibold text-[#111827] text-lg">
                           {traineeData.fullName}
                         </p>
                         {getStatusBadge(traineeData.status)}
                       </div>
-                      <div className="flex flex-wrap items-center gap-3 mt-1 text-sm text-gray-400">
+                      <div className="flex flex-wrap items-center gap-3 mt-1 text-sm text-[#6b7280]">
                         {traineeData.email && (
                           <span className="flex items-center gap-1">
                             <Mail className="w-3 h-3" />
@@ -195,25 +195,25 @@ const DirectorTraineesList = ({
                   </div>
 
                   {traineeData.institution && (
-                    <div className="mt-2 flex items-center gap-2 text-sm text-gray-400">
+                    <div className="mt-2 flex items-center gap-2 text-sm text-[#6b7280]">
                       <Building2 className="w-4 h-4" />
                       <span>{traineeData.institution}</span>
                     </div>
                   )}
 
                   <div className="mt-3 flex flex-wrap items-center gap-4 text-sm">
-                    <div className="flex items-center gap-1 text-gray-400">
+                    <div className="flex items-center gap-1 text-[#6b7280]">
                       <School className="w-4 h-4" />
                       <span>{enrolledCount} programs enrolled</span>
                     </div>
                     {completedSessions > 0 && (
-                      <div className="flex items-center gap-1 text-emerald-400">
+                      <div className="flex items-center gap-1 text-[#2563eb]">
                         <CheckCircle className="w-4 h-4" />
                         <span>{completedSessions} sessions attended</span>
                       </div>
                     )}
                     {traineeData.skills?.length > 0 && (
-                      <div className="flex items-center gap-1 text-gray-400">
+                      <div className="flex items-center gap-1 text-[#6b7280]">
                         <Award className="w-4 h-4" />
                         <span>{traineeData.skills.length} skills</span>
                       </div>
@@ -248,21 +248,21 @@ const DirectorTraineesList = ({
                   {!hasTrainer &&
                     onAssignTrainer &&
                     (isAssigning ? (
-                      <div className="flex items-center gap-2 bg-gray-700 rounded-lg border border-gray-600 p-1">
+                      <div className="flex items-center gap-2 bg-gray-700 rounded-lg border border-[#D1D5DB] p-1">
                         <select
                           value={selectedTrainer}
                           onChange={(e) => setSelectedTrainer(e.target.value)}
-                          className="text-sm bg-transparent px-2 py-1 text-white focus:outline-none min-w-40"
+                          className="text-sm bg-transparent px-2 py-1 text-[#111827] focus:outline-none min-w-40"
                           autoFocus
                         >
-                          <option value="" className="bg-gray-800">
+                          <option value="" className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
                             Select Trainer...
                           </option>
                           {trainerOptions.map((staff) => (
                             <option
                               key={staff._id}
                               value={staff._id}
-                              className="bg-gray-800"
+                              className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
                             >
                               {staff.fullName} - {staff.position || "Staff"}
                             </option>
@@ -273,8 +273,8 @@ const DirectorTraineesList = ({
                           disabled={!selectedTrainer}
                           className={`p-1 rounded transition ${
                             selectedTrainer
-                              ? "text-emerald-400 hover:bg-emerald-500/20"
-                              : "text-gray-500 cursor-not-allowed"
+                              ? "text-[#2563eb] hover:bg-[#EEF2FF]"
+                              : "text-[#6b7280] cursor-not-allowed"
                           }`}
                         >
                           <CheckCircle className="w-4 h-4" />
@@ -284,7 +284,7 @@ const DirectorTraineesList = ({
                             setAssigningId(null);
                             setSelectedTrainer("");
                           }}
-                          className="p-1 text-gray-400 hover:text-red-400 hover:bg-red-500/20 rounded transition"
+                          className="p-1 text-[#6b7280] hover:text-red-500 hover:bg-red-500/20 rounded transition"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -301,7 +301,7 @@ const DirectorTraineesList = ({
 
                   <button
                     onClick={() => onViewDetails?.(traineeData.id)}
-                    className="text-gray-400 hover:text-white p-1.5 rounded-lg hover:bg-gray-700 transition"
+                    className="text-[#6b7280] hover:text-[#111827] p-1.5 rounded-lg hover:bg-[#F3F4F6] transition"
                     title="View Details"
                   >
                     <Eye className="w-4 h-4" />
@@ -313,8 +313,8 @@ const DirectorTraineesList = ({
                     }
                     className={`p-1.5 rounded-lg transition ${
                       isExpanded
-                        ? "text-emerald-400 bg-emerald-500/20"
-                        : "text-gray-400 hover:text-white hover:bg-gray-700"
+                        ? "text-[#2563eb] bg-[#EEF2FF]"
+                        : "text-[#6b7280] hover:text-[#111827] hover:bg-[#F3F4F6]"
                     }`}
                   >
                     <ChevronRight
@@ -333,12 +333,12 @@ const DirectorTraineesList = ({
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  className="border-t border-gray-700 overflow-hidden"
+                  className="border-t border-[#E5E7EB] overflow-hidden"
                 >
-                  <div className="p-5 bg-gray-800/50 space-y-5">
+                  <div className="p-5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] space-y-5">
                     {traineeData.skills && traineeData.skills.length > 0 && (
                       <div>
-                        <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-3 flex items-center gap-2">
                           <Award className="w-3 h-3" />
                           Skills
                         </h4>
@@ -346,7 +346,7 @@ const DirectorTraineesList = ({
                           {traineeData.skills.map((skill, idx) => (
                             <span
                               key={idx}
-                              className="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-sm"
+                              className="bg-[#EEF2FF] text-[#2563eb] px-3 py-1 rounded-full text-sm"
                             >
                               {skill}
                             </span>
@@ -358,7 +358,7 @@ const DirectorTraineesList = ({
                     {traineeData.enrolledPrograms &&
                       traineeData.enrolledPrograms.length > 0 && (
                         <div>
-                          <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                          <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-3 flex items-center gap-2">
                             <BookOpen className="w-3 h-3" />
                             Enrolled Programs
                           </h4>
@@ -367,21 +367,21 @@ const DirectorTraineesList = ({
                               (program, idx) => (
                                 <div
                                   key={idx}
-                                  className="bg-gray-700/30 rounded-lg p-3"
+                                  className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3"
                                 >
                                   <div className="flex justify-between items-start">
                                     <div>
-                                      <p className="font-medium text-white">
+                                      <p className="font-medium text-[#111827]">
                                         {program.program?.name ||
                                           "Training Program"}
                                       </p>
-                                      <p className="text-xs text-gray-400 mt-1">
+                                      <p className="text-xs text-[#6b7280] mt-1">
                                         Enrolled:{" "}
                                         {new Date(
                                           program.registrationDate,
                                         ).toLocaleDateString()}
                                       </p>
-                                      <p className="text-xs text-gray-500 mt-1">
+                                      <p className="text-xs text-[#6b7280] mt-1">
                                         Sessions attended:{" "}
                                         {program.sessionsAttended?.length || 0}
                                       </p>
@@ -389,7 +389,7 @@ const DirectorTraineesList = ({
                                     <span
                                       className={`text-xs px-2 py-0.5 rounded-full ${
                                         program.status === "completed"
-                                          ? "bg-emerald-500/20 text-emerald-400"
+                                          ? "bg-[#EEF2FF] text-[#2563eb]"
                                           : program.status === "active"
                                             ? "bg-blue-500/20 text-blue-400"
                                             : "bg-yellow-500/20 text-yellow-400"
@@ -407,7 +407,7 @@ const DirectorTraineesList = ({
 
                     {traineeData.documents && (
                       <div>
-                        <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-3 flex items-center gap-2">
                           <FileText className="w-3 h-3" />
                           Documents
                         </h4>
@@ -417,10 +417,10 @@ const DirectorTraineesList = ({
                               href={traineeData.documents.applicationLetter}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center gap-2 p-2 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition"
+                              className="flex items-center gap-2 p-2 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg hover:bg-[#F3F4F6] transition"
                             >
-                              <FileText className="w-4 h-4 text-emerald-400" />
-                              <span className="text-sm text-white">
+                              <FileText className="w-4 h-4 text-[#2563eb]" />
+                              <span className="text-sm text-[#111827]">
                                 Application Letter
                               </span>
                             </a>
@@ -430,10 +430,10 @@ const DirectorTraineesList = ({
                               href={traineeData.documents.cv}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center gap-2 p-2 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition"
+                              className="flex items-center gap-2 p-2 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg hover:bg-[#F3F4F6] transition"
                             >
-                              <FileText className="w-4 h-4 text-emerald-400" />
-                              <span className="text-sm text-white">
+                              <FileText className="w-4 h-4 text-[#2563eb]" />
+                              <span className="text-sm text-[#111827]">
                                 CV/Resume
                               </span>
                             </a>

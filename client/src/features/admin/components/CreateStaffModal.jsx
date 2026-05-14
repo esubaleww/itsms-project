@@ -173,32 +173,32 @@ const CreateStaffModal = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-gray-800 rounded-2xl max-w-md w-full flex flex-col max-h-[90vh] border border-gray-700 shadow-2xl"
+        className="bg-white rounded-2xl max-w-md w-full flex flex-col max-h-[90vh] border border-[#E5E7EB] shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
       >
         {/* Header - Sticky */}
-        <div className="p-5 border-b border-gray-700 flex justify-between items-center sticky top-0 bg-gray-800 z-10 rounded-t-2xl">
+        <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-sm z-10 rounded-t-2xl">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-linear-to-br from-emerald-500 to-teal-700 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-[#EEF2FF] rounded-lg flex items-center justify-center border border-[#2563eb]/20">
               {isEditing ? (
-                <Edit className="w-4 h-4 text-white" />
+                <Edit className="w-4 h-4 text-[#2563eb]" />
               ) : (
-                <UserPlus className="w-4 h-4 text-white" />
+                <UserPlus className="w-4 h-4 text-[#2563eb]" />
               )}
             </div>
-            <h2 className="text-xl font-bold text-white">
+            <h2 className="text-xl font-bold text-[#111827]">
               {isEditing ? "Edit Staff Member" : "Create Staff"}
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-gray-700 rounded-lg transition"
+            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
           >
-            <X className="w-5 h-5 text-gray-400 hover:text-white" />
+            <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
           </button>
         </div>
 
@@ -209,24 +209,24 @@ const CreateStaffModal = ({
             {backendError && (
               <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3">
                 <div className="flex items-start gap-2">
-                  <AlertCircle className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
-                  <p className="text-sm text-red-400">{backendError}</p>
+                  <AlertCircle className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
+                  <p className="text-sm text-red-500">{backendError}</p>
                 </div>
               </div>
             )}
 
             {/* Full Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
-                Full Name <span className="text-red-400">*</span>
+              <label className="block text-sm font-medium text-[#374151] mb-1">
+                Full Name <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                 <input
                   type="text"
                   required
-                  className={`w-full pl-9 pr-3 py-2 bg-gray-700/50 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all ${
-                    errors.fullName ? "border-red-500" : "border-gray-600"
+                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm ${
+                    errors.fullName ? "border-red-500" : "border-[#D1D5DB]"
                   }`}
                   value={formData.fullName}
                   onChange={(e) =>
@@ -236,7 +236,7 @@ const CreateStaffModal = ({
                 />
               </div>
               {errors.fullName && (
-                <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+                <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" /> {errors.fullName}
                 </p>
               )}
@@ -244,17 +244,17 @@ const CreateStaffModal = ({
 
             {/* Email - Disable when editing? (optional) */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
-                Email <span className="text-red-400">*</span>
+              <label className="block text-sm font-medium text-[#374151] mb-1">
+                Email <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                 <input
                   type="email"
                   required
                   disabled={isEditing}
-                  className={`w-full pl-9 pr-3 py-2 bg-gray-700/50 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all ${
-                    errors.email ? "border-red-500" : "border-gray-600"
+                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm ${
+                    errors.email ? "border-red-500" : "border-[#D1D5DB]"
                   } ${isEditing ? "opacity-60 cursor-not-allowed" : ""}`}
                   value={formData.email}
                   onChange={(e) => handleInputChange("email", e.target.value)}
@@ -262,12 +262,12 @@ const CreateStaffModal = ({
                 />
               </div>
               {errors.email && (
-                <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+                <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" /> {errors.email}
                 </p>
               )}
               {isEditing && (
-                <p className="text-gray-500 text-xs mt-1">
+                <p className="text-[#6b7280] text-xs mt-1">
                   Email cannot be changed after creation
                 </p>
               )}
@@ -275,15 +275,15 @@ const CreateStaffModal = ({
 
             {/* Phone */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-[#374151] mb-1">
                 Phone
               </label>
               <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                 <input
                   type="tel"
-                  className={`w-full pl-9 pr-3 py-2 bg-gray-700/50 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all ${
-                    errors.phone ? "border-red-500" : "border-gray-600"
+                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm ${
+                    errors.phone ? "border-red-500" : "border-[#D1D5DB]"
                   }`}
                   value={formData.phone}
                   onChange={(e) => handleInputChange("phone", e.target.value)}
@@ -291,7 +291,7 @@ const CreateStaffModal = ({
                 />
               </div>
               {errors.phone && (
-                <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+                <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" /> {errors.phone}
                 </p>
               )}
@@ -299,28 +299,28 @@ const CreateStaffModal = ({
 
             {/* Position */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
-                Position <span className="text-red-400">*</span>
+              <label className="block text-sm font-medium text-[#374151] mb-1">
+                Position <span className="text-red-500">*</span>
               </label>
               <select
                 required
-                className={`w-full px-3 py-2 bg-gray-700/50 border rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all ${
-                  errors.position ? "border-red-500" : "border-gray-600"
+                className={`w-full px-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm ${
+                  errors.position ? "border-red-500" : "border-[#D1D5DB]"
                 }`}
                 value={formData.position}
                 onChange={(e) => handleInputChange("position", e.target.value)}
               >
-                <option value="" className="bg-gray-800">
+                <option value="" className="bg-white text-[#111827]">
                   Select Position
                 </option>
                 {positions.map((p) => (
-                  <option key={p.value} value={p.value} className="bg-gray-800">
+                  <option key={p.value} value={p.value} className="bg-white text-[#111827]">
                     {p.label}
                   </option>
                 ))}
               </select>
               {errors.position && (
-                <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+                <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" /> {errors.position}
                 </p>
               )}
@@ -328,31 +328,31 @@ const CreateStaffModal = ({
 
             {/* Directorate */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
-                Directorate <span className="text-red-400">*</span>
+              <label className="block text-sm font-medium text-[#374151] mb-1">
+                Directorate <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                 <select
                   required
-                  className={`w-full pl-9 pr-3 py-2 bg-gray-700/50 border rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all ${
-                    errors.directorateId ? "border-red-500" : "border-gray-600"
+                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm ${
+                    errors.directorateId ? "border-red-500" : "border-[#D1D5DB]"
                   }`}
                   value={formData.directorateId}
                   onChange={(e) => handleDirectorateChange(e.target.value)}
                 >
-                  <option value="" className="bg-gray-800">
+                  <option value="" className="bg-white text-[#111827]">
                     Select Directorate
                   </option>
                   {directorates?.map((d) => (
-                    <option key={d._id} value={d._id} className="bg-gray-800">
+                    <option key={d._id} value={d._id} className="bg-white text-[#111827]">
                       {d.name}
                     </option>
                   ))}
                 </select>
               </div>
               {errors.directorateId && (
-                <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+                <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" /> {errors.directorateId}
                 </p>
               )}
@@ -360,29 +360,29 @@ const CreateStaffModal = ({
 
             {/* Team */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
-                Team <span className="text-gray-500">(Optional)</span>
+              <label className="block text-sm font-medium text-[#374151] mb-1">
+                Team <span className="text-[#6b7280]">(Optional)</span>
               </label>
               <div className="relative">
-                <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                 <select
-                  className="w-full pl-9 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full pl-9 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
                   value={formData.teamId}
                   onChange={(e) => handleInputChange("teamId", e.target.value)}
                   disabled={!formData.directorateId}
                 >
-                  <option value="" className="bg-gray-800">
+                  <option value="" className="bg-white text-[#111827]">
                     Select Team
                   </option>
                   {teams.map((t) => (
-                    <option key={t._id} value={t._id} className="bg-gray-800">
+                    <option key={t._id} value={t._id} className="bg-white text-[#111827]">
                       {t.name}
                     </option>
                   ))}
                 </select>
               </div>
               {!formData.directorateId && (
-                <p className="text-gray-500 text-xs mt-1">
+                <p className="text-[#6b7280] text-xs mt-1">
                   Select a directorate first to see available teams
                 </p>
               )}
@@ -391,13 +391,13 @@ const CreateStaffModal = ({
         </div>
 
         {/* Buttons - Sticky at Bottom */}
-        <div className="p-5 border-t border-gray-700 bg-gray-800 rounded-b-2xl sticky bottom-0">
+        <div className="p-5 border-t border-[#E5E7EB] bg-[#F9FAFB] rounded-b-2xl sticky bottom-0">
           <div className="flex gap-3">
             <button
               type="submit"
               form="staff-form"
               disabled={loading}
-              className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-white py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg flex items-center justify-center gap-2"
+              className="flex-1 bg-[#2563eb] text-white py-2.5 rounded-lg hover:bg-[#1d4ed8] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md flex items-center justify-center gap-2 font-medium"
             >
               {loading ? (
                 <>
@@ -418,7 +418,7 @@ const CreateStaffModal = ({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 border border-gray-600 text-gray-300 py-2.5 rounded-lg hover:bg-gray-700 transition-all duration-200"
+              className="flex-1 border border-[#D1D5DB] text-[#374151] py-2.5 rounded-lg hover:bg-[#F3F4F6] transition-all duration-200"
             >
               Cancel
             </button>

@@ -48,7 +48,7 @@ const CHART_COLORS = {
 };
 
 const colorMap = {
-  emerald: "text-emerald-400",
+  emerald: "text-[#2563eb]",
   blue: "text-blue-400",
   purple: "text-purple-400",
   amber: "text-amber-400",
@@ -102,7 +102,7 @@ const DirectorAnalytics = () => {
   if (loading && !analytics?.weeklyActivity?.length) {
     return (
       <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2563eb]"></div>
       </div>
     );
   }
@@ -113,28 +113,28 @@ const DirectorAnalytics = () => {
       title: "Completion Rate",
       value: `${analytics?.completionRate || 0}%`,
       icon: TrendingUp,
-      gradient: "from-emerald-600 to-teal-700",
+      color: "#10B981",
       change: "Overall performance",
     },
     {
       title: "Total Requests",
       value: analytics?.totalRequests || 0,
       icon: Briefcase,
-      gradient: "from-blue-600 to-cyan-700",
+      color: "#2563eb",
       change: "All requests",
     },
     {
       title: "Completed",
       value: analytics?.completedRequests || 0,
       icon: CheckCircle,
-      gradient: "from-green-600 to-emerald-700",
+      color: "#059669",
       change: "Successfully completed",
     },
     {
       title: "Active Teams",
       value: analytics?.teamPerformance?.length || 0,
       icon: Users,
-      gradient: "from-purple-600 to-indigo-700",
+      color: "#6366F1",
       change: "Working teams",
     },
   ];
@@ -230,8 +230,8 @@ const DirectorAnalytics = () => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-gray-800 border border-gray-700 rounded-lg p-3 shadow-lg">
-          <p className="text-white text-sm font-medium mb-2">{label}</p>
+        <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-[#E5E7EB] rounded-lg p-3 shadow-lg">
+          <p className="text-[#111827] text-sm font-medium mb-2">{label}</p>
           {payload.map((item, idx) => (
             <p key={idx} className="text-xs" style={{ color: item.color }}>
               {item.name}: {item.value}
@@ -254,7 +254,7 @@ const DirectorAnalytics = () => {
               className={`p-3 rounded-lg flex items-center gap-2 text-sm
                 ${
                   alert.type === "danger"
-                    ? "bg-red-500/10 text-red-400 border border-red-500/20"
+                    ? "bg-red-500/10 text-red-500 border border-red-500/20"
                     : "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
                 }`}
             >
@@ -273,19 +273,24 @@ const DirectorAnalytics = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className={`bg-linear-to-br ${metric.gradient} rounded-xl p-6 relative shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer`}
+            className="bg-white rounded-xl p-6 border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-300 group cursor-pointer"
           >
-            <div className="flex justify-between">
+            <div className="flex justify-between items-start">
               <div>
-                <p className="text-white/80 text-sm">{metric.title}</p>
-                <p className="text-white text-3xl font-bold">{metric.value}</p>
-                <p className="text-white/60 text-xs mt-1">{metric.change}</p>
+                <p className="text-[#6b7280] text-sm font-medium">{metric.title}</p>
+                <p className="text-[#111827] text-3xl font-bold mt-1">{metric.value}</p>
+                <div className="flex items-center gap-1 mt-2">
+                  <Activity className="w-3 h-3 text-[#2563eb]" />
+                  <p className="text-[#6b7280] text-xs">{metric.change}</p>
+                </div>
               </div>
-              <div className="bg-white/15 rounded-lg p-2">
-                <metric.icon className="w-6 h-6 text-white" />
+              <div 
+                className="p-3 rounded-xl transition-colors group-hover:scale-110 duration-300"
+                style={{ backgroundColor: `${metric.color}10` }}
+              >
+                <metric.icon className="w-6 h-6" style={{ color: metric.color }} />
               </div>
             </div>
-            <metric.icon className="absolute -bottom-4 -right-4 text-white/10 h-24 w-24" />
           </motion.div>
         ))}
       </div>
@@ -299,37 +304,37 @@ const DirectorAnalytics = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 + 0.3 }}
-              className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-emerald-500/50 transition-all duration-300"
+              className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB] hover:border-[#2563eb]/50 transition-all duration-300"
             >
               <div className="flex items-center gap-2 mb-2">
                 <metric.icon className={`w-5 h-5 ${colorMap[metric.color]}`} />
-                <span className="text-gray-400 text-sm">{metric.label}</span>
+                <span className="text-[#6b7280] text-sm">{metric.label}</span>
               </div>
-              <p className="text-2xl font-bold text-white">{metric.value}</p>
+              <p className="text-2xl font-bold text-[#111827]">{metric.value}</p>
             </motion.div>
           ))}
         </div>
       )}
 
       {/* ---------- WEEKLY ACTIVITY CHART ---------- */}
-      <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-          <h3 className="text-white font-semibold flex items-center gap-2">
-            <Activity className="w-5 h-5 text-emerald-400" />
+          <h3 className="text-[#111827] font-semibold flex items-center gap-2">
+            <Activity className="w-5 h-5 text-[#2563eb]" />
             Weekly Activity
           </h3>
           <div className="flex items-center gap-3 text-xs">
             <span className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full" />
-              <span className="text-gray-400">Requests</span>
+              <div className="w-2 h-2 bg-[#2563eb] rounded-full" />
+              <span className="text-[#6b7280]">Requests</span>
             </span>
             <span className="flex items-center gap-1">
               <div className="w-2 h-2 bg-blue-500 rounded-full" />
-              <span className="text-gray-400">Completed</span>
+              <span className="text-[#6b7280]">Completed</span>
             </span>
             <span className="flex items-center gap-1">
               <div className="w-2 h-2 bg-yellow-500 rounded-full" />
-              <span className="text-gray-400">In Progress</span>
+              <span className="text-[#6b7280]">In Progress</span>
             </span>
           </div>
         </div>
@@ -356,15 +361,15 @@ const DirectorAnalytics = () => {
                   <stop offset="95%" stopColor="#F59E0B" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
               <XAxis
                 dataKey="name"
-                stroke="#9CA3AF"
-                tick={{ fill: "#9CA3AF", fontSize: 11 }}
+                stroke="#6B7280"
+                tick={{ fill: "#6B7280", fontSize: 11 }}
               />
               <YAxis
-                stroke="#9CA3AF"
-                tick={{ fill: "#9CA3AF", fontSize: 12 }}
+                stroke="#6B7280"
+                tick={{ fill: "#6B7280", fontSize: 12 }}
               />
               <Tooltip content={<CustomTooltip />} />
               <Area
@@ -397,9 +402,9 @@ const DirectorAnalytics = () => {
       </div>
 
       {/* ---------- REQUEST DISTRIBUTION (PIE CHART) ---------- */}
-      <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-        <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-          <PieChart className="w-5 h-5 text-emerald-400" />
+      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
+        <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
+          <PieChart className="w-5 h-5 text-[#2563eb]" />
           Request Distribution
         </h3>
         <div className="w-full h-80">
@@ -423,17 +428,18 @@ const DirectorAnalytics = () => {
                   <Cell
                     key={`cell-${idx}`}
                     fill={entry.fill}
-                    stroke="#1F2937"
+                    stroke="#FFFFFF"
                     strokeWidth={2}
                   />
                 ))}
               </Pie>
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "#1f2937",
-                  borderColor: "#374151",
+                  backgroundColor: "#FFFFFF",
+                  borderColor: "#E5E7EB",
                   borderRadius: "8px",
                   padding: "8px 12px",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
                 }}
               />
               <Legend
@@ -446,9 +452,9 @@ const DirectorAnalytics = () => {
       </div>
 
       {/* ---------- REQUEST STATUS (BAR CHART) ---------- */}
-      <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-        <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-          <Target className="w-5 h-5 text-emerald-400" />
+      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
+        <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
+          <Target className="w-5 h-5 text-[#2563eb]" />
           Request Status
         </h3>
         <div className="w-full h-80">
@@ -509,9 +515,9 @@ const DirectorAnalytics = () => {
       </div>
 
       {/* ---------- TEAM PERFORMANCE ---------- */}
-      <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-        <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-          <Users className="w-5 h-5 text-emerald-400" />
+      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
+        <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
+          <Users className="w-5 h-5 text-[#2563eb]" />
           Team Performance
         </h3>
         <div className="space-y-3">
@@ -519,22 +525,22 @@ const DirectorAnalytics = () => {
             enhancedTeams.map((team, idx) => (
               <div
                 key={idx}
-                className="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all duration-300"
+                className="p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg hover:bg-[#F3F4F6] transition-all duration-300"
               >
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-white font-medium">{team.name}</span>
-                  <span className="text-emerald-400 text-sm font-semibold">
+                  <span className="text-[#111827] font-medium">{team.name}</span>
+                  <span className="text-[#2563eb] text-sm font-semibold">
                     {team.completionRate}%
                   </span>
                 </div>
-                <div className="flex justify-between text-xs text-gray-400 mb-2">
+                <div className="flex justify-between text-xs text-[#6b7280] mb-2">
                   <span>{team.members} members</span>
                   <span>
                     {team.completedRequests}/{team.totalRequests} tasks
                   </span>
                   <span>Load: {team.load.toFixed(1)}/member</span>
                 </div>
-                <div className="w-full bg-gray-600 rounded-full h-1.5">
+                <div className="w-full bg-[#E5E7EB] rounded-full h-1.5">
                   <div
                     className="bg-emerald-500 h-1.5 rounded-full"
                     style={{ width: `${team.completionRate}%` }}
@@ -543,7 +549,7 @@ const DirectorAnalytics = () => {
               </div>
             ))
           ) : (
-            <div className="text-center py-8 text-gray-500">
+            <div className="text-center py-8 text-[#6b7280]">
               No teams found in your directorate
             </div>
           )}
@@ -551,8 +557,8 @@ const DirectorAnalytics = () => {
       </div>
 
       {/* ---------- ACTIVE/RISKY REQUESTS ---------- */}
-      <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-        <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
+        <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
           <AlertTriangle className="w-5 h-5 text-amber-400" />
           Active / Risky Requests
         </h3>
@@ -561,24 +567,24 @@ const DirectorAnalytics = () => {
             riskyRequests.map((request, idx) => (
               <div
                 key={idx}
-                className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition gap-2"
+                className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg hover:bg-[#F3F4F6] transition gap-2"
               >
                 <div className="flex-1">
-                  <p className="text-white text-sm font-medium">
+                  <p className="text-[#111827] text-sm font-medium">
                     {request.title}
                   </p>
                   <div className="flex flex-wrap gap-2 mt-1">
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-[#6b7280]">
                       From: {request.applicant}
                     </span>
-                    <span className="text-xs text-gray-500">•</span>
-                    <span className="text-xs text-gray-500 capitalize">
+                    <span className="text-xs text-[#6b7280]">•</span>
+                    <span className="text-xs text-[#6b7280] capitalize">
                       Type: {request.serviceType}
                     </span>
                     {request.assignedTeam && (
                       <>
-                        <span className="text-xs text-gray-500">•</span>
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-[#6b7280]">•</span>
+                        <span className="text-xs text-[#6b7280]">
                           Team: {request.assignedTeam}
                         </span>
                       </>
@@ -589,10 +595,10 @@ const DirectorAnalytics = () => {
                   <span
                     className={`text-xs px-2 py-1 rounded-full ${
                       request.status === "completed"
-                        ? "bg-emerald-500/20 text-emerald-400"
+                        ? "bg-[#EEF2FF] text-[#2563eb]"
                         : request.status === "in_progress"
-                          ? "bg-blue-500/20 text-blue-400"
-                          : "bg-yellow-500/20 text-yellow-400"
+                          ? "bg-blue-100 text-blue-600"
+                          : "bg-yellow-100 text-yellow-600"
                     }`}
                   >
                     {request.status === "in_progress"
@@ -601,15 +607,15 @@ const DirectorAnalytics = () => {
                         ? "Pending"
                         : request.status}
                   </span>
-                  <Calendar className="w-3 h-3 text-gray-500" />
-                  <span className="text-xs text-gray-500">
+                  <Calendar className="w-3 h-3 text-[#6b7280]" />
+                  <span className="text-xs text-[#6b7280]">
                     {new Date(request.createdAt).toLocaleDateString()}
                   </span>
                 </div>
               </div>
             ))
           ) : (
-            <div className="text-center py-8 text-gray-500">
+            <div className="text-center py-8 text-[#6b7280]">
               No active risky requests
             </div>
           )}

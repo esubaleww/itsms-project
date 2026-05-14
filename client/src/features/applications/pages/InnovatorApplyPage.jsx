@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../../hooks/useAuth";
@@ -55,25 +55,25 @@ const InnovatorApplyPage = () => {
 
   if (user?.profiles?.innovator) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center py-12 px-4">
+      <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] flex items-center justify-center py-12 px-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="max-w-md w-full bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700 p-8 text-center"
+          className="max-w-md w-full bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-2xl border border-[#E5E7EB] p-8 text-center"
         >
           <div className="w-20 h-20 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <AlertCircle className="w-10 h-10 text-yellow-400" />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-2">
+          <h2 className="text-2xl font-bold text-[#111827] mb-2">
             Already Applied!
           </h2>
-          <p className="text-gray-400 mb-6">
+          <p className="text-[#6b7280] mb-6">
             You have already submitted an innovation application. Our team is
             reviewing your idea. You will be notified once there's an update.
           </p>
           <button
             onClick={() => navigate("/dashboard")}
-            className="px-6 py-2 bg-linear-to-r from-emerald-500 to-teal-700 text-white rounded-lg hover:from-emerald-600 hover:to-teal-800 transition flex items-center justify-center gap-2 mx-auto"
+            className="px-6 py-2 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] rounded-lg hover:from-emerald-600 hover:to-teal-800 transition flex items-center justify-center gap-2 mx-auto"
           >
             Back to Dashboard
             <ArrowRight className="w-4 h-4" />
@@ -202,7 +202,7 @@ const InnovatorApplyPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 py-12 px-4">
+    <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] py-12 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <motion.div
@@ -211,12 +211,12 @@ const InnovatorApplyPage = () => {
           className="text-center mb-8"
         >
           <div className="inline-flex items-center justify-center p-3 bg-linear-to-r from-emerald-500 to-teal-700 rounded-2xl mb-4">
-            <Rocket className="w-8 h-8 text-white" />
+            <Rocket className="w-8 h-8 text-[#111827]" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold text-[#111827] mb-2">
             Innovation Application
           </h1>
-          <p className="text-gray-400">
+          <p className="text-[#6b7280]">
             Submit your innovative idea and join the next generation of
             innovators
           </p>
@@ -234,8 +234,8 @@ const InnovatorApplyPage = () => {
                   <div
                     className={`relative w-12 h-12 rounded-full flex items-center justify-center mx-auto transition-all duration-300 ${
                       isActive
-                        ? "bg-linear-to-r from-emerald-500 to-teal-700 text-white shadow-lg"
-                        : "bg-gray-700 text-gray-400"
+                        ? "bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] shadow-lg"
+                        : "bg-gray-700 text-[#6b7280]"
                     }`}
                   >
                     {isCompleted ? (
@@ -246,7 +246,7 @@ const InnovatorApplyPage = () => {
                   </div>
                   <p
                     className={`text-xs mt-2 font-medium ${
-                      isActive ? "text-emerald-400" : "text-gray-500"
+                      isActive ? "text-[#2563eb]" : "text-[#6b7280]"
                     }`}
                   >
                     {step.title}
@@ -269,7 +269,7 @@ const InnovatorApplyPage = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700 overflow-hidden"
+          className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-2xl border border-[#E5E7EB] overflow-hidden"
         >
           <form onSubmit={handleSubmit}>
             <AnimatePresence mode="wait">
@@ -283,48 +283,48 @@ const InnovatorApplyPage = () => {
                   className="p-8 space-y-6"
                 >
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-emerald-500/20 rounded-lg">
-                      <GraduationCap className="w-5 h-5 text-emerald-400" />
+                    <div className="p-2 bg-[#EEF2FF] rounded-lg">
+                      <GraduationCap className="w-5 h-5 text-[#2563eb]" />
                     </div>
-                    <h2 className="text-xl font-semibold text-white">
+                    <h2 className="text-xl font-semibold text-[#111827]">
                       Background Information
                     </h2>
                   </div>
 
                   <div className="space-y-5">
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Phone Number <span className="text-red-400">*</span>
+                      <label className="block text-sm font-medium text-[#374151] mb-2">
+                        Phone Number <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
-                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                         <input
                           type="tel"
                           name="phone"
                           value={formData.phone}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="+251 912 345 678"
                         />
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-xs text-[#6b7280] mt-1">
                         We'll use this to contact you about your application
                       </p>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#374151] mb-2">
                         Institution/Affiliation{" "}
-                        <span className="text-red-400">*</span>
+                        <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
-                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                         <input
                           type="text"
                           name="institution"
                           value={formData.institution}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="Addis Ababa University"
                         />
                       </div>
@@ -332,16 +332,16 @@ const InnovatorApplyPage = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-[#374151] mb-2">
                           Education Level
                         </label>
                         <div className="relative">
-                          <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                          <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                           <select
                             name="educationLevel"
                             value={formData.educationLevel}
                             onChange={handleChange}
-                            className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 appearance-none"
+                            className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] appearance-none"
                           >
                             <option value="">Select Level</option>
                             <option value="Undergraduate">Undergraduate</option>
@@ -353,17 +353,17 @@ const InnovatorApplyPage = () => {
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-[#374151] mb-2">
                           Field of Study
                         </label>
                         <div className="relative">
-                          <BookOpen className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                          <BookOpen className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                           <input
                             type="text"
                             name="fieldOfStudy"
                             value={formData.fieldOfStudy}
                             onChange={handleChange}
-                            className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                            className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                             placeholder="Computer Science"
                           />
                         </div>
@@ -371,34 +371,34 @@ const InnovatorApplyPage = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#374151] mb-2">
                         Graduation Year
                       </label>
                       <div className="relative">
-                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                         <input
                           type="text"
                           name="graduationYear"
                           value={formData.graduationYear}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="2024"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Idea Title <span className="text-red-400">*</span>
+                      <label className="block text-sm font-medium text-[#374151] mb-2">
+                        Idea Title <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
-                        <Lightbulb className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <Lightbulb className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
                         <input
                           type="text"
                           name="ideaTitle"
                           value={formData.ideaTitle}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="Enter your innovative idea title"
                         />
                       </div>
@@ -417,65 +417,65 @@ const InnovatorApplyPage = () => {
                   className="p-8 space-y-6"
                 >
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-emerald-500/20 rounded-lg">
-                      <Lightbulb className="w-5 h-5 text-emerald-400" />
+                    <div className="p-2 bg-[#EEF2FF] rounded-lg">
+                      <Lightbulb className="w-5 h-5 text-[#2563eb]" />
                     </div>
-                    <h2 className="text-xl font-semibold text-white">
+                    <h2 className="text-xl font-semibold text-[#111827]">
                       Idea Details
                     </h2>
                   </div>
 
                   <div className="space-y-5">
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Idea Description <span className="text-red-400">*</span>
+                      <label className="block text-sm font-medium text-[#374151] mb-2">
+                        Idea Description <span className="text-red-500">*</span>
                       </label>
                       <textarea
                         name="ideaDescription"
                         rows="5"
                         value={formData.ideaDescription}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                        className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                         placeholder="Describe your innovative idea in detail..."
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#374151] mb-2">
                         Problem Solved
                       </label>
                       <div className="relative">
-                        <AlertCircle className="absolute left-3 top-3 w-4 h-4 text-gray-500" />
+                        <AlertCircle className="absolute left-3 top-3 w-4 h-4 text-[#6b7280]" />
                         <textarea
                           name="problemSolved"
                           rows="3"
                           value={formData.problemSolved}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="What problem does your idea solve?"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#374151] mb-2">
                         Target Market
                       </label>
                       <div className="relative">
-                        <Users className="absolute left-3 top-3 w-4 h-4 text-gray-500" />
+                        <Users className="absolute left-3 top-3 w-4 h-4 text-[#6b7280]" />
                         <textarea
                           name="targetMarket"
                           rows="3"
                           value={formData.targetMarket}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="Who is your target audience?"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#374151] mb-2">
                         Areas of Interest
                       </label>
                       <div className="flex gap-2">
@@ -483,7 +483,7 @@ const InnovatorApplyPage = () => {
                           type="text"
                           value={areaInput}
                           onChange={(e) => setAreaInput(e.target.value)}
-                          className="flex-1 px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="flex-1 px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="e.g., AI, AgriTech, HealthTech"
                           onKeyDown={(e) =>
                             e.key === "Enter" && (e.preventDefault(), addArea())
@@ -492,7 +492,7 @@ const InnovatorApplyPage = () => {
                         <button
                           type="button"
                           onClick={addArea}
-                          className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition flex items-center gap-2"
+                          className="px-4 py-2 bg-emerald-600 text-[#111827] rounded-lg hover:bg-emerald-700 transition flex items-center gap-2"
                         >
                           <Plus className="w-4 h-4" /> Add
                         </button>
@@ -507,7 +507,7 @@ const InnovatorApplyPage = () => {
                             <button
                               type="button"
                               onClick={() => removeArea(area)}
-                              className="hover:text-red-400"
+                              className="hover:text-red-500"
                             >
                               <X className="w-3 h-3" />
                             </button>
@@ -517,7 +517,7 @@ const InnovatorApplyPage = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#374151] mb-2">
                         Skills
                       </label>
                       <div className="flex gap-2">
@@ -525,7 +525,7 @@ const InnovatorApplyPage = () => {
                           type="text"
                           value={skillInput}
                           onChange={(e) => setSkillInput(e.target.value)}
-                          className="flex-1 px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                          className="flex-1 px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
                           placeholder="e.g., Python, Machine Learning, UI/UX"
                           onKeyDown={(e) =>
                             e.key === "Enter" &&
@@ -535,7 +535,7 @@ const InnovatorApplyPage = () => {
                         <button
                           type="button"
                           onClick={addSkill}
-                          className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition flex items-center gap-2"
+                          className="px-4 py-2 bg-emerald-600 text-[#111827] rounded-lg hover:bg-emerald-700 transition flex items-center gap-2"
                         >
                           <Plus className="w-4 h-4" /> Add
                         </button>
@@ -544,13 +544,13 @@ const InnovatorApplyPage = () => {
                         {formData.skills.map((skill) => (
                           <span
                             key={skill}
-                            className="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-sm flex items-center gap-2"
+                            className="bg-[#EEF2FF] text-[#2563eb] px-3 py-1 rounded-full text-sm flex items-center gap-2"
                           >
                             {skill}
                             <button
                               type="button"
                               onClick={() => removeSkill(skill)}
-                              className="hover:text-red-400"
+                              className="hover:text-red-500"
                             >
                               <X className="w-3 h-3" />
                             </button>
@@ -572,10 +572,10 @@ const InnovatorApplyPage = () => {
                   className="p-8 space-y-6"
                 >
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-emerald-500/20 rounded-lg">
-                      <FileText className="w-5 h-5 text-emerald-400" />
+                    <div className="p-2 bg-[#EEF2FF] rounded-lg">
+                      <FileText className="w-5 h-5 text-[#2563eb]" />
                     </div>
-                    <h2 className="text-xl font-semibold text-white">
+                    <h2 className="text-xl font-semibold text-[#111827]">
                       Documents & Resources
                     </h2>
                   </div>
@@ -629,10 +629,10 @@ const InnovatorApplyPage = () => {
                     </ErrorBoundary>
                   </div>
 
-                  <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4 mt-4">
+                  <div className="bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg p-4 mt-4">
                     <div className="flex items-start gap-3">
-                      <Sparkles className="w-5 h-5 text-emerald-400 mt-0.5" />
-                      <p className="text-sm text-emerald-300">
+                      <Sparkles className="w-5 h-5 text-[#2563eb] mt-0.5" />
+                      <p className="text-sm text-[#1d4ed8]">
                         Your innovation will be reviewed by our expert panel.
                         We'll get back to you within 5-7 business days.
                       </p>
@@ -643,12 +643,12 @@ const InnovatorApplyPage = () => {
             </AnimatePresence>
 
             {/* Navigation Buttons */}
-            <div className="border-t border-gray-700 p-6 flex justify-between">
+            <div className="border-t border-[#E5E7EB] p-6 flex justify-between">
               {currentStep > 1 && (
                 <button
                   type="button"
                   onClick={prevStep}
-                  className="px-6 py-2 border border-gray-600 rounded-lg text-gray-300 hover:bg-gray-700 transition flex items-center gap-2"
+                  className="px-6 py-2 border border-[#D1D5DB] rounded-lg text-[#374151] hover:bg-[#F3F4F6] transition flex items-center gap-2"
                 >
                   Previous
                 </button>
@@ -657,7 +657,7 @@ const InnovatorApplyPage = () => {
                 <button
                   type="button"
                   onClick={nextStep}
-                  className={`px-6 py-2 bg-linear-to-r from-emerald-600 to-teal-600 text-white rounded-lg hover:from-emerald-500 hover:to-teal-500 transition flex items-center gap-2 ${
+                  className={`px-6 py-2 bg-[#2563eb] hover:bg-[#1d4ed8] font-medium shadow-md text-[#111827] rounded-lg hover:from-emerald-500 hover:to-teal-500 transition flex items-center gap-2 ${
                     currentStep === 1 ? "ml-auto" : ""
                   }`}
                 >
@@ -667,7 +667,7 @@ const InnovatorApplyPage = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-6 py-2 bg-linear-to-r from-emerald-600 to-teal-600 text-white rounded-lg hover:from-emerald-500 hover:to-teal-500 transition flex items-center gap-2 ml-auto disabled:opacity-50"
+                  className="px-6 py-2 bg-[#2563eb] hover:bg-[#1d4ed8] font-medium shadow-md text-[#111827] rounded-lg hover:from-emerald-500 hover:to-teal-500 transition flex items-center gap-2 ml-auto disabled:opacity-50"
                 >
                   {loading ? (
                     <>
@@ -693,7 +693,7 @@ const InnovatorApplyPage = () => {
           transition={{ delay: 0.5 }}
           className="mt-6 text-center"
         >
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-[#6b7280]">
             By submitting this application, you agree to our terms and
             conditions. Your innovation idea will be protected under our
             confidentiality policy.

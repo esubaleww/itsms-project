@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import {
   CheckCircle,
   Clock,
@@ -22,7 +22,7 @@ const ServiceRequestCard = ({ request, onClick }) => {
 
     if (request.status === "completed") {
       return {
-        color: "bg-emerald-500/20 text-emerald-400",
+        color: "bg-[#EEF2FF] text-[#2563eb]",
         icon: CheckCircle,
         label: "Completed",
       };
@@ -43,7 +43,7 @@ const ServiceRequestCard = ({ request, onClick }) => {
     }
     if (adminDecision?.approved === false || request.status === "rejected") {
       return {
-        color: "bg-red-500/20 text-red-400",
+        color: "bg-red-500/20 text-red-500",
         icon: XCircle,
         label: "Rejected",
       };
@@ -63,7 +63,7 @@ const ServiceRequestCard = ({ request, onClick }) => {
       };
     }
     return {
-      color: "bg-gray-500/20 text-gray-400",
+      color: "bg-gray-500/20 text-[#6b7280]",
       icon: Clock,
       label: request.status || "Pending",
     };
@@ -92,7 +92,7 @@ const ServiceRequestCard = ({ request, onClick }) => {
   const getPriorityColor = (priority) => {
     switch (priority) {
       case "urgent":
-        return "text-red-400";
+        return "text-red-500";
       case "high":
         return "text-orange-400";
       case "medium":
@@ -100,7 +100,7 @@ const ServiceRequestCard = ({ request, onClick }) => {
       case "low":
         return "text-green-400";
       default:
-        return "text-gray-400";
+        return "text-[#6b7280]";
     }
   };
 
@@ -127,7 +127,7 @@ const ServiceRequestCard = ({ request, onClick }) => {
   };
 
   return (
-    <div className="bg-gray-800/50 rounded-xl border border-gray-700 hover:border-gray-600 hover:bg-gray-800/70 transition-all cursor-pointer group">
+    <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] hover:bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/70 transition-all cursor-pointer group">
       <div
         onClick={() => onClick?.(request._id)}
         className="p-4 sm:p-5 cursor-pointer"
@@ -135,7 +135,7 @@ const ServiceRequestCard = ({ request, onClick }) => {
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
           <div className="flex-1">
             <div className="flex flex-wrap items-center gap-2 mb-3">
-              <span className="text-xs font-mono text-gray-500 bg-gray-700/50 px-2 py-1 rounded">
+              <span className="text-xs font-mono text-[#6b7280] bg-white px-2 py-1 rounded">
                 {requestId}
               </span>
               <span
@@ -154,27 +154,27 @@ const ServiceRequestCard = ({ request, onClick }) => {
               )}
             </div>
 
-            <h3 className="font-semibold text-white text-base sm:text-lg mb-2">
+            <h3 className="font-semibold text-[#111827] text-base sm:text-lg mb-2">
               {serviceType}
             </h3>
 
-            <p className="text-sm text-gray-400 line-clamp-2 mb-3">
+            <p className="text-sm text-[#6b7280] line-clamp-2 mb-3">
               {request.metadata?.description || "No description provided"}
             </p>
 
             <div className="flex flex-wrap gap-3 mt-2">
               <div className="flex items-center gap-2 text-xs">
-                <Building2 className="w-3 h-3 text-gray-500" />
-                <span className="text-gray-400">
+                <Building2 className="w-3 h-3 text-[#6b7280]" />
+                <span className="text-[#6b7280]">
                   From:{" "}
-                  <span className="text-gray-300">{getApplicantName()}</span>
+                  <span className="text-[#374151]">{getApplicantName()}</span>
                 </span>
               </div>
               <div className="flex items-center gap-2 text-xs">
-                <Calendar className="w-3 h-3 text-gray-500" />
-                <span className="text-gray-400">
+                <Calendar className="w-3 h-3 text-[#6b7280]" />
+                <span className="text-[#6b7280]">
                   Updated:{" "}
-                  <span className="text-gray-300">{lastUpdateText}</span>
+                  <span className="text-[#374151]">{lastUpdateText}</span>
                 </span>
               </div>
             </div>
@@ -182,7 +182,7 @@ const ServiceRequestCard = ({ request, onClick }) => {
 
           <button
             onClick={handleToggleExpand}
-            className="self-start p-1 text-gray-500 hover:text-emerald-400 transition"
+            className="self-start p-1 text-[#6b7280] hover:text-[#2563eb] transition"
           >
             {isExpanded ? (
               <ChevronUp className="w-5 h-5" />
@@ -194,21 +194,21 @@ const ServiceRequestCard = ({ request, onClick }) => {
       </div>
 
       {isExpanded && (
-        <div className="border-t border-gray-700 bg-gray-800/40 p-4 sm:p-5 space-y-4">
+        <div className="border-t border-[#E5E7EB] bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/40 p-4 sm:p-5 space-y-4">
           {/* Service Details */}
           <div>
-            <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-              <FileText className="w-4 h-4 text-emerald-400" />
+            <h4 className="text-sm font-semibold text-[#111827] mb-3 flex items-center gap-2">
+              <FileText className="w-4 h-4 text-[#2563eb]" />
               Service Details
             </h4>
             <div className="space-y-2">
               <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
-                <span className="text-gray-400">Type:</span>
-                <span className="text-gray-300">{serviceType}</span>
+                <span className="text-[#6b7280]">Type:</span>
+                <span className="text-[#374151]">{serviceType}</span>
               </div>
               {request.metadata?.priority && (
                 <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
-                  <span className="text-gray-400">Priority:</span>
+                  <span className="text-[#6b7280]">Priority:</span>
                   <span
                     className={`capitalize ${getPriorityColor(request.metadata.priority)}`}
                   >
@@ -217,8 +217,8 @@ const ServiceRequestCard = ({ request, onClick }) => {
                 </div>
               )}
               <div className="text-sm">
-                <span className="text-gray-400 block mb-1">Description:</span>
-                <span className="text-gray-300">
+                <span className="text-[#6b7280] block mb-1">Description:</span>
+                <span className="text-[#374151]">
                   {request.metadata?.description}
                 </span>
               </div>
@@ -228,20 +228,20 @@ const ServiceRequestCard = ({ request, onClick }) => {
           {/* Documents Section */}
           {request.metadata?.documents && (
             <div>
-              <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-                <FileCheck className="w-4 h-4 text-emerald-400" />
+              <h4 className="text-sm font-semibold text-[#111827] mb-3 flex items-center gap-2">
+                <FileCheck className="w-4 h-4 text-[#2563eb]" />
                 Documents
               </h4>
               <div className="space-y-2">
                 {request.metadata.documents.requestLetter && (
                   <div className="flex items-center gap-2 text-sm flex-wrap">
-                    <FileText className="w-3 h-3 text-gray-500 shrink-0" />
-                    <span className="text-gray-400">Request Letter:</span>
+                    <FileText className="w-3 h-3 text-[#6b7280] shrink-0" />
+                    <span className="text-[#6b7280]">Request Letter:</span>
                     <a
                       href={request.metadata.documents.requestLetter.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-emerald-400 hover:text-emerald-300 break-all"
+                      className="text-[#2563eb] hover:text-[#1d4ed8] break-all"
                       onClick={(e) => e.stopPropagation()}
                     >
                       View Document
@@ -250,13 +250,13 @@ const ServiceRequestCard = ({ request, onClick }) => {
                 )}
                 {request.metadata.documents.authorizationLetter && (
                   <div className="flex items-center gap-2 text-sm flex-wrap">
-                    <FileText className="w-3 h-3 text-gray-500 shrink-0" />
-                    <span className="text-gray-400">Authorization Letter:</span>
+                    <FileText className="w-3 h-3 text-[#6b7280] shrink-0" />
+                    <span className="text-[#6b7280]">Authorization Letter:</span>
                     <a
                       href={request.metadata.documents.authorizationLetter.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-emerald-400 hover:text-emerald-300 break-all"
+                      className="text-[#2563eb] hover:text-[#1d4ed8] break-all"
                       onClick={(e) => e.stopPropagation()}
                     >
                       View Document
@@ -265,8 +265,8 @@ const ServiceRequestCard = ({ request, onClick }) => {
                 )}
                 {request.metadata.documents.supportingDocs?.length > 0 && (
                   <div className="flex items-center gap-2 text-sm flex-wrap">
-                    <FileText className="w-3 h-3 text-gray-500 shrink-0" />
-                    <span className="text-gray-400">Supporting Docs:</span>
+                    <FileText className="w-3 h-3 text-[#6b7280] shrink-0" />
+                    <span className="text-[#6b7280]">Supporting Docs:</span>
                     <div className="flex flex-wrap gap-2">
                       {request.metadata.documents.supportingDocs.map(
                         (doc, idx) => (
@@ -275,7 +275,7 @@ const ServiceRequestCard = ({ request, onClick }) => {
                             href={doc.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-emerald-400 hover:text-emerald-300 text-xs"
+                            className="text-[#2563eb] hover:text-[#1d4ed8] text-xs"
                             onClick={(e) => e.stopPropagation()}
                           >
                             Document {idx + 1}
@@ -294,15 +294,15 @@ const ServiceRequestCard = ({ request, onClick }) => {
             request.adminDecision?.approved === false) && (
             <div className="bg-red-500/10 rounded-lg p-3 border border-red-500/30">
               <div className="flex items-center gap-2 mb-2">
-                <XCircle className="w-4 h-4 text-red-400" />
-                <span className="text-sm font-semibold text-red-400">
+                <XCircle className="w-4 h-4 text-red-500" />
+                <span className="text-sm font-semibold text-red-500">
                   Rejection Reason
                 </span>
               </div>
               <p className="text-sm text-red-300">
                 {rejectionReason || "No reason provided"}
               </p>
-              <p className="text-xs text-red-400/70 mt-2">
+              <p className="text-xs text-red-500/70 mt-2">
                 Reviewed by: {getDecisionMakerName()}
               </p>
             </div>
@@ -311,8 +311,8 @@ const ServiceRequestCard = ({ request, onClick }) => {
           {/* Timeline */}
           {request.timeline && request.timeline.length > 0 && (
             <div>
-              <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-                <Clock className="w-4 h-4 text-emerald-400" />
+              <h4 className="text-sm font-semibold text-[#111827] mb-3 flex items-center gap-2">
+                <Clock className="w-4 h-4 text-[#2563eb]" />
                 Activity Timeline
               </h4>
               <div className="space-y-2 max-h-48 overflow-y-auto">
@@ -320,8 +320,8 @@ const ServiceRequestCard = ({ request, onClick }) => {
                   <div key={idx} className="flex gap-3 text-sm">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
                     <div className="flex-1">
-                      <p className="text-gray-300">{event.action}</p>
-                      <p className="text-xs text-gray-500 mt-0.5">
+                      <p className="text-[#374151]">{event.action}</p>
+                      <p className="text-xs text-[#6b7280] mt-0.5">
                         {event.by?.fullName || "System"} •{" "}
                         {new Date(
                           event.date || event.createdAt,
