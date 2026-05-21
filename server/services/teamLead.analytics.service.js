@@ -32,14 +32,12 @@ class TeamLeadAnalyticsService {
       const startOfDay = new Date(date);
       startOfDay.setHours(0, 0, 0, 0);
 
-      // Get total tasks created up to this date
       const totalTasksUpToDate = await Request.countDocuments({
         assignedTeam: teamId,
         type: "service",
         createdAt: { $lte: date },
       });
 
-      // Get completed tasks up to this date
       const completedUpToDate = await Request.countDocuments({
         assignedTeam: teamId,
         type: "service",
@@ -47,7 +45,6 @@ class TeamLeadAnalyticsService {
         completedAt: { $lte: date },
       });
 
-      // Get current in-progress tasks (as of this date)
       const inProgressAtDate = await Request.countDocuments({
         assignedTeam: teamId,
         type: "service",
@@ -55,7 +52,6 @@ class TeamLeadAnalyticsService {
         createdAt: { $lte: date },
       });
 
-      // Get pending tasks (created but not assigned or in progress)
       const pendingAtDate = await Request.countDocuments({
         assignedTeam: teamId,
         type: "service",
@@ -65,11 +61,11 @@ class TeamLeadAnalyticsService {
 
       weeklyData.push({
         name: days[date.getDay()],
-        tasks: totalTasksUpToDate, // Total tasks created so far
-        completed: completedUpToDate, // Total completed so far
-        inProgress: inProgressAtDate, // In-progress at this date
-        pending: pendingAtDate, // Pending at this date
-        remaining: totalTasksUpToDate - completedUpToDate, // Remaining
+        tasks: totalTasksUpToDate,
+        completed: completedUpToDate,
+        inProgress: inProgressAtDate,
+        pending: pendingAtDate,
+        remaining: totalTasksUpToDate - completedUpToDate,
         fullDate: date.toISOString().split("T")[0],
       });
     }
@@ -196,7 +192,6 @@ class TeamLeadAnalyticsService {
   }
 
   async getTaskDistribution(teamId) {
-    // Get all service requests for this team
     const serviceRequests = await Request.find({
       assignedTeam: teamId,
       type: "service",
@@ -206,7 +201,6 @@ class TeamLeadAnalyticsService {
       return [];
     }
 
-    // Get service catalog for reference
     const serviceCatalog = await ServiceCatalog.find({ isActive: true });
     const catalogMap = new Map();
     serviceCatalog.forEach((service) => {
@@ -216,26 +210,21 @@ class TeamLeadAnalyticsService {
       });
     });
 
-    // Count distribution by serviceType from metadata
     const distribution = new Map();
 
     for (const request of serviceRequests) {
       let serviceType = request.metadata?.serviceType;
 
-      // If no serviceType in metadata, try to find from catalog by name
       if (!serviceType) {
-        // Try to match by title or fallback to "General Service"
         serviceType = "General Service";
       }
 
-      // Get catalog info for better label
       const catalogInfo = catalogMap.get(serviceType);
       const displayName = catalogInfo ? catalogInfo.label : serviceType;
 
       distribution.set(displayName, (distribution.get(displayName) || 0) + 1);
     }
 
-    // Calculate total and percentages
     const total = serviceRequests.length;
     const result = [];
 

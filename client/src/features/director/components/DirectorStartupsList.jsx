@@ -1,4 +1,4 @@
-﻿import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -192,10 +192,10 @@ const DirectorStartupsList = ({
             className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] p-4 animate-pulse"
           >
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
+              <div className="w-10 h-10 bg-[#E5E7EB] rounded-full"></div>
               <div className="flex-1">
-                <div className="h-5 bg-gray-700 rounded w-48 mb-2"></div>
-                <div className="h-4 bg-gray-700 rounded w-64"></div>
+                <div className="h-5 bg-[#E5E7EB] rounded w-48 mb-2"></div>
+                <div className="h-4 bg-[#E5E7EB] rounded w-64"></div>
               </div>
             </div>
           </div>
@@ -241,7 +241,6 @@ const DirectorStartupsList = ({
             transition={{ duration: 0.3, delay: index * 0.05 }}
             className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200"
           >
-            {/* Main Row */}
             <div className="p-5">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                 <div className="flex-1">
@@ -275,7 +274,6 @@ const DirectorStartupsList = ({
                     </div>
                   </div>
 
-                  {/* Description */}
                   <div className="mt-3">
                     {startupData.description && (
                       <p className="text-sm text-[#6b7280] mt-1 line-clamp-2">
@@ -284,7 +282,6 @@ const DirectorStartupsList = ({
                     )}
                   </div>
 
-                  {/* Stats Row */}
                   <div className="mt-3 flex flex-wrap items-center gap-4 text-sm">
                     <div className="flex items-center gap-1 text-[#6b7280]">
                       <Users className="w-4 h-4" />
@@ -306,7 +303,6 @@ const DirectorStartupsList = ({
                     )}
                   </div>
 
-                  {/* Mentor Info */}
                   {hasMentor ? (
                     <div className="mt-3 flex items-center gap-2 text-sm bg-purple-500/10 text-purple-400 px-3 py-1.5 rounded-lg border border-purple-500/20 w-fit">
                       <UserCheck className="w-4 h-4" />
@@ -323,12 +319,11 @@ const DirectorStartupsList = ({
                   )}
                 </div>
 
-                {/* Actions */}
                 <div className="flex items-center gap-1 sm:ml-4">
                   {!hasMentor &&
                     onAssignMentor &&
                     (isAssigning ? (
-                      <div className="flex items-center gap-2 bg-gray-700 rounded-lg border border-[#D1D5DB] p-1">
+                      <div className="flex items-center gap-2 bg-[#E5E7EB] rounded-lg border border-[#D1D5DB] p-1">
                         <select
                           value={selectedMentor}
                           onChange={(e) => setSelectedMentor(e.target.value)}
@@ -393,7 +388,6 @@ const DirectorStartupsList = ({
               </div>
             </div>
 
-            {/* Expanded Section */}
             <AnimatePresence>
               {isExpanded && (
                 <motion.div

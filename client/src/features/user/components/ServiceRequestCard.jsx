@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import {
   CheckCircle,
   Clock,
@@ -195,7 +195,6 @@ const ServiceRequestCard = ({ request, onClick }) => {
 
       {isExpanded && (
         <div className="border-t border-[#E5E7EB] bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/40 p-4 sm:p-5 space-y-4">
-          {/* Service Details */}
           <div>
             <h4 className="text-sm font-semibold text-[#111827] mb-3 flex items-center gap-2">
               <FileText className="w-4 h-4 text-[#2563eb]" />
@@ -225,7 +224,6 @@ const ServiceRequestCard = ({ request, onClick }) => {
             </div>
           </div>
 
-          {/* Documents Section */}
           {request.metadata?.documents && (
             <div>
               <h4 className="text-sm font-semibold text-[#111827] mb-3 flex items-center gap-2">
@@ -289,7 +287,6 @@ const ServiceRequestCard = ({ request, onClick }) => {
             </div>
           )}
 
-          {/* Rejection Reason */}
           {(request.status === "rejected" ||
             request.adminDecision?.approved === false) && (
             <div className="bg-red-500/10 rounded-lg p-3 border border-red-500/30">
@@ -308,7 +305,6 @@ const ServiceRequestCard = ({ request, onClick }) => {
             </div>
           )}
 
-          {/* Timeline */}
           {request.timeline && request.timeline.length > 0 && (
             <div>
               <h4 className="text-sm font-semibold text-[#111827] mb-3 flex items-center gap-2">
@@ -322,7 +318,7 @@ const ServiceRequestCard = ({ request, onClick }) => {
                     <div className="flex-1">
                       <p className="text-[#374151]">{event.action}</p>
                       <p className="text-xs text-[#6b7280] mt-0.5">
-                        {event.by?.fullName || "System"} •{" "}
+                        {event.by?.fullName || "System"} {" "}
                         {new Date(
                           event.date || event.createdAt,
                         ).toLocaleString()}

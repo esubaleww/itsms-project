@@ -25,6 +25,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Calendar,
+  LogOut,
 } from "lucide-react";
 
 import StaffHeader from "../components/StaffHeader";
@@ -357,6 +358,18 @@ const StaffDashboardPage = () => {
                   )}
                 </button>
               ))}
+              <div className="border-t border-[#E5E7EB] mt-2 pt-2">
+                <button
+                  onClick={handleLogout}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap text-red-500 hover:bg-red-50 ${sidebarCollapsed ? "justify-center px-2" : ""}`}
+                  title={sidebarCollapsed ? "Sign Out" : ""}
+                >
+                  <div className="shrink-0"><LogOut className="w-5 h-5" /></div>
+                  {!sidebarCollapsed && (
+                    <span className="text-sm font-medium flex-1 text-left">Sign Out</span>
+                  )}
+                </button>
+              </div>
             </nav>
           </div>
 
@@ -387,7 +400,7 @@ const StaffDashboardPage = () => {
                 animate={{ x: 0 }}
                 exit={{ x: -280 }}
                 transition={{ type: "tween", duration: 0.3 }}
-                className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-r border-[#E5E7EB] z-50 md:hidden"
+                className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-r border-[#E5E7EB] z-[9999] md:hidden"
               >
                 <div className="flex justify-between items-center p-4 border-b border-[#E5E7EB]">
                   <span className="text-[#111827] font-bold">Menu</span>
@@ -420,6 +433,15 @@ const StaffDashboardPage = () => {
                       )}
                     </button>
                   ))}
+                  <div className="border-t border-[#E5E7EB] mt-2 pt-2">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-red-500 hover:bg-red-50"
+                    >
+                      <LogOut className="w-5 h-5" />
+                      <span className="text-sm font-medium">Sign Out</span>
+                    </button>
+                  </div>
                 </nav>
               </motion.aside>
             </>
@@ -429,7 +451,7 @@ const StaffDashboardPage = () => {
         <main
           className={`flex-1 overflow-y-auto transition-all duration-300 ${sidebarCollapsed ? "md:ml-20" : "md:ml-64"}`}
         >
-          <div className="px-4 sm:px-6 lg:px-8 py-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="animate-fadeIn">
               {activeTab === "dashboard" && (
                 <div className="space-y-6">
@@ -437,7 +459,7 @@ const StaffDashboardPage = () => {
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="relative overflow-hidden bg-linear-to-r from-emerald-600/20 to-teal-600/20 border border-[#2563eb]/20 rounded-xl"
+                      className="relative overflow-hidden bg-gradient-to-br from-[#DBEAFE]/40 to-[#BFDBFE]/40 border border-[#93C5FD]/30 rounded-xl"
                     >
                       <div className="relative z-10 px-5 py-4 flex items-center justify-between">
                         <div>
@@ -489,7 +511,7 @@ const StaffDashboardPage = () => {
                     }}
                   />
 
-                  <div className="bg-[#F3F4F6] border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-5">
+                  <div className="bg-white rounded-xl border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] p-6 transition-all duration-200 ease-in-out hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]">
                     <h3 className="text-[#111827] font-semibold mb-3 flex items-center gap-2">
                       <Zap className="w-5 h-5 text-[#2563eb]" />
                       Quick Actions
@@ -498,34 +520,34 @@ const StaffDashboardPage = () => {
                       {hasServiceTasks && (
                         <button
                           onClick={() => setActiveTab("tasks")}
-                          className="px-5 py-2.5 rounded-full border border-[#93C5FD] text-[#1D4ED8] bg-[#2563eb]/[0.04] font-medium tracking-[0.2px] transition-all duration-200 hover:bg-[#2563eb] hover:text-white hover:-translate-y-px hover:shadow-[0_6px_16px_rgba(37,99,235,0.2)] flex items-center gap-2 group shadow-sm"
+                          className="btn-institutional px-4 py-2"
                         >
-                          <Briefcase className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity" /> View My Tasks
+                          <Briefcase className="w-4 h-4" /> View My Tasks
                         </button>
                       )}
                       {canAdvise && interns?.length > 0 && (
                         <button
                           onClick={() => setActiveTab("advisor")}
-                          className="px-5 py-2.5 rounded-full border border-[#93C5FD] text-[#1D4ED8] bg-[#2563eb]/[0.04] font-medium tracking-[0.2px] transition-all duration-200 hover:bg-[#2563eb] hover:text-white hover:-translate-y-px hover:shadow-[0_6px_16px_rgba(37,99,235,0.2)] flex items-center gap-2 group shadow-sm"
+                          className="btn-institutional px-4 py-2"
                         >
-                          <GraduationCap className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity" /> Review Reports
+                          <GraduationCap className="w-4 h-4" /> Review Reports
                         </button>
                       )}
                       {canMentor &&
                         (innovators?.length > 0 || startups?.length > 0) && (
                           <button
                             onClick={() => setActiveTab("mentor")}
-                            className="px-5 py-2.5 rounded-full border border-[#93C5FD] text-[#1D4ED8] bg-[#2563eb]/[0.04] font-medium tracking-[0.2px] transition-all duration-200 hover:bg-[#2563eb] hover:text-white hover:-translate-y-px hover:shadow-[0_6px_16px_rgba(37,99,235,0.2)] flex items-center gap-2 group shadow-sm"
+                            className="btn-institutional px-4 py-2"
                           >
-                            <Lightbulb className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity" /> Review Milestones
+                            <Lightbulb className="w-4 h-4" /> Review Milestones
                           </button>
                         )}
                       {canTrain && trainees?.length > 0 && (
                         <button
                           onClick={() => setActiveTab("trainer")}
-                          className="px-5 py-2.5 rounded-full border border-[#93C5FD] text-[#1D4ED8] bg-[#2563eb]/[0.04] font-medium tracking-[0.2px] transition-all duration-200 hover:bg-[#2563eb] hover:text-white hover:-translate-y-px hover:shadow-[0_6px_16px_rgba(37,99,235,0.2)] flex items-center gap-2 group shadow-sm"
+                          className="btn-institutional px-4 py-2"
                         >
-                          <School className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity" /> Manage Sessions
+                          <School className="w-4 h-4" /> Manage Sessions
                         </button>
                       )}
                     </div>
@@ -566,7 +588,7 @@ const StaffDashboardPage = () => {
                     </div>
                     <button
                       onClick={() => fetchInterns()}
-                      className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm text-[#111827] transition"
+                      className="px-3 py-1.5 bg-[#EEF2FF] hover:bg-[#DBEAFE] text-[#2563eb] border border-[#2563eb]/20 rounded-lg text-sm font-medium transition"
                     >
                       Refresh
                     </button>
@@ -611,7 +633,7 @@ const StaffDashboardPage = () => {
                           ? fetchInnovators()
                           : fetchStartups()
                       }
-                      className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm text-[#111827] transition"
+                      className="px-3 py-1.5 bg-[#EEF2FF] hover:bg-[#DBEAFE] text-[#2563eb] border border-[#2563eb]/20 rounded-lg text-sm font-medium transition"
                     >
                       Refresh
                     </button>
@@ -638,7 +660,7 @@ const StaffDashboardPage = () => {
                       onClick={() => setTrainerSubTab("sessions")}
                       className={`pb-3 px-4 text-sm font-medium transition-all duration-200 ${
                         trainerSubTab === "sessions"
-                          ? "text-[#2563eb] border-b-2 border-emerald-400"
+                          ? "text-[#2563eb] border-b-2 border-[#2563eb]"
                           : "text-[#6b7280] hover:text-[#374151]"
                       }`}
                     >
@@ -651,7 +673,7 @@ const StaffDashboardPage = () => {
                       onClick={() => setTrainerSubTab("trainees")}
                       className={`pb-3 px-4 text-sm font-medium transition-all duration-200 ${
                         trainerSubTab === "trainees"
-                          ? "text-[#2563eb] border-b-2 border-emerald-400"
+                          ? "text-[#2563eb] border-b-2 border-[#2563eb]"
                           : "text-[#6b7280] hover:text-[#374151]"
                       }`}
                     >

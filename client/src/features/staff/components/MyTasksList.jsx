@@ -1,4 +1,3 @@
-﻿// client/src/features/staff/components/MyTasksList.jsx
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -133,7 +132,6 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
                     )}
                   </div>
 
-                  {/* Show instructions preview */}
                   {instructions && (
                     <div className="mt-2 text-xs text-[#6b7280] flex items-center gap-1">
                       <FileText className="w-3 h-3" />
@@ -195,7 +193,6 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
                 </div>
               </div>
 
-              {/* Expanded Details Section */}
               {isExpanded && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
@@ -203,7 +200,6 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
                   exit={{ opacity: 0, height: 0 }}
                   className="mt-4 pt-4 border-t border-[#E5E7EB] space-y-3"
                 >
-                  {/* Full Instructions */}
                   {instructions && (
                     <div className="bg-blue-500/10 rounded-lg p-3 border border-blue-500/20">
                       <h4 className="text-xs font-semibold text-blue-400 mb-1 flex items-center gap-1">
@@ -216,7 +212,6 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
                     </div>
                   )}
 
-                  {/* Timeline */}
                   {task.timeline && task.timeline.length > 0 && (
                     <div>
                       <h4 className="text-xs font-semibold text-[#6b7280] mb-2">
@@ -246,7 +241,6 @@ const MyTasksList = ({ tasks, loading, onUpdateStatus, onViewDetails }) => {
                     </div>
                   )}
 
-                  {/* Task Details */}
                   <div className="grid grid-cols-2 gap-3 text-xs">
                     <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-2">
                       <span className="text-[#6b7280]">Created</span>

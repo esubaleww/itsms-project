@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Target,
@@ -10,7 +10,6 @@ import {
   Upload,
   FileText,
   X,
-  Send,
   Eye,
   Download,
   Trash2,
@@ -27,7 +26,7 @@ const statusConfig = {
   },
   in_progress: {
     label: "In Progress",
-    color: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+    color: "bg-[#EEF2FF] text-[#2563eb] border-[#2563eb]/30",
     icon: AlertCircle,
     nextStatus: "completed",
   },
@@ -79,9 +78,17 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
     setEvidence({ ...evidence, files: newFiles });
   };
 
-  const handleSubmitEvidence = async () => {
-    if (!evidence.description.trim()) {
-      alert("Please provide a description of your work");
+  const canSubmitEvidence =
+    evidence.description.trim().length > 0 || evidence.files.length > 0;
+
+  const openFile = (url) => {
+    if (url) window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  const handleSubmitEvidence = async (e) => {
+    e?.stopPropagation?.();
+    if (!canSubmitEvidence) {
+      alert("Please provide a description or upload evidence");
       return;
     }
 
@@ -114,7 +121,7 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
       >
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3 flex-1">
-            <div className="w-10 h-10 rounded-lg bg-gray-700 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-lg bg-[#EEF2FF] border border-[#2563eb]/20 flex items-center justify-center">
               <Target className="w-5 h-5 text-[#2563eb]" />
             </div>
             <div className="flex-1">
@@ -148,7 +155,6 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
             <p className="text-sm text-[#374151]">{milestone.description}</p>
           </div>
 
-          {/* Show Mentor Resources if available */}
           {milestone.resources && milestone.resources.length > 0 && (
             <div className="bg-blue-500/10 rounded-lg p-3 border border-blue-500/20">
               <p className="text-xs text-blue-400 mb-2 flex items-center gap-1">
@@ -179,9 +185,13 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
 
           {milestone.status === "pending" && (
             <button
-              onClick={handleStartWorking}
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleStartWorking();
+              }}
               disabled={updating}
-              className="w-full py-2 rounded-lg transition font-medium text-sm flex items-center justify-center gap-2 bg-blue-500/20 text-blue-400 hover:bg-blue-500/30"
+              className="btn-institutional w-full py-2 disabled:opacity-50"
             >
               {updating ? (
                 <div className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent" />
@@ -193,8 +203,12 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
 
           {isInProgress && !showEvidenceForm && (
             <button
-              onClick={() => setShowEvidenceForm(true)}
-              className="w-full py-2 rounded-lg transition font-medium text-sm flex items-center justify-center gap-2 bg-[#EEF2FF] text-[#2563eb] hover:bg-emerald-500/30"
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowEvidenceForm(true);
+              }}
+              className="btn-institutional w-full py-2"
             >
               <Upload className="w-4 h-4" />
               Submit Work for Review
@@ -202,7 +216,10 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
           )}
 
           {showEvidenceForm && (
-            <div className="space-y-3 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-lg p-4">
+            <div
+              className="space-y-3 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-lg p-4"
+              onClick={(e) => e.stopPropagation()}
+            >
               <div className="flex justify-between items-center">
                 <h4 className="text-sm font-semibold text-[#111827]">
                   Submit Your Work
@@ -225,7 +242,7 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
                   setEvidence({ ...evidence, description: e.target.value })
                 }
                 rows={3}
-                className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] text-sm focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] text-sm focus:outline-none focus:border-[#2563eb]"
               />
 
               <DocumentUpload
@@ -293,15 +310,16 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
               )}
 
               <button
+                type="button"
                 onClick={handleSubmitEvidence}
-                disabled={!evidence.description.trim() || uploading}
-                className="w-full py-2 bg-emerald-600 text-[#111827] rounded-lg hover:bg-emerald-700 disabled:opacity-50 flex items-center justify-center gap-2"
+                disabled={!canSubmitEvidence || uploading}
+                className="btn-institutional w-full py-2 disabled:opacity-50"
               >
                 {uploading ? (
                   <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
                 ) : (
                   <>
-                    <Send className="w-4 h-4" />
+                    <Upload className="w-4 h-4" />
                     Submit for Review
                   </>
                 )}
@@ -309,7 +327,6 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
             </div>
           )}
 
-          {/* Show Submitted Evidence using DocumentItem */}
           {milestone.status === "completed" && milestone.evidence && (
             <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-lg p-3">
               <p className="text-xs text-[#2563eb] mb-2 flex items-center gap-1">

@@ -1,4 +1,4 @@
-﻿import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronRight,
@@ -112,10 +112,10 @@ const DirectorTraineesList = ({
             className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] p-4 animate-pulse"
           >
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
+              <div className="w-10 h-10 bg-[#E5E7EB] rounded-full"></div>
               <div className="flex-1">
-                <div className="h-5 bg-gray-700 rounded w-48 mb-2"></div>
-                <div className="h-4 bg-gray-700 rounded w-64"></div>
+                <div className="h-5 bg-[#E5E7EB] rounded w-48 mb-2"></div>
+                <div className="h-4 bg-[#E5E7EB] rounded w-64"></div>
               </div>
             </div>
           </div>
@@ -248,7 +248,7 @@ const DirectorTraineesList = ({
                   {!hasTrainer &&
                     onAssignTrainer &&
                     (isAssigning ? (
-                      <div className="flex items-center gap-2 bg-gray-700 rounded-lg border border-[#D1D5DB] p-1">
+                      <div className="flex items-center gap-2 bg-[#E5E7EB] rounded-lg border border-[#D1D5DB] p-1">
                         <select
                           value={selectedTrainer}
                           onChange={(e) => setSelectedTrainer(e.target.value)}

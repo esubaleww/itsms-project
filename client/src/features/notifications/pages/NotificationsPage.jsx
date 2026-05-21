@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { useNotifications } from "../../../hooks/useNotifications";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -44,7 +44,7 @@ const NotificationsPage = () => {
   const getTypeGradient = (type) => {
     switch (type) {
       case "success":
-        return "from-emerald-500/20 to-teal-500/10";
+        return "from-[#DBEAFE]/40 to-[#BFDBFE]/40";
       case "warning":
         return "from-yellow-500/20 to-amber-500/10";
       case "error":
@@ -89,7 +89,6 @@ const NotificationsPage = () => {
   return (
     <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] py-8">
       <div className="max-w-4xl mx-auto px-4">
-        {/* Header */}
         <div className="mb-6">
           <button
             onClick={() => navigate(-1)}
@@ -102,7 +101,7 @@ const NotificationsPage = () => {
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
             <div>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-linear-to-r from-emerald-500 to-teal-700 rounded-xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] border border-[#93C5FD] rounded-xl flex items-center justify-center">
                   <Bell className="w-5 h-5 text-[#111827]" />
                 </div>
                 <div>
@@ -127,7 +126,6 @@ const NotificationsPage = () => {
           </div>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid grid-cols-3 gap-4 mb-6">
           <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl p-4 text-center border border-[#E5E7EB]">
             <p className="text-2xl font-bold text-[#2563eb]">{stats.total}</p>
@@ -143,7 +141,6 @@ const NotificationsPage = () => {
           </div>
         </div>
 
-        {/* Filters & Actions */}
         <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] mb-4 overflow-hidden">
           <div className="p-4 flex flex-wrap justify-between items-center gap-4">
             <div className="flex gap-2">
@@ -214,7 +211,6 @@ const NotificationsPage = () => {
             )}
           </div>
 
-          {/* Bulk Actions Bar when items selected */}
           {selectedNotifications.length > 0 && (
             <div className="border-t border-[#E5E7EB] p-3 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/40 flex justify-between items-center">
               <span className="text-xs text-[#6b7280]">
@@ -225,7 +221,7 @@ const NotificationsPage = () => {
                     filteredNotifications.length
                   }
                   onChange={handleSelectAll}
-                  className="mr-2 rounded border-[#D1D5DB] bg-gray-700 text-[#2563eb] focus:ring-[#2563eb]"
+                  className="mr-2 rounded border-[#D1D5DB] bg-white text-[#2563eb] focus:ring-[#2563eb]"
                 />
                 Select all ({filteredNotifications.length})
               </span>
@@ -239,7 +235,6 @@ const NotificationsPage = () => {
           )}
         </div>
 
-        {/* Notifications List */}
         <div className="space-y-3">
           {filteredNotifications.length === 0 ? (
             <motion.div
@@ -295,7 +290,7 @@ const NotificationsPage = () => {
                           );
                         }
                       }}
-                      className="w-4 h-4 rounded border-[#D1D5DB] bg-gray-700 text-[#2563eb] focus:ring-[#2563eb] focus:ring-offset-0"
+                      className="w-4 h-4 rounded border-[#D1D5DB] bg-white text-[#2563eb] focus:ring-[#2563eb] focus:ring-offset-0"
                     />
                   </div>
 
@@ -319,7 +314,7 @@ const NotificationsPage = () => {
                     </p>
                     {notif.actionUrl && (
                       <div className="mt-2 text-xs text-[#2563eb] flex items-center gap-1">
-                        Click to view details →
+                        Click to view details ?
                       </div>
                     )}
                   </div>
@@ -335,7 +330,6 @@ const NotificationsPage = () => {
           )}
         </div>
 
-        {/* Footer with pagination placeholder */}
         {filteredNotifications.length > 10 && (
           <div className="mt-6 flex justify-center">
             <div className="flex gap-2">

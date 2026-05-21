@@ -29,12 +29,10 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
 
-  // Password visibility states
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // Password change state
   const [passwordData, setPasswordData] = useState({
     currentPassword: "",
     newPassword: "",
@@ -87,7 +85,6 @@ const ProfilePage = () => {
     navigate("/login");
   };
 
-  // Get user type display
   const getUserTypeDisplay = () => {
     if (user?.role === "admin")
       return {
@@ -153,7 +150,6 @@ const ProfilePage = () => {
   return (
     <div className="min-h-screen bg-[#F9FAFB] py-8">
       <div className="max-w-md mx-auto px-4">
-        {/* Back Button */}
         <button
           onClick={() => navigate(-1)}
           className="flex items-center gap-2 text-[#4b5563] hover:text-[#111827] mb-6 transition"
@@ -161,16 +157,13 @@ const ProfilePage = () => {
           <ChevronLeft className="w-5 h-5" /> Back
         </button>
 
-        {/* Profile Card - Left Column Only */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-[#E5E7EB] overflow-hidden"
         >
-          {/* Cover Photo */}
           <div className="h-24 bg-[#2563eb]"></div>
 
-          {/* Avatar */}
           <div className="relative px-6 pb-6">
             <div className="relative -mt-12 mb-4">
               <div className="w-24 h-24 bg-white rounded-full p-1 mx-auto border-2 border-[#2563eb]">
@@ -236,7 +229,6 @@ const ProfilePage = () => {
             </div>
 
             <div className="border-t border-[#E5E7EB] mt-4 pt-4 space-y-2">
-              {/* Change Password Button - KEPT */}
               <button
                 onClick={() => setShowChangePassword(true)}
                 className="w-full border border-[#D1D5DB] text-[#374151] py-2 rounded-lg hover:bg-[#F3F4F6] transition flex items-center justify-center gap-2"
@@ -244,7 +236,6 @@ const ProfilePage = () => {
                 <Lock className="w-4 h-4" /> Change Password
               </button>
 
-              {/* Logout Button */}
               <button
                 onClick={handleLogout}
                 className="w-full border border-red-200 text-red-500 py-2 rounded-lg hover:bg-red-50 transition flex items-center justify-center gap-2"
@@ -255,9 +246,8 @@ const ProfilePage = () => {
           </div>
         </motion.div>
 
-        {/* Change Password Modal - KEPT */}
         {showChangePassword && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -275,7 +265,6 @@ const ProfilePage = () => {
                 </button>
               </div>
               <form onSubmit={handleChangePassword} className="p-6 space-y-4">
-                {/* Current Password */}
                 <div>
                   <label className="block text-sm font-medium text-[#374151] mb-1">
                     Current Password
@@ -305,7 +294,6 @@ const ProfilePage = () => {
                   </div>
                 </div>
 
-                {/* New Password */}
                 <div>
                   <label className="block text-sm font-medium text-[#374151] mb-1">
                     New Password
@@ -337,7 +325,6 @@ const ProfilePage = () => {
                   </p>
                 </div>
 
-                {/* Confirm Password */}
                 <div>
                   <label className="block text-sm font-medium text-[#374151] mb-1">
                     Confirm New Password

@@ -45,7 +45,6 @@ const CreateStaffModal = ({
     { value: "hr_officer", label: "HR Officer", icon: Briefcase },
   ];
 
-  // ✅ Populate form when editing
   useEffect(() => {
     if (initialData && isEditing) {
       setFormData({
@@ -58,7 +57,6 @@ const CreateStaffModal = ({
         teamId: initialData.team?._id || initialData.teamId || "",
       });
 
-      // Load teams for the selected directorate
       if (initialData.directorate?._id || initialData.directorateId) {
         const dirId = initialData.directorate?._id || initialData.directorateId;
         fetchTeams(dirId);
@@ -173,14 +171,13 @@ const CreateStaffModal = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         className="bg-white rounded-2xl max-w-md w-full flex flex-col max-h-[90vh] border border-[#E5E7EB] shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
       >
-        {/* Header - Sticky */}
         <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-sm z-10 rounded-t-2xl">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-[#EEF2FF] rounded-lg flex items-center justify-center border border-[#2563eb]/20">
@@ -202,10 +199,8 @@ const CreateStaffModal = ({
           </button>
         </div>
 
-        {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto p-5">
           <form onSubmit={handleSubmit} className="space-y-4" id="staff-form">
-            {/* Backend Error Banner */}
             {backendError && (
               <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3">
                 <div className="flex items-start gap-2">
@@ -215,7 +210,6 @@ const CreateStaffModal = ({
               </div>
             )}
 
-            {/* Full Name */}
             <div>
               <label className="block text-sm font-medium text-[#374151] mb-1">
                 Full Name <span className="text-red-500">*</span>
@@ -242,7 +236,6 @@ const CreateStaffModal = ({
               )}
             </div>
 
-            {/* Email - Disable when editing? (optional) */}
             <div>
               <label className="block text-sm font-medium text-[#374151] mb-1">
                 Email <span className="text-red-500">*</span>
@@ -273,7 +266,6 @@ const CreateStaffModal = ({
               )}
             </div>
 
-            {/* Phone */}
             <div>
               <label className="block text-sm font-medium text-[#374151] mb-1">
                 Phone
@@ -297,7 +289,6 @@ const CreateStaffModal = ({
               )}
             </div>
 
-            {/* Position */}
             <div>
               <label className="block text-sm font-medium text-[#374151] mb-1">
                 Position <span className="text-red-500">*</span>
@@ -326,7 +317,6 @@ const CreateStaffModal = ({
               )}
             </div>
 
-            {/* Directorate */}
             <div>
               <label className="block text-sm font-medium text-[#374151] mb-1">
                 Directorate <span className="text-red-500">*</span>
@@ -358,7 +348,6 @@ const CreateStaffModal = ({
               )}
             </div>
 
-            {/* Team */}
             <div>
               <label className="block text-sm font-medium text-[#374151] mb-1">
                 Team <span className="text-[#6b7280]">(Optional)</span>
@@ -390,7 +379,6 @@ const CreateStaffModal = ({
           </form>
         </div>
 
-        {/* Buttons - Sticky at Bottom */}
         <div className="p-5 border-t border-[#E5E7EB] bg-[#F9FAFB] rounded-b-2xl sticky bottom-0">
           <div className="flex gap-3">
             <button

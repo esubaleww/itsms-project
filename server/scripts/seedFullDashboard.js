@@ -26,12 +26,21 @@ const seedFullData = async () => {
     const director = await User.findOne({ email: "director@itsms.gov.et" });
     const teamlead = await User.findOne({ email: "teamlead@itsms.gov.et" });
     const staff = await User.findOne({ email: "staff@itsms.gov.et" });
+    const advisor = await User.findOne({ email: "advisor@itsms.gov.et" });
+    const trainer = await User.findOne({ email: "trainer@itsms.gov.et" });
+    const mentor = await User.findOne({ email: "mentor@itsms.gov.et" });
+    
+    // Mentees/Trainees/Interns
     const innovator = await User.findOne({ email: "innovator@itsms.gov.et" });
+    const innovator2 = await User.findOne({ email: "innovator2@itsms.gov.et" });
     const intern = await User.findOne({ email: "intern@itsms.gov.et" });
+    const intern2 = await User.findOne({ email: "intern2@itsms.gov.et" });
     const startup = await User.findOne({ email: "startup@itsms.gov.et" });
+    const startup2 = await User.findOne({ email: "startup2@itsms.gov.et" });
     const trainee = await User.findOne({ email: "trainee@itsms.gov.et" });
+    const trainee2 = await User.findOne({ email: "trainee2@itsms.gov.et" });
 
-    if (!admin || !director || !teamlead || !staff) {
+    if (!admin || !director || !teamlead || !staff || !advisor || !trainer || !mentor) {
       console.error("❌ Required users not found. Run seedAllRoles.js first.");
       process.exit(1);
     }
@@ -66,13 +75,18 @@ const seedFullData = async () => {
     const serviceDir = directorates[0];
     const innovDir = directorates[1];
     const internDir = directorates[2];
+    const trainingDir = directorates[3];
+    const startupDir = directorates[4];
 
     // 4. Seed Staff Profiles
     console.log("👤 Seeding Staff Profiles...");
     await StaffProfile.insertMany([
       { user: director._id, directorate: serviceDir._id, employeeId: "DIR001" },
       { user: teamlead._id, directorate: serviceDir._id, employeeId: "TL001" },
-      { user: staff._id, directorate: serviceDir._id, employeeId: "ST001" }
+      { user: staff._id, directorate: serviceDir._id, employeeId: "ST001" },
+      { user: advisor._id, directorate: internDir._id, employeeId: "ADV001" },
+      { user: trainer._id, directorate: trainingDir._id, employeeId: "TRN001" },
+      { user: mentor._id, directorate: innovDir._id, employeeId: "MNT001" }
     ]);
 
     // 5. Seed Teams
@@ -94,197 +108,159 @@ const seedFullData = async () => {
       { name: "Cloud Storage", category: "infrastructure", description: "Secure storage", icon: "Cloud", estimatedTime: "2 hours", documents: { requestLetter: dummyDoc } }
     ]);
 
-    // 7. Seed Requests (All types and statuses)
+    // 7. Seed Requests
     console.log("📝 Seeding Requests...");
     const requestTypes = ["service", "innovation", "internship", "startup", "training"];
-    const requestStatuses = ["pending_admin", "approved", "assigned_to_team", "in_progress", "completed", "rejected"];
-    
     for (const type of requestTypes) {
-      for (const status of requestStatuses) {
-        const applicant = type === "service" ? innovator._id : (type === "internship" ? intern._id : (type === "startup" ? startup._id : trainee._id));
-        const request = await Request.create({
-          type,
-          applicant,
-          status,
-          metadata: { description: `Sample ${type} request with status ${status}`, priority: "medium" },
-          assignedTeam: status === "assigned_to_team" || status === "in_progress" || status === "completed" ? team._id : null,
-          createdAt: new Date(Date.now() - Math.random() * 10 * 24 * 60 * 60 * 1000)
-        });
-
-        // Add timeline for better visual in history
-        request.timeline.push({
-          action: "Application submitted",
-          by: applicant,
-          date: new Date(request.createdAt),
-          details: "Initial submission"
-        });
-        if (status !== "pending_admin") {
-          request.timeline.push({
-            action: "Admin decision",
-            by: admin._id,
-            date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
-            details: "Approved for further processing"
-          });
+      const request = new Request({
+        applicant: innovator._id,
+        type: type,
+        status: "pending_admin",
+        timeline: [{ 
+          action: "Application submitted", 
+          by: innovator._id, 
+          date: new Date(), 
+          details: "Initial submission" 
+        }],
+        metadata: {
+          serviceType: "General",
+          description: "Need immediate assistance.",
+          priority: "medium"
         }
-        await request.save();
-      }
+      });
+      await request.save();
     }
 
-    // 8. Seed Intern Profile & Reports
-    console.log("🎓 Seeding Intern Data...");
-    await InternProfile.create({
-      user: intern._id,
-      phone: "+251911223344",
-      university: { name: "Addis Ababa University", studentId: "ATR/1234/12", department: "Computer Science", year: "5th" },
-      documents: { 
-        applicationLetter: { url: "http://example.com/letter.pdf", name: "letter.pdf" }, 
-        cv: { url: "http://example.com/cv.pdf", name: "cv.pdf" } 
-      },
-      status: "active",
-      placement: { 
-        directorate: internDir._id, 
-        team: team._id,
-        advisor: staff._id, 
-        startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-        endDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000)
-      },
-      reports: [
-        { week: 1, content: "Orientation and network setup.", learnings: "Corporate network standards", status: "advisor_reviewed", advisorFeedback: "Great start!", advisorRating: 5, submittedAt: new Date(Date.now() - 21 * 24 * 60 * 60 * 1000) },
-        { week: 2, content: "Learned about server maintenance.", learnings: "Nginx config", status: "advisor_reviewed", advisorFeedback: "Good progress.", advisorRating: 4, submittedAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000) },
-        { week: 3, content: "Worked on database optimization.", learnings: "Indexing", status: "submitted", submittedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
-        { week: 4, content: "Assisting with system deployment.", learnings: "CI/CD pipelines", status: "submitted" }
-      ]
-    });
-
-    // 9. Seed Innovator Profile & Milestones
-    console.log("💡 Seeding Innovator Data...");
-    await InnovatorProfile.create({
-      user: innovator._id,
-      phone: "+251922334455",
-      institution: "AAiT",
-      ideaTitle: "Smart Agriculture IoT",
-      ideaDescription: "Automated irrigation system using sensors and mobile app.",
-      documents: { businessPlan: { url: "http://example.com/plan.pdf", name: "plan.pdf" } },
-      status: "incubating",
-      incubation: {
-        center: innovDir._id,
-        mentor: staff._id,
-        startDate: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000),
-        milestones: [
-          { title: "Hardware Selection", status: "completed", completedAt: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000), feedback: "Well researched.", feedbackBy: staff._id },
-          { title: "Hardware Prototype", status: "completed", completedAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000), feedback: "Impressive work.", feedbackBy: staff._id },
-          { title: "Mobile App Beta", status: "in_progress", dueDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000) },
-          { title: "Pilot Testing", status: "pending", dueDate: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000) }
+    // 8. Seed Intern Profiles (For Advisor)
+    console.log("🎓 Seeding Interns for Advisor...");
+    await InternProfile.insertMany([
+      {
+        user: intern._id,
+        phone: "+251911223344",
+        university: { name: "Addis Ababa University", studentId: "ATR/1234/12", department: "Computer Science", year: "5th" },
+        documents: { 
+          applicationLetter: { url: "http://example.com/letter.pdf", name: "letter.pdf" },
+          cv: { url: "http://example.com/cv.pdf", name: "cv.pdf" }
+        },
+        status: "active",
+        placement: { directorate: internDir._id, team: team._id, advisor: advisor._id, startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) },
+        reports: [
+          { week: 1, content: "First week progress.", status: "advisor_reviewed", advisorRating: 5, submittedAt: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000) },
+          { week: 2, content: "Second week progress.", status: "submitted", submittedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000) }
         ]
+      },
+      {
+        user: intern2._id,
+        phone: "+251922334455",
+        university: { name: "Bahir Dar University", studentId: "ATR/5678/12", department: "IT", year: "4th" },
+        documents: { 
+          applicationLetter: { url: "http://example.com/letter2.pdf", name: "letter2.pdf" },
+          cv: { url: "http://example.com/cv2.pdf", name: "cv2.pdf" }
+        },
+        status: "active",
+        placement: { directorate: internDir._id, advisor: advisor._id, startDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000) },
+        reports: [{ week: 1, content: "Just started.", status: "submitted", submittedAt: new Date() }]
       }
-    });
+    ]);
 
-    // 10. Seed Startup Profile
-    console.log("🚀 Seeding Startup Data...");
-    await StartupProfile.create({
-      user: startup._id,
-      companyName: "EthioTech Solutions",
-      industry: "Fintech",
-      registrationNumber: "ET-123456",
-      sector: "Financial Technology",
-      description: "Digital payment solutions for local markets.",
-      status: "incubating",
-      documents: { businessLicense: { url: "http://example.com/license.pdf", name: "license.pdf" } },
-      founders: [{ name: "Startup User", role: "CEO", email: "startup@itsms.gov.et", phone: "+251999887766" }],
-      incubation: { 
-        center: serviceDir._id, 
-        mentor: teamlead._id,
-        startDate: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000),
-        stage: "mvp",
-        milestones: [
-          { title: "Product Concept", status: "completed", completedAt: new Date(Date.now() - 80 * 24 * 60 * 60 * 1000), feedback: "Solid concept." },
-          { title: "Initial Funding", status: "completed", completedAt: new Date(Date.now() - 40 * 24 * 60 * 60 * 1000), feedback: "Angel investment secured." },
-          { title: "Beta Launch", status: "in_progress", dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) }
-        ]
+    // 9. Seed Innovators (For Mentor)
+    console.log("💡 Seeding Innovators for Mentor...");
+    await InnovatorProfile.insertMany([
+      {
+        user: innovator._id,
+        phone: "+251933445566",
+        institution: "AAiT",
+        ideaTitle: "Smart Farm",
+        ideaDescription: "IoT for farms",
+        documents: { businessPlan: { url: "http://example.com/plan.pdf", name: "plan.pdf" } },
+        status: "incubating",
+        incubation: {
+          center: innovDir._id,
+          mentor: mentor._id,
+          startDate: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000),
+          milestones: [
+            { title: "Design", status: "completed", completedAt: new Date(Date.now() - 40 * 24 * 60 * 60 * 1000), feedback: "Good", feedbackBy: mentor._id },
+            { title: "Prototype", status: "in_progress", dueDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000) }
+          ]
+        }
+      },
+      {
+        user: innovator2._id,
+        phone: "+251944556677",
+        institution: "HiLCoE",
+        ideaTitle: "Solar Car",
+        ideaDescription: "Eco car",
+        documents: { businessPlan: { url: "http://example.com/plan2.pdf", name: "plan2.pdf" } },
+        status: "incubating",
+        incubation: {
+          center: innovDir._id,
+          mentor: mentor._id,
+          startDate: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
+          milestones: [{ title: "Concept", status: "pending", dueDate: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000) }]
+        }
       }
-    });
+    ]);
 
-    // 11. Seed Training Data
-    console.log("📚 Seeding Training Data...");
-    const trainingProfile = await TrainingProfile.create({
-      user: trainee._id,
-      phone: "+251933445566",
-      institution: "Unity University",
-      profession: "Software Engineer",
-      status: "active",
-      documents: { applicationLetter: { url: "http://example.com/letter.pdf", name: "letter.pdf" } }
-    });
+    // 10. Seed Startups (For Mentor)
+    console.log("🚀 Seeding Startups for Mentor...");
+    await StartupProfile.insertMany([
+      {
+        user: startup._id,
+        companyName: "TechOne",
+        registrationNumber: "ET/ST/001",
+        sector: "Education",
+        status: "incubating",
+        documents: { businessLicense: { url: "http://example.com/license.pdf", name: "license.pdf" } },
+        incubation: { center: innovDir._id, mentor: mentor._id, startDate: new Date() },
+        founders: [{ name: "Startup User", email: "startup@itsms.gov.et", role: "CEO" }]
+      },
+      {
+        user: startup2._id,
+        companyName: "EcoBuild",
+        registrationNumber: "ET/ST/002",
+        sector: "Construction",
+        status: "incubating",
+        documents: { businessLicense: { url: "http://example.com/license2.pdf", name: "license2.pdf" } },
+        incubation: { center: innovDir._id, mentor: mentor._id, startDate: new Date() },
+        founders: [{ name: "Startup User 2", email: "startup2@itsms.gov.et", role: "Founder" }]
+      }
+    ]);
+
+    // 11. Seed Trainees & Sessions (For Trainer)
+    console.log("📚 Seeding Training Data for Trainer...");
+    const tProfiles = await TrainingProfile.insertMany([
+      {
+        user: trainee._id,
+        phone: "+251955667788",
+        institution: "AAU",
+        profession: "Engineer",
+        documents: { applicationLetter: { url: "http://example.com/letter.pdf", name: "letter.pdf" } },
+        status: "active",
+        placement: { directorate: trainingDir._id, trainer: trainer._id }
+      },
+      {
+        user: trainee2._id,
+        phone: "+251966778899",
+        institution: "ASTU",
+        profession: "Developer",
+        documents: { applicationLetter: { url: "http://example.com/letter2.pdf", name: "letter2.pdf" } },
+        status: "active",
+        placement: { directorate: trainingDir._id, trainer: trainer._id }
+      }
+    ]);
 
     const sessions = await Session.insertMany([
-      { title: "React Fundamentals", trainer: staff._id, date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), duration: 120, link: "https://zoom.us/r1", type: "online", status: "completed" },
-      { title: "State Management", trainer: staff._id, date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), duration: 120, link: "https://zoom.us/r2", type: "online", status: "completed" },
-      { title: "Next.js Mastery", trainer: staff._id, date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), duration: 180, link: "https://zoom.us/r3", type: "online", status: "scheduled" }
+      { title: "React Basics", trainer: trainer._id, date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), duration: 2, status: "completed" },
+      { title: "Node.js Basics", trainer: trainer._id, date: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), duration: 2, status: "scheduled" }
     ]);
 
-    // Add attendance
-    trainingProfile.attendance = [
-      { session: sessions[0]._id, attended: true, attendedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000) },
-      { session: sessions[1]._id, attended: true, attendedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000) }
-    ];
-    await trainingProfile.save();
+    // Update attendance link
+    for (const p of tProfiles) {
+      p.attendance = [{ session: sessions[0]._id, attended: true, attendedAt: new Date() }];
+      await p.save();
+    }
 
-    // 12. Seed Reports (Team & Director)
-    console.log("📊 Seeding Reports...");
-    await Report.insertMany([
-      {
-        title: "Weekly Infrastructure Report - W1",
-        type: "team_report",
-        submittedBy: teamlead._id,
-        team: team._id,
-        directorate: serviceDir._id,
-        period: { startDate: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000), endDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
-        summary: "Established initial server monitoring and handled firewall updates.",
-        status: "approved",
-        approvedBy: director._id,
-        approvedAt: new Date()
-      },
-      {
-        title: "Weekly Infrastructure Report - W2",
-        type: "team_report",
-        submittedBy: teamlead._id,
-        team: team._id,
-        directorate: serviceDir._id,
-        period: { startDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), endDate: new Date() },
-        summary: "Completed 5 network installations and resolved 3 major outages.",
-        status: "submitted"
-      },
-      {
-        title: "Monthly Directorate Overview - April",
-        type: "director_report",
-        submittedBy: director._id,
-        directorate: serviceDir._id,
-        period: { startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), endDate: new Date() },
-        summary: "Service delivery improved by 20% this month across all teams.",
-        status: "approved",
-        approvedBy: admin._id,
-        approvedAt: new Date()
-      }
-    ]);
-
-    // 13. Seed Announcements & Audit Logs
-    console.log("📢 Seeding Announcements & Logs...");
-    await Announcement.create({
-      title: "New Policy Update",
-      content: "Please check the updated security guidelines.",
-      category: "update",
-      createdBy: admin._id,
-      isPublished: true
-    });
-    await AuditLog.create({
-      user: admin._id,
-      action: "CREATE",
-      entity: "User",
-      entityId: innovator._id,
-      details: "Seeded initial user data",
-      ipAddress: "127.0.0.1"
-    });
-
-    console.log("\n✨ SUCCESS! All dashboards are now fully populated with data.");
+    console.log("\n✨ SUCCESS! Specialized staff dashboards are now fully populated.");
     process.exit(0);
   } catch (error) {
     console.error("❌ Seeding failed:", error);

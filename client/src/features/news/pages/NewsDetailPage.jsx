@@ -94,7 +94,6 @@ export default function NewsDetailPage() {
 
   return (
     <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6]">
-      {/* Sticky Header */}
       <div className="sticky top-0 z-30 bg-[#F9FAFB]/95 backdrop-blur-md border-b border-[#E5E7EB]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <button
@@ -107,7 +106,6 @@ export default function NewsDetailPage() {
         </div>
       </div>
 
-      {/* Content */}
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -115,7 +113,6 @@ export default function NewsDetailPage() {
           transition={{ duration: 0.6 }}
           className="space-y-6"
         >
-          {/* Category and Meta */}
           <div className="flex items-center gap-3 flex-wrap">
             <span
               className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${categoryColor}`}
@@ -132,12 +129,10 @@ export default function NewsDetailPage() {
             </span>
           </div>
 
-          {/* Title */}
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#111827] leading-tight">
             {announcement.title}
           </h1>
 
-          {/* Featured Image */}
           {announcement.image?.url && (
             <div className="rounded-2xl overflow-hidden border border-[#E5E7EB]">
               <img
@@ -148,14 +143,12 @@ export default function NewsDetailPage() {
             </div>
           )}
 
-          {/* Content */}
           <div className="prose prose-lg max-w-none">
             <div className="text-[#374151] leading-relaxed space-y-4 whitespace-pre-wrap">
               {announcement.content}
             </div>
           </div>
 
-          {/* Footer */}
           <div className="border-t border-[#E5E7EB] pt-6 mt-8 flex justify-between items-center">
             <button
               onClick={() => window.print()}

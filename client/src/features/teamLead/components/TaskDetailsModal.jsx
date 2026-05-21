@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   X,
@@ -35,7 +35,7 @@ const TaskDetailsModal = ({ task, onClose, onUpdateStatus }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -106,7 +106,7 @@ const TaskDetailsModal = ({ task, onClose, onUpdateStatus }) => {
                 <button
                   onClick={() => handleStatusUpdate("in_progress")}
                   disabled={updating}
-                  className="flex-1 bg-blue-600 text-[#111827] py-2 rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-2"
+                  className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-2"
                 >
                   <PlayCircle className="w-4 h-4" /> Start Task
                 </button>
@@ -114,7 +114,7 @@ const TaskDetailsModal = ({ task, onClose, onUpdateStatus }) => {
               <button
                 onClick={() => handleStatusUpdate("completed")}
                 disabled={updating}
-                className="flex-1 bg-emerald-600 text-[#111827] py-2 rounded-lg hover:bg-emerald-700 transition flex items-center justify-center gap-2"
+                className="flex-1 bg-emerald-600 text-white py-2 rounded-lg hover:bg-emerald-700 transition flex items-center justify-center gap-2"
               >
                 <CheckCircle className="w-4 h-4" /> Mark Complete
               </button>

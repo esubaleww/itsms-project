@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Download,
@@ -133,7 +133,7 @@ const ExportModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999]">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -238,7 +238,7 @@ const ExportModal = ({
           <button
             onClick={handleExport}
             disabled={isExporting || !type}
-            className="w-full bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] py-3 rounded-lg hover:opacity-90 transition flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] py-3 rounded-lg hover:from-[#BFDBFE] hover:to-[#93C5FD] transition-all duration-200 shadow-[0_4px_10px_rgba(37,99,235,0.08)] flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {isExporting ? (
               <>

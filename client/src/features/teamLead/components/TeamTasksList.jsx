@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   CheckCircle,
@@ -25,7 +25,6 @@ const TeamTasksList = ({
   const [selectedMember, setSelectedMember] = useState("");
   const [instructions, setInstructions] = useState("");
 
-  // Handle different data structures
   const pendingTasks = tasks?.pending || tasks?.assigned_to_team || [];
   const inProgressTasks = tasks?.in_progress || [];
   const completedTasks = tasks?.completed || [];
@@ -148,7 +147,6 @@ const TeamTasksList = ({
               )}
             </div>
             <div className="flex gap-1">
-              {/* Assign button - only for pending tasks not assigned */}
               {isPending && !isAssigned && (
                 <button
                   onClick={() => setAssigningTask(task._id)}
@@ -159,7 +157,6 @@ const TeamTasksList = ({
                 </button>
               )}
 
-              {/* Start button - only for assigned but not started tasks */}
               {isAssigned && !isInProgress && !isCompleted && (
                 <button
                   onClick={() => handleUpdateStatus(task._id, 0, "in_progress")}
@@ -170,7 +167,6 @@ const TeamTasksList = ({
                 </button>
               )}
 
-              {/* Complete button - only for in_progress tasks */}
               {isInProgress && (
                 <button
                   onClick={() => handleUpdateStatus(task._id, 0, "completed")}
@@ -191,7 +187,6 @@ const TeamTasksList = ({
             </div>
           </div>
 
-          {/* Assign Task Modal */}
           {isAssigning && (
             <div className="mt-4 p-4 bg-white rounded-lg border border-[#D1D5DB]">
               <div className="flex justify-between items-center mb-3">
@@ -227,7 +222,7 @@ const TeamTasksList = ({
               <button
                 onClick={() => handleAssignSubmit(task._id)}
                 disabled={!selectedMember}
-                className="w-full px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-[#111827] rounded-lg transition disabled:opacity-50"
+                className="btn-institutional w-full px-3 py-2 disabled:opacity-50"
               >
                 Assign Task
               </button>
@@ -240,7 +235,6 @@ const TeamTasksList = ({
 
   return (
     <div className="space-y-6">
-      {/* Pending Tasks Section */}
       {pendingTasks.length > 0 && (
         <div>
           <h3 className="text-sm font-semibold text-yellow-400 mb-3 flex items-center gap-2">
@@ -255,7 +249,6 @@ const TeamTasksList = ({
         </div>
       )}
 
-      {/* In Progress Tasks Section */}
       {inProgressTasks.length > 0 && (
         <div>
           <h3 className="text-sm font-semibold text-blue-400 mb-3 flex items-center gap-2">
@@ -270,7 +263,6 @@ const TeamTasksList = ({
         </div>
       )}
 
-      {/* Completed Tasks Section */}
       {completedTasks.length > 0 && (
         <div>
           <h3 className="text-sm font-semibold text-[#2563eb] mb-3 flex items-center gap-2">

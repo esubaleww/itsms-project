@@ -144,7 +144,6 @@ export const getRequestById = async (requestId, directorId) => {
     throw new Error("Request not found or not in your directorate");
   }
 
-  // Get available teams in this directorate
   const teams = await Team.find({
     directorate: director.directorate._id,
     isActive: true,
@@ -178,7 +177,6 @@ export const assignToTeam = async (
 
   if (!request) throw new Error("Request not found or not in your directorate");
 
-  // Update request
   request.status = "assigned_to_team";
   request.assignedTeam = teamId;
   request.timeline.push({
@@ -189,7 +187,6 @@ export const assignToTeam = async (
 
   await request.save();
 
-  // Notify team lead
   if (team.lead) {
     await Notification.create({
       user: team.lead._id,
@@ -229,7 +226,6 @@ export const createTeam = async (directorId, data) => {
     members: [],
   });
 
-  // Add team to directorate
   await Directorate.findByIdAndUpdate(director.directorate._id, {
     $push: { teams: team._id },
   });
@@ -359,7 +355,6 @@ export const deleteTeam = async (directorId, teamId) => {
 
   if (!team) throw new Error("Team not found or not in your directorate");
 
-  // Check if team has active requests
   const activeRequests = await Request.countDocuments({
     assignedTeam: teamId,
     status: { $in: ["assigned_to_team", "in_progress"] },
@@ -374,7 +369,6 @@ export const deleteTeam = async (directorId, teamId) => {
   team.isActive = false;
   await team.save();
 
-  // Remove from directorate's teams array
   await Directorate.findByIdAndUpdate(director.directorate._id, {
     $pull: { teams: teamId },
   });
@@ -401,11 +395,9 @@ export const assignTeamLead = async (directorId, teamId, staffId) => {
   });
   if (!staff) throw new Error("Staff member not found");
 
-  // Update team lead
   team.lead = staffId;
   await team.save();
 
-  // Update staff's position
   staff.position = "team_lead";
   staff.team = teamId;
   await staff.save();
@@ -440,13 +432,11 @@ export const assignToTeamMember = async (directorId, teamId, staffId) => {
   });
   if (!staff) throw new Error("Staff member not found");
 
-  // Add to team members
   if (!team.members.includes(staffId)) {
     team.members.push(staffId);
     await team.save();
   }
 
-  // Update staff's team
   staff.team = teamId;
   await staff.save();
 
@@ -473,7 +463,6 @@ export const removeFromTeam = async (directorId, teamId, staffId) => {
 
   if (!team) throw new Error("Team not found or not in your directorate");
 
-  // Check if staff is the team lead
   if (team.lead?.toString() === staffId) {
     throw new Error("Cannot remove team lead. Assign a new team lead first.");
   }
@@ -511,7 +500,7 @@ export const getAvailableStaff = async (directorId) => {
     const staff = await User.find({
       role: "staff",
       isActive: true,
-      directorate: director.directorate, // Same directorate only
+      directorate: director.directorate,
     })
       .select("-password")
       .sort("fullName");

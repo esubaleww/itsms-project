@@ -106,7 +106,6 @@ const ServiceDetailsPage = () => {
   return (
     <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] py-8">
       <div className="max-w-4xl mx-auto px-4">
-        {/* Back Button */}
         <button
           onClick={() => navigate(-1)}
           className="flex items-center gap-2 text-[#6b7280] hover:text-[#111827] mb-6 transition group"
@@ -120,7 +119,6 @@ const ServiceDetailsPage = () => {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-2xl border border-[#E5E7EB] overflow-hidden"
         >
-          {/* Service Header */}
           <div className="p-6 border-b border-[#E5E7EB] bg-linear-to-r from-[#EEF2FF] to-[#DBEAFE]">
             <div className="flex items-start gap-4">
               <div className="w-16 h-16 bg-[#EEF2FF] rounded-2xl flex items-center justify-center">
@@ -142,9 +140,7 @@ const ServiceDetailsPage = () => {
             </div>
           </div>
 
-          {/* Service Details */}
           <div className="p-6 space-y-6">
-            {/* Quick Info Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-2">
@@ -175,7 +171,6 @@ const ServiceDetailsPage = () => {
               </div>
             </div>
 
-            {/* Requirements */}
             {service.requirements?.length > 0 && (
               <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-5">
                 <div className="flex items-center gap-2 mb-3">
@@ -196,7 +191,6 @@ const ServiceDetailsPage = () => {
               </div>
             )}
 
-            {/* Required Documents */}
             {service.documents?.length > 0 && (
               <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-5">
                 <div className="flex items-center gap-2 mb-3">
@@ -219,10 +213,9 @@ const ServiceDetailsPage = () => {
               </div>
             )}
 
-            {/* Request Button */}
             <button
               onClick={handleRequest}
-              className="w-full mt-4 py-3 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] rounded-xl hover:opacity-90 transition font-semibold flex items-center justify-center gap-2"
+              className="btn-institutional w-full mt-4 py-3"
             >
               <Send className="w-5 h-5" />
               Request This Service
@@ -231,7 +224,6 @@ const ServiceDetailsPage = () => {
         </motion.div>
       </div>
 
-      {/* Service Request Modal */}
       <ServiceRequestModal
         service={service}
         isOpen={showRequestModal}

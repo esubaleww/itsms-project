@@ -36,7 +36,6 @@ const ProgramSection = ({ user, onTabChange }) => {
   const [programData, setProgramData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Function to create program data from current state
   const createProgramData = () => {
     if (!user) return null;
 
@@ -104,7 +103,6 @@ const ProgramSection = ({ user, onTabChange }) => {
     return null;
   };
 
-  // Initial load - only once
   useEffect(() => {
     const loadProgramData = async () => {
       if (!user) return;
@@ -139,7 +137,6 @@ const ProgramSection = ({ user, onTabChange }) => {
 
     const newData = createProgramData();
     if (newData && programData) {
-      // Only update if data actually changed
       const hasChanged =
         JSON.stringify(newData) !== JSON.stringify(programData);
       if (hasChanged) {
@@ -203,7 +200,7 @@ const ProgramSection = ({ user, onTabChange }) => {
         <div className="flex flex-wrap gap-3 justify-center">
           <button
             onClick={() => navigate("/applications/apply/internship")}
-            className="px-4 py-2 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] rounded-lg hover:opacity-90 transition"
+            className="btn-institutional px-4 py-2"
           >
             Apply for Internship
           </button>

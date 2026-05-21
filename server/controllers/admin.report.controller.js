@@ -76,7 +76,6 @@ export const approveDirectorReport = async (req, res) => {
   }
 };
 
-// 🔹 Reject
 export const rejectDirectorReport = async (req, res) => {
   try {
     const result = await reportService.rejectDirectorReport(

@@ -28,7 +28,7 @@ const auditLogSchema = new mongoose.Schema({
 
   entity: {
     type: String,
-    required: true, // e.g. "Request", "User", "InternProfile"
+    required: true,
   },
 
   entityId: mongoose.Schema.Types.ObjectId,
@@ -52,7 +52,6 @@ const auditLogSchema = new mongoose.Schema({
   },
 });
 
-// Indexes
 auditLogSchema.index({ entity: 1, entityId: 1 });
 auditLogSchema.index({ user: 1, timestamp: -1 });
 auditLogSchema.index({ request: 1 });

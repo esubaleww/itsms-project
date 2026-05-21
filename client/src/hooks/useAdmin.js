@@ -140,7 +140,6 @@ export const useAdmin = () => {
     await fetchAll();
   };
 
-  // User Management
   const resendVerification = async (userId) => {
     await adminService.resendVerification(userId);
     await fetchAll();

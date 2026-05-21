@@ -1,4 +1,4 @@
-﻿import { Briefcase } from "lucide-react";
+import { Briefcase } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const EmptyServiceRequests = () => {
@@ -13,7 +13,7 @@ const EmptyServiceRequests = () => {
       </p>
       <button
         onClick={() => navigate("/services/browse")}
-        className="mt-6 px-4 py-2 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] rounded-lg hover:opacity-90 transition"
+        className="btn-institutional mt-6 px-4 py-2"
       >
         Browse Services
       </button>

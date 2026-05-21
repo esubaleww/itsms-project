@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -243,7 +243,7 @@ const ReportDetailsModal = ({
   const isSummaryReport = isTrainerReport || isAdvisorReport || isMentorReport;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -429,7 +429,7 @@ const ReportDetailsModal = ({
                           {report.data.skillsAcquired.map((skill, idx) => (
                             <span
                               key={idx}
-                              className="px-3 py-1.5 bg-gray-700 rounded-lg text-[#374151] text-sm"
+                              className="px-3 py-1.5 bg-[#F3F4F6] rounded-lg text-[#374151] text-sm"
                             >
                               {skill}
                             </span>
@@ -686,7 +686,7 @@ const ReportDetailsModal = ({
                 <button
                   onClick={handleApprove}
                   disabled={actionLoading}
-                  className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
+                  className="flex-1 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] shadow-sm hover:from-[#BFDBFE] hover:to-[#93C5FD] py-2.5 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
                 >
                   {actionLoading ? (
                     <>

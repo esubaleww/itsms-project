@@ -41,7 +41,6 @@ const DirectoratesList = ({ directorates, onEdit, onDelete, onCreate }) => {
 
   return (
     <div>
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold text-[#111827]">
@@ -54,9 +53,7 @@ const DirectoratesList = ({ directorates, onEdit, onDelete, onCreate }) => {
         </div>
       </div>
 
-      {/* Search and Add Button - Inline */}
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
-        {/* Search Bar */}
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
           <input
@@ -76,7 +73,6 @@ const DirectoratesList = ({ directorates, onEdit, onDelete, onCreate }) => {
           )}
         </div>
 
-        {/* Add Button */}
         <button
           onClick={onCreate}
           className="bg-[#2563eb] text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-[#1d4ed8] transition-all duration-200 shadow-md whitespace-nowrap font-medium"
@@ -85,7 +81,6 @@ const DirectoratesList = ({ directorates, onEdit, onDelete, onCreate }) => {
         </button>
       </div>
 
-      {/* Directorates Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filtered?.map((dir, index) => (
           <motion.div
@@ -146,7 +141,6 @@ const DirectoratesList = ({ directorates, onEdit, onDelete, onCreate }) => {
           </motion.div>
         ))}
 
-        {/* Empty State */}
         {filtered?.length === 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -173,7 +167,6 @@ const DirectoratesList = ({ directorates, onEdit, onDelete, onCreate }) => {
         )}
       </div>
 
-      {/* Results Count */}
       {filtered?.length > 0 && (
         <div className="mt-4 text-right text-sm text-[#6b7280]">
           Showing {filtered.length} of {directorates?.length || 0} directorates

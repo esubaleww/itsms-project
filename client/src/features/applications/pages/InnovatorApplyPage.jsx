@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../../hooks/useAuth";
@@ -73,7 +73,7 @@ const InnovatorApplyPage = () => {
           </p>
           <button
             onClick={() => navigate("/dashboard")}
-            className="px-6 py-2 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] rounded-lg hover:from-emerald-600 hover:to-teal-800 transition flex items-center justify-center gap-2 mx-auto"
+            className="px-6 py-2 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] rounded-lg hover:from-[#BFDBFE] hover:to-[#93C5FD] transition-all duration-200 shadow-[0_4px_10px_rgba(37,99,235,0.08)] flex items-center justify-center gap-2 mx-auto"
           >
             Back to Dashboard
             <ArrowRight className="w-4 h-4" />
@@ -204,14 +204,13 @@ const InnovatorApplyPage = () => {
   return (
     <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] py-12 px-4">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <div className="inline-flex items-center justify-center p-3 bg-linear-to-r from-emerald-500 to-teal-700 rounded-2xl mb-4">
-            <Rocket className="w-8 h-8 text-[#111827]" />
+          <div className="inline-flex items-center justify-center p-3 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-2xl mb-4 shadow-sm">
+            <Rocket className="w-8 h-8 text-[#2563eb]" />
           </div>
           <h1 className="text-3xl font-bold text-[#111827] mb-2">
             Innovation Application
@@ -222,7 +221,6 @@ const InnovatorApplyPage = () => {
           </p>
         </motion.div>
 
-        {/* Progress Steps */}
         <div className="mb-10">
           <div className="flex justify-between mb-4">
             {steps.map((step) => {
@@ -234,8 +232,8 @@ const InnovatorApplyPage = () => {
                   <div
                     className={`relative w-12 h-12 rounded-full flex items-center justify-center mx-auto transition-all duration-300 ${
                       isActive
-                        ? "bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] shadow-lg"
-                        : "bg-gray-700 text-[#6b7280]"
+                        ? "bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] shadow-md"
+                        : "bg-[#F3F4F6] border border-[#E5E7EB] text-[#6b7280]"
                     }`}
                   >
                     {isCompleted ? (
@@ -255,9 +253,9 @@ const InnovatorApplyPage = () => {
               );
             })}
           </div>
-          <div className="relative w-full bg-gray-700 rounded-full h-2">
+          <div className="relative w-full bg-[#E5E7EB] rounded-full h-2">
             <motion.div
-              className="absolute left-0 top-0 h-full bg-linear-to-r from-emerald-500 to-teal-700 rounded-full"
+              className="absolute left-0 top-0 h-full bg-gradient-to-r from-[#DBEAFE] to-[#2563eb] rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${(currentStep / totalSteps) * 100}%` }}
               transition={{ duration: 0.3 }}
@@ -265,7 +263,6 @@ const InnovatorApplyPage = () => {
           </div>
         </div>
 
-        {/* Form Container */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -273,7 +270,6 @@ const InnovatorApplyPage = () => {
         >
           <form onSubmit={handleSubmit}>
             <AnimatePresence mode="wait">
-              {/* Step 1: Background Information */}
               {currentStep === 1 && (
                 <motion.div
                   key="step1"
@@ -407,7 +403,6 @@ const InnovatorApplyPage = () => {
                 </motion.div>
               )}
 
-              {/* Step 2: Idea Details */}
               {currentStep === 2 && (
                 <motion.div
                   key="step2"
@@ -492,7 +487,7 @@ const InnovatorApplyPage = () => {
                         <button
                           type="button"
                           onClick={addArea}
-                          className="px-4 py-2 bg-emerald-600 text-[#111827] rounded-lg hover:bg-emerald-700 transition flex items-center gap-2"
+                          className="px-4 py-2 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] rounded-lg hover:from-[#BFDBFE] hover:to-[#93C5FD] transition-all duration-200 flex items-center gap-2"
                         >
                           <Plus className="w-4 h-4" /> Add
                         </button>
@@ -535,7 +530,7 @@ const InnovatorApplyPage = () => {
                         <button
                           type="button"
                           onClick={addSkill}
-                          className="px-4 py-2 bg-emerald-600 text-[#111827] rounded-lg hover:bg-emerald-700 transition flex items-center gap-2"
+                          className="px-4 py-2 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] rounded-lg hover:from-[#BFDBFE] hover:to-[#93C5FD] transition-all duration-200 flex items-center gap-2"
                         >
                           <Plus className="w-4 h-4" /> Add
                         </button>
@@ -562,7 +557,6 @@ const InnovatorApplyPage = () => {
                 </motion.div>
               )}
 
-              {/* Step 3: Documents */}
               {currentStep === 3 && (
                 <motion.div
                   key="step3"
@@ -642,7 +636,6 @@ const InnovatorApplyPage = () => {
               )}
             </AnimatePresence>
 
-            {/* Navigation Buttons */}
             <div className="border-t border-[#E5E7EB] p-6 flex justify-between">
               {currentStep > 1 && (
                 <button
@@ -657,7 +650,7 @@ const InnovatorApplyPage = () => {
                 <button
                   type="button"
                   onClick={nextStep}
-                  className={`px-6 py-2 bg-[#2563eb] hover:bg-[#1d4ed8] font-medium shadow-md text-[#111827] rounded-lg hover:from-emerald-500 hover:to-teal-500 transition flex items-center gap-2 ${
+                  className={`px-6 py-2 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] font-medium rounded-lg hover:from-[#BFDBFE] hover:to-[#93C5FD] transition-all duration-200 shadow-[0_4px_10px_rgba(37,99,235,0.08)] flex items-center gap-2 ${
                     currentStep === 1 ? "ml-auto" : ""
                   }`}
                 >
@@ -667,7 +660,7 @@ const InnovatorApplyPage = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-6 py-2 bg-[#2563eb] hover:bg-[#1d4ed8] font-medium shadow-md text-[#111827] rounded-lg hover:from-emerald-500 hover:to-teal-500 transition flex items-center gap-2 ml-auto disabled:opacity-50"
+                  className="px-6 py-2 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] font-medium rounded-lg hover:from-[#BFDBFE] hover:to-[#93C5FD] transition-all duration-200 shadow-[0_4px_10px_rgba(37,99,235,0.08)] flex items-center gap-2 ml-auto disabled:opacity-50"
                 >
                   {loading ? (
                     <>
@@ -686,7 +679,6 @@ const InnovatorApplyPage = () => {
           </form>
         </motion.div>
 
-        {/* Footer Info */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

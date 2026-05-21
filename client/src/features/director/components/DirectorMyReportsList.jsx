@@ -1,4 +1,3 @@
-﻿// client/src/features/dashboard/components/DirectorMyReportsList.jsx
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -32,25 +31,25 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
         };
       case "rejected":
         return {
-          color: "text-red-500",
-          bg: "bg-red-500/20",
-          border: "border-red-500/30",
+          color: "text-red-600",
+          bg: "bg-red-50",
+          border: "border-red-200",
           icon: XCircle,
           label: "Rejected",
         };
       case "reviewed":
         return {
-          color: "text-blue-400",
-          bg: "bg-blue-500/20",
-          border: "border-blue-500/30",
+          color: "text-[#2563eb]",
+          bg: "bg-[#EEF2FF]",
+          border: "border-[#2563eb]/30",
           icon: Eye,
           label: "Under Review",
         };
       default:
         return {
-          color: "text-yellow-400",
-          bg: "bg-yellow-500/20",
-          border: "border-yellow-500/30",
+          color: "text-amber-700",
+          bg: "bg-amber-50",
+          border: "border-amber-200",
           icon: Clock,
           label: "Pending",
         };
@@ -85,7 +84,6 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
     });
   };
 
-  // Loading state (optional - add if needed)
   if (reports === undefined) {
     return (
       <div className="space-y-4">
@@ -97,11 +95,11 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="h-6 w-20 bg-gray-700 rounded-full"></div>
-                  <div className="h-4 w-24 bg-gray-700 rounded"></div>
+                  <div className="h-6 w-20 bg-[#E5E7EB] rounded-full"></div>
+                  <div className="h-4 w-24 bg-[#E5E7EB] rounded"></div>
                 </div>
-                <div className="h-5 w-3/4 bg-gray-700 rounded mb-2"></div>
-                <div className="h-4 w-1/2 bg-gray-700 rounded"></div>
+                <div className="h-5 w-3/4 bg-[#E5E7EB] rounded mb-2"></div>
+                <div className="h-4 w-1/2 bg-[#E5E7EB] rounded"></div>
               </div>
             </div>
           </div>
@@ -110,7 +108,6 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
     );
   }
 
-  // Empty state
   if (!reports || reports.length === 0) {
     return (
       <div className="text-center py-16">
@@ -146,12 +143,9 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
             transition={{ duration: 0.3, delay: index * 0.05 }}
             className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200"
           >
-            {/* Main Content */}
             <div className="p-5">
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-                {/* Left Side - Report Info */}
                 <div className="flex-1">
-                  {/* Status and Date Row */}
                   <div className="flex flex-wrap items-center gap-2 mb-3">
                     <span
                       className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${statusConfig.bg} ${statusConfig.color} border ${statusConfig.border}`}
@@ -165,12 +159,10 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                     </span>
                   </div>
 
-                  {/* Title */}
                   <h3 className="text-[#111827] font-semibold text-lg mb-2">
                     {report.title}
                   </h3>
 
-                  {/* Period */}
                   {report.period && (
                     <div className="flex items-center gap-2 text-sm text-[#6b7280] mb-3">
                       <Calendar className="w-4 h-4" />
@@ -181,14 +173,12 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                     </div>
                   )}
 
-                  {/* Summary Preview */}
                   {report.summary && (
                     <p className="text-[#374151] text-sm line-clamp-2 mb-3">
                       {report.summary}
                     </p>
                   )}
 
-                  {/* Quick Metrics */}
                   {hasMetrics && (
                     <div className="flex flex-wrap gap-3 mt-2">
                       {report.metrics.applicationsProcessed !== undefined && (
@@ -218,10 +208,9 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                     </div>
                   )}
 
-                  {/* Feedback Preview */}
                   {hasFeedback && !isExpanded && (
-                    <div className="mt-3 flex items-start gap-2 text-xs bg-blue-500/10 border border-blue-500/20 rounded-lg p-2">
-                      <MessageSquare className="w-3 h-3 text-blue-400 mt-0.5 shrink-0" />
+                    <div className="mt-3 flex items-start gap-2 text-xs bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg p-2">
+                      <MessageSquare className="w-3 h-3 text-[#2563eb] mt-0.5 shrink-0" />
                       <span className="text-[#6b7280] line-clamp-1">
                         Feedback: {report.feedback}
                       </span>
@@ -229,7 +218,6 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                   )}
                 </div>
 
-                {/* Right Side - Actions */}
                 <div className="flex items-center gap-1">
                   {onViewDetails && (
                     <button
@@ -260,7 +248,6 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
               </div>
             </div>
 
-            {/* Expanded Section */}
             <AnimatePresence>
               {isExpanded && (
                 <motion.div
@@ -271,7 +258,6 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                   className="border-t border-[#E5E7EB] overflow-hidden"
                 >
                   <div className="p-5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] space-y-5">
-                    {/* Full Summary */}
                     {report.summary && (
                       <div>
                         <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
@@ -286,7 +272,6 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                       </div>
                     )}
 
-                    {/* Achievements */}
                     {report.achievements?.length > 0 && (
                       <div>
                         <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
@@ -308,7 +293,6 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                       </div>
                     )}
 
-                    {/* Challenges */}
                     {report.challenges?.length > 0 && (
                       <div>
                         <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
@@ -330,7 +314,6 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                       </div>
                     )}
 
-                    {/* Next Steps */}
                     {report.nextSteps?.length > 0 && (
                       <div>
                         <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
@@ -341,7 +324,7 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                           <ul className="space-y-2">
                             {report.nextSteps.map((step, idx) => (
                               <li key={idx} className="flex items-start gap-2">
-                                <div className="w-4 h-4 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs mt-0.5">
+                                <div className="w-4 h-4 rounded-full bg-[#EEF2FF] text-[#2563eb] flex items-center justify-center text-xs mt-0.5">
                                   {idx + 1}
                                 </div>
                                 <span className="text-[#374151] text-sm">
@@ -354,7 +337,6 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                       </div>
                     )}
 
-                    {/* Full Metrics */}
                     {hasMetrics && (
                       <div>
                         <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
@@ -403,7 +385,6 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                       </div>
                     )}
 
-                    {/* Performance Trend */}
                     {performanceTrend !== null && (
                       <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
                         <div className="flex items-center justify-between">
@@ -428,11 +409,11 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                             </span>
                           </div>
                         </div>
-                        <div className="mt-2 w-full bg-gray-600 rounded-full h-1.5">
+                        <div className="mt-2 w-full bg-[#F3F4F6] rounded-full h-1.5">
                           <div
                             className={`h-1.5 rounded-full transition-all duration-500 ${
                               performanceTrend >= 0
-                                ? "bg-emerald-500"
+                                ? "bg-[#2563eb]"
                                 : "bg-red-500"
                             }`}
                             style={{
@@ -446,14 +427,13 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                       </div>
                     )}
 
-                    {/* Full Feedback */}
                     {hasFeedback && (
                       <div>
                         <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
                           <MessageSquare className="w-3 h-3 text-blue-400" />
                           Feedback & Comments
                         </h4>
-                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                        <div className="bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg p-4">
                           <p className="text-[#374151] whitespace-pre-wrap">
                             {report.feedback}
                           </p>

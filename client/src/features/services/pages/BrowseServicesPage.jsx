@@ -63,7 +63,6 @@ const BrowseServicesPage = () => {
     setPage(1);
   }, [search, category]);
 
-  // Check what program the user is currently enrolled in
   const currentProgram =
     user?.position === "intern"
       ? "internship"
@@ -75,13 +74,11 @@ const BrowseServicesPage = () => {
             ? "training"
             : null;
 
-  // Check if user has already applied
   const hasAppliedForInternship = user?.internProfile && !currentProgram;
   const hasAppliedForInnovator = user?.innovatorProfile && !currentProgram;
   const hasAppliedForStartup = user?.startupProfile && !currentProgram;
   const hasAppliedForTraining = user?.trainingProfile && !currentProgram;
 
-  // Available programs (mutually exclusive)
   const getAvailablePrograms = () => {
     if (currentProgram) return [];
 
@@ -154,7 +151,6 @@ const BrowseServicesPage = () => {
   return (
     <div className="min-h-screen bg-[#F9FAFB] py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Navigation Breadcrumb - Back to Home / Dashboard */}
         <div className="flex items-center justify-between bg-[#FFFFFF] border-b border-[#E5E7EB] py-2 px-3 sm:px-5 lg:px-6 -mx-4 sm:-mx-6 lg:-mx-8 -mt-8 mb-8">
           <div className="flex items-center gap-2 text-xs">
             <Link
@@ -179,10 +175,9 @@ const BrowseServicesPage = () => {
           )}
         </div>
 
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center p-3 bg-[#2563eb] rounded-2xl mb-4">
-            <Sparkles className="w-8 h-8 text-[#111827]" />
+            <Sparkles className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-4xl font-bold text-[#111827] mb-3">
             Service Catalog
@@ -192,7 +187,6 @@ const BrowseServicesPage = () => {
           </p>
         </div>
 
-        {/* Available Programs Section - At the top */}
         {!hasActiveProgram && availablePrograms.length > 0 && (
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-4">
@@ -214,7 +208,7 @@ const BrowseServicesPage = () => {
                       <div
                         className={`w-10 h-10 rounded-xl bg-linear-to-r ${program.color} flex items-center justify-center shrink-0`}
                       >
-                        <ProgramIcon className="w-5 h-5 text-[#111827]" />
+                        <ProgramIcon className="w-5 h-5 text-white" />
                       </div>
                       <div className="flex-1">
                         <h3 className={`font-semibold ${program.textColor}`}>
@@ -235,7 +229,6 @@ const BrowseServicesPage = () => {
           </div>
         )}
 
-        {/* Active Program Badge */}
         {hasActiveProgram && (
           <div className="mb-8">
             <div className="bg-[#EEF2FF] backdrop-blur-sm rounded-xl border border-[#2563eb]/30 p-4">
@@ -259,7 +252,6 @@ const BrowseServicesPage = () => {
           </div>
         )}
 
-        {/* Search and Filter Bar */}
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
@@ -267,7 +259,7 @@ const BrowseServicesPage = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search services..."
-              className="w-full pl-10 pr-4 py-2.5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/50 border border-[#E5E7EB] rounded-xl text-[#111827] placeholder-slate-500 focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
+              className="w-full pl-10 pr-4 py-2.5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/25 border border-[#E5E7EB] rounded-xl text-[#111827] placeholder-slate-500 focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
             />
           </div>
           <div className="flex gap-3">
@@ -276,7 +268,7 @@ const BrowseServicesPage = () => {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="pl-9 pr-8 py-2.5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/50 border border-[#E5E7EB] rounded-xl text-[#111827] focus:outline-none focus:border-[#2563eb] appearance-none cursor-pointer"
+                className="pl-9 pr-8 py-2.5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/25 border border-[#E5E7EB] rounded-xl text-[#111827] focus:outline-none focus:border-[#2563eb] appearance-none cursor-pointer"
               >
                 {categories.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -287,8 +279,7 @@ const BrowseServicesPage = () => {
               <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 rotate-90 pointer-events-none" />
             </div>
 
-            {/* View Toggle */}
-            <div className="flex bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/50 border border-[#E5E7EB] rounded-xl overflow-hidden">
+            <div className="flex bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/25 border border-[#E5E7EB] rounded-xl overflow-hidden">
               <button
                 onClick={() => setViewMode("grid")}
                 className={`p-2 transition ${
@@ -315,14 +306,12 @@ const BrowseServicesPage = () => {
           </div>
         </div>
 
-        {/* Loading State */}
         {loading && (
           <div className="flex justify-center items-center py-20">
             <Loader2 className="w-10 h-10 text-[#2563eb] animate-spin" />
           </div>
         )}
 
-        {/* Services Grid/List */}
         {!loading && (
           <>
             <div
@@ -342,17 +331,16 @@ const BrowseServicesPage = () => {
                     transition={{ delay: index * 0.05 }}
                     className={`
                       bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/50 backdrop-blur-sm rounded-xl border border-[#E5E7EB] 
-                      hover:border-[#2563eb]/50 hover:shadow-lg hover:shadow-emerald-500/10 
+                      hover:border-[#2563eb]/50
                       transition-all duration-300 group
                       ${viewMode === "list" ? "flex items-center p-4" : "p-5"}
                     `}
                   >
                     {viewMode === "grid" ? (
-                      // Grid View
                       <>
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 bg-[#EEF2FF] rounded-xl flex items-center justify-center group-hover:bg-emerald-500/30 transition">
+                            <div className="w-12 h-12 bg-[#EEF2FF] rounded-xl flex items-center justify-center group-hover:bg-[#DBEAFE] transition">
                               <IconComponent className="w-6 h-6 text-[#2563eb]" />
                             </div>
                             <div>
@@ -391,10 +379,9 @@ const BrowseServicesPage = () => {
                         </div>
                       </>
                     ) : (
-                      // List View
                       <>
                         <div className="flex items-center gap-4 flex-1">
-                          <div className="w-12 h-12 bg-[#EEF2FF] rounded-xl flex items-center justify-center group-hover:bg-emerald-500/30 transition shrink-0">
+                          <div className="w-12 h-12 bg-[#EEF2FF] rounded-xl flex items-center justify-center group-hover:bg-[#DBEAFE] transition shrink-0">
                             <IconComponent className="w-6 h-6 text-[#2563eb]" />
                           </div>
                           <div className="flex-1 min-w-0">
@@ -432,7 +419,6 @@ const BrowseServicesPage = () => {
               })}
             </div>
 
-            {/* Empty State */}
             {services.length === 0 && (
               <div className="text-center py-20">
                 <Briefcase className="w-16 h-16 text-slate-600 mx-auto mb-4" />
@@ -454,7 +440,6 @@ const BrowseServicesPage = () => {
           </>
         )}
 
-        {/* Pagination */}
         {pagination && pagination.totalPages > 1 && (
           <div className="flex justify-center items-center gap-3 mt-8">
             <button
@@ -489,7 +474,7 @@ const BrowseServicesPage = () => {
                       onClick={() => setPage(pageNum)}
                       className={`w-9 h-9 rounded-lg transition ${
                         pagination.page === pageNum
-                          ? "bg-emerald-600 text-[#111827]"
+                          ? "bg-[#2563eb] text-white"
                           : "text-[#6b7280] hover:bg-[#F3F4F6]"
                       }`}
                     >
@@ -513,7 +498,6 @@ const BrowseServicesPage = () => {
           </div>
         )}
 
-        {/* Results Count */}
         {pagination && (
           <div className="text-center text-sm text-slate-500 mt-4">
             Showing {services.length} of {pagination.total} services

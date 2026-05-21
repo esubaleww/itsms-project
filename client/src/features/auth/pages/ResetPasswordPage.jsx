@@ -76,7 +76,6 @@ const ResetPasswordPage = () => {
     <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          {/* Left Side - Image */}
           <motion.div
             className="hidden lg:block"
             initial={{ opacity: 0, x: -50 }}
@@ -101,7 +100,6 @@ const ResetPasswordPage = () => {
             </div>
           </motion.div>
 
-          {/* Right Side - Form */}
           <motion.div
             className="w-full max-w-md mx-auto lg:mx-0 lg:ml-auto"
             initial={{ opacity: 0, y: 20 }}
@@ -109,7 +107,6 @@ const ResetPasswordPage = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className="bg-white py-8 px-6 sm:px-10 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[#E5E7EB]">
-              {/* Header */}
               <div className="text-center mb-8">
                 <div className="flex justify-center mb-4">
                   <div className="w-12 h-12 bg-[#EEF2FF] rounded-xl flex items-center justify-center">
@@ -126,7 +123,6 @@ const ResetPasswordPage = () => {
 
               {!submitted ? (
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Password Field */}
                   <div>
                     <label
                       htmlFor="password"
@@ -166,7 +162,6 @@ const ResetPasswordPage = () => {
                     </p>
                   </div>
 
-                  {/* Confirm Password Field */}
                   <div>
                     <label
                       htmlFor="confirmPassword"
@@ -204,7 +199,6 @@ const ResetPasswordPage = () => {
                     </div>
                   </div>
 
-                  {/* Password Strength Indicator */}
                   {password.length > 0 && (
                     <div className="mt-2">
                       <div className="flex items-center gap-2">
@@ -232,7 +226,6 @@ const ResetPasswordPage = () => {
                     </div>
                   )}
 
-                  {/* Error Message */}
                   {error && (
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
@@ -243,7 +236,6 @@ const ResetPasswordPage = () => {
                     </motion.div>
                   )}
 
-                  {/* Submit Button */}
                   <button
                     type="submit"
                     disabled={loading || password.length < 8}
@@ -262,7 +254,6 @@ const ResetPasswordPage = () => {
                     )}
                   </button>
 
-                  {/* Back to Login Link */}
                   <div className="text-center">
                     <Link
                       to="/login"

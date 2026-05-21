@@ -155,7 +155,7 @@ const QRScannerModal = ({ onClose, onSuccess }) => {
         }
       `}</style>
 
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
         <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-md border border-[#E5E7EB]">
           <div className="flex justify-between items-center p-5 border-b border-[#E5E7EB]">
             <div className="flex items-center gap-2">
@@ -217,7 +217,7 @@ const QRScannerModal = ({ onClose, onSuccess }) => {
                     setErrorMessage("");
                     window.location.reload();
                   }}
-                  className="mt-4 px-4 py-2 bg-emerald-600 text-[#111827] rounded-lg hover:bg-emerald-700 transition"
+                  className="btn-institutional mt-4 px-4 py-2"
                 >
                   Try Again
                 </button>

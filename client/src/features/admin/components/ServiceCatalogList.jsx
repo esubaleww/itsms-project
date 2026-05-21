@@ -93,7 +93,6 @@ const ServiceCatalogList = ({
 
   return (
     <div>
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold text-[#111827]">
@@ -112,9 +111,7 @@ const ServiceCatalogList = ({
         </button>
       </div>
 
-      {/* Search and Filter - Inline row like UsersList */}
       <div className="flex flex-wrap gap-4 mb-6">
-        {/* Search Bar */}
         <div className="relative flex-1 min-w-50">
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7280]" />
           <input
@@ -134,7 +131,6 @@ const ServiceCatalogList = ({
           )}
         </div>
 
-        {/* Category Filter Dropdown - Same as UsersList */}
         <select
           className="px-4 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all cursor-pointer shadow-sm"
           value={selectedCategory}
@@ -153,7 +149,6 @@ const ServiceCatalogList = ({
         </select>
       </div>
 
-      {/* Services Grid - Responsive */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {services.map((service, index) => {
           const IconComponent = getIconComponent(service.icon);
@@ -229,7 +224,6 @@ const ServiceCatalogList = ({
         })}
       </div>
 
-      {/* Empty State */}
       {services.length === 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -255,7 +249,6 @@ const ServiceCatalogList = ({
         </motion.div>
       )}
 
-      {/* Results Count */}
       {services.length > 0 && (
         <div className="mt-4 text-right text-sm text-[#6b7280]">
           Showing {services.length} of {services.length} services

@@ -57,7 +57,6 @@ const TeamAnalyticsWidget = () => {
     inProgressTasks: 0,
   };
 
-  // Process weekly activity - show active tasks (tasks - completed)
   const weeklyActivity = (data.weeklyActivity || []).map((day) => ({
     ...day,
     activeTasks: Math.max(0, (day.tasks || 0) - (day.completed || 0)),
@@ -118,7 +117,6 @@ const TeamAnalyticsWidget = () => {
   return (
     <div className="max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar">
       <div className="space-y-6 pb-4">
-        {/* Metrics Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {metrics.map((metric, idx) => (
             <motion.div
@@ -144,9 +142,7 @@ const TeamAnalyticsWidget = () => {
           ))}
         </div>
 
-        {/* Charts Row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Weekly Activity - Showing Active Tasks only */}
           <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-[#111827] font-semibold flex items-center gap-2">
@@ -313,7 +309,6 @@ const TeamAnalyticsWidget = () => {
           </div>
         </div>
 
-        {/* Member Performance */}
         <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
           <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
             <Users className="w-5 h-5 text-[#2563eb]" />
@@ -366,7 +361,6 @@ const TeamAnalyticsWidget = () => {
           </div>
         </div>
 
-        {/* Recent Service Requests */}
         {recentRequests.length > 0 && (
           <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
             <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">

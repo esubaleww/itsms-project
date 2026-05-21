@@ -1,4 +1,4 @@
-﻿import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -99,19 +99,19 @@ const DirectorInnovatorsList = ({
         );
       case "incubating":
         return (
-          <span className="bg-purple-500/20 text-purple-400 text-xs px-2 py-0.5 rounded-full border border-purple-500/30">
+          <span className="bg-purple-50 text-purple-700 border border-purple-200 text-xs px-2 py-0.5 rounded-full">
             Incubating
           </span>
         );
       case "graduated":
         return (
-          <span className="bg-blue-500/20 text-blue-400 text-xs px-2 py-0.5 rounded-full border border-blue-500/30">
+          <span className="bg-[#EEF2FF] text-[#2563eb] text-xs px-2 py-0.5 rounded-full border border-[#2563eb]/30">
             Graduated
           </span>
         );
       default:
         return (
-          <span className="bg-gray-500/20 text-[#6b7280] text-xs px-2 py-0.5 rounded-full border border-gray-500/30">
+          <span className="bg-[#F3F4F6] text-[#6b7280] text-xs px-2 py-0.5 rounded-full border border-[#E5E7EB]">
             {status || "Pending"}
           </span>
         );
@@ -122,13 +122,13 @@ const DirectorInnovatorsList = ({
     switch (stage) {
       case "idea":
         return (
-          <span className="bg-yellow-500/20 text-yellow-400 text-xs px-2 py-0.5 rounded-full">
+          <span className="bg-amber-50 text-amber-700 border border-amber-200 text-xs px-2 py-0.5 rounded-full">
             Idea Stage
           </span>
         );
       case "mvp":
         return (
-          <span className="bg-blue-500/20 text-blue-400 text-xs px-2 py-0.5 rounded-full">
+          <span className="bg-[#EEF2FF] text-[#2563eb] text-xs px-2 py-0.5 rounded-full">
             MVP Stage
           </span>
         );
@@ -140,7 +140,7 @@ const DirectorInnovatorsList = ({
         );
       case "growth":
         return (
-          <span className="bg-purple-500/20 text-purple-400 text-xs px-2 py-0.5 rounded-full">
+          <span className="bg-purple-50 text-purple-700 text-xs px-2 py-0.5 rounded-full">
             Growth Stage
           </span>
         );
@@ -158,10 +158,10 @@ const DirectorInnovatorsList = ({
             className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] p-4 animate-pulse"
           >
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
+              <div className="w-10 h-10 bg-[#E5E7EB] rounded-full"></div>
               <div className="flex-1">
-                <div className="h-5 bg-gray-700 rounded w-48 mb-2"></div>
-                <div className="h-4 bg-gray-700 rounded w-64"></div>
+                <div className="h-5 bg-[#E5E7EB] rounded w-48 mb-2"></div>
+                <div className="h-4 bg-[#E5E7EB] rounded w-64"></div>
               </div>
             </div>
           </div>
@@ -207,12 +207,11 @@ const DirectorInnovatorsList = ({
             transition={{ duration: 0.3, delay: index * 0.05 }}
             className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200"
           >
-            {/* Main Row */}
             <div className="p-5">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-linear-to-br from-purple-500 to-indigo-700 rounded-xl flex items-center justify-center text-[#111827] font-semibold text-lg shadow-lg">
+                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-700 rounded-xl flex items-center justify-center text-white font-semibold text-lg shadow-lg">
                       {innovatorData.fullName?.charAt(0)?.toUpperCase() || "?"}
                     </div>
                     <div>
@@ -240,7 +239,6 @@ const DirectorInnovatorsList = ({
                     </div>
                   </div>
 
-                  {/* Idea Info */}
                   <div className="mt-3">
                     <div className="flex items-center gap-2 text-[#2563eb]">
                       <Lightbulb className="w-4 h-4" />
@@ -255,7 +253,6 @@ const DirectorInnovatorsList = ({
                     )}
                   </div>
 
-                  {/* Stats Row */}
                   <div className="mt-3 flex flex-wrap items-center gap-4 text-sm">
                     <div className="flex items-center gap-1 text-[#6b7280]">
                       <Target className="w-4 h-4" />
@@ -273,9 +270,8 @@ const DirectorInnovatorsList = ({
                     )}
                   </div>
 
-                  {/* Mentor Info */}
                   {hasMentor ? (
-                    <div className="mt-3 flex items-center gap-2 text-sm bg-purple-500/10 text-purple-400 px-3 py-1.5 rounded-lg border border-purple-500/20 w-fit">
+                    <div className="mt-3 flex items-center gap-2 text-sm bg-purple-50 text-purple-700 px-3 py-1.5 rounded-lg border border-purple-200 w-fit">
                       <UserCheck className="w-4 h-4" />
                       <span>
                         Mentor: {innovatorData.mentorName} (
@@ -283,19 +279,18 @@ const DirectorInnovatorsList = ({
                       </span>
                     </div>
                   ) : (
-                    <div className="mt-3 text-sm text-orange-400 bg-orange-500/10 px-3 py-1.5 rounded-lg inline-flex items-center gap-1 border border-orange-500/20">
+                    <div className="mt-3 text-sm text-amber-700 bg-amber-50 px-3 py-1.5 rounded-lg inline-flex items-center gap-1 border border-amber-200">
                       <AlertCircle className="w-4 h-4" />
                       <span>No mentor assigned</span>
                     </div>
                   )}
                 </div>
 
-                {/* Actions */}
                 <div className="flex items-center gap-1 sm:ml-4">
                   {!hasMentor &&
                     onAssignMentor &&
                     (isAssigning ? (
-                      <div className="flex items-center gap-2 bg-gray-700 rounded-lg border border-[#D1D5DB] p-1">
+                      <div className="flex items-center gap-2 bg-white border border-[#D1D5DB] rounded-lg p-1">
                         <select
                           value={selectedMentor}
                           onChange={(e) => setSelectedMentor(e.target.value)}
@@ -331,7 +326,7 @@ const DirectorInnovatorsList = ({
                             setAssigningId(null);
                             setSelectedMentor("");
                           }}
-                          className="p-1 text-[#6b7280] hover:text-red-500 hover:bg-red-500/20 rounded transition"
+                          className="p-1 text-[#6b7280] hover:text-red-600 hover:bg-red-50 rounded transition"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -339,7 +334,7 @@ const DirectorInnovatorsList = ({
                     ) : (
                       <button
                         onClick={() => setAssigningId(innovatorData.id)}
-                        className="text-purple-400 text-xs font-medium px-2 py-1 rounded-lg hover:bg-purple-500/20 transition flex items-center gap-1"
+                        className="text-purple-700 text-xs font-medium px-2 py-1 rounded-lg hover:bg-purple-50 border border-purple-200 transition flex items-center gap-1"
                       >
                         <UserCheck className="w-3 h-3" />
                         Assign Mentor
@@ -360,7 +355,6 @@ const DirectorInnovatorsList = ({
               </div>
             </div>
 
-            {/* Expanded Section */}
             <AnimatePresence>
               {isExpanded && (
                 <motion.div
@@ -451,10 +445,10 @@ const DirectorInnovatorsList = ({
                                   <span
                                     className={`text-xs px-2 py-0.5 rounded-full ${
                                       milestone.status === "completed"
-                                        ? "bg-[#EEF2FF] text-[#2563eb]"
+                                        ? "bg-[#EEF2FF] text-[#2563eb] border border-[#2563eb]/20"
                                         : milestone.status === "in_progress"
-                                          ? "bg-blue-500/20 text-blue-400"
-                                          : "bg-gray-500/20 text-[#6b7280]"
+                                          ? "bg-[#EEF2FF] text-[#2563eb]"
+                                          : "bg-[#F3F4F6] text-[#6b7280] border border-[#E5E7EB]"
                                     }`}
                                   >
                                     {milestone.status || "Pending"}

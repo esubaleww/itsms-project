@@ -1,4 +1,3 @@
-﻿// client/src/features/director/components/DirectorRequestsList.jsx
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -350,11 +349,11 @@ const DirectorRequestsList = ({
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="h-6 w-20 bg-gray-700 rounded-full"></div>
-                  <div className="h-4 w-24 bg-gray-700 rounded"></div>
+                  <div className="h-6 w-20 bg-[#E5E7EB] rounded-full"></div>
+                  <div className="h-4 w-24 bg-[#E5E7EB] rounded"></div>
                 </div>
-                <div className="h-5 w-3/4 bg-gray-700 rounded mb-2"></div>
-                <div className="h-4 w-1/2 bg-gray-700 rounded"></div>
+                <div className="h-5 w-3/4 bg-[#E5E7EB] rounded mb-2"></div>
+                <div className="h-4 w-1/2 bg-[#E5E7EB] rounded"></div>
               </div>
             </div>
           </div>
@@ -505,7 +504,7 @@ const DirectorRequestsList = ({
                   {showAssign &&
                     needsTeam(req) &&
                     (isAssigning ? (
-                      <div className="flex flex-col gap-2 bg-gray-700 rounded-lg border border-[#D1D5DB] p-2">
+                      <div className="flex flex-col gap-2 bg-[#E5E7EB] rounded-lg border border-[#D1D5DB] p-2">
                         <select
                           value={selectedTeam}
                           onChange={(e) => setSelectedTeam(e.target.value)}
@@ -540,8 +539,8 @@ const DirectorRequestsList = ({
                             disabled={!selectedTeam || isLoading}
                             className={`px-2 py-1 rounded transition ${
                               selectedTeam && !isLoading
-                                ? "bg-emerald-600 text-[#111827] hover:bg-emerald-700"
-                                : "bg-gray-600 text-[#6b7280] cursor-not-allowed"
+                                ? "btn-institutional"
+                                : "bg-[#F3F4F6] border border-[#E5E7EB] text-[#9ca3af] cursor-not-allowed"
                             }`}
                           >
                             {isLoading ? (
@@ -553,7 +552,7 @@ const DirectorRequestsList = ({
                           <button
                             onClick={handleCancelAssign}
                             disabled={isLoading}
-                            className="px-2 py-1 bg-gray-600 text-[#374151] rounded hover:bg-gray-500 transition"
+                            className="px-2 py-1 bg-[#F3F4F6] text-[#374151] rounded hover:bg-[#E5E7EB] transition"
                           >
                             Cancel
                           </button>
@@ -577,7 +576,6 @@ const DirectorRequestsList = ({
                     <Eye className="w-4 h-4" />
                   </button>
 
-                  {/* Timeline button - show for all requests */}
                   {req.timeline && req.timeline.length > 0 && (
                     <button
                       onClick={() => setExpandedId(isExpanded ? null : req._id)}
@@ -595,7 +593,6 @@ const DirectorRequestsList = ({
               </div>
             </div>
 
-            {/* Timeline Section - Show for all requests when expanded */}
             <AnimatePresence>
               {isExpanded && req.timeline && req.timeline.length > 0 && (
                 <motion.div
@@ -628,7 +625,7 @@ const DirectorRequestsList = ({
                               } mt-1.5`}
                             ></div>
                             {idx < req.timeline.length - 1 && (
-                              <div className="w-0.5 h-full bg-gray-700 group-hover:bg-gray-600 mt-1"></div>
+                              <div className="w-0.5 h-full bg-[#E5E7EB] group-hover:bg-[#F3F4F6] mt-1"></div>
                             )}
                           </div>
                           <div className="flex-1 pb-3">
@@ -642,7 +639,7 @@ const DirectorRequestsList = ({
                             )}
                             <p className="text-xs text-[#6b7280] mt-1 flex items-center gap-1">
                               <User className="w-3 h-3" />
-                              {event.by?.fullName || "System"} •{" "}
+                              {event.by?.fullName || "System"} �{" "}
                               {formatDateTime(
                                 event.date ||
                                   event.timestamp ||
@@ -664,7 +661,6 @@ const DirectorRequestsList = ({
   );
 };
 
-// Helper Component for Staff Assignment Dropdown
 const StaffAssignmentDropdown = ({
   options,
   selectedStaff,
@@ -674,7 +670,7 @@ const StaffAssignmentDropdown = ({
   isLoading,
   placeholder,
 }) => (
-  <div className="flex items-center gap-2 bg-gray-700 rounded-lg border border-[#D1D5DB] p-1">
+  <div className="flex items-center gap-2 bg-[#E5E7EB] rounded-lg border border-[#D1D5DB] p-1">
     <select
       value={selectedStaff}
       onChange={(e) => onSelect(e.target.value)}

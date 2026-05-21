@@ -1,4 +1,4 @@
-﻿import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { X, Calendar, CheckCircle, TrendingUp, XCircle } from "lucide-react";
 
 const TraineeProgressModal = ({ trainee, progress, onClose }) => {
@@ -19,7 +19,7 @@ const TraineeProgressModal = ({ trainee, progress, onClose }) => {
   const upcomingCount = totalSessions - attendedSessions - missedCount;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -81,7 +81,7 @@ const TraineeProgressModal = ({ trainee, progress, onClose }) => {
           {upcomingCount > 0 && (
             <div className="bg-blue-500/10 rounded-lg p-3 border border-blue-500/20">
               <p className="text-xs text-blue-400">
-                📅 {upcomingCount} upcoming session
+                ?? {upcomingCount} upcoming session
                 {upcomingCount !== 1 ? "s" : ""} not yet started
               </p>
             </div>
@@ -121,30 +121,30 @@ const TraineeProgressModal = ({ trainee, progress, onClose }) => {
                           <div className="flex flex-wrap gap-3 mt-1 text-xs text-[#6b7280]">
                             {session.date && (
                               <span>
-                                📅 {new Date(session.date).toLocaleDateString()}
+                                ?? {new Date(session.date).toLocaleDateString()}
                               </span>
                             )}
                             {session.date && (
                               <span>
-                                🕐 {new Date(session.date).toLocaleTimeString()}
+                                ?? {new Date(session.date).toLocaleTimeString()}
                               </span>
                             )}
                             {session.duration > 0 && (
-                              <span>⏱️ Duration: {session.duration} hours</span>
+                              <span>?? Duration: {session.duration} hours</span>
                             )}
                             {session.location && (
-                              <span>📍 Location: {session.location}</span>
+                              <span>?? Location: {session.location}</span>
                             )}
                           </div>
                           {attendedAt && (
                             <p className="text-xs text-[#2563eb]/70 mt-2">
-                              ✅ Attended on{" "}
+                              ? Attended on{" "}
                               {new Date(attendedAt).toLocaleString()}
                             </p>
                           )}
                           {isUpcoming && (
                             <p className="text-xs text-yellow-400/70 mt-2">
-                              ⏰ Session starts on{" "}
+                              ? Session starts on{" "}
                               {sessionDate.toLocaleString()}
                             </p>
                           )}

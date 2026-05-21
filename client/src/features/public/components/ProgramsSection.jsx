@@ -60,7 +60,6 @@ export default function ProgramsSection({ isAuthenticated, onApply }) {
   return (
     <section className="py-24 bg-[#fcf5f8]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -82,7 +81,6 @@ export default function ProgramsSection({ isAuthenticated, onApply }) {
           </p>
         </motion.div>
 
-        {/* Programs Grid */}
         <div className="grid lg:grid-cols-3 gap-8">
           {programs.map((program, index) => (
             <motion.div
@@ -95,7 +93,6 @@ export default function ProgramsSection({ isAuthenticated, onApply }) {
               className="group relative"
             >
               <div className="relative bg-white rounded-2xl border border-[#E5E7EB] overflow-hidden hover:border-[#2563eb]/30 transition-all duration-300 h-full flex flex-col shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
-                {/* Image Section */}
                 <div className="relative h-48 overflow-hidden">
                   <img
                     src={program.image}

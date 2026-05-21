@@ -1,4 +1,4 @@
-﻿import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Mail, Send, RefreshCw, Settings, LogOut } from "lucide-react";
 import NotificationBell from "../../../common/components//NotificationBell";
 

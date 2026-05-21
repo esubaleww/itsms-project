@@ -1,4 +1,4 @@
-﻿import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   User,
   Mail,
@@ -97,7 +97,7 @@ const TeamMembersList = ({ members, detailed = false, tasks }) => {
         {enhancedMembers.map((member, idx) => (
           <div key={idx} className="p-4 hover:bg-[#F3F4F6]/30 transition">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-linear-to-r from-emerald-500/20 to-teal-700/20 rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-linear-to-r from-[#DBEAFE]/40 to-[#BFDBFE]/40 rounded-full flex items-center justify-center">
                 <span className="text-[#111827] font-medium">
                   {member.fullName?.charAt(0) || "?"}
                 </span>
@@ -138,7 +138,7 @@ const TeamMembersList = ({ members, detailed = false, tasks }) => {
           className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all p-4"
         >
           <div className="flex items-start gap-3">
-            <div className="w-12 h-12 bg-linear-to-r from-emerald-500 to-teal-700 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] border border-[#93C5FD] rounded-full flex items-center justify-center">
               <span className="text-[#111827] font-bold text-lg">
                 {member.fullName?.charAt(0) || "?"}
               </span>
@@ -186,7 +186,7 @@ const TeamMembersList = ({ members, detailed = false, tasks }) => {
             </div>
             {member.totalTasks > 0 && (
               <>
-                <div className="mt-2 w-full bg-gray-600 rounded-full h-1.5">
+                <div className="mt-2 w-full bg-[#E5E7EB] rounded-full h-1.5">
                   <div
                     className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
                     style={{ width: `${member.completionRate || 0}%` }}

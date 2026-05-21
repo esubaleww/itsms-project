@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { X, Download, QrCode, Copy, Check } from "lucide-react";
 import { generateSessionQR } from "../../../utils/qrUtils";
@@ -30,7 +30,7 @@ const SessionQRModal = ({ session, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -79,14 +79,14 @@ const SessionQRModal = ({ session, onClose }) => {
           <div className="flex gap-3">
             <button
               onClick={handleDownload}
-              className="flex-1 flex items-center justify-center gap-2 py-2 bg-emerald-600 text-[#111827] rounded-lg hover:bg-emerald-700 transition"
+              className="flex-1 flex items-center justify-center gap-2 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition"
             >
               <Download className="w-4 h-4" />
               Download QR
             </button>
             <button
               onClick={handleCopyLink}
-              className="flex-1 flex items-center justify-center gap-2 py-2 bg-gray-700 text-[#111827] rounded-lg hover:bg-gray-600 transition"
+              className="flex-1 flex items-center justify-center gap-2 py-2 bg-[#F3F4F6] text-[#374151] rounded-lg hover:bg-[#E5E7EB] transition"
             >
               {copied ? (
                 <Check className="w-4 h-4" />

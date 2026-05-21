@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Eye,
@@ -124,7 +124,7 @@ const MentorMenteesList = ({
                 </p>
               </div>
               {pendingCount > 0 && (
-                <span className="text-xs px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full whitespace-nowrap ml-2">
+                <span className="text-xs px-2.5 py-1 bg-amber-50 text-amber-700 border border-amber-200 rounded-full font-medium whitespace-nowrap ml-2">
                   {pendingCount} Pending
                 </span>
               )}
@@ -151,9 +151,9 @@ const MentorMenteesList = ({
                     {progress}%
                   </span>
                 </div>
-                <div className="w-full bg-gray-700 rounded-full h-2">
+                <div className="w-full bg-[#F3F4F6] rounded-full h-2">
                   <div
-                    className="bg-emerald-500 h-2 rounded-full transition-all"
+                    className="bg-[#2563eb] h-2 rounded-full transition-all shadow-sm"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
@@ -163,20 +163,20 @@ const MentorMenteesList = ({
             <div className="flex flex-wrap gap-2 mt-4">
               <button
                 onClick={() => onViewProgress(userId, type)}
-                className="flex-1 min-w-20 px-3 py-2 bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-[#111827] rounded-lg transition text-sm flex items-center justify-center gap-1"
+                className="btn-institutional flex-1 min-w-20 px-3 py-2 text-sm"
               >
                 <Eye className="w-3 h-3" /> Progress
               </button>
               <button
                 onClick={() => onReviewMilestones(mentee, type)}
-                className="flex-1 min-w-25 px-3 py-2 bg-emerald-600/20 hover:bg-emerald-600 text-[#2563eb] hover:text-[#111827] rounded-lg transition text-sm flex items-center justify-center gap-1"
+                className="btn-institutional flex-1 min-w-[100px] px-3 py-2 text-sm"
               >
                 <FileText className="w-3 h-3" />
                 {hasAnyMilestones ? "Review" : "Add Milestones"}
               </button>
               <button
                 onClick={() => onFinalReview(mentee, type)}
-                className="flex-1 min-w-20 px-3 py-2 bg-purple-600/20 hover:bg-purple-600 text-purple-400 hover:text-[#111827] rounded-lg transition text-sm flex items-center justify-center gap-1"
+                className="flex-1 min-w-20 px-3 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-lg transition text-sm flex items-center justify-center gap-1 font-medium"
               >
                 <Award className="w-3 h-3" /> Final
               </button>

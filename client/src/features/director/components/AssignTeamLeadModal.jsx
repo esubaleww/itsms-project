@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { X, Crown, UserCheck, AlertCircle } from "lucide-react";
 
@@ -31,7 +31,6 @@ const AssignTeamLeadModal = ({ team, staffList, onClose, onSubmit }) => {
     if (error) setError("");
   };
 
-  // Filter staff that can be team leads (technical_staff, trainer, advisor, or any staff)
   const eligibleStaff = staffList.filter(
     (staff) =>
       staff.position === "technical_staff" ||
@@ -41,14 +40,13 @@ const AssignTeamLeadModal = ({ team, staffList, onClose, onSubmit }) => {
   );
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-md overflow-hidden border border-[#E5E7EB] shadow-2xl"
       >
-        {/* Header */}
         <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-linear-to-br from-yellow-500 to-orange-600 rounded-lg flex items-center justify-center">
@@ -64,13 +62,11 @@ const AssignTeamLeadModal = ({ team, staffList, onClose, onSubmit }) => {
           </button>
         </div>
 
-        {/* Form */}
         <form
           onSubmit={handleSubmit}
           className="p-5 space-y-5"
           id="assign-lead-form"
         >
-          {/* Team Info */}
           <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-4 border border-[#E5E7EB]">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-[#EEF2FF] rounded-lg flex items-center justify-center">
@@ -83,7 +79,6 @@ const AssignTeamLeadModal = ({ team, staffList, onClose, onSubmit }) => {
             </div>
           </div>
 
-          {/* Staff Selection */}
           <div>
             <label className="block text-sm font-medium text-[#374151] mb-1">
               Select Team Lead <span className="text-red-500">*</span>
@@ -149,7 +144,6 @@ const AssignTeamLeadModal = ({ team, staffList, onClose, onSubmit }) => {
             )}
           </div>
 
-          {/* Role Info */}
           <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
             <p className="text-xs text-blue-400 flex items-center gap-1">
               <Crown className="w-3 h-3" />
@@ -163,7 +157,6 @@ const AssignTeamLeadModal = ({ team, staffList, onClose, onSubmit }) => {
             </ul>
           </div>
 
-          {/* Current Lead Info (if any) */}
           {team?.lead && (
             <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 border border-[#E5E7EB]">
               <p className="text-xs text-[#6b7280] flex items-center gap-1">
@@ -183,7 +176,6 @@ const AssignTeamLeadModal = ({ team, staffList, onClose, onSubmit }) => {
           )}
         </form>
 
-        {/* Buttons */}
         <div className="p-5 border-t border-[#E5E7EB] bg-white/90 backdrop-blur-sm">
           <div className="flex gap-3">
             <button

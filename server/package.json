@@ -6,7 +6,10 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "seed:roles": "node scripts/seedAllRoles.js",
+    "seed:dashboard": "node scripts/seedFullDashboard.js",
+    "populate:staff": "node scripts/populateStaffOnExistingAccounts.js"
   },
   "author": "",
   "license": "ISC",

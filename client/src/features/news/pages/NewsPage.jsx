@@ -83,7 +83,6 @@ export default function NewsPage() {
 
   return (
     <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6]">
-      {/* Sticky Back Button */}
       <div className="sticky top-0 z-30 bg-[#F9FAFB]/95 backdrop-blur-md border-b border-[#E5E7EB]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <button
@@ -96,7 +95,6 @@ export default function NewsPage() {
         </div>
       </div>
 
-      {/* Header */}
       <section
         className="text-[#111827] py-16 border-b border-[#E5E7EB]"
         style={{ background: "linear-gradient(135deg, #EEF2FF, #DBEAFE)" }}
@@ -120,7 +118,6 @@ export default function NewsPage() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Featured News Section */}
         {featuredNews.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -144,7 +141,6 @@ export default function NewsPage() {
                     className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-2xl border border-[#E5E7EB] overflow-hidden hover:border-[#2563eb]/50 transition-all duration-300"
                   >
                     <div className="grid lg:grid-cols-2 gap-0">
-                      {/* Image - full height, object-cover maintains aspect ratio */}
                       <div className="relative overflow-hidden">
                         {item.image?.url ? (
                           <img
@@ -158,7 +154,6 @@ export default function NewsPage() {
                           </div>
                         )}
                       </div>
-                      {/* Content - natural height, no scrolling */}
                       <div className="p-8 flex flex-col">
                         <div>
                           <div className="flex items-center gap-3 mb-4 flex-wrap">
@@ -200,7 +195,6 @@ export default function NewsPage() {
           </motion.div>
         )}
 
-        {/* Latest Updates - Grid layout */}
         <div className="space-y-8">
           <div className="pb-4 border-b border-[#E5E7EB]">
             <h2 className="text-2xl font-bold text-[#111827]">
@@ -228,7 +222,6 @@ export default function NewsPage() {
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
                     <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-xl hover:border-[#2563eb]/50 transition-all duration-300 group h-full flex flex-col">
-                      {/* Image - fixed height, object-cover */}
                       <div className="relative h-48 overflow-hidden shrink-0">
                         {item.image?.url ? (
                           <img

@@ -183,7 +183,7 @@ const ServiceRequestModal = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -522,7 +522,7 @@ const ServiceRequestModal = ({
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#2563eb] hover:bg-[#1d4ed8] font-medium shadow-md text-[#111827] py-3 rounded-xl hover:from-emerald-500 hover:to-teal-500 transition flex items-center justify-center gap-2 disabled:opacity-50"
+            className="btn-institutional w-full py-3 disabled:opacity-50"
           >
             {loading ? (
               <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>

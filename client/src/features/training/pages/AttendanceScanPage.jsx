@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import { useTrainee } from "../../../hooks/useTrainee";
@@ -15,7 +15,7 @@ const AttendanceScanPage = () => {
       try {
         await markAttendance(sessionId);
         setStatus("success");
-        setMessage("✅ Attendance recorded successfully!");
+        setMessage("? Attendance recorded successfully!");
         setTimeout(() => navigate("/dashboard?tab=my-sessions"), 2000);
       } catch (error) {
         let userMessage = error.message || "Failed to record attendance";
@@ -24,20 +24,20 @@ const AttendanceScanPage = () => {
           userMessage.includes("hasn't started") ||
           userMessage.includes("starts on")
         ) {
-          userMessage = "⏰ " + userMessage;
+          userMessage = "? " + userMessage;
         } else if (userMessage.includes("expired")) {
-          userMessage = "⌛ " + userMessage;
+          userMessage = "? " + userMessage;
         } else if (
           userMessage.includes("already marked") ||
           userMessage.includes("already recorded")
         ) {
-          userMessage = "✅ " + userMessage;
+          userMessage = "? " + userMessage;
         } else if (userMessage.includes("not found")) {
-          userMessage = "❌ Session not found. Please check the QR code.";
+          userMessage = "? Session not found. Please check the QR code.";
         } else if (userMessage.includes("not assigned")) {
-          userMessage = "🔒 You are not assigned to this session.";
+          userMessage = "?? You are not assigned to this session.";
         } else if (userMessage.includes("500")) {
-          userMessage = "⚠️ Server error. Please try again later.";
+          userMessage = "?? Server error. Please try again later.";
         }
 
         setStatus("error");
@@ -88,7 +88,7 @@ const AttendanceScanPage = () => {
             <p className="text-red-500 text-sm">{message}</p>
             <button
               onClick={() => navigate("/dashboard?tab=my-sessions")}
-              className="mt-6 px-4 py-2 bg-emerald-600 text-[#111827] rounded-lg hover:bg-emerald-700 transition"
+              className="btn-institutional mt-6 px-4 py-2"
             >
               Go to Dashboard
             </button>

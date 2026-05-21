@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Calendar, Clock, MapPin, QrCode, Plus } from "lucide-react";
 import SessionQRModal from "./SessionQRModal";
@@ -53,7 +53,7 @@ const SessionsList = ({ sessions, loading, onCreateSession }) => {
         </div>
         <button
           onClick={() => setShowCreateForm(!showCreateForm)}
-          className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 rounded-lg text-[#111827] text-sm flex items-center gap-2 transition"
+          className="btn-institutional px-4 py-2 text-sm"
         >
           <Plus className="w-4 h-4" />
           Create Session
@@ -74,7 +74,7 @@ const SessionsList = ({ sessions, loading, onCreateSession }) => {
             onChange={(e) =>
               setFormData({ ...formData, title: e.target.value })
             }
-            className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+            className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
           />
           <div className="grid grid-cols-2 gap-3">
             <input
@@ -83,7 +83,7 @@ const SessionsList = ({ sessions, loading, onCreateSession }) => {
               onChange={(e) =>
                 setFormData({ ...formData, date: e.target.value })
               }
-              className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+              className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
             />
             <input
               type="number"
@@ -92,7 +92,7 @@ const SessionsList = ({ sessions, loading, onCreateSession }) => {
               onChange={(e) =>
                 setFormData({ ...formData, duration: e.target.value })
               }
-              className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+              className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
             />
           </div>
           <input
@@ -102,7 +102,7 @@ const SessionsList = ({ sessions, loading, onCreateSession }) => {
             onChange={(e) =>
               setFormData({ ...formData, location: e.target.value })
             }
-            className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+            className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
           />
           <div className="flex gap-3">
             <button
@@ -114,7 +114,7 @@ const SessionsList = ({ sessions, loading, onCreateSession }) => {
             <button
               onClick={handleSubmit}
               disabled={!formData.title || !formData.date}
-              className="flex-1 px-4 py-2 bg-emerald-600 text-[#111827] rounded-lg hover:bg-emerald-700 disabled:opacity-50 transition"
+              className="btn-institutional flex-1 px-4 py-2 disabled:opacity-50"
             >
               Create Session
             </button>
@@ -128,7 +128,7 @@ const SessionsList = ({ sessions, loading, onCreateSession }) => {
           <p className="text-[#6b7280] text-lg">No sessions created yet</p>
           <button
             onClick={() => setShowCreateForm(true)}
-            className="mt-3 text-[#2563eb] hover:text-[#1d4ed8] transition text-sm"
+            className="btn-institutional mt-4 px-4 py-2 text-sm"
           >
             + Create your first session
           </button>
@@ -187,7 +187,7 @@ const SessionsList = ({ sessions, loading, onCreateSession }) => {
                 <div className="p-4">
                   <button
                     onClick={() => handleGenerateQR(session)}
-                    className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-purple-600/20 hover:bg-purple-600 text-purple-400 hover:text-[#111827] rounded-lg transition text-sm"
+                    className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-lg transition text-sm font-medium"
                   >
                     <QrCode className="w-4 h-4" />
                     Generate QR Code
@@ -213,3 +213,4 @@ const SessionsList = ({ sessions, loading, onCreateSession }) => {
 };
 
 export default SessionsList;
+

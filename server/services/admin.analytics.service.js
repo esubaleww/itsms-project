@@ -200,7 +200,6 @@ class AnalyticsService {
       ]),
     ]);
 
-    // Calculate growth rate compared to previous period
     const previousPeriodStart = new Date();
     previousPeriodStart.setDate(previousPeriodStart.getDate() - 60);
     const previousPeriodUsers = await User.countDocuments({
@@ -275,7 +274,6 @@ class AnalyticsService {
       ]),
     ]);
 
-    // Calculate growth rate
     const previousPeriodStart = new Date();
     previousPeriodStart.setDate(previousPeriodStart.getDate() - 60);
     const previousPeriodRequests = await Request.countDocuments({
@@ -341,7 +339,6 @@ class AnalyticsService {
       ]),
     ]);
 
-    // Calculate growth rate
     const previousPeriodStart = new Date();
     previousPeriodStart.setDate(previousPeriodStart.getDate() - 60);
 
@@ -395,7 +392,6 @@ class AnalyticsService {
       ServiceCatalog.countDocuments({ isActive: true }),
     ]);
 
-    // Calculate services growth
     const previousPeriodServices = await ServiceCatalog.countDocuments({
       createdAt: { $lt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) },
     });
@@ -426,7 +422,6 @@ class AnalyticsService {
     };
   }
 
-  // Main method - accepts dateRange parameter
   async getAllAnalytics(dateRange = "30days") {
     const days = this._getDaysFromRange(dateRange);
 

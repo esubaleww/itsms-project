@@ -14,7 +14,6 @@ export const useRequests = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch all requests for the current user
   const fetchMyRequests = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -23,7 +22,6 @@ export const useRequests = () => {
       const response = await requestService.getMyRequests();
       setRequests(response.requests || []);
 
-      // Calculate stats
       const reqs = response.requests || [];
       const newStats = {
         pending: reqs.filter((r) => r.status === "pending_approval").length,
@@ -44,7 +42,6 @@ export const useRequests = () => {
     }
   }, []);
 
-  // Get request statistics
   const getRequestStats = async () => {
     setLoading(true);
     try {
@@ -59,14 +56,12 @@ export const useRequests = () => {
     }
   };
 
-  // Create a new request
   const createRequest = async (requestData) => {
     setLoading(true);
     setError(null);
 
     try {
       const response = await requestService.createRequest(requestData);
-      // Refresh the list after creating
       await fetchMyRequests();
       return response;
     } catch (err) {
@@ -77,7 +72,6 @@ export const useRequests = () => {
     }
   };
 
-  // Get a single request by ID
   const getRequestById = async (id) => {
     setLoading(true);
     setError(null);
@@ -93,7 +87,6 @@ export const useRequests = () => {
     }
   };
 
-  // Update request status
   const updateRequestStatus = async (id, status, comments = "") => {
     setLoading(true);
     setError(null);
@@ -103,7 +96,7 @@ export const useRequests = () => {
         status,
         comments,
       });
-      await fetchMyRequests(); // Refresh list
+      await fetchMyRequests();
       return response;
     } catch (err) {
       setError(err.message || "Failed to update request");
@@ -113,14 +106,13 @@ export const useRequests = () => {
     }
   };
 
-  // Cancel a request
   const cancelRequest = async (id) => {
     setLoading(true);
     setError(null);
 
     try {
       const response = await requestService.cancelRequest(id);
-      await fetchMyRequests(); // Refresh list
+      await fetchMyRequests();
       return response;
     } catch (err) {
       setError(err.message || "Failed to cancel request");
@@ -130,14 +122,13 @@ export const useRequests = () => {
     }
   };
 
-  // Submit feedback for completed request
   const submitFeedback = async (id, feedback) => {
     setLoading(true);
     setError(null);
 
     try {
       const response = await requestService.submitFeedback(id, feedback);
-      await fetchMyRequests(); // Refresh list
+      await fetchMyRequests();
       return response;
     } catch (err) {
       setError(err.message || "Failed to submit feedback");

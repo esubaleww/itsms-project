@@ -82,7 +82,7 @@ const AdminHeader = ({
 
   return (
     <>
-      <header className="bg-white/80 backdrop-blur-sm border-b border-[#E5E7EB] sticky top-0 z-[60]">
+      <header className="bg-white/80 backdrop-blur-sm border-b border-[#E5E7EB] sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 h-16">
           <div className="flex justify-between items-center h-full">
             <div className="flex items-center gap-4">
@@ -257,14 +257,6 @@ const AdminHeader = ({
                       >
                         <User className="w-4 h-4" />
                         Profile Settings
-                      </button>
-                      <div className="border-t border-[#E5E7EB] my-1" />
-                      <button
-                        onClick={handleLogout}
-                        className="w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-[#F3F4F6] transition-colors flex items-center gap-2"
-                      >
-                        <LogOut className="w-4 h-4" />
-                        Sign Out
                       </button>
                     </div>
                   </div>

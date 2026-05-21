@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Eye,
@@ -48,25 +48,25 @@ const DirectorReportsList = ({
         };
       case "rejected":
         return {
-          color: "text-red-500",
-          bg: "bg-red-500/20",
-          border: "border-red-500/30",
+          color: "text-red-600",
+          bg: "bg-red-50",
+          border: "border-red-200",
           icon: XCircle,
           label: "Rejected",
         };
       case "reviewed":
         return {
-          color: "text-blue-400",
-          bg: "bg-blue-500/20",
-          border: "border-blue-500/30",
+          color: "text-[#2563eb]",
+          bg: "bg-[#EEF2FF]",
+          border: "border-[#2563eb]/30",
           icon: BookOpen,
           label: "Reviewed",
         };
       default:
         return {
-          color: "text-yellow-400",
-          bg: "bg-yellow-500/20",
-          border: "border-yellow-500/30",
+          color: "text-amber-700",
+          bg: "bg-amber-50",
+          border: "border-amber-200",
           icon: Clock,
           label: "Pending",
         };
@@ -217,11 +217,11 @@ const DirectorReportsList = ({
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="h-6 w-20 bg-gray-700 rounded-full"></div>
-                  <div className="h-4 w-24 bg-gray-700 rounded"></div>
+                  <div className="h-6 w-20 bg-[#E5E7EB] rounded-full"></div>
+                  <div className="h-4 w-24 bg-[#E5E7EB] rounded"></div>
                 </div>
-                <div className="h-5 w-3/4 bg-gray-700 rounded mb-2"></div>
-                <div className="h-4 w-1/2 bg-gray-700 rounded"></div>
+                <div className="h-5 w-3/4 bg-[#E5E7EB] rounded mb-2"></div>
+                <div className="h-4 w-1/2 bg-[#E5E7EB] rounded"></div>
               </div>
             </div>
           </div>
@@ -317,7 +317,7 @@ const DirectorReportsList = ({
                         <span className="text-xs text-[#6b7280]">
                           Performance:
                         </span>
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400">
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200">
                           {report.data.overallPerformance}
                         </span>
                       </div>
@@ -331,13 +331,13 @@ const DirectorReportsList = ({
                             .map((skill, i) => (
                               <span
                                 key={i}
-                                className="text-xs px-2 py-0.5 bg-gray-700 rounded-full text-[#374151]"
+                                className="text-xs px-2 py-0.5 bg-[#F3F4F6] rounded-full text-[#374151] border border-[#E5E7EB]"
                               >
                                 {skill}
                               </span>
                             ))}
                           {report.data.skillsAcquired.length > 3 && (
-                            <span className="text-xs px-2 py-0.5 bg-gray-700 rounded-full text-[#6b7280]">
+                            <span className="text-xs px-2 py-0.5 bg-[#F3F4F6] border border-[#E5E7EB] rounded-full text-[#6b7280]">
                               +{report.data.skillsAcquired.length - 3} more
                             </span>
                           )}
@@ -349,8 +349,8 @@ const DirectorReportsList = ({
                     </p>
 
                     {hasFeedback && !isExpanded && (
-                      <div className="mt-3 flex items-start gap-2 text-xs bg-blue-500/10 border border-blue-500/20 rounded-lg p-2">
-                        <MessageSquare className="w-3 h-3 text-blue-400 mt-0.5 shrink-0" />
+                      <div className="mt-3 flex items-start gap-2 text-xs bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg p-2">
+                        <MessageSquare className="w-3 h-3 text-[#2563eb] mt-0.5 shrink-0" />
                         <span className="text-[#6b7280] line-clamp-1">
                           Feedback: {report.feedback}
                         </span>
@@ -362,7 +362,7 @@ const DirectorReportsList = ({
                     {isPending && onReview && !showReview && (
                       <button
                         onClick={() => setShowReviewForm(report._id)}
-                        className="p-2 rounded-lg transition text-blue-400 hover:bg-blue-500/20"
+                        className="p-2 rounded-lg transition text-[#2563eb] hover:bg-[#EEF2FF]"
                         title="Review Report"
                       >
                         <BookOpen className="w-4 h-4" />
@@ -383,7 +383,7 @@ const DirectorReportsList = ({
                         {!showReject && (
                           <button
                             onClick={() => setShowRejectForm(report._id)}
-                            className="p-2 rounded-lg transition text-red-500 hover:bg-red-500/20"
+                            className="p-2 rounded-lg transition text-red-600 hover:bg-red-50"
                             title="Reject Report"
                           >
                             <XCircle className="w-4 h-4" />
@@ -451,7 +451,7 @@ const DirectorReportsList = ({
                       <button
                         onClick={() => handleReview(report._id)}
                         disabled={!reviewFeedback[report._id]?.trim()}
-                        className="px-4 py-2 bg-blue-600 text-[#111827] rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
+                        className="btn-institutional px-4 py-2 disabled:opacity-50"
                       >
                         {isLoading ? (
                           <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
@@ -480,7 +480,7 @@ const DirectorReportsList = ({
                       </button>
                       <button
                         onClick={() => handleApprove(report._id)}
-                        className="px-4 py-2 bg-emerald-600 text-[#111827] rounded-lg hover:bg-emerald-700 flex items-center gap-2"
+                        className="btn-institutional px-4 py-2"
                       >
                         {isLoading ? (
                           <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
@@ -518,7 +518,7 @@ const DirectorReportsList = ({
                       <button
                         onClick={() => handleReject(report._id)}
                         disabled={!rejectReason.trim()}
-                        className="px-4 py-2 bg-red-600 text-[#111827] rounded-lg hover:bg-red-700 disabled:opacity-50 flex items-center gap-2"
+                        className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 flex items-center gap-2 font-medium"
                       >
                         {isLoading ? (
                           <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
@@ -572,7 +572,7 @@ const DirectorReportsList = ({
                               {report.data.skillsAcquired.map((skill, i) => (
                                 <span
                                   key={i}
-                                  className="text-xs px-2 py-1 bg-gray-700 rounded-full text-[#374151]"
+                                  className="text-xs px-2 py-1 bg-[#F3F4F6] rounded-full text-[#374151] border border-[#E5E7EB]"
                                 >
                                   {skill}
                                 </span>
@@ -599,7 +599,7 @@ const DirectorReportsList = ({
                           <h4 className="text-sm font-medium text-[#6b7280] mb-2">
                             Director Feedback
                           </h4>
-                          <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
+                          <div className="bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg p-3">
                             <p className="text-[#374151] text-sm">
                               {report.feedback}
                             </p>

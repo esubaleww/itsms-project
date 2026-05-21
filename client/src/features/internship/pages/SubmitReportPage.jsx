@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 import { useIntern } from "../../../hooks/useIntern";
@@ -45,16 +45,13 @@ const SubmitReportPage = () => {
   }, []);
 
   useEffect(() => {
-    // Calculate next week number based on existing reports
     if (reports && reports.length > 0) {
-      // Get the highest week number from existing reports
       const submittedWeeks = reports.map((r) => r.week);
       const maxWeek = Math.max(...submittedWeeks);
       const nextWeek = maxWeek + 1;
       setCurrentWeek(nextWeek);
       setFormData((prev) => ({ ...prev, week: nextWeek }));
     } else {
-      // No reports yet, start from week 1
       setCurrentWeek(1);
       setFormData((prev) => ({ ...prev, week: 1 }));
     }
@@ -111,7 +108,6 @@ const SubmitReportPage = () => {
             </p>
           </div>
 
-          {/* Internship Progress Card */}
           <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-4 mb-6 border border-[#E5E7EB]">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
@@ -133,7 +129,7 @@ const SubmitReportPage = () => {
                 </span>
               </div>
             </div>
-            <div className="w-full bg-gray-700 rounded-full h-2 mb-2">
+            <div className="w-full bg-[#E5E7EB] rounded-full h-2 mb-2">
               <div
                 className="bg-emerald-500 h-2 rounded-full transition-all duration-500"
                 style={{
@@ -148,7 +144,6 @@ const SubmitReportPage = () => {
             </p>
           </div>
 
-          {/* Info Box */}
           <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
             <div className="flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-blue-400 mt-0.5" />
@@ -166,7 +161,6 @@ const SubmitReportPage = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Week Number - Auto-calculated, read-only */}
             <div>
               <label className="block text-sm font-medium text-[#374151] mb-2">
                 Week Number <span className="text-red-500">*</span>
@@ -190,7 +184,6 @@ const SubmitReportPage = () => {
               </p>
             </div>
 
-            {/* Work Content */}
             <div>
               <label className="block text-sm font-medium text-[#374151] mb-2">
                 What did you work on? <span className="text-red-500">*</span>
@@ -206,7 +199,6 @@ const SubmitReportPage = () => {
               />
             </div>
 
-            {/* Challenges */}
             <div>
               <label className="block text-sm font-medium text-[#374151] mb-2">
                 Challenges faced
@@ -221,7 +213,6 @@ const SubmitReportPage = () => {
               />
             </div>
 
-            {/* Key Learnings */}
             <div>
               <label className="block text-sm font-medium text-[#374151] mb-2">
                 Key Learnings
@@ -236,7 +227,6 @@ const SubmitReportPage = () => {
               />
             </div>
 
-            {/* Next Week Plan */}
             <div>
               <label className="block text-sm font-medium text-[#374151] mb-2">
                 Plan for next week
@@ -251,7 +241,6 @@ const SubmitReportPage = () => {
               />
             </div>
 
-            {/* Hours Worked */}
             <div>
               <label className="block text-sm font-medium text-[#374151] mb-2">
                 Hours worked this week <span className="text-red-500">*</span>
@@ -272,11 +261,10 @@ const SubmitReportPage = () => {
               </div>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading || hookLoading}
-              className="w-full bg-[#2563eb] hover:bg-[#1d4ed8] font-medium shadow-md text-[#111827] py-3 rounded-xl hover:from-emerald-500 hover:to-teal-500 transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg mt-6"
+              className="btn-institutional w-full py-3 mt-6 disabled:opacity-50"
             >
               {loading ? (
                 <>
@@ -292,7 +280,6 @@ const SubmitReportPage = () => {
             </button>
           </form>
 
-          {/* Footer Note */}
           <p className="text-xs text-[#6b7280] text-center mt-6">
             Your report will be reviewed by your advisor. You'll be notified
             once reviewed.

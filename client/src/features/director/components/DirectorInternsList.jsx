@@ -1,4 +1,4 @@
-﻿import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -80,19 +80,19 @@ const DirectorInternsList = ({
         );
       case "pending":
         return (
-          <span className="bg-yellow-500/20 text-yellow-400 text-xs px-2 py-0.5 rounded-full border border-yellow-500/30">
+          <span className="bg-amber-50 text-amber-700 border border-amber-200 text-xs px-2 py-0.5 rounded-full">
             Pending
           </span>
         );
       case "completed":
         return (
-          <span className="bg-blue-500/20 text-blue-400 text-xs px-2 py-0.5 rounded-full border border-blue-500/30">
+          <span className="bg-[#EEF2FF] text-[#2563eb] text-xs px-2 py-0.5 rounded-full border border-[#2563eb]/30">
             Completed
           </span>
         );
       default:
         return (
-          <span className="bg-gray-500/20 text-[#6b7280] text-xs px-2 py-0.5 rounded-full border border-gray-500/30">
+          <span className="bg-[#F3F4F6] text-[#6b7280] text-xs px-2 py-0.5 rounded-full border border-[#E5E7EB]">
             {status || "Unknown"}
           </span>
         );
@@ -121,7 +121,6 @@ const DirectorInternsList = ({
     return stars;
   };
 
-  // Loading state
   if (loading) {
     return (
       <div className="space-y-4">
@@ -131,10 +130,10 @@ const DirectorInternsList = ({
             className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] p-4 animate-pulse"
           >
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
+              <div className="w-10 h-10 bg-[#E5E7EB] rounded-full"></div>
               <div className="flex-1">
-                <div className="h-5 bg-gray-700 rounded w-48 mb-2"></div>
-                <div className="h-4 bg-gray-700 rounded w-64"></div>
+                <div className="h-5 bg-[#E5E7EB] rounded w-48 mb-2"></div>
+                <div className="h-4 bg-[#E5E7EB] rounded w-64"></div>
               </div>
             </div>
           </div>
@@ -192,10 +191,8 @@ const DirectorInternsList = ({
             transition={{ duration: 0.3, delay: index * 0.05 }}
             className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200"
           >
-            {/* Main Row */}
             <div className="p-5">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
-                {/* Left Side - Intern Info */}
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-xl flex items-center justify-center text-[#111827] font-semibold text-lg shadow-lg">
@@ -231,7 +228,6 @@ const DirectorInternsList = ({
                     </div>
                   </div>
 
-                  {/* Stats Row */}
                   <div className="mt-3 flex flex-wrap items-center gap-4 text-sm">
                     <div className="flex items-center gap-1 text-[#6b7280]">
                       <FileText className="w-4 h-4" />
@@ -257,7 +253,6 @@ const DirectorInternsList = ({
                     )}
                   </div>
 
-                  {/* Advisor Info */}
                   {hasAdvisor ? (
                     <div className="mt-3 flex items-center gap-2 text-sm bg-[#EEF2FF] text-[#2563eb] px-3 py-1.5 rounded-lg border border-[#2563eb]/20 w-fit">
                       <UserCheck className="w-4 h-4" />
@@ -282,12 +277,11 @@ const DirectorInternsList = ({
                   )}
                 </div>
 
-                {/* Right Side - Actions */}
                 <div className="flex items-center gap-1 sm:ml-4">
                   {!hasAdvisor &&
                     onAssignAdvisor &&
                     (isAssigning ? (
-                      <div className="flex items-center gap-2 bg-gray-700 rounded-lg border border-[#D1D5DB] p-1">
+                      <div className="flex items-center gap-2 bg-white border border-[#D1D5DB] rounded-lg p-1">
                         <select
                           value={selectedAdvisor}
                           onChange={(e) => setSelectedAdvisor(e.target.value)}
@@ -358,7 +352,6 @@ const DirectorInternsList = ({
               </div>
             </div>
 
-            {/* Expanded Section with Animation */}
             <AnimatePresence>
               {isExpanded && (
                 <motion.div
@@ -369,7 +362,6 @@ const DirectorInternsList = ({
                   className="border-t border-[#E5E7EB] overflow-hidden"
                 >
                   <div className="p-5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] space-y-5">
-                    {/* Placement Info */}
                     {(internData.placement || internData.startDate) && (
                       <div>
                         <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-3 flex items-center gap-2">
@@ -435,7 +427,6 @@ const DirectorInternsList = ({
                       </div>
                     )}
 
-                    {/* Advisor Summary Section */}
                     {hasSummary && (
                       <div>
                         <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-3 flex items-center gap-2">
@@ -495,7 +486,6 @@ const DirectorInternsList = ({
                       </div>
                     )}
 
-                    {/* Reports Section */}
                     {recentReports.length > 0 && (
                       <div>
                         <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-3 flex items-center gap-2">
@@ -556,7 +546,6 @@ const DirectorInternsList = ({
                       </div>
                     )}
 
-                    {/* No Reports Message */}
                     {totalReports === 0 && (
                       <div className="text-center py-6">
                         <FileText className="w-12 h-12 text-[#9ca3af] mx-auto mb-2" />

@@ -35,7 +35,7 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
       value: "internship",
       label: "Internship",
       icon: GraduationCap,
-      color: "from-green-500 to-emerald-700",
+      color: "from-[#2563eb] to-[#93C5FD]",
     },
     {
       value: "startup",
@@ -107,7 +107,7 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
   const TypeIcon = selectedType?.icon;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -266,7 +266,7 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
               type="submit"
               form="create-directorate-form"
               disabled={loading}
-              className="flex-1 bg-[#2563eb] text-white py-2.5 rounded-lg hover:bg-[#1d4ed8] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md flex items-center justify-center gap-2 font-medium"
+              className="btn-institutional flex-1 py-2.5 disabled:opacity-50"
             >
               {loading ? (
                 <>

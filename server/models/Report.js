@@ -59,13 +59,11 @@ const reportSchema = new mongoose.Schema(
     ],
 
     metrics: {
-      // For team reports
       tasksCompleted: { type: Number, default: 0 },
       tasksInProgress: { type: Number, default: 0 },
       tasksPending: { type: Number, default: 0 },
       hoursWorked: { type: Number, default: 0 },
 
-      // For director reports
       applicationsProcessed: { type: Number, default: 0 },
       approvedApplications: { type: Number, default: 0 },
       rejectedApplications: { type: Number, default: 0 },
@@ -74,7 +72,6 @@ const reportSchema = new mongoose.Schema(
       activeStartups: { type: Number, default: 0 },
       serviceRequestsCompleted: { type: Number, default: 0 },
 
-      // Additional metrics (dynamic)
       custom: mongoose.Schema.Types.Mixed,
     },
 
@@ -128,10 +125,8 @@ const reportSchema = new mongoose.Schema(
     },
     approvedAt: Date,
 
-    // Submission tracking
     submittedAt: Date,
 
-    // For team reports - which team lead submitted
     teamLead: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -144,7 +139,6 @@ const reportSchema = new mongoose.Schema(
   },
 );
 
-// Virtual for report age
 reportSchema.virtual("age").get(function () {
   const days = Math.floor(
     (Date.now() - this.createdAt) / (1000 * 60 * 60 * 24),
@@ -154,7 +148,6 @@ reportSchema.virtual("age").get(function () {
   return `${days} days ago`;
 });
 
-// Virtual for week number (based on start date)
 reportSchema.virtual("weekNumber").get(function () {
   if (!this.period?.startDate) return null;
   const start = new Date(this.period.startDate);
@@ -163,7 +156,6 @@ reportSchema.virtual("weekNumber").get(function () {
   return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
 });
 
-// Indexes for performance
 reportSchema.index({ submittedBy: 1, createdAt: -1 });
 reportSchema.index({ directorate: 1, status: 1 });
 reportSchema.index({ team: 1, status: 1 });
