@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { Eye, File, Image, FileText } from "lucide-react";
 
 const DocumentItem = ({ file, label, onRemove, showDownload = true }) => {

@@ -22,6 +22,8 @@ import CreateAnnouncementModal from "../components/CreateAnnouncementModal";
 import ServiceCatalogList from "../components/ServiceCatalogList";
 import ServiceCatalogModal from "../components/ServiceCatalogModal";
 
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../hooks/useAuth";
 import {
   LayoutDashboard,
   FileText,
@@ -38,9 +40,17 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
+  LogOut,
 } from "lucide-react";
 
 const AdminDashboardPage = () => {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+  };
   const {
     stats,
     pendingRequests,
@@ -266,6 +276,18 @@ const AdminDashboardPage = () => {
                   )}
                 </button>
               ))}
+              <div className="border-t border-[#E5E7EB] mt-2 pt-2">
+                <button
+                  onClick={handleLogout}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap text-red-500 hover:bg-red-50 ${sidebarCollapsed ? "justify-center px-2" : ""}`}
+                  title={sidebarCollapsed ? "Sign Out" : ""}
+                >
+                  <div className="shrink-0"><LogOut className="w-5 h-5" /></div>
+                  {!sidebarCollapsed && (
+                    <span className="text-sm font-medium flex-1 text-left">Sign Out</span>
+                  )}
+                </button>
+              </div>
             </nav>
           </div>
           <button
@@ -295,7 +317,7 @@ const AdminDashboardPage = () => {
                 animate={{ x: 0 }}
                 exit={{ x: -280 }}
                 transition={{ type: "tween", duration: 0.3 }}
-                className="fixed left-0 top-0 bottom-0 w-64 bg-white border-r border-[#E5E7EB] z-50 md:hidden"
+                className="fixed left-0 top-0 bottom-0 w-64 bg-white border-r border-[#E5E7EB] z-[9999] md:hidden"
               >
                 <div className="flex justify-between items-center p-4 border-b border-[#E5E7EB]">
                   <span className="text-[#0f172a] font-bold">Menu</span>
@@ -331,6 +353,15 @@ const AdminDashboardPage = () => {
                       )}
                     </button>
                   ))}
+                  <div className="border-t border-[#E5E7EB] mt-2 pt-2">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-red-500 hover:bg-red-50"
+                    >
+                      <LogOut className="w-5 h-5" />
+                      <span className="text-sm font-medium">Sign Out</span>
+                    </button>
+                  </div>
                 </nav>
               </motion.aside>
             </>
@@ -350,7 +381,6 @@ const AdminDashboardPage = () => {
                   />
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-                    {/* Recent Requests */}
                     <div className="bg-white rounded-xl border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200 ease-in-out overflow-hidden">
                       <div className="px-6 py-4 border-b border-[#E5E7EB] flex justify-between items-center">
                         <h2 className="text-lg font-semibold text-[#111827] flex items-center gap-2">
@@ -459,7 +489,6 @@ const AdminDashboardPage = () => {
                     </div>
                   </div>
 
-                  {/* Quick Actions */}
                   <div className="mt-6 bg-[#F3F4F6] border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6">
                     <h3 className="text-lg font-semibold text-[#111827] mb-4 flex items-center gap-2">
                       <Zap className="w-5 h-5 text-[#2563eb]" />

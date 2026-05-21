@@ -1,4 +1,4 @@
-﻿import { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useCloudinaryUpload } from "../../hooks/useCloudinaryUpload";
 import { Upload, X, Loader, Eye, Download, FileText } from "lucide-react";
 
@@ -72,7 +72,7 @@ export const DocumentUpload = ({
             </div>
             {!isLoading && (
               <span className="text-xs text-[#6b7280] group-hover:text-[#6b7280] transition">
-                {`≤${maxSizeMB}MB`}
+                {`=${maxSizeMB}MB`}
               </span>
             )}
           </div>

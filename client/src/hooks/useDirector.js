@@ -22,7 +22,6 @@ export const useDirector = () => {
   const [myReports, setMyReports] = useState([]);
   const [availableStaff, setAvailableStaff] = useState([]);
 
-  // ==================== STATS ====================
   const fetchStats = useCallback(async () => {
     setLoading(true);
     try {
@@ -37,7 +36,6 @@ export const useDirector = () => {
     }
   }, [addToast]);
 
-  // ==================== REQUESTS ====================
   const fetchRequests = useCallback(
     async (filters = {}) => {
       setLoading(true);
@@ -181,7 +179,6 @@ export const useDirector = () => {
     [addToast, fetchTeams],
   );
 
-  // ==================== INTERNS ====================
   const fetchInternSummaries = useCallback(
     async (params = {}) => {
       setLoading(true);
@@ -543,7 +540,6 @@ export const useDirector = () => {
     [addToast],
   );
 
-  // ==================== REPORTS ====================
   const fetchTeamReports = useCallback(
     async (filters = {}) => {
       setLoading(true);

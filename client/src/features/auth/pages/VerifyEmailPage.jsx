@@ -24,7 +24,6 @@ const VerifyEmailPage = () => {
       }
 
       try {
-        // Step 1: Verify email
         const response = await verifyEmail(token);
         setStatus("success");
         setMessage(response.message || "Email verified successfully!");
@@ -33,10 +32,8 @@ const VerifyEmailPage = () => {
           "success",
         );
 
-        // Step 2: Force refresh profile to get updated user
         await getProfile();
 
-        // Step 3: Redirect to dashboard
         setTimeout(() => {
           navigate("/dashboard");
         }, 2000);
@@ -55,7 +52,6 @@ const VerifyEmailPage = () => {
     <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
         <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-8 text-center border border-[#E5E7EB]">
-          {/* Logo */}
           <div className="mb-6">
             <div className="flex justify-center mb-3">
               <div className="w-12 h-12 bg-[#2563eb] rounded-xl flex items-center justify-center">

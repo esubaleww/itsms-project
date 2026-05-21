@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   X,
@@ -97,14 +97,13 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl max-w-lg w-full max-h-[90vh] flex flex-col border border-[#E5E7EB] shadow-2xl"
       >
-        {/* Header */}
         <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-sm">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg flex items-center justify-center">
@@ -120,9 +119,7 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
           </button>
         </div>
 
-        {/* Content */}
         <div className="flex-1 overflow-y-auto p-5 space-y-4">
-          {/* Type Badge */}
           <div className="flex items-center gap-2">
             <div
               className={`flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium bg-white text-[#374151]`}
@@ -137,7 +134,6 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
             </div>
           </div>
 
-          {/* Title */}
           <div>
             <label className="text-xs text-[#6b7280] uppercase tracking-wide">
               Title
@@ -145,7 +141,6 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
             <p className="text-[#111827] font-medium text-lg mt-1">{task.title}</p>
           </div>
 
-          {/* Description */}
           {task.description && (
             <div>
               <label className="text-xs text-[#6b7280] uppercase tracking-wide">
@@ -157,7 +152,6 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
             </div>
           )}
 
-          {/* Details Grid */}
           <div className="grid grid-cols-2 gap-4 pt-2">
             <div>
               <label className="text-xs text-[#6b7280] uppercase tracking-wide">
@@ -197,7 +191,6 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
             )}
           </div>
 
-          {/* Subtasks Section */}
           {task.tasks && task.tasks.length > 0 && (
             <div className="border-t border-[#E5E7EB] pt-4">
               <label className="text-xs text-[#6b7280] uppercase tracking-wide mb-2 block">
@@ -236,7 +229,6 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
             </div>
           )}
 
-          {/* Timeline Section */}
           {task.timeline && task.timeline.length > 0 && (
             <div className="border-t border-[#E5E7EB] pt-4">
               <label className="text-xs text-[#6b7280] uppercase tracking-wide mb-2 block">
@@ -248,7 +240,7 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
                   .reverse()
                   .map((event, idx) => (
                     <div key={idx} className="flex items-start gap-2 text-xs">
-                      <div className="w-2 h-2 mt-1.5 rounded-full bg-emerald-400 shrink-0" />
+                      <div className="w-2 h-2 mt-1.5 rounded-full bg-blue-400 shrink-0" />
                       <div>
                         <p className="text-[#374151]">{event.action}</p>
                         <p className="text-[#6b7280]">
@@ -266,7 +258,6 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
             </div>
           )}
 
-          {/* Update Status Section */}
           <div className="border-t border-[#E5E7EB] pt-4">
             <label className="text-xs text-[#6b7280] uppercase tracking-wide mb-2 block">
               Update Status
@@ -281,7 +272,7 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
                     onClick={() => setSelectedStatus(status.value)}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
                       selectedStatus === status.value
-                        ? status.color + " ring-2 ring-emerald-500"
+                        ? status.color + " ring-2 ring-[#2563eb]"
                         : "bg-white text-[#6b7280] hover:bg-[#F3F4F6]"
                     }`}
                   >
@@ -301,13 +292,12 @@ const TaskDetailModal = ({ task, onClose, onUpdateStatus }) => {
           </div>
         </div>
 
-        {/* Buttons */}
         <div className="p-5 border-t border-[#E5E7EB] bg-white/90 backdrop-blur-sm rounded-b-2xl">
           <div className="flex gap-3">
             <button
               onClick={handleUpdate}
               disabled={updating || selectedStatus === task.status}
-              className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="btn-institutional flex-1 py-2.5 disabled:opacity-50"
             >
               {updating ? (
                 <>

@@ -35,7 +35,7 @@ const ActivityLogsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterAction, setFilterAction] = useState("all");
   const [filterEntity, setFilterEntity] = useState("all");
-  const [filterStatus, setFilterStatus] = useState("all"); // New filter for success/failed
+  const [filterStatus, setFilterStatus] = useState("all");
   const [selectedLog, setSelectedLog] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -43,7 +43,6 @@ const ActivityLogsPage = () => {
     fetchAll();
   }, []);
 
-  // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
     setSelectedLog(null);
@@ -52,7 +51,6 @@ const ActivityLogsPage = () => {
   const getActionIcon = (action, success) => {
     const actionUpper = action?.toUpperCase() || "";
 
-    // If it's a LOGIN action that failed
     if (actionUpper === "LOGIN" && success === false) {
       return <AlertTriangle className="w-4 h-4 text-red-500" />;
     }
@@ -88,7 +86,6 @@ const ActivityLogsPage = () => {
   const getActionBadgeColor = (action, success) => {
     const actionUpper = action?.toUpperCase() || "";
 
-    // If it's a LOGIN action that failed
     if (actionUpper === "LOGIN" && success === false) {
       return "bg-red-100 text-red-700";
     }
@@ -129,7 +126,6 @@ const ActivityLogsPage = () => {
   };
 
   const getDescription = (log) => {
-    // Handle failed login attempts (LOGIN action with success: false)
     if (
       log.action?.toUpperCase() === "LOGIN" &&
       log.metadata?.success === false
@@ -139,7 +135,6 @@ const ActivityLogsPage = () => {
       return `Failed login attempt for ${email} - Reason: ${reason}`;
     }
 
-    // Handle successful login
     if (
       log.action?.toUpperCase() === "LOGIN" &&
       log.metadata?.success !== false
@@ -148,18 +143,15 @@ const ActivityLogsPage = () => {
       return `${email} logged in successfully`;
     }
 
-    // Handle logout
     if (log.action?.toUpperCase() === "LOGOUT") {
       const email = log.user?.email || "User";
       return `${email} logged out`;
     }
 
-    // Default description
     return log.metadata?.description || `${log.action} ${log.entity}`;
   };
 
   const getEntityDisplay = (log) => {
-    // For failed login attempts, show "Authentication"
     if (
       log.action?.toUpperCase() === "LOGIN" &&
       log.metadata?.success === false
@@ -204,7 +196,6 @@ const ActivityLogsPage = () => {
   ];
 
   const filteredLogs = auditLogs?.filter((log) => {
-    // Filter by action
     if (filterAction !== "all") {
       const actionUpper = log.action?.toUpperCase();
       if (filterAction === "login_failed") {
@@ -215,7 +206,6 @@ const ActivityLogsPage = () => {
       }
     }
 
-    // Filter by entity
     if (filterEntity !== "all") {
       if (filterEntity === "authentication") {
         if (
@@ -230,14 +220,12 @@ const ActivityLogsPage = () => {
       }
     }
 
-    // Filter by status (success/failed)
     if (filterStatus !== "all") {
       const isSuccess = log.metadata?.success !== false;
       if (filterStatus === "success" && !isSuccess) return false;
       if (filterStatus === "failed" && isSuccess) return false;
     }
 
-    // Search
     if (searchTerm) {
       const searchLower = searchTerm.toLowerCase();
       const description = getDescription(log).toLowerCase();
@@ -283,7 +271,6 @@ const ActivityLogsPage = () => {
   const totalLogs = auditLogs?.length || 0;
   const filteredTotal = filteredLogs?.length || 0;
 
-  // Generate page numbers to display
   const getPageNumbers = () => {
     const delta = 2;
     const range = [];
@@ -317,7 +304,6 @@ const ActivityLogsPage = () => {
 
   return (
     <div className="min-h-screen bg-[#F9FAFB]">
-      {/* Sticky Header Section - Fixed at top */}
       <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-[#E5E7EB]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-4 mb-4">
@@ -330,8 +316,8 @@ const ActivityLogsPage = () => {
             </button>
             <div className="h-6 w-px bg-[#E5E7EB]" />
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#EEF2FF] rounded-xl flex items-center justify-center shadow-sm border border-[#E5E7EB]">
-                <History className="w-5 h-5 text-[#2563eb]" />
+              <div className="w-10 h-10 bg-[#2563eb] rounded-full flex items-center justify-center shadow-lg">
+                <History className="w-5 h-5 text-white" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-[#111827]">Activity Logs</h1>
@@ -352,7 +338,6 @@ const ActivityLogsPage = () => {
             </button>
           </div>
 
-          {/* Search and Filters */}
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
@@ -400,7 +385,6 @@ const ActivityLogsPage = () => {
             </select>
           </div>
 
-          {/* Summary Stats */}
           <div className="mt-4 flex justify-between items-center text-sm">
             <div className="text-[#6b7280]">
               {filteredTotal > 0 ? (
@@ -444,9 +428,7 @@ const ActivityLogsPage = () => {
         </div>
       </div>
 
-      {/* Scrollable Table Body */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Logs Table */}
         <div className="bg-white rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-[#E5E7EB] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -553,7 +535,6 @@ const ActivityLogsPage = () => {
                           <tr className="bg-[#F9FAFB]">
                             <td colSpan="6" className="px-4 py-4">
                               <div className="bg-white border border-[#E5E7EB] rounded-lg p-4 space-y-2 shadow-sm">
-                                {/* Show email and reason prominently for failed logins */}
                                 {isFailedLogin && (
                                   <div className="space-y-2 mb-3 pb-3 border-b border-red-100">
                                     <div className="flex items-center gap-2 text-red-600">
@@ -665,7 +646,6 @@ const ActivityLogsPage = () => {
           </div>
         </div>
 
-        {/* Pagination */}
         {!loading && filteredTotal > 0 && totalPages > 1 && (
           <div className="mt-6 flex justify-center items-center gap-2">
             <button
@@ -729,7 +709,6 @@ const ActivityLogsPage = () => {
           </div>
         )}
 
-        {/* Page info */}
         {!loading && filteredTotal > 0 && totalPages > 1 && (
           <div className="mt-4 text-center text-sm text-[#6b7280]">
             Page {currentPage} of {totalPages}

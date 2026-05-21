@@ -93,14 +93,13 @@ const ServiceCatalogModal = ({ service, isEditing, onClose, onSubmit }) => {
     iconOptions.find((i) => i.value === formData.icon)?.icon || Briefcase;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         className="bg-white rounded-2xl max-w-md w-full max-h-[90vh] flex flex-col border border-[#E5E7EB] shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
       >
-        {/* Header */}
         <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-sm z-10 rounded-t-2xl">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg flex items-center justify-center">
@@ -118,10 +117,8 @@ const ServiceCatalogModal = ({ service, isEditing, onClose, onSubmit }) => {
           </button>
         </div>
 
-        {/* Form */}
         <div className="overflow-y-auto flex-1 p-5">
           <form onSubmit={handleSubmit} className="space-y-4" id="service-form">
-            {/* Name */}
             <div>
               <label className="block text-sm font-medium text-[#374151] mb-1">
                 Service Name <span className="text-red-500">*</span>
@@ -144,7 +141,6 @@ const ServiceCatalogModal = ({ service, isEditing, onClose, onSubmit }) => {
               )}
             </div>
 
-            {/* Description */}
             <div>
               <label className="block text-sm font-medium text-[#374151] mb-1">
                 Description <span className="text-red-500">*</span>
@@ -167,7 +163,6 @@ const ServiceCatalogModal = ({ service, isEditing, onClose, onSubmit }) => {
               )}
             </div>
 
-            {/* Category */}
             <div>
               <label className="block text-sm font-medium text-[#374151] mb-1">
                 Category <span className="text-red-500">*</span>
@@ -193,7 +188,6 @@ const ServiceCatalogModal = ({ service, isEditing, onClose, onSubmit }) => {
               )}
             </div>
 
-            {/* Icon */}
             <div>
               <label className="block text-sm font-medium text-[#374151] mb-1">
                 Icon
@@ -221,7 +215,6 @@ const ServiceCatalogModal = ({ service, isEditing, onClose, onSubmit }) => {
               </div>
             </div>
 
-            {/* Price & Time */}
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-[#374151] mb-1">
@@ -260,7 +253,6 @@ const ServiceCatalogModal = ({ service, isEditing, onClose, onSubmit }) => {
               </div>
             </div>
 
-            {/* Popular Checkbox */}
             <div className="flex items-center gap-2">
               <input
                 type="checkbox"
@@ -278,7 +270,6 @@ const ServiceCatalogModal = ({ service, isEditing, onClose, onSubmit }) => {
           </form>
         </div>
 
-        {/* Buttons */}
         <div className="p-5 border-t border-[#E5E7EB] bg-[#F9FAFB] rounded-b-2xl">
           <div className="flex gap-3">
             <button

@@ -1,4 +1,4 @@
-﻿import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { X, Target, CheckCircle, Clock, TrendingUp } from "lucide-react";
 
 const MenteeProgressModal = ({ mentee, progress, type, onClose }) => {
@@ -11,7 +11,7 @@ const MenteeProgressModal = ({ mentee, progress, type, onClose }) => {
       : mentee?.fullName || mentee?.mentee?.fullName || "Unknown";
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}

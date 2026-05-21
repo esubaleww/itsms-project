@@ -20,7 +20,6 @@ const ProgramCard = ({ program, onAction }) => {
           </div>
         </div>
 
-        {/* Intern Stats */}
         {program.type === "intern" && (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             <div className="bg-[#F3F4F6] rounded-xl p-3">
@@ -44,7 +43,6 @@ const ProgramCard = ({ program, onAction }) => {
           </div>
         )}
 
-        {/* Trainee Stats */}
         {program.type === "trainee" && (
           <>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -74,7 +72,7 @@ const ProgramCard = ({ program, onAction }) => {
               </div>
               <div className="w-full bg-[#E5E7EB] rounded-full h-2">
                 <div
-                  className="bg-linear-to-r from-emerald-500 to-teal-500 h-2 rounded-full transition-all duration-500"
+                  className="bg-linear-to-r from-[#DBEAFE] to-[#BFDBFE] h-2 rounded-full transition-all duration-500"
                   style={{ width: `${program.completionRate || 0}%` }}
                 />
               </div>
@@ -82,7 +80,6 @@ const ProgramCard = ({ program, onAction }) => {
           </>
         )}
 
-        {/* Innovator Stats */}
         {program.type === "innovator" && (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             <div className="bg-[#F3F4F6] rounded-xl p-3">
@@ -107,7 +104,6 @@ const ProgramCard = ({ program, onAction }) => {
           </div>
         )}
 
-        {/* Startup Stats */}
         {program.type === "startup" && (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             <div className="bg-[#F3F4F6] rounded-xl p-3">
@@ -131,7 +127,6 @@ const ProgramCard = ({ program, onAction }) => {
           </div>
         )}
 
-        {/* Advisor/Trainer/Mentor Info */}
         {program.advisor && (
           <div className="mt-3 p-2 bg-blue-500/10 rounded-lg">
             <p className="text-xs text-blue-400">Advisor: {program.advisor}</p>
@@ -146,7 +141,6 @@ const ProgramCard = ({ program, onAction }) => {
           </div>
         )}
 
-        {/* Action Button */}
         <div className="mt-4">
           <button
             onClick={() =>
@@ -167,7 +161,6 @@ const ProgramCard = ({ program, onAction }) => {
           </button>
         </div>
 
-        {/* Last Activity */}
         {program.lastActivity && (
           <div className="flex items-center gap-2 text-xs text-[#6b7280] border-t border-[#E5E7EB] mt-4 pt-4">
             <Calendar className="w-3 h-3" />

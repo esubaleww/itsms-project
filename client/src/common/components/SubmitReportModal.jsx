@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   X,
@@ -141,7 +141,7 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
   const attachments = formData.attachments || [];
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -282,7 +282,7 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
                 <button
                   type="button"
                   onClick={addAchievement}
-                  className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition text-[#374151]"
+                  className="px-3 py-2 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] hover:from-[#BFDBFE] hover:to-[#93C5FD] rounded-lg transition-all duration-200 shadow-sm font-semibold"
                 >
                   <Plus className="w-4 h-4" />
                 </button>
@@ -328,7 +328,7 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
                 <button
                   type="button"
                   onClick={addChallenge}
-                  className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition text-[#374151]"
+                  className="px-3 py-2 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] hover:from-[#BFDBFE] hover:to-[#93C5FD] rounded-lg transition-all duration-200 shadow-sm font-semibold"
                 >
                   <Plus className="w-4 h-4" />
                 </button>
@@ -374,7 +374,7 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
                 <button
                   type="button"
                   onClick={addNextStep}
-                  className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition text-[#374151]"
+                  className="px-3 py-2 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] hover:from-[#BFDBFE] hover:to-[#93C5FD] rounded-lg transition-all duration-200 shadow-sm font-semibold"
                 >
                   <Plus className="w-4 h-4" />
                 </button>
@@ -490,7 +490,7 @@ const SubmitReportModal = ({ onClose, onSubmit, formData, setFormData }) => {
               type="submit"
               form="report-form"
               disabled={loading}
-              className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg flex items-center justify-center gap-2"
+              className="flex-1 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] shadow-sm hover:from-[#BFDBFE] hover:to-[#93C5FD] py-2.5 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>

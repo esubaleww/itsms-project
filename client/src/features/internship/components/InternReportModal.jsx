@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   X,
@@ -90,8 +90,7 @@ const InternReportModal = ({
     setLoading(true);
     try {
       await onUpdate(report.week, editData);
-      await onRefresh(); // Refresh the reports list
-      // Update the local report data
+      await onRefresh();
       Object.assign(report, {
         content: editData.content,
         learnings: editData.learnings,
@@ -112,7 +111,7 @@ const InternReportModal = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -158,7 +157,6 @@ const InternReportModal = ({
         </div>
 
         <div className="overflow-y-auto flex-1 p-5 space-y-5">
-          {/* Hours Worked */}
           <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-4 border border-[#E5E7EB]">
             <div className="flex items-center gap-2 text-[#6b7280] text-sm mb-2">
               <Clock className="w-4 h-4" />
@@ -171,7 +169,7 @@ const InternReportModal = ({
                 onChange={(e) =>
                   handleChange("hoursWorked", parseInt(e.target.value) || 0)
                 }
-                className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
                 min="0"
               />
             ) : (
@@ -181,7 +179,6 @@ const InternReportModal = ({
             )}
           </div>
 
-          {/* Content / Summary */}
           <div>
             <h3 className="text-sm font-semibold text-[#111827] mb-2 flex items-center gap-2">
               <FileText className="w-4 h-4 text-[#2563eb]" />
@@ -192,7 +189,7 @@ const InternReportModal = ({
                 value={editData.content}
                 onChange={(e) => handleChange("content", e.target.value)}
                 rows={4}
-                className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
                 placeholder="Write your weekly summary..."
               />
             ) : (
@@ -204,7 +201,6 @@ const InternReportModal = ({
             )}
           </div>
 
-          {/* Learnings */}
           <div>
             <h3 className="text-sm font-semibold text-[#111827] mb-2 flex items-center gap-2">
               <CheckCircle className="w-4 h-4 text-[#2563eb]" />
@@ -215,7 +211,7 @@ const InternReportModal = ({
                 value={editData.learnings}
                 onChange={(e) => handleChange("learnings", e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
                 placeholder="What did you learn this week?"
               />
             ) : (
@@ -227,7 +223,6 @@ const InternReportModal = ({
             )}
           </div>
 
-          {/* Challenges */}
           <div>
             <h3 className="text-sm font-semibold text-[#111827] mb-2 flex items-center gap-2">
               <XCircle className="w-4 h-4 text-red-500" />
@@ -238,7 +233,7 @@ const InternReportModal = ({
                 value={editData.challenges}
                 onChange={(e) => handleChange("challenges", e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
                 placeholder="What challenges did you face?"
               />
             ) : (
@@ -250,7 +245,6 @@ const InternReportModal = ({
             )}
           </div>
 
-          {/* Next Plan */}
           <div>
             <h3 className="text-sm font-semibold text-[#111827] mb-2 flex items-center gap-2">
               <MessageSquare className="w-4 h-4 text-blue-400" />
@@ -261,7 +255,7 @@ const InternReportModal = ({
                 value={editData.nextPlan}
                 onChange={(e) => handleChange("nextPlan", e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
                 placeholder="What are your plans for next week?"
               />
             ) : (
@@ -273,7 +267,6 @@ const InternReportModal = ({
             )}
           </div>
 
-          {/* Advisor Feedback */}
           {report.advisorFeedback && (
             <div className="bg-[#EEF2FF] rounded-xl p-4 border border-[#2563eb]/30">
               <h3 className="text-sm font-semibold text-[#2563eb] mb-2 flex items-center gap-2">
@@ -289,7 +282,6 @@ const InternReportModal = ({
             </div>
           )}
 
-          {/* Submitted At */}
           {report.submittedAt && (
             <div className="text-xs text-[#6b7280] border-t border-[#E5E7EB] pt-3">
               Submitted: {formatDateTime(report.submittedAt)}
@@ -310,7 +302,7 @@ const InternReportModal = ({
               <button
                 onClick={handleSave}
                 disabled={loading}
-                className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] py-2.5 rounded-lg hover:opacity-90 transition flex items-center justify-center gap-2"
+                className="btn-institutional flex-1 py-2.5"
               >
                 {loading ? (
                   <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />

@@ -69,14 +69,12 @@ class TeamLeadExportService {
       case "tasks":
       case "pending-tasks":
       case "completed-tasks":
-        // Build status filter for task types
         let statusFilter = {};
         if (type === "completed-tasks") {
           statusFilter.status = "completed";
         } else if (type === "pending-tasks") {
           statusFilter.status = { $in: ["assigned_to_team", "in_progress"] };
         }
-        // For "tasks", no status filter (get all)
 
         rawData = await Request.find({
           ...dateFilter,

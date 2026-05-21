@@ -1,11 +1,11 @@
-﻿import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { X, TrendingUp, FileText, Star, Calendar, Award } from "lucide-react";
 
 const InternProgressModal = ({ intern, progress, onClose }) => {
   const stats = progress?.stats || {};
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -28,7 +28,6 @@ const InternProgressModal = ({ intern, progress, onClose }) => {
         </div>
 
         <div className="flex-1 overflow-y-auto p-5 space-y-6">
-          {/* Stats Cards */}
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4 text-center">
               <FileText className="w-8 h-8 text-[#2563eb] mx-auto mb-2" />
@@ -60,7 +59,6 @@ const InternProgressModal = ({ intern, progress, onClose }) => {
             </div>
           </div>
 
-          {/* Reports List */}
           {progress?.reports && progress.reports.length > 0 && (
             <div>
               <h3 className="text-lg font-semibold text-[#111827] mb-3">
@@ -112,7 +110,6 @@ const InternProgressModal = ({ intern, progress, onClose }) => {
             </div>
           )}
 
-          {/* Summary Section */}
           {progress?.summary && (
             <div className="border-t border-[#E5E7EB] pt-4">
               <h3 className="text-lg font-semibold text-[#111827] mb-3">

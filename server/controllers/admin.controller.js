@@ -32,7 +32,7 @@ export const approveRequest = async (req, res) => {
       req.params.id,
       req.user,
       comments,
-      req, // ✅ Added missing req parameter
+      req,
     );
     res.json(result);
   } catch (error) {
@@ -48,9 +48,9 @@ export const rejectRequest = async (req, res) => {
     const { reason } = req.body;
     const result = await adminService.rejectRequest(
       req.params.id,
-      req.user, // ✅ Pass full user object, not just id
+      req.user,
       reason,
-      req, // ✅ Added missing req parameter
+      req,
     );
     res.json(result);
   } catch (error) {
@@ -76,7 +76,7 @@ export const getAdminStats = async (req, res) => {
 export const createDirectorate = async (req, res) => {
   try {
     const result = await adminService.createDirectorate(
-      req.user, // ✅ Pass full user object
+      req.user,
       req.body,
       req,
     );
@@ -192,7 +192,7 @@ export const resetStaffPassword = async (req, res) => {
   try {
     const result = await adminService.resetStaffPassword(
       req.params.id,
-      req.user, // ✅ Pass full user object
+      req.user,
     );
     res.json(result);
   } catch (error) {
@@ -288,9 +288,6 @@ export const resendVerification = async (req, res) => {
   }
 };
 
-// ========================
-// AUDIT LOGS
-// ========================
 
 export const getAuditLogs = async (req, res) => {
   try {
@@ -314,9 +311,6 @@ export const getAuditLogs = async (req, res) => {
   }
 };
 
-// ========================
-// SYSTEM SETTINGS
-// ========================
 
 export const getSettings = async (req, res) => {
   try {
@@ -342,9 +336,6 @@ export const updateSettings = async (req, res) => {
   }
 };
 
-// ========================
-// EXPORT DATA
-// ========================
 
 export const exportData = async (req, res) => {
   try {

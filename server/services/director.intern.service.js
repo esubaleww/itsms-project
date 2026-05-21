@@ -154,7 +154,6 @@ export const updateInternStatus = async (internId, status) => {
 
   const oldStatus = intern.status;
 
-  // Validate status transition
   const validTransitions = {
     pending: ["approved", "rejected"],
     approved: ["active", "rejected"],
@@ -170,14 +169,12 @@ export const updateInternStatus = async (internId, status) => {
 
   intern.status = status;
 
-  // Only set end date when completing
   if (status === "completed" && !intern.placement?.endDate) {
     intern.placement.endDate = new Date();
   }
 
   await intern.save();
 
-  // Notify the intern
   await Notification.create({
     user: intern.user,
     title: "Internship Status Updated",

@@ -1,4 +1,4 @@
-﻿import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Eye, Calendar, FileText, CheckCircle, XCircle } from "lucide-react";
 
 const MyReportsList = ({ reports, onViewDetails }) => {

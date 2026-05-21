@@ -8,6 +8,7 @@ import {
   Download,
   BarChart3,
   Menu,
+  LayoutDashboard,
 } from "lucide-react";
 import { useAuth } from "../../../hooks/useAuth";
 import { useNotifications } from "../../../hooks/useNotifications";
@@ -78,29 +79,12 @@ const DirectorHeader = ({
       .slice(0, 2);
   };
 
-  const getDirectorateIcon = () => {
-    switch (directorateType) {
-      case "internship":
-        return "🎓";
-      case "innovation":
-        return "💡";
-      case "startup":
-        return "🚀";
-      case "training":
-        return "📚";
-      default:
-        return "📊";
-    }
-  };
-
   return (
     <>
-      <header className="bg-white/80 backdrop-blur-sm border-b border-[#E5E7EB] sticky top-0 z-[60]">
+      <header className="bg-white/80 backdrop-blur-sm border-b border-[#E5E7EB] sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 h-16">
           <div className="flex justify-between items-center h-full">
-            {/* Logo and Title */}
             <div className="flex items-center gap-2 sm:gap-4">
-              {/* Mobile Menu Button */}
               <button
                 onClick={onMenuClick}
                 className="md:hidden p-2 hover:bg-[#F3F4F6] rounded-lg transition-colors"
@@ -108,14 +92,10 @@ const DirectorHeader = ({
                 <Menu className="w-5 h-5 text-[#6b7280]" />
               </button>
 
-              {/* Icon based on directorate type */}
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-[#111827] text-lg sm:text-xl">
-                  {getDirectorateIcon()}
-                </span>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#2563eb] rounded-full flex items-center justify-center shadow-lg">
+                <LayoutDashboard className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
 
-              {/* Title */}
               <div className="hidden sm:block">
                 <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-[#111827]">
                   {title}
@@ -125,15 +105,12 @@ const DirectorHeader = ({
                 </p>
               </div>
 
-              {/* Mobile title only */}
               <div className="sm:hidden">
                 <h1 className="text-sm font-bold text-[#111827]">Director</h1>
               </div>
             </div>
 
-            {/* Right Section */}
             <div className="flex items-center gap-1 sm:gap-2 lg:gap-3">
-              {/* Export Button */}
               <button
                 onClick={() => setShowExportModal(true)}
                 className="p-2 hover:bg-[#F3F4F6] rounded-lg transition-colors duration-200 group"
@@ -142,7 +119,6 @@ const DirectorHeader = ({
                 <Download className="w-5 h-5 text-[#6b7280] group-hover:text-[#2563eb] transition-colors" />
               </button>
 
-              {/* Refresh Button */}
               <button
                 onClick={onRefresh}
                 className="p-2 hover:bg-[#F3F4F6] rounded-lg transition-colors duration-200 group"
@@ -151,7 +127,6 @@ const DirectorHeader = ({
                 <RefreshCw className="w-5 h-5 text-[#6b7280] group-hover:text-[#2563eb] transition-colors" />
               </button>
 
-              {/* Analytics Button */}
               <button
                 onClick={() => navigate("/director/analytics")}
                 className="p-2 rounded-lg transition-colors text-[#6b7280] hover:bg-[#F3F4F6]"
@@ -160,7 +135,6 @@ const DirectorHeader = ({
                 <BarChart3 className="w-5 h-5" />
               </button>
 
-              {/* Notifications */}
               <div className="relative" ref={notificationRef}>
                 <button
                   onClick={() => setShowNotifications(!showNotifications)}
@@ -169,13 +143,12 @@ const DirectorHeader = ({
                 >
                   <Bell className="w-5 h-5 text-[#6b7280] group-hover:text-[#2563eb] transition-colors" />
                   {unreadCount > 0 && (
-                    <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 text-[#111827] text-xs rounded-full flex items-center justify-center animate-pulse">
+                    <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse">
                       {unreadCount > 9 ? "9+" : unreadCount}
                     </span>
                   )}
                 </button>
 
-                {/* Notifications Dropdown */}
                 {showNotifications && (
                   <div className="absolute right-0 mt-2 w-80 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl shadow-2xl border border-[#E5E7EB] overflow-hidden z-20 animate-fadeIn">
                     <div className="p-3 border-b border-[#E5E7EB] flex justify-between items-center bg-white/90 backdrop-blur-sm">
@@ -240,21 +213,19 @@ const DirectorHeader = ({
                 )}
               </div>
 
-              {/* User Menu */}
               <div className="relative" ref={userMenuRef}>
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
                   className="flex items-center gap-2 p-1.5 hover:bg-[#F3F4F6] rounded-lg transition-colors duration-200 group"
                 >
-                  <div className="w-8 h-8 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-full flex items-center justify-center">
-                    <span className="text-[#111827] text-sm font-medium">
+                  <div className="w-8 h-8 bg-[#2563eb] rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm font-medium">
                       {getUserInitials()}
                     </span>
                   </div>
                   <ChevronDown className="w-4 h-4 text-[#6b7280] group-hover:text-[#111827] transition-colors hidden sm:block" />
                 </button>
 
-                {/* User Dropdown */}
                 {showUserMenu && (
                   <div className="absolute right-0 mt-2 w-56 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl shadow-2xl border border-[#E5E7EB] overflow-hidden z-20 animate-fadeIn">
                     <div className="p-3 border-b border-[#E5E7EB] bg-white/90 backdrop-blur-sm">
@@ -276,14 +247,6 @@ const DirectorHeader = ({
                       >
                         <User className="w-4 h-4" />
                         Profile Settings
-                      </button>
-                      <div className="border-t border-[#E5E7EB] my-1" />
-                      <button
-                        onClick={handleLogout}
-                        className="w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-[#F3F4F6] transition-colors flex items-center gap-2"
-                      >
-                        <LogOut className="w-4 h-4" />
-                        Sign Out
                       </button>
                     </div>
                   </div>

@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { X, Send, Briefcase, UserPlus } from "lucide-react";
 
@@ -49,7 +49,7 @@ const RequestStaffModal = ({ onClose, onSubmit }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -109,7 +109,7 @@ const RequestStaffModal = ({ onClose, onSubmit }) => {
               <button
                 type="button"
                 onClick={addSkill}
-                className="px-3 py-2 bg-gray-700 rounded-lg hover:bg-gray-600"
+                className="btn-institutional px-3 py-2"
               >
                 Add
               </button>
@@ -127,7 +127,7 @@ const RequestStaffModal = ({ onClose, onSubmit }) => {
                       onClick={() => removeSkill(skill)}
                       className="hover:text-red-500"
                     >
-                      ×
+                      �
                     </button>
                   </span>
                 ))}
@@ -182,7 +182,7 @@ const RequestStaffModal = ({ onClose, onSubmit }) => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] py-2.5 rounded-lg hover:opacity-90 transition flex items-center justify-center gap-2 disabled:opacity-50"
+            className="btn-institutional w-full py-2.5 disabled:opacity-50"
           >
             {loading ? (
               <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>

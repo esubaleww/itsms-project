@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { X, Send, Award, CheckCircle } from "lucide-react";
 import { useToast } from "../../../common/ui/Toast";
@@ -39,7 +39,7 @@ const FinalSummaryModal = ({ intern, onSubmitSummary, onClose }) => {
   const hasSubmitted = intern.advisorSummary?.submitted;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -52,7 +52,7 @@ const FinalSummaryModal = ({ intern, onSubmitSummary, onClose }) => {
               Final Summary Report
             </h2>
             <p className="text-sm text-[#6b7280]">
-              {intern.intern?.fullName || intern.fullName} •{" "}
+              {intern.intern?.fullName || intern.fullName} {" "}
               {intern.university?.name || "University"}
             </p>
           </div>

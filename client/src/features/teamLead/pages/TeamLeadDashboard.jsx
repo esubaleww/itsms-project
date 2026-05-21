@@ -227,7 +227,6 @@ const TeamLeadDashboard = () => {
       />
 
       <div className="flex flex-1 overflow-hidden relative">
-        {/* Desktop Sidebar */}
         <aside
           className={`hidden md:block fixed left-0 top-16 h-[calc(100vh-4rem)] transition-all duration-300 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-r border-[#E5E7EB] ${
             sidebarCollapsed ? "w-20" : "w-64"
@@ -264,10 +263,21 @@ const TeamLeadDashboard = () => {
                   )}
                 </button>
               ))}
+              <div className="border-t border-[#E5E7EB] mt-2 pt-2">
+                <button
+                  onClick={handleLogout}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap text-red-500 hover:bg-red-50 ${sidebarCollapsed ? "justify-center px-2" : ""}`}
+                  title={sidebarCollapsed ? "Sign Out" : ""}
+                >
+                  <div className="shrink-0"><LogOut className="w-5 h-5" /></div>
+                  {!sidebarCollapsed && (
+                    <span className="text-sm font-medium flex-1 text-left">Sign Out</span>
+                  )}
+                </button>
+              </div>
             </nav>
           </div>
 
-          {/* Sidebar Toggle Button */}
           <button
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
             className="absolute -right-3 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-100 rounded-full p-1.5 shadow-lg z-20 transition-colors border border-[#E5E7EB]"
@@ -280,7 +290,6 @@ const TeamLeadDashboard = () => {
           </button>
         </aside>
 
-        {/* Mobile Sidebar Overlay */}
         <AnimatePresence>
           {mobileSidebarOpen && (
             <>
@@ -296,7 +305,7 @@ const TeamLeadDashboard = () => {
                 animate={{ x: 0 }}
                 exit={{ x: -280 }}
                 transition={{ type: "tween", duration: 0.3 }}
-                className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-r border-[#E5E7EB] z-50 md:hidden"
+                className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-r border-[#E5E7EB] z-[9999] md:hidden"
               >
                 <div className="flex justify-between items-center p-4 border-b border-[#E5E7EB]">
                   <span className="text-[#111827] font-bold">Menu</span>
@@ -335,28 +344,35 @@ const TeamLeadDashboard = () => {
                       )}
                     </button>
                   ))}
+                  <div className="border-t border-[#E5E7EB] mt-2 pt-2">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-red-500 hover:bg-red-50"
+                    >
+                      <LogOut className="w-5 h-5" />
+                      <span className="text-sm font-medium">Sign Out</span>
+                    </button>
+                  </div>
                 </nav>
               </motion.aside>
             </>
           )}
         </AnimatePresence>
 
-        {/* Main Content - Scrollable */}
         <main
           className={`flex-1 overflow-y-auto transition-all duration-300 ${
             sidebarCollapsed ? "md:ml-20" : "md:ml-64"
           }`}
         >
-          <div className="px-4 sm:px-6 lg:px-8 py-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="animate-fadeIn">
-              {/* Overview Tab */}
               {activeTab === "overview" && (
                 <div className="space-y-6">
                   {showWelcome && (
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="relative overflow-hidden bg-linear-to-r from-emerald-600/20 to-teal-600/20 border border-[#2563eb]/20 rounded-xl"
+                      className="relative overflow-hidden bg-linear-to-r from-[#DBEAFE]/40 to-[#BFDBFE]/40 border border-[#2563eb]/20 rounded-xl"
                     >
                       <div className="relative z-10 px-5 py-4 flex items-center justify-between">
                         <div>
@@ -381,15 +397,13 @@ const TeamLeadDashboard = () => {
                     </motion.div>
                   )}
 
-                  {/* Stats Cards */}
                   <TeamStatsCards
                     stats={progress}
                     membersCount={safeData.members.length}
                   />
 
-                  {/* Quick Stats Row */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] p-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div className="bg-white border-l border-r border-b border-[#E5E7EB] border-t-[3px] border-t-[#2563eb] rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all duration-200 ease-in-out hover:-translate-y-[3px] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)]">
                       <div className="flex justify-between items-center">
                         <div>
                           <p className="text-[#2563eb] text-xs">
@@ -402,37 +416,35 @@ const TeamLeadDashboard = () => {
                         <CheckCircle className="w-8 h-8 text-[#2563eb] opacity-50" />
                       </div>
                     </div>
-                    <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] p-4">
+                    <div className="bg-white border-l border-r border-b border-[#E5E7EB] border-t-[3px] border-t-[#f59e0b] rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all duration-200 ease-in-out hover:-translate-y-[3px] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)]">
                       <div className="flex justify-between items-center">
                         <div>
-                          <p className="text-blue-400 text-xs">Active Tasks</p>
+                          <p className="text-[#2563eb] text-xs">Active Tasks</p>
                           <p className="text-2xl font-bold text-[#111827]">
                             {inProgressTasksCount}
                           </p>
                         </div>
-                        <Clock className="w-8 h-8 text-blue-400 opacity-50" />
+                        <Clock className="w-8 h-8 text-[#2563eb] opacity-50" />
                       </div>
                     </div>
-                    <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] p-4">
+                    <div className="bg-white border-l border-r border-b border-[#E5E7EB] border-t-[3px] border-t-[#8b5cf6] rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all duration-200 ease-in-out hover:-translate-y-[3px] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)]">
                       <div className="flex justify-between items-center">
                         <div>
-                          <p className="text-purple-400 text-xs">
+                          <p className="text-[#2563eb] text-xs">
                             Pending Tasks
                           </p>
                           <p className="text-2xl font-bold text-[#111827]">
                             {pendingTasksCount}
                           </p>
                         </div>
-                        <Clock className="w-8 h-8 text-purple-400 opacity-50" />
+                        <Clock className="w-8 h-8 text-[#2563eb] opacity-50" />
                       </div>
                     </div>
                   </div>
 
-                  {/* Recent Tasks & Members Grid */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Recent Tasks - Show first 3 from each category */}
-                    <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] overflow-hidden">
-                      <div className="px-5 py-3 border-b border-[#E5E7EB] flex justify-between items-center">
+                    <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden transition-all duration-200 ease-in-out hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]">
+                      <div className="px-6 py-4 border-b border-[#E5E7EB] flex justify-between items-center">
                         <h2 className="font-semibold text-[#111827] flex items-center gap-2">
                           <ClipboardList className="w-4 h-4 text-[#2563eb]" />
                           Recent Tasks
@@ -459,9 +471,8 @@ const TeamLeadDashboard = () => {
                       />
                     </div>
 
-                    {/* Team Members */}
-                    <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] overflow-hidden">
-                      <div className="px-5 py-3 border-b border-[#E5E7EB] flex justify-between items-center">
+                    <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden transition-all duration-200 ease-in-out hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]">
+                      <div className="px-6 py-4 border-b border-[#E5E7EB] flex justify-between items-center">
                         <h2 className="font-semibold text-[#111827] flex items-center gap-2">
                           <Users className="w-4 h-4 text-[#2563eb]" />
                           Team Members
@@ -482,7 +493,6 @@ const TeamLeadDashboard = () => {
                 </div>
               )}
 
-              {/* Tasks Tab */}
               {activeTab === "tasks" && (
                 <div>
                   <div className="flex justify-between items-center mb-5">
@@ -509,7 +519,6 @@ const TeamLeadDashboard = () => {
                 </div>
               )}
 
-              {/* Members Tab */}
               {activeTab === "members" && (
                 <div>
                   <div className="flex justify-between items-center mb-5">
@@ -525,7 +534,7 @@ const TeamLeadDashboard = () => {
                       onClick={() =>
                         setModals((prev) => ({ ...prev, requestStaff: true }))
                       }
-                      className="bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] px-4 py-2 rounded-lg text-sm flex items-center gap-2 hover:opacity-90 transition shadow-lg"
+                      className="btn-institutional px-4 py-2"
                     >
                       <UserPlus className="w-4 h-4" /> Request Staff
                     </button>
@@ -553,7 +562,7 @@ const TeamLeadDashboard = () => {
                       onClick={() =>
                         setModals((prev) => ({ ...prev, submitReport: true }))
                       }
-                      className="bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] px-4 py-2 rounded-lg text-sm flex items-center gap-2 hover:opacity-90 transition shadow-lg"
+                      className="btn-institutional px-4 py-2"
                     >
                       <Plus className="w-4 h-4" /> Submit Report
                     </button>
@@ -572,7 +581,6 @@ const TeamLeadDashboard = () => {
         </main>
       </div>
 
-      {/* Modals */}
       {modals.assignTask && (
         <AssignTaskModal
           onClose={() => setModals((prev) => ({ ...prev, assignTask: false }))}

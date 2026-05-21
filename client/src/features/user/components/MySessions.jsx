@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Calendar,
@@ -125,7 +125,6 @@ const MySessions = ({ sessions, loading, trainer, onAttendanceMarked }) => {
           </div>
         ) : (
           <div className="space-y-4">
-            {/* Upcoming Sessions */}
             {upcomingSessions.length > 0 && (
               <div>
                 <h3 className="text-md font-semibold text-blue-400 mb-3 flex items-center gap-2">
@@ -159,7 +158,7 @@ const MySessions = ({ sessions, loading, trainer, onAttendanceMarked }) => {
                           </div>
                           <div className="space-y-1 text-sm">
                             <p className="text-[#6b7280]">
-                              📅{" "}
+                              ??{" "}
                               {session.date
                                 ? new Date(session.date).toLocaleDateString()
                                 : "Date TBD"}
@@ -173,12 +172,12 @@ const MySessions = ({ sessions, loading, trainer, onAttendanceMarked }) => {
                             </p>
                             {session.duration > 0 && (
                               <p className="text-[#6b7280]">
-                                ⏱️ Duration: {session.duration} hours
+                                ?? Duration: {session.duration} hours
                               </p>
                             )}
                             {session.location && (
                               <p className="text-[#6b7280]">
-                                📍 Location: {session.location}
+                                ?? Location: {session.location}
                               </p>
                             )}
                           </div>
@@ -190,7 +189,6 @@ const MySessions = ({ sessions, loading, trainer, onAttendanceMarked }) => {
               </div>
             )}
 
-            {/* Past Sessions */}
             {pastSessions.length > 0 && (
               <div>
                 <h3 className="text-md font-semibold text-[#6b7280] mb-3 flex items-center gap-2">
@@ -224,7 +222,7 @@ const MySessions = ({ sessions, loading, trainer, onAttendanceMarked }) => {
                           </div>
                           <div className="space-y-1 text-sm">
                             <p className="text-[#6b7280]">
-                              📅{" "}
+                              ??{" "}
                               {session.date
                                 ? new Date(session.date).toLocaleDateString()
                                 : "Date TBD"}
@@ -238,18 +236,18 @@ const MySessions = ({ sessions, loading, trainer, onAttendanceMarked }) => {
                             </p>
                             {session.duration > 0 && (
                               <p className="text-[#6b7280]">
-                                ⏱️ Duration: {session.duration} hours
+                                ?? Duration: {session.duration} hours
                               </p>
                             )}
                             {session.location && (
                               <p className="text-[#6b7280]">
-                                📍 Location: {session.location}
+                                ?? Location: {session.location}
                               </p>
                             )}
                           </div>
                           {session.attendedAt && (
                             <p className="text-xs text-[#2563eb]/70 mt-2">
-                              ✅ Attended on{" "}
+                              ? Attended on{" "}
                               {new Date(session.attendedAt).toLocaleString()}
                             </p>
                           )}
@@ -264,11 +262,10 @@ const MySessions = ({ sessions, loading, trainer, onAttendanceMarked }) => {
         )}
       </div>
 
-      {/* Floating Action Button - Always visible */}
-      <div className="fixed bottom-6 right-6 z-50 md:hidden">
+      <div className="fixed bottom-6 right-6 z-[9999] md:hidden">
         <button
           onClick={() => setShowScanner(true)}
-          className="group relative w-14 h-14 bg-emerald-600 hover:bg-emerald-700 rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95"
+          className="btn-institutional group relative w-14 h-14 !rounded-full hover:scale-105 active:scale-95"
         >
           <Camera className="w-6 h-6 text-[#111827]" />
           <span className="absolute right-full mr-3 px-2 py-1 bg-[#F9FAFB] text-[#111827] text-xs rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
@@ -277,18 +274,16 @@ const MySessions = ({ sessions, loading, trainer, onAttendanceMarked }) => {
         </button>
       </div>
 
-      {/* Desktop Button - Always visible */}
-      <div className="hidden md:block fixed bottom-6 right-6 z-50">
+      <div className="hidden md:block fixed bottom-6 right-6 z-[9999]">
         <button
           onClick={() => setShowScanner(true)}
-          className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 rounded-lg text-[#111827] text-sm flex items-center gap-2 shadow-lg transition-all duration-200"
+          className="btn-institutional px-4 py-2"
         >
           <Camera className="w-4 h-4" />
           Scan QR Code
         </button>
       </div>
 
-      {/* QR Scanner Modal */}
       {showScanner && (
         <QRScannerModal
           onClose={() => setShowScanner(false)}

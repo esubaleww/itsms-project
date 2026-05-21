@@ -37,7 +37,6 @@ const ForgotPasswordPage = () => {
     <div className="min-h-screen bg-[#F9FAFB] flex items-start justify-center pt-14 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          {/* Left Side - Image */}
           <motion.div
             className="hidden lg:block"
             initial={{ opacity: 0, x: -50 }}
@@ -45,17 +44,17 @@ const ForgotPasswordPage = () => {
             transition={{ duration: 0.8 }}
           >
             <div className="relative">
-              <div className="absolute inset-0 bg-linear-to-r from-emerald-500/20 to-teal-500/20 rounded-2xl blur-3xl" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#DBEAFE]/50 to-[#BFDBFE]/50 rounded-2xl blur-3xl" />
               <img
                 src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80"
                 alt="Password reset illustration"
                 className="relative rounded-2xl shadow-2xl object-cover w-full h-150"
               />
-              <div className="absolute bottom-8 left-8 right-8 bg-slate-900/80 backdrop-blur-sm p-6 rounded-xl border border-white/10 shadow-2xl">
-                <h3 className="text-white text-xl font-bold mb-2">
+              <div className="absolute bottom-8 left-8 right-8 bg-white/95 backdrop-blur-sm p-6 rounded-xl border border-[#E5E7EB] shadow-2xl">
+                <h3 className="text-[#111827] text-xl font-bold mb-2">
                   Forgot Your Password?
                 </h3>
-                <p className="text-slate-200 text-sm font-medium">
+                <p className="text-[#6b7280] text-sm font-medium">
                   Don't worry! We'll help you reset it and get back to your
                   account.
                 </p>
@@ -63,7 +62,6 @@ const ForgotPasswordPage = () => {
             </div>
           </motion.div>
 
-          {/* Right Side - Form */}
           <motion.div
             className="w-full max-w-md mx-auto lg:mx-0 lg:ml-auto"
             initial={{ opacity: 0, y: 20 }}
@@ -71,7 +69,6 @@ const ForgotPasswordPage = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] py-8 px-6 sm:px-10 rounded-2xl shadow-2xl border border-[#E5E7EB]">
-              {/* Header */}
               <div className="text-center mb-8">
                 <div className="flex justify-center mb-4">
                   <div className="w-12 h-12 bg-[#2563eb] rounded-xl flex items-center justify-center">
@@ -89,7 +86,6 @@ const ForgotPasswordPage = () => {
 
               {!submitted ? (
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Email Field */}
                   <div>
                     <label
                       htmlFor="email"
@@ -115,7 +111,6 @@ const ForgotPasswordPage = () => {
                     </div>
                   </div>
 
-                  {/* Error Message */}
                   {error && (
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
@@ -126,11 +121,10 @@ const ForgotPasswordPage = () => {
                     </motion.div>
                   )}
 
-                  {/* Submit Button */}
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full flex justify-center items-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#2563eb] hover:bg-[#1d4ed8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2563eb] transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full flex justify-center items-center py-2.5 px-4 rounded-lg shadow-sm text-sm font-medium text-white bg-[#2563eb] hover:bg-[#1d4ed8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2563eb] transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loading ? (
                       <>
@@ -145,7 +139,6 @@ const ForgotPasswordPage = () => {
                     )}
                   </button>
 
-                  {/* Back to Login Link */}
                   <div className="text-center">
                     <Link
                       to="/login"

@@ -17,7 +17,6 @@ class PDFGenerator {
     return [];
   }
 
-  // Get only columns that have data (non-empty values)
   getTableHeadersWithData(data) {
     if (!data?.length) return [];
 
@@ -34,15 +33,11 @@ class PDFGenerator {
       "education",
     ];
 
-    // Get all potential keys
     const allKeys = Object.keys(data[0]);
 
-    // Filter out excluded keys
     const candidateKeys = allKeys.filter((key) => !excludeKeys.includes(key));
 
-    // Check which columns actually have data
     const columnsWithData = candidateKeys.filter((key) => {
-      // Check if any row has a non-empty value for this column
       return data.some((row) => {
         const value = row[key];
         if (value === null || value === undefined) return false;
@@ -50,7 +45,6 @@ class PDFGenerator {
         if (typeof value === "object") {
           if (Array.isArray(value) && value.length === 0) return false;
           if (Object.keys(value).length === 0) return false;
-          // Check if object has any meaningful value
           if (value.fullName || value.name || value.email || value.status)
             return true;
           return false;
@@ -162,7 +156,6 @@ class PDFGenerator {
         return result.length > 0 ? result.join("<br/>") : "";
       }
 
-      // Handle nested objects like placement, incubation, training
       if (value.advisor) return `Advisor: ${value.advisor}`;
       if (value.mentor) return `Mentor: ${value.mentor}`;
       if (value.trainer) return `Trainer: ${value.trainer}`;
@@ -177,7 +170,6 @@ class PDFGenerator {
 
     if (String(value).trim() === "") return "";
 
-    // Format dates nicely
     if (typeof value === "string" && value.match(/^\d{4}-\d{2}-\d{2}/)) {
       try {
         return new Date(value).toLocaleDateString();
@@ -197,7 +189,6 @@ class PDFGenerator {
     const summaryStats = this.getSummaryStats(extractedData, type, metadata);
     const hasData = extractedData.length > 0 && headers.length > 0;
 
-    // Helper to format header label
     const formatHeaderLabel = (header) => {
       const labelMap = {
         fullName: "Full Name",

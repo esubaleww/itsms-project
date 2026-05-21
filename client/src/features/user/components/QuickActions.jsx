@@ -37,7 +37,7 @@ const QuickActions = ({
       programStatus === "approved"
     ) {
       return {
-        show: false, // Hide completely
+        show: false,
         disabled: true,
         icon: <CheckCircle className="w-5 h-5 text-[#2563eb]" />,
         title: "Program Active",

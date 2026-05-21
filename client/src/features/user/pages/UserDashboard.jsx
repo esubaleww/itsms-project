@@ -15,6 +15,7 @@ import {
   Clock,
   CheckCircle,
   Loader2,
+  LogOut,
 } from "lucide-react";
 
 import { useAuth } from "../../../hooks/useAuth";
@@ -297,7 +298,6 @@ const UserDashboard = () => {
       );
     }
 
-    // Intern Reports Section
     if (isIntern) {
       const submittedCount = programHook.reports?.length || 0;
       return (
@@ -373,7 +373,6 @@ const UserDashboard = () => {
       );
     }
 
-    // Innovator/Startup Milestones Section
     if (isInnovator || isStartup) {
       const completedMilestones =
         programHook.milestones?.filter((m) => m.status === "completed")
@@ -427,9 +426,9 @@ const UserDashboard = () => {
                 %
               </span>
             </div>
-            <div className="w-full bg-gray-700 rounded-full h-2">
+            <div className="w-full bg-[#E5E7EB] rounded-full h-2">
               <div
-                className="bg-linear-to-r from-emerald-500 to-teal-500 h-2 rounded-full transition-all duration-500"
+                className="bg-[#2563eb] h-2 rounded-full transition-all duration-500 shadow-sm"
                 style={{
                   width: `${totalMilestones ? (completedMilestones / totalMilestones) * 100 : 0}%`,
                 }}
@@ -500,7 +499,7 @@ const UserDashboard = () => {
           </div>
           <button
             onClick={() => navigate("/intern/reports/new")}
-            className="px-4 py-2 bg-[#EEF2FF] text-[#2563eb] rounded-lg hover:bg-emerald-500/30 transition text-sm flex items-center gap-2"
+            className="flex items-center gap-2 px-3 py-1.5 bg-[#2563eb] text-white text-sm font-medium rounded-lg hover:bg-[#1d4ed8] transition-colors shadow-sm"
           >
             <FileText className="w-4 h-4" />
             Submit New
@@ -512,7 +511,7 @@ const UserDashboard = () => {
             <p className="text-[#6b7280] text-lg">No reports submitted yet</p>
             <button
               onClick={() => navigate("/intern/reports/new")}
-              className="mt-4 px-4 py-2 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] rounded-lg hover:opacity-90 transition"
+              className="btn-institutional mt-4 px-4 py-2"
             >
               Submit Your First Report
             </button>
@@ -670,6 +669,18 @@ const UserDashboard = () => {
                   )}
                 </button>
               ))}
+              <div className="border-t border-[#E5E7EB] mt-2 pt-2">
+                <button
+                  onClick={handleLogout}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap text-red-500 hover:bg-red-50 ${sidebarCollapsed ? "justify-center px-2" : ""}`}
+                  title={sidebarCollapsed ? "Sign Out" : ""}
+                >
+                  <div className="shrink-0"><LogOut className="w-5 h-5" /></div>
+                  {!sidebarCollapsed && (
+                    <span className="text-sm font-medium flex-1 text-left">Sign Out</span>
+                  )}
+                </button>
+              </div>
             </nav>
           </div>
           <div className="p-3 border-t border-[#E5E7EB] shrink-0">
@@ -698,7 +709,7 @@ const UserDashboard = () => {
                 animate={{ x: 0 }}
                 exit={{ x: -280 }}
                 transition={{ type: "tween", duration: 0.3 }}
-                className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] z-50 md:hidden flex flex-col shadow-xl"
+                className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] z-[9999] md:hidden flex flex-col shadow-xl"
               >
                 <div className="flex justify-between items-center p-4 border-b border-[#E5E7EB]">
                   <span className="text-[#111827] font-bold">Menu</span>
@@ -731,6 +742,15 @@ const UserDashboard = () => {
                         )}
                       </button>
                     ))}
+                    <div className="border-t border-[#E5E7EB] mt-2 pt-2">
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-red-500 hover:bg-red-50"
+                      >
+                        <LogOut className="w-5 h-5" />
+                        <span className="text-sm font-medium">Sign Out</span>
+                      </button>
+                    </div>
                   </nav>
                 </div>
               </motion.div>
@@ -755,7 +775,6 @@ const UserDashboard = () => {
                   programStatus={user?.position}
                 />
 
-                {/* ProgramSection for ALL users with active program */}
                 {hasActiveProgram && (
                   <ProgramSection
                     user={user}
@@ -763,7 +782,6 @@ const UserDashboard = () => {
                   />
                 )}
 
-                {/* Detailed content for Interns and Innovators/Startups (NOT for Trainees) */}
                 {!isTrainee && hasActiveProgram && renderDetailedContent()}
               </div>
             )}
@@ -779,7 +797,7 @@ const UserDashboard = () => {
                   </h2>
                   <button
                     onClick={() => navigate("/services/browse")}
-                    className="ml-auto px-4 py-2 bg-[#EEF2FF] text-[#2563eb] rounded-lg hover:bg-emerald-500/30 transition text-sm"
+                    className="btn-institutional ml-auto px-4 py-2"
                   >
                     + New Request
                   </button>
@@ -792,7 +810,7 @@ const UserDashboard = () => {
                     </p>
                     <button
                       onClick={() => navigate("/services/browse")}
-                      className="mt-4 px-4 py-2 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] rounded-lg hover:opacity-90 transition"
+                      className="btn-institutional mt-4 px-4 py-2"
                     >
                       Browse Services
                     </button>

@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { X, Award } from "lucide-react";
 
@@ -52,7 +52,7 @@ const TrainerFinalReviewModal = ({ trainee, onSubmit, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -91,7 +91,7 @@ const TrainerFinalReviewModal = ({ trainee, onSubmit, onClose }) => {
               onChange={(e) =>
                 setFormData({ ...formData, overallPerformance: e.target.value })
               }
-              className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-purple-500"
+              className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-purple-500"
             >
               <option value="">Select performance</option>
               <option value="Excellent">Excellent</option>
@@ -114,12 +114,12 @@ const TrainerFinalReviewModal = ({ trainee, onSubmit, onClose }) => {
                   e.key === "Enter" && (e.preventDefault(), addSkill())
                 }
                 placeholder="Add a skill..."
-                className="flex-1 px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-purple-500"
+                className="flex-1 px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-purple-500"
               />
               <button
                 type="button"
                 onClick={addSkill}
-                className="px-4 py-2 bg-purple-600 text-[#111827] rounded-lg hover:bg-purple-700 transition"
+                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
               >
                 Add
               </button>
@@ -154,7 +154,7 @@ const TrainerFinalReviewModal = ({ trainee, onSubmit, onClose }) => {
                 setFormData({ ...formData, recommendation: e.target.value })
               }
               placeholder="Recommendation for the trainee..."
-              className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-purple-500"
+              className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-purple-500"
             />
           </div>
 
@@ -190,7 +190,7 @@ const TrainerFinalReviewModal = ({ trainee, onSubmit, onClose }) => {
                 setFormData({ ...formData, comments: e.target.value })
               }
               placeholder="Any additional feedback or comments..."
-              className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-purple-500"
+              className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-purple-500"
             />
           </div>
 
@@ -205,7 +205,7 @@ const TrainerFinalReviewModal = ({ trainee, onSubmit, onClose }) => {
             <button
               type="submit"
               disabled={submitting}
-              className="flex-1 px-4 py-2 bg-purple-600 text-[#111827] rounded-lg hover:bg-purple-700 transition disabled:opacity-50"
+              className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition disabled:opacity-50"
             >
               {submitting ? "Submitting..." : "Submit Final Review"}
             </button>

@@ -5,7 +5,6 @@ import { ArrowRight, Play } from "lucide-react";
 export default function HeroSection() {
   return (
     <section className="relative min-h-screen pt-20 sm:pt-24 flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
           src="https://res.cloudinary.com/dlqn1qugq/image/upload/q_auto/f_auto/v1776159724/hero_bsherp.jpg"

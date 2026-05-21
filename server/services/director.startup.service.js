@@ -117,7 +117,6 @@ export const assignMentor = async (directorId, startupId, mentorId) => {
     throw new Error("Startup not found in your directorate");
   }
 
-  // Verify mentor exists and is valid
   const mentor = await User.findById(mentorId);
   if (!mentor) {
     throw new Error("Mentor not found");
@@ -133,7 +132,6 @@ export const assignMentor = async (directorId, startupId, mentorId) => {
     );
   }
 
-  // Assign mentor
   if (!profile.incubation) {
     profile.incubation = {};
   }
@@ -144,7 +142,6 @@ export const assignMentor = async (directorId, startupId, mentorId) => {
 
   await profile.save();
 
-  // Notify startup
   await Notification.create({
     user: startupId,
     title: "Mentor Assigned 🎯",

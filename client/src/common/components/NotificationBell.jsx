@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Bell, CheckCircle, AlertCircle, Info, X } from "lucide-react";
 import { useNotifications } from "../../hooks/useNotifications";
 import { useNavigate } from "react-router-dom";

@@ -105,7 +105,6 @@ const StaffList = ({
 
   return (
     <div>
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold text-[#111827]">
@@ -117,9 +116,7 @@ const StaffList = ({
         </div>
       </div>
 
-      {/* Search, Filter and Add Button - Inline */}
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
-        {/* Search Bar */}
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
           <input
@@ -139,7 +136,6 @@ const StaffList = ({
           )}
         </div>
 
-        {/* Position Filter Dropdown */}
         <select
           className="px-4 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all cursor-pointer shadow-sm"
           value={filterPosition}
@@ -152,7 +148,6 @@ const StaffList = ({
           ))}
         </select>
 
-        {/* Add Button */}
         <button
           onClick={onCreate}
           className="bg-[#2563eb] text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-[#1d4ed8] transition-all duration-200 shadow-md whitespace-nowrap font-medium"
@@ -161,7 +156,6 @@ const StaffList = ({
         </button>
       </div>
 
-      {/* Staff Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filtered?.map((staffMember, index) => (
           <motion.div
@@ -257,7 +251,6 @@ const StaffList = ({
         ))}
       </div>
 
-      {/* Empty State */}
       {filtered?.length === 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -283,7 +276,6 @@ const StaffList = ({
         </motion.div>
       )}
 
-      {/* Results Count */}
       {filtered?.length > 0 && (
         <div className="mt-4 text-right text-sm text-[#6b7280]">
           Showing {filtered.length} of {staff?.length || 0} staff members

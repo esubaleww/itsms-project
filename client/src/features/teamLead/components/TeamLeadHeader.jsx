@@ -12,7 +12,6 @@ import {
   Search,
   Download,
   BarChart3,
-  Users,
   Menu,
   LayoutDashboard,
   X,
@@ -83,7 +82,7 @@ const TeamLeadHeader = ({
 
   return (
     <>
-      <header className="bg-white/80 backdrop-blur-sm border-b border-[#E5E7EB] sticky top-0 z-[60]">
+      <header className="bg-white/80 backdrop-blur-sm border-b border-[#E5E7EB] sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 h-16">
           <div className="flex justify-between items-center h-full">
             <div className="flex items-center gap-2 sm:gap-4">
@@ -94,8 +93,8 @@ const TeamLeadHeader = ({
                 <Menu className="w-5 h-5 text-[#6b7280]" />
               </button>
 
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-full flex items-center justify-center shadow-lg">
-                <Users className="w-4 h-4 sm:w-5 sm:h-5 text-[#111827]" />
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#2563eb] rounded-full flex items-center justify-center shadow-lg">
+                <LayoutDashboard className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
 
               <div className="hidden sm:block">
@@ -152,7 +151,6 @@ const TeamLeadHeader = ({
                 <Download className="w-5 h-5 text-[#6b7280] group-hover:text-[#2563eb] transition-colors" />
               </button>
 
-              {/* Notifications */}
               <div className="relative" ref={notificationRef}>
                 <button
                   onClick={() => setShowNotifications(!showNotifications)}
@@ -167,7 +165,6 @@ const TeamLeadHeader = ({
                   )}
                 </button>
 
-                {/* Notifications Dropdown */}
                 {showNotifications && (
                   <div className="absolute right-0 mt-2 w-80 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl shadow-2xl border border-[#E5E7EB] overflow-hidden z-20 animate-fadeIn">
                     <div className="p-3 border-b border-[#E5E7EB] flex justify-between items-center bg-white/90 backdrop-blur-sm">
@@ -232,14 +229,13 @@ const TeamLeadHeader = ({
                 )}
               </div>
 
-              {/* User Menu */}
               <div className="relative" ref={userMenuRef}>
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
                   className="flex items-center gap-2 p-1.5 hover:bg-[#F3F4F6] rounded-lg transition-colors duration-200 group"
                 >
-                  <div className="w-8 h-8 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-full flex items-center justify-center">
-                    <span className="text-[#111827] text-sm font-medium">
+                  <div className="w-8 h-8 bg-[#2563eb] rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm font-medium">
                       {getUserInitials()}
                     </span>
                   </div>
@@ -269,14 +265,6 @@ const TeamLeadHeader = ({
                         Profile Settings
                       </button>
 
-                      <div className="border-t border-[#E5E7EB] my-1" />
-                      <button
-                        onClick={handleLogout}
-                        className="w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-[#F3F4F6] transition-colors flex items-center gap-2"
-                      >
-                        <LogOut className="w-4 h-4" />
-                        Sign Out
-                      </button>
                     </div>
                   </div>
                 )}

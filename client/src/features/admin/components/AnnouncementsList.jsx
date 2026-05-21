@@ -19,8 +19,8 @@ const AnnouncementsList = ({
   onEdit,
   onDelete,
   onCreate,
-  onToggleFeatured, // Add this prop
-  onTogglePublish, // Add this prop
+  onToggleFeatured,
+  onTogglePublish,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCategory, setFilterCategory] = useState("all");
@@ -315,7 +315,6 @@ const AnnouncementsList = ({
         )}
       </div>
 
-      {/* Results Count */}
       {filtered?.length > 0 && (
         <div className="mt-4 text-right text-sm text-[#6b7280]">
           Showing {filtered.length} of {announcements?.length || 0}{" "}

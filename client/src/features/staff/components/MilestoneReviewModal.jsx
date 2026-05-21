@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -106,18 +106,16 @@ const MilestoneReviewModal = ({
     if (url) window.open(url, "_blank");
   };
 
-  // Check if milestone is completed (mentee has submitted final work)
   const isMilestoneCompleted = (milestone) => {
     return milestone.status === "completed";
   };
 
-  // Check if milestone already has feedback
   const hasFeedback = (milestone) => {
     return milestone.feedback && milestone.feedback.trim().length > 0;
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -150,7 +148,7 @@ const MilestoneReviewModal = ({
           {!showAddForm ? (
             <button
               onClick={() => setShowAddForm(true)}
-              className="w-full py-3 border border-dashed border-[#2563eb]/50 rounded-xl text-[#2563eb] hover:bg-[#EEF2FF] transition flex items-center justify-center gap-2"
+              className="btn-institutional w-full py-3"
             >
               <Plus className="w-4 h-4" />
               Add New Milestone
@@ -168,7 +166,7 @@ const MilestoneReviewModal = ({
                 onChange={(e) =>
                   setNewMilestone({ ...newMilestone, title: e.target.value })
                 }
-                className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
               />
 
               <textarea
@@ -181,7 +179,7 @@ const MilestoneReviewModal = ({
                     description: e.target.value,
                   })
                 }
-                className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
               />
 
               <input
@@ -193,10 +191,9 @@ const MilestoneReviewModal = ({
                     dueDate: e.target.value,
                   })
                 }
-                className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
               />
 
-              {/* Document Upload for Resources */}
               <div>
                 <label className="block text-xs text-[#6b7280] mb-2">
                   Attach Resources (Optional)
@@ -274,7 +271,7 @@ const MilestoneReviewModal = ({
                 <button
                   onClick={handleAddMilestone}
                   disabled={!newMilestone.title || submitting}
-                  className="flex-1 bg-emerald-600 text-[#111827] py-2 rounded-lg hover:bg-emerald-700 disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="btn-institutional flex-1 py-2 disabled:opacity-50"
                 >
                   {submitting ? (
                     <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
@@ -371,7 +368,6 @@ const MilestoneReviewModal = ({
 
                     {isSelected && (
                       <div className="px-4 pb-4 pt-2 border-t border-[#E5E7EB] space-y-3">
-                        {/* Evidence Section */}
                         {hasEvidence && (
                           <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-lg p-3">
                             <p className="text-xs text-[#2563eb] mb-2 flex items-center gap-1">
@@ -412,7 +408,6 @@ const MilestoneReviewModal = ({
                           </div>
                         )}
 
-                        {/* Existing Feedback */}
                         {alreadyHasFeedback && (
                           <div className="bg-purple-500/10 rounded-lg p-3 border border-purple-500/20">
                             <p className="text-xs text-purple-400 mb-1">
@@ -432,7 +427,6 @@ const MilestoneReviewModal = ({
                           </div>
                         )}
 
-                        {/* Add New Feedback - ONLY show when milestone is COMPLETED */}
                         {completed && !alreadyHasFeedback && (
                           <div>
                             <label className="text-xs text-[#6b7280] block mb-1">
@@ -443,12 +437,12 @@ const MilestoneReviewModal = ({
                               onChange={(e) => setFeedback(e.target.value)}
                               rows={3}
                               placeholder="Add feedback for the mentee's completed work..."
-                              className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] text-sm focus:outline-none focus:border-[#2563eb]"
+                              className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] text-sm focus:outline-none focus:border-[#2563eb]"
                             />
                             <button
                               onClick={handleAddFeedback}
                               disabled={!feedback.trim() || submitting}
-                              className="w-full mt-3 bg-emerald-600 text-[#111827] py-2 rounded-lg hover:bg-emerald-700 disabled:opacity-50 flex items-center justify-center gap-2"
+                              className="btn-institutional w-full mt-3 py-2 disabled:opacity-50"
                             >
                               {submitting ? (
                                 <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
@@ -462,7 +456,6 @@ const MilestoneReviewModal = ({
                           </div>
                         )}
 
-                        {/* Show message when milestone is not completed */}
                         {!completed && (
                           <div className="bg-yellow-500/10 rounded-lg p-3 border border-yellow-500/20">
                             <p className="text-xs text-yellow-400 flex items-center gap-1">
@@ -477,7 +470,6 @@ const MilestoneReviewModal = ({
                           </div>
                         )}
 
-                        {/* Show message when feedback already given */}
                         {completed && alreadyHasFeedback && (
                           <div className="bg-[#EEF2FF] rounded-lg p-3 border border-[#2563eb]/20">
                             <p className="text-xs text-[#2563eb] flex items-center gap-1">

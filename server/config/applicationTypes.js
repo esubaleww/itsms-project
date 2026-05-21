@@ -90,13 +90,10 @@ export const applicationConfig = {
     }),
   },
 
-  // ✅ SERVICE TYPE - everyone can apply, gets requester profile
   service: {
     model: RequesterProfile,
     profileField: "requesterProfile",
-    // This builds/updates the requester profile
     buildData: (userId, data, existingProfile = null) => {
-      // Base data for the requester profile
       const baseData = {
         organizationName: data.organizationName,
         department: data.department,
@@ -110,7 +107,6 @@ export const applicationConfig = {
         status: "active",
       };
 
-      // If updating existing profile, preserve user reference and increment totalRequests
       if (existingProfile) {
         return {
           ...baseData,
@@ -119,7 +115,6 @@ export const applicationConfig = {
         };
       }
 
-      // New profile
       return {
         ...baseData,
         user: userId,

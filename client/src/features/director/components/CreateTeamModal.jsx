@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { X, Users, Briefcase, AlertCircle, Send } from "lucide-react";
 
@@ -54,14 +54,13 @@ const CreateTeamModal = ({ onClose, onSubmit }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-md overflow-hidden border border-[#E5E7EB] shadow-2xl"
       >
-        {/* Header */}
         <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg flex items-center justify-center">
@@ -77,9 +76,7 @@ const CreateTeamModal = ({ onClose, onSubmit }) => {
           </button>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="p-5 space-y-5" id="team-form">
-          {/* Team Name */}
           <div>
             <label className="block text-sm font-medium text-[#374151] mb-1">
               Team Name <span className="text-red-500">*</span>
@@ -107,7 +104,6 @@ const CreateTeamModal = ({ onClose, onSubmit }) => {
             </p>
           </div>
 
-          {/* Description */}
           <div>
             <label className="block text-sm font-medium text-[#374151] mb-1">
               Description
@@ -143,7 +139,6 @@ const CreateTeamModal = ({ onClose, onSubmit }) => {
             </div>
           </div>
 
-          {/* Tips Section */}
           <div className="bg-[#EEF2FF] border border-[#2563eb]/30 rounded-lg p-3">
             <p className="text-xs text-[#2563eb] flex items-center gap-1">
               <Users className="w-3 h-3" />
@@ -158,14 +153,13 @@ const CreateTeamModal = ({ onClose, onSubmit }) => {
           </div>
         </form>
 
-        {/* Buttons */}
         <div className="p-5 border-t border-[#E5E7EB] bg-white/90 backdrop-blur-sm">
           <div className="flex gap-3">
             <button
               type="submit"
               form="team-form"
               disabled={loading}
-              className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg flex items-center justify-center gap-2"
+              className="btn-institutional flex-1 py-2.5 disabled:opacity-50"
             >
               {loading ? (
                 <>

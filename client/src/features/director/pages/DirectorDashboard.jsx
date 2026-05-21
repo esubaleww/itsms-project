@@ -28,6 +28,7 @@ import {
   Zap,
   ChevronLeft,
   AlertCircle,
+  LogOut,
 } from "lucide-react";
 
 import DirectorHeader from "../components/DirectorHeader";
@@ -50,7 +51,11 @@ import ReportDetailsModal from "../../../common/components/ReportDetailsModal";
 
 const DirectorDashboard = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+  };
   const {
     loading,
     stats,
@@ -106,7 +111,6 @@ const DirectorDashboard = () => {
   const [showWelcome, setShowWelcome] = useState(true);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [hoveredCard, setHoveredCard] = useState(null);
   const [requestFilters, setRequestFilters] = useState({
     status: "all",
     type: "service",
@@ -601,6 +605,7 @@ const DirectorDashboard = () => {
             pendingServiceRequestsCount === 0
               ? "All caught up!"
               : `${pendingServiceRequestsCount} request${pendingServiceRequestsCount !== 1 ? "s" : ""} awaiting assignment`,
+          topBorder: "border-t-[3px] border-t-[#f59e0b]",
         },
         {
           id: "teams",
@@ -609,12 +614,13 @@ const DirectorDashboard = () => {
           actionText: "Manage teams",
           actionIcon: <Users className="w-4 h-4" />,
           icon: <Users className="w-6 h-6" />,
-          color: "from-emerald-500 to-teal-500",
+          color: "from-[#DBEAFE] to-[#BFDBFE]",
           bgColor: "bg-[#EEF2FF]",
           onClick: () => setActiveTab("teams"),
           isEmpty: safeData.teams.length === 0,
           emptyMessage: "No teams yet",
           description: `${safeData.teams.length} active team${safeData.teams.length !== 1 ? "s" : ""}`,
+          topBorder: "border-t-[3px] border-t-[#2563eb]",
         },
         {
           id: "reports",
@@ -637,6 +643,7 @@ const DirectorDashboard = () => {
             pendingReportsCount === 0
               ? "All caught up!"
               : `${pendingReportsCount} report${pendingReportsCount !== 1 ? "s" : ""} awaiting review`,
+          topBorder: "border-t-[3px] border-t-[#8b5cf6]",
         },
         {
           id: "staffs",
@@ -651,6 +658,7 @@ const DirectorDashboard = () => {
           isEmpty: (stats?.totalStaff || 0) === 0,
           emptyMessage: "No staff members yet",
           description: `${stats?.totalStaff || 0} member${stats?.totalStaff !== 1 ? "s" : ""}`,
+          topBorder: "border-t-[3px] border-t-[#10b981]",
         },
       ];
     }
@@ -672,12 +680,13 @@ const DirectorDashboard = () => {
           ) : (
             <School className="w-6 h-6" />
           ),
-        color: "from-emerald-500 to-teal-500",
+        color: "from-[#DBEAFE] to-[#BFDBFE]",
         bgColor: "bg-[#EEF2FF]",
         onClick: () => setActiveTab(getParticipantListTab()),
         isEmpty: assignedCount + unassignedCount === 0,
         emptyMessage: `No ${getParticipantLabel().toLowerCase()} yet`,
         description: `${assignedCount + unassignedCount} total ${getParticipantLabel().toLowerCase()}`,
+        topBorder: "border-t-[3px] border-t-[#2563eb]",
       },
       {
         id: "active",
@@ -695,12 +704,13 @@ const DirectorDashboard = () => {
           ) : (
             <School className="w-6 h-6" />
           ),
-        color: "from-emerald-500 to-teal-500",
+        color: "from-[#DBEAFE] to-[#BFDBFE]",
         bgColor: "bg-[#EEF2FF]",
         onClick: () => setActiveTab(getParticipantListTab()),
         isEmpty: assignedCount === 0,
         emptyMessage: `No active ${getParticipantLabel().toLowerCase()} yet`,
         description: `${assignedCount} active ${getParticipantLabel().toLowerCase()}`,
+        topBorder: "border-t-[3px] border-t-[#10b981]",
       },
       {
         id: "reports",
@@ -723,6 +733,7 @@ const DirectorDashboard = () => {
           pendingReportsCount === 0
             ? "All caught up!"
             : `${pendingReportsCount} report${pendingReportsCount !== 1 ? "s" : ""} awaiting review`,
+        topBorder: "border-t-[3px] border-t-[#8b5cf6]",
       },
     ];
   };
@@ -755,9 +766,7 @@ const DirectorDashboard = () => {
         directorateType={directorateType}
       />
 
-      {/* Main Flex Container */}
       <div className="flex flex-1 overflow-hidden relative">
-        {/* Desktop Sidebar */}
         <aside
           className={`hidden md:block fixed left-0 top-[calc(4rem+var(--analytics-height,0px))] h-[calc(100vh-4rem-var(--analytics-height,0px))] transition-all duration-300 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-r border-[#E5E7EB] ${
             sidebarCollapsed ? "w-20" : "w-64"
@@ -794,10 +803,21 @@ const DirectorDashboard = () => {
                   )}
                 </button>
               ))}
+              <div className="border-t border-[#E5E7EB] mt-2 pt-2">
+                <button
+                  onClick={handleLogout}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap text-red-500 hover:bg-red-50 ${sidebarCollapsed ? "justify-center px-2" : ""}`}
+                  title={sidebarCollapsed ? "Sign Out" : ""}
+                >
+                  <div className="shrink-0"><LogOut className="w-5 h-5" /></div>
+                  {!sidebarCollapsed && (
+                    <span className="text-sm font-medium flex-1 text-left">Sign Out</span>
+                  )}
+                </button>
+              </div>
             </nav>
           </div>
 
-          {/* Sidebar Toggle Button */}
           <button
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
             className="absolute -right-3 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-100 rounded-full p-1.5 shadow-lg z-20 transition-colors border border-[#E5E7EB]"
@@ -810,7 +830,6 @@ const DirectorDashboard = () => {
           </button>
         </aside>
 
-        {/* Mobile Sidebar Overlay */}
         <AnimatePresence>
           {mobileSidebarOpen && (
             <>
@@ -826,7 +845,7 @@ const DirectorDashboard = () => {
                 animate={{ x: 0 }}
                 exit={{ x: -280 }}
                 transition={{ type: "tween", duration: 0.3 }}
-                className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-r border-[#E5E7EB] z-50 md:hidden"
+                className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-r border-[#E5E7EB] z-[9999] md:hidden"
               >
                 <div className="flex justify-between items-center p-4 border-b border-[#E5E7EB]">
                   <span className="text-[#111827] font-bold">Menu</span>
@@ -865,46 +884,47 @@ const DirectorDashboard = () => {
                       )}
                     </button>
                   ))}
+                  <div className="border-t border-[#E5E7EB] mt-2 pt-2">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-red-500 hover:bg-red-50"
+                    >
+                      <LogOut className="w-5 h-5" />
+                      <span className="text-sm font-medium">Sign Out</span>
+                    </button>
+                  </div>
                 </nav>
               </motion.aside>
             </>
           )}
         </AnimatePresence>
 
-        {/* Main Content - Scrollable */}
         <main
           className={`flex-1 overflow-y-auto transition-all duration-300 ${
             sidebarCollapsed ? "md:ml-20" : "md:ml-64"
           }`}
         >
-          <div className="px-4 sm:px-6 lg:px-8 py-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="animate-fadeIn">
-              {/* Overview Tab */}
               {activeTab === "overview" && (
                 <div className="space-y-6">
-                  {/* Action Cards */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {actionCards.map((card, index) => (
                       <motion.div
                         key={card.id}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
-                        onMouseEnter={() => setHoveredCard(index)}
-                        onMouseLeave={() => setHoveredCard(null)}
                         onClick={card.onClick}
-                        className={`relative overflow-hidden rounded-xl border border-[#E5E7EB] bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/30 backdrop-blur-sm p-5 transition-all duration-300 ${
+                        className={`relative overflow-hidden bg-white border-l border-r border-b border-[#E5E7EB] ${card.topBorder} rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] ${
                           !card.isEmpty && card.value > 0
-                            ? "cursor-pointer hover:scale-105 hover:border-[#2563eb]/50 hover:shadow-lg hover:shadow-emerald-500/10"
+                            ? "cursor-pointer transition-all duration-200 ease-in-out hover:-translate-y-[3px] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)]"
                             : ""
                         }`}
                       >
-                        <div
-                          className={`absolute inset-0 bg-linear-to-r ${card.color} opacity-0 transition-opacity duration-300 ${hoveredCard === index ? "opacity-10" : ""}`}
-                        />
                         <div className="relative z-10">
                           <div className="flex items-center justify-between mb-3">
-                            <div className={`p-2 rounded-lg ${card.bgColor}`}>
+                            <div className="bg-[#EEF2FF] rounded-[10px] p-[10px] text-[#2563eb] [&_svg]:shrink-0">
                               {card.icon}
                             </div>
                             {card.isEmpty ? (
@@ -941,13 +961,12 @@ const DirectorDashboard = () => {
                     ))}
                   </div>
 
-                  {/* Welcome Banner */}
                   {showWelcome && (
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 }}
-                      className="relative overflow-hidden bg-linear-to-r from-emerald-600/20 to-teal-600/20 border border-[#2563eb]/20 rounded-xl"
+                      className="relative overflow-hidden bg-linear-to-r from-[#DBEAFE]/40 to-[#BFDBFE]/40 border border-[#2563eb]/20 rounded-xl"
                     >
                       <div className="relative z-10 px-5 py-3 flex items-center justify-between">
                         <div className="flex items-center gap-3">
@@ -975,11 +994,9 @@ const DirectorDashboard = () => {
                     </motion.div>
                   )}
 
-                  {/* Overview Grid Content */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Pending Actions Section */}
-                    <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] overflow-hidden">
-                      <div className="px-6 py-4 border-b border-[#E5E7EB] bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/30">
+                    <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden transition-all duration-200 ease-in-out hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]">
+                      <div className="px-6 py-4 border-b border-[#E5E7EB] bg-white">
                         <div className="flex items-center justify-between">
                           <h2 className="font-semibold text-[#111827] flex items-center gap-2">
                             <Zap className="w-5 h-5 text-[#2563eb]" />
@@ -1113,10 +1130,9 @@ const DirectorDashboard = () => {
                       )}
                     </div>
 
-                    {/* Active Participants Section */}
                     {!isServiceDirectorate && assignedCount > 0 && (
-                      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] overflow-hidden">
-                        <div className="px-6 py-4 border-b border-[#E5E7EB] bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/30">
+                      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden transition-all duration-200 ease-in-out hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]">
+                        <div className="px-6 py-4 border-b border-[#E5E7EB] bg-white">
                           <div className="flex items-center justify-between">
                             <h2 className="font-semibold text-[#111827] flex items-center gap-2">
                               <Users className="w-5 h-5 text-[#2563eb]" />
@@ -1185,10 +1201,9 @@ const DirectorDashboard = () => {
                       </div>
                     )}
 
-                    {/* Teams Preview */}
                     {isServiceDirectorate && (
-                      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] overflow-hidden">
-                        <div className="px-6 py-4 border-b border-[#E5E7EB] bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/30">
+                      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden transition-all duration-200 ease-in-out hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]">
+                        <div className="px-6 py-4 border-b border-[#E5E7EB] bg-white">
                           <div className="flex items-center justify-between">
                             <h2 className="font-semibold text-[#111827] flex items-center gap-2">
                               <Users className="w-5 h-5 text-[#2563eb]" />
@@ -1211,9 +1226,8 @@ const DirectorDashboard = () => {
                       </div>
                     )}
 
-                    {/* Reports Preview */}
-                    <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] overflow-hidden">
-                      <div className="px-6 py-4 border-b border-[#E5E7EB] bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/30">
+                    <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden transition-all duration-200 ease-in-out hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]">
+                      <div className="px-6 py-4 border-b border-[#E5E7EB] bg-white">
                         <div className="flex items-center justify-between">
                           <h2 className="font-semibold text-[#111827] flex items-center gap-2">
                             {getReportIcon()}
@@ -1283,7 +1297,6 @@ const DirectorDashboard = () => {
                 </div>
               )}
 
-              {/* Service Requests Tab */}
               {isServiceDirectorate && activeTab === "requests" && (
                 <div>
                   <div className="flex justify-between items-center mb-4 flex-wrap gap-3">
@@ -1296,7 +1309,6 @@ const DirectorDashboard = () => {
                       </p>
                     </div>
 
-                    {/* Status Filter Tabs */}
                     <div className="flex flex-wrap gap-2">
                       <button
                         onClick={() =>
@@ -1421,7 +1433,6 @@ const DirectorDashboard = () => {
                 </div>
               )}
 
-              {/* Teams Tab */}
               {isServiceDirectorate && activeTab === "teams" && (
                 <div>
                   <div className="flex justify-between items-center mb-6">
@@ -1435,7 +1446,7 @@ const DirectorDashboard = () => {
                       onClick={() =>
                         setModals((prev) => ({ ...prev, createTeam: true }))
                       }
-                      className="bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] px-4 py-2 rounded-lg flex items-center gap-2 hover:opacity-90 transition shadow-lg"
+                      className="btn-institutional px-4 py-2 text-sm"
                     >
                       <Plus className="w-4 h-4" /> Create Team
                     </button>
@@ -1458,7 +1469,6 @@ const DirectorDashboard = () => {
                 </div>
               )}
 
-              {/* Interns Tab */}
               {directorateType === "internship" && activeTab === "interns" && (
                 <div>
                   <div className="flex justify-between items-center mb-6">
@@ -1480,7 +1490,6 @@ const DirectorDashboard = () => {
                 </div>
               )}
 
-              {/* Innovators Tab */}
               {directorateType === "innovation" &&
                 activeTab === "innovators" && (
                   <div>
@@ -1506,7 +1515,6 @@ const DirectorDashboard = () => {
                   </div>
                 )}
 
-              {/* Startups Tab */}
               {directorateType === "startup" && activeTab === "startups" && (
                 <div>
                   <div className="flex justify-between items-center mb-6">
@@ -1531,7 +1539,6 @@ const DirectorDashboard = () => {
                 </div>
               )}
 
-              {/* Trainees Tab */}
               {directorateType === "training" && activeTab === "trainees" && (
                 <div>
                   <div className="flex justify-between items-center mb-6">
@@ -1547,7 +1554,7 @@ const DirectorDashboard = () => {
                       onClick={() =>
                         setModals((prev) => ({ ...prev, assignTrainer: true }))
                       }
-                      className="bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] px-4 py-2 rounded-lg flex items-center gap-2 hover:opacity-90 transition shadow-lg"
+                      className="btn-institutional px-4 py-2 text-sm"
                     >
                       <UserPlus className="w-4 h-4" /> Assign Trainer
                     </button>
@@ -1595,7 +1602,6 @@ const DirectorDashboard = () => {
                 </div>
               )}
 
-              {/* My Reports Tab */}
               {activeTab === "my-reports" && (
                 <div>
                   <div className="flex justify-between items-center mb-6">
@@ -1611,7 +1617,7 @@ const DirectorDashboard = () => {
                       onClick={() =>
                         setModals((prev) => ({ ...prev, submitReport: true }))
                       }
-                      className="bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] px-4 py-2 rounded-lg flex items-center gap-2 hover:opacity-90 transition shadow-lg"
+                      className="btn-institutional px-4 py-2 text-sm"
                     >
                       <Plus className="w-4 h-4" /> Submit Report
                     </button>
@@ -1632,7 +1638,6 @@ const DirectorDashboard = () => {
         </main>
       </div>
 
-      {/* Modals */}
       {modals.createTeam && isServiceDirectorate && (
         <CreateTeamModal
           onClose={() => setModals((prev) => ({ ...prev, createTeam: false }))}

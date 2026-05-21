@@ -67,19 +67,15 @@ const PublicLayout = () => {
     setIsUserMenuOpen(false);
   };
 
-  // Fixed scroll to footer - prevents page navigation
   const scrollToFooter = (e) => {
-    // Prevent any default behavior
     if (e) e.preventDefault();
 
-    // Close mobile menu if open
     setIsMobileMenuOpen(false);
 
-    // Scroll to footer
     if (footerRef.current) {
       footerRef.current.scrollIntoView({
         behavior: "smooth",
-        block: "end", // "end" shows the footer at the bottom of viewport
+        block: "end",
       });
     }
   };
@@ -119,15 +115,13 @@ const PublicLayout = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      {/* Header */}
       <header
-        className={`fixed top-0 w-full z-50 transition-all duration-300 bg-white border-b border-[#E5E7EB] ${
+        className={`fixed top-0 w-full z-40 transition-all duration-300 bg-white border-b border-[#E5E7EB] ${
           isScrolled ? "shadow-sm" : ""
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14">
-            {/* Logo */}
             <Link
               to="/"
               className="flex items-center gap-1.5 group"
@@ -148,7 +142,6 @@ const PublicLayout = () => {
               </span>
             </Link>
 
-            {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-8 lg:gap-10">
               <NavLink
                 to="/services/browse"
@@ -182,7 +175,6 @@ const PublicLayout = () => {
               </button>
             </nav>
 
-            {/* Desktop Auth Section */}
             <div className="hidden md:flex items-center gap-3">
               {isAuthenticated ? (
                 <div className="relative">
@@ -208,7 +200,7 @@ const PublicLayout = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-[#E5E7EB] overflow-hidden z-50"
+                        className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-[#E5E7EB] overflow-hidden z-[9999]"
                       >
                         <div className="p-3 border-b border-[#E5E7EB] bg-gray-50">
                           <p className="text-[#111827] font-medium text-sm">
@@ -263,7 +255,6 @@ const PublicLayout = () => {
               )}
             </div>
 
-            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden p-2 rounded-lg bg-white border border-[#E5E7EB] text-[#4b5563] hover:bg-gray-50"
@@ -278,7 +269,6 @@ const PublicLayout = () => {
         </div>
       </header>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -368,19 +358,16 @@ const PublicLayout = () => {
         )}
       </AnimatePresence>
 
-      {/* Main Content */}
       <main className="flex-1">
         <Outlet />
       </main>
 
-      {/* Footer with ref */}
       <footer
         ref={footerRef}
         className="relative bg-[#E8E8E8] border-t border-[#D1D5DB]"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Brand Section */}
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <div className="group relative rounded-full overflow-hidden border border-[#D1D5DB] shadow-sm">
@@ -415,7 +402,6 @@ const PublicLayout = () => {
               </div>
             </div>
 
-            {/* Quick Links */}
             <div>
               <h4 className="text-[#111827] font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2">
@@ -433,7 +419,6 @@ const PublicLayout = () => {
               </ul>
             </div>
 
-            {/* Support */}
             <div>
               <h4 className="text-[#111827] font-semibold mb-4">Support</h4>
               <ul className="space-y-2">
@@ -451,7 +436,6 @@ const PublicLayout = () => {
               </ul>
             </div>
 
-            {/* Contact */}
             <div id="contact-section">
               <h4 className="text-[#111827] font-semibold mb-4">Contact Us</h4>
               <ul className="space-y-3">
@@ -481,7 +465,6 @@ const PublicLayout = () => {
             </div>
           </div>
 
-          {/* Copyright */}
           <div className="border-t border-[#E5E7EB] mt-8 pt-8 text-center">
             <p className="text-[#6b7280] text-sm">
               &copy; {new Date().getFullYear()} Amhara National Regional State

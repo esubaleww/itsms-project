@@ -48,7 +48,6 @@ const UsersList = ({ users, onResendVerification, loading }) => {
         </div>
       </div>
 
-      {/* Search and Filter - Dropdown like original */}
       <div className="flex flex-wrap gap-4 mb-6">
         <div className="relative flex-1 min-w-50">
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7280]" />
@@ -85,7 +84,6 @@ const UsersList = ({ users, onResendVerification, loading }) => {
         </select>
       </div>
 
-      {/* Mobile Card View (visible on mobile) */}
       <div className="sm:hidden space-y-3">
         {filtered?.map((user, index) => (
           <motion.div
@@ -151,7 +149,6 @@ const UsersList = ({ users, onResendVerification, loading }) => {
         ))}
       </div>
 
-      {/* Desktop Table View (hidden on mobile) */}
       <div className="hidden sm:block overflow-x-auto rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-[#E5E7EB] bg-white">
         <table className="w-full">
           <thead className="bg-[#F9FAFB] border-b border-[#E5E7EB]">
@@ -240,7 +237,6 @@ const UsersList = ({ users, onResendVerification, loading }) => {
         </table>
       </div>
 
-      {/* Empty State */}
       {filtered?.length === 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -257,7 +253,6 @@ const UsersList = ({ users, onResendVerification, loading }) => {
         </motion.div>
       )}
 
-      {/* Results Count */}
       {filtered?.length > 0 && (
         <div className="mt-4 text-right text-sm text-[#6b7280] font-medium">
           Showing <span className="text-[#111827]">{filtered.length}</span> of <span className="text-[#111827]">{users?.length || 0}</span> users

@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Eye, FileText, GraduationCap, User, Mail, Award } from "lucide-react";
 
@@ -39,7 +39,7 @@ const AdvisorInternsList = ({
               </p>
             </div>
             {intern.pendingReports > 0 && (
-              <span className="text-xs px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full">
+              <span className="text-xs px-2.5 py-1 bg-amber-50 text-amber-700 border border-amber-200 rounded-full font-medium whitespace-nowrap ml-2">
                 {intern.pendingReports} Pending
               </span>
             )}
@@ -60,28 +60,27 @@ const AdvisorInternsList = ({
             </div>
           </div>
 
-          {/* Three buttons - Progress, Review Reports, Final Summary */}
           <div className="flex gap-2 mt-3">
             <button
               onClick={() => onViewProgress(intern)}
-              className="flex-1 px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-[#111827] rounded-lg transition text-sm flex items-center justify-center gap-1"
+              className="btn-institutional flex-1 px-3 py-1.5 text-sm"
             >
               <Eye className="w-3 h-3" /> Progress
             </button>
             <button
               onClick={() => onReviewReport(intern)}
               disabled={intern.pendingReports === 0}
-              className={`flex-1 px-3 py-1.5 rounded-lg transition text-sm flex items-center justify-center gap-1 ${
+              className={`flex-1 px-3 py-1.5 text-sm flex items-center justify-center gap-1 ${
                 intern.pendingReports > 0
-                  ? "bg-emerald-600/20 hover:bg-emerald-600 text-[#2563eb] hover:text-[#111827]"
-                  : "bg-gray-700 text-[#6b7280] cursor-not-allowed"
+                  ? "btn-institutional"
+                  : "bg-[#F3F4F6] border border-[#E5E7EB] text-[#9ca3af] cursor-not-allowed rounded-lg"
               }`}
             >
               <FileText className="w-3 h-3" /> Review
             </button>
             <button
               onClick={() => onFinalSummary(intern)}
-              className="flex-1 px-3 py-1.5 bg-purple-600/20 hover:bg-purple-600 text-purple-400 hover:text-[#111827] rounded-lg transition text-sm flex items-center justify-center gap-1"
+              className="flex-1 px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-lg transition text-sm flex items-center justify-center gap-1 font-medium"
             >
               <Award className="w-3 h-3" /> Final
             </button>

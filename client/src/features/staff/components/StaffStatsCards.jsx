@@ -5,7 +5,6 @@ import {
   Lightbulb,
   School,
   Users,
-  Clock,
 } from "lucide-react";
 
 const StaffStatsCards = ({
@@ -25,9 +24,8 @@ const StaffStatsCards = ({
       title: "My Tasks",
       value: stats?.totalTasks || 0,
       subValue: `${stats?.completedTasks || 0} completed`,
-      icon: <CheckSquare className="w-6 h-6" />,
-      color: "from-emerald-500 to-teal-700",
-      bg: "bg-[#EEF2FF]",
+      icon: CheckSquare,
+      topBorder: "border-t-[3px] border-t-[#2563eb]",
     });
   }
 
@@ -36,9 +34,8 @@ const StaffStatsCards = ({
       title: "Pending Reports",
       value: advisorStats.pendingReports || 0,
       subValue: `${advisorStats.totalInterns} total interns`,
-      icon: <GraduationCap className="w-6 h-6" />,
-      color: "from-purple-500 to-pink-700",
-      bg: "bg-purple-500/20",
+      icon: GraduationCap,
+      topBorder: "border-t-[3px] border-t-[#f59e0b]",
     });
   }
 
@@ -47,18 +44,16 @@ const StaffStatsCards = ({
       title: "Pending Reviews",
       value: mentorStats.pendingReviews || 0,
       subValue: "Milestones awaiting feedback",
-      icon: <Lightbulb className="w-6 h-6" />,
-      color: "from-orange-500 to-red-700",
-      bg: "bg-orange-500/20",
+      icon: Lightbulb,
+      topBorder: "border-t-[3px] border-t-[#8b5cf6]",
     });
 
     cards.push({
       title: "Active Mentees",
       value: mentorStats.totalMentees || 0,
-      subValue: `${mentorStats.completedMentees || 0} completed`,
-      icon: <Users className="w-6 h-6" />,
-      color: "from-emerald-500 to-teal-700",
-      bg: "bg-[#EEF2FF]",
+      subValue: "Innovators & startups in portfolio",
+      icon: Users,
+      topBorder: "border-t-[3px] border-t-[#10b981]",
     });
   }
 
@@ -67,40 +62,48 @@ const StaffStatsCards = ({
       title: "Active Trainees",
       value: trainerStats.totalTrainees,
       subValue: `${trainerStats.pendingSessions || 0} upcoming sessions`,
-      icon: <School className="w-6 h-6" />,
-      color: "from-cyan-500 to-blue-700",
-      bg: "bg-cyan-500/20",
+      icon: School,
+      topBorder: "border-t-[3px] border-t-[#0ea5e9]",
     });
   }
 
+  if (cards.length === 0) return null;
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {cards.map((card, index) => (
-        <motion.div
-          key={card.title}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.1 }}
-          className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] p-5 hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all"
-        >
-          <div className="flex justify-between items-start">
-            <div>
-              <p className="text-[#6b7280] text-sm">{card.title}</p>
-              <p className="text-2xl font-bold text-[#111827] mt-1">{card.value}</p>
-              {card.subValue && (
-                <p className="text-xs text-[#6b7280] mt-1">{card.subValue}</p>
-              )}
-            </div>
-            <div
-              className={`w-10 h-10 ${card.bg} rounded-lg flex items-center justify-center`}
-            >
-              <div className={card.color.split(" ")[0].replace("from-", "text-")}>
-                {card.icon}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-2">
+      {cards.map((card, index) => {
+        const Icon = card.icon;
+        return (
+          <motion.div
+            key={card.title}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            className={`bg-white border-l border-r border-b border-[#E5E7EB] ${card.topBorder} rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden relative transition-all duration-200 ease-in-out hover:-translate-y-[3px] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)]`}
+          >
+            <div className="flex justify-between items-start">
+              <div className="z-10">
+                <p className="text-[#374151] text-[1rem] mb-1 font-medium">
+                  {card.title}
+                </p>
+                <p className="text-[#111827] text-[2rem] font-bold mt-1">
+                  {typeof card.value === "number"
+                    ? card.value.toLocaleString()
+                    : card.value}
+                </p>
+                {card.subValue && (
+                  <p className="text-[#6b7280] text-[0.875rem] mt-2">
+                    {card.subValue}
+                  </p>
+                )}
+              </div>
+              <div className="bg-[#EEF2FF] rounded-[10px] p-[10px] group-hover:scale-105 transition-transform duration-200">
+                <Icon className="w-6 h-6 text-[#2563eb]" />
               </div>
             </div>
-          </div>
-        </motion.div>
-      ))}
+          </motion.div>
+        );
+      })}
     </div>
   );
 };

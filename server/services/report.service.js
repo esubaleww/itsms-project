@@ -36,7 +36,6 @@ const formatAttachments = (attachments = []) => {
   }));
 };
 
-// ==================== TEAM REPORTS (from Report model) ====================
 export const createTeamReport = async (user, data) => {
   if (!user.team) throw new Error("User is not assigned to a team");
 
@@ -106,7 +105,6 @@ export const createTeamReport = async (user, data) => {
   return { success: true, report };
 };
 
-// ==================== DIRECTOR REPORTS (from Report model) ====================
 export const createDirectorReport = async (user, data) => {
   if (!user.directorate)
     throw new Error("User is not assigned to a directorate");
@@ -152,7 +150,6 @@ export const createDirectorReport = async (user, data) => {
   return { success: true, report };
 };
 
-// ==================== ADVISOR REPORTS (from InternProfile) ====================
 export const getAdvisorReports = async (directorateId) => {
   const profiles = await InternProfile.find({
     "placement.directorate": directorateId,
@@ -174,7 +171,6 @@ export const getAdvisorReports = async (directorateId) => {
   }));
 };
 
-// ==================== MENTOR REPORTS (from InnovatorProfile) ====================
 export const getMentorReports = async (directorateId) => {
   const profiles = await InnovatorProfile.find({
     "incubation.center": directorateId,
@@ -196,7 +192,6 @@ export const getMentorReports = async (directorateId) => {
   }));
 };
 
-// ==================== STARTUP MENTOR REPORTS (from StartupProfile) ====================
 export const getStartupMentorReports = async (directorateId) => {
   const profiles = await StartupProfile.find({
     "incubation.center": directorateId,
@@ -218,7 +213,6 @@ export const getStartupMentorReports = async (directorateId) => {
   }));
 };
 
-// ==================== TRAINER REPORTS (from TrainingProfile) ====================
 export const getTrainerReports = async (directorateId) => {
   const profiles = await TrainingProfile.find({
     "placement.directorate": directorateId,
@@ -240,7 +234,6 @@ export const getTrainerReports = async (directorateId) => {
   }));
 };
 
-// ==================== GET ALL REPORTS (Unified) ====================
 export const getAllReportsForDirector = async (directorateId) => {
   const [
     teamReports,
@@ -273,7 +266,6 @@ export const getAllReportsForDirector = async (directorateId) => {
   return allReports;
 };
 
-// ==================== EXISTING FUNCTIONS ====================
 export const submitReport = async (reportId, user, req) => {
   const report = await Report.findById(reportId);
   if (!report) throw new Error("Report not found");

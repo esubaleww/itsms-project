@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   X,
@@ -26,7 +26,6 @@ const AssignAdvisorModal = ({
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
-  // Filter participants without assignment
   const participantsWithoutAssignment =
     interns?.filter(
       (participant) =>
@@ -35,7 +34,6 @@ const AssignAdvisorModal = ({
         !participant.assignedTrainer,
     ) || [];
 
-  // All staff in the directorate are eligible
   const eligibleStaff = staffList || [];
 
   const validateForm = () => {
@@ -90,14 +88,13 @@ const AssignAdvisorModal = ({
   );
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-md overflow-hidden border border-[#E5E7EB] shadow-2xl"
       >
-        {/* Header */}
         <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg flex items-center justify-center">
@@ -113,13 +110,11 @@ const AssignAdvisorModal = ({
           </button>
         </div>
 
-        {/* Form */}
         <form
           onSubmit={handleSubmit}
           className="p-5 space-y-5"
           id="assign-form"
         >
-          {/* Participant Selection */}
           <div>
             <label className="block text-sm font-medium text-[#374151] mb-1">
               Select {participantLabel} <span className="text-red-500">*</span>
@@ -192,7 +187,6 @@ const AssignAdvisorModal = ({
               )}
           </div>
 
-          {/* Selected Participant Info (Preview) */}
           {selectedParticipantData && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
@@ -215,7 +209,6 @@ const AssignAdvisorModal = ({
             </motion.div>
           )}
 
-          {/* Staff Selection - All staff in directorate are eligible */}
           <div>
             <label className="block text-sm font-medium text-[#374151] mb-1">
               Select {assignmentLabel} <span className="text-red-500">*</span>
@@ -281,7 +274,6 @@ const AssignAdvisorModal = ({
             )}
           </div>
 
-          {/* Selected Staff Info (Preview) */}
           {selectedStaff && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
@@ -303,7 +295,6 @@ const AssignAdvisorModal = ({
             </motion.div>
           )}
 
-          {/* Info Box */}
           <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 border border-[#E5E7EB]">
             <p className="text-xs text-[#6b7280] flex items-center gap-1">
               <Users className="w-3 h-3" />
@@ -327,7 +318,6 @@ const AssignAdvisorModal = ({
           </div>
         </form>
 
-        {/* Buttons */}
         <div className="p-5 border-t border-[#E5E7EB] bg-white/90 backdrop-blur-sm">
           <div className="flex gap-3">
             <button
@@ -338,7 +328,7 @@ const AssignAdvisorModal = ({
                 participantsWithoutAssignment.length === 0 ||
                 eligibleStaff.length === 0
               }
-              className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg flex items-center justify-center gap-2"
+              className="btn-institutional flex-1 py-2.5 disabled:opacity-50"
             >
               {loading ? (
                 <>

@@ -14,6 +14,38 @@ const usersToSeed = [
     emailVerified: true
   },
   {
+    fullName: "Intern User 2",
+    email: "intern2@itsms.gov.et",
+    role: "user",
+    position: "intern",
+    isActive: true,
+    emailVerified: true
+  },
+  {
+    fullName: "Trainee User 2",
+    email: "trainee2@itsms.gov.et",
+    role: "user",
+    position: "trainee",
+    isActive: true,
+    emailVerified: true
+  },
+  {
+    fullName: "Innovator User 2",
+    email: "innovator2@itsms.gov.et",
+    role: "user",
+    position: "innovator",
+    isActive: true,
+    emailVerified: true
+  },
+  {
+    fullName: "Startup User 2",
+    email: "startup2@itsms.gov.et",
+    role: "user",
+    position: "startup",
+    isActive: true,
+    emailVerified: true
+  },
+  {
     fullName: "Director User",
     email: "director@itsms.gov.et",
     role: "staff",
@@ -34,6 +66,30 @@ const usersToSeed = [
     email: "staff@itsms.gov.et",
     role: "staff",
     position: "technical_staff",
+    isActive: true,
+    emailVerified: true
+  },
+  {
+    fullName: "Advisor User",
+    email: "advisor@itsms.gov.et",
+    role: "staff",
+    position: "advisor",
+    isActive: true,
+    emailVerified: true
+  },
+  {
+    fullName: "Trainer User",
+    email: "trainer@itsms.gov.et",
+    role: "staff",
+    position: "trainer",
+    isActive: true,
+    emailVerified: true
+  },
+  {
+    fullName: "Mentor User",
+    email: "mentor@itsms.gov.et",
+    role: "staff",
+    position: "mentor",
     isActive: true,
     emailVerified: true
   },

@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   X,
@@ -99,9 +99,7 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
   const isTraining = request.type === "training";
   const isService = request.type === "service";
   const isPending = request.status === "pending_admin";
-  // Extract documents based on profile type
   const documents = {
-    // Intern documents
     cvIntern: isIntern && profile?.documents?.cv ? profile.documents.cv : null,
     applicationLetterIntern:
       isIntern && profile?.documents?.applicationLetter
@@ -112,7 +110,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
         ? profile.documents.transcript
         : null,
 
-    // Innovator documents
     businessPlan:
       isInnovator && profile?.documents?.businessPlan
         ? profile.documents.businessPlan
@@ -126,7 +123,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
         ? profile.documents.presentation
         : null,
 
-    // Startup documents
     businessLicense:
       isStartup && profile?.documents?.businessLicense
         ? profile.documents.businessLicense
@@ -138,7 +134,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
         ? profile.documents.memorandum
         : null,
 
-    // Service documents (RequesterProfile)
     requestLetter:
       (isService || isTraining) && profile?.documents?.requestLetter
         ? profile.documents.requestLetter
@@ -196,14 +191,13 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
   const TypeIcon = getTypeIcon(request.type);
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden border border-[#E5E7EB] shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
       >
-        {/* Header */}
         <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-sm z-10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-xl flex items-center justify-center">
@@ -224,9 +218,7 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
           </button>
         </div>
 
-        {/* Content */}
         <div className="overflow-y-auto flex-1 p-5 space-y-6">
-          {/* Type Badge */}
           <div className="flex justify-start">
             <div
               className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium ${getTypeColor(request.type)}`}
@@ -235,14 +227,13 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
               <span>{getTypeLabel(request.type)}</span>
             </div>
           </div>
-          {/* Warning if profile is not populated */}
           {request.relatedProfile &&
             typeof request.relatedProfile === "object" &&
             !profile?.documents && (
               <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3 flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 text-yellow-400 mt-0.5 shrink-0" />
                 <p className="text-yellow-400 text-sm">
-                  ⚠️ Profile data is loaded but documents might be missing.
+                  ?? Profile data is loaded but documents might be missing.
                   Check if the profile documents were properly saved.
                 </p>
               </div>
@@ -252,12 +243,11 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
             <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 flex items-start gap-2">
               <AlertCircle className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
               <p className="text-red-500 text-sm">
-                ⚠️ Profile data not loaded. Please ensure the API is populating
+                ?? Profile data not loaded. Please ensure the API is populating
                 the relatedProfile field.
               </p>
             </div>
           )}
-          {/* Applicant Info Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
               <div className="flex items-center gap-2 text-[#6b7280] text-xs mb-1">
@@ -280,7 +270,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
               </p>
             </div>
 
-            {/* Profile-specific fields */}
             {isIntern && profile && (
               <>
                 <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
@@ -395,7 +384,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
               </>
             )}
 
-            {/* Service Request Fields (RequesterProfile) */}
             {(isService || isTraining) && profile && (
               <>
                 <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
@@ -446,7 +434,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
               </>
             )}
 
-            {/* Training Specific Fields */}
             {isTraining && profile && profile.trainingDetails && (
               <>
                 <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
@@ -498,7 +485,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
               </p>
             </div>
           </div>
-          {/* Service/Training Request Details */}
           {(isService || isTraining) && request.metadata && (
             <div className="space-y-4">
               <div className="border-t border-[#E5E7EB] pt-4">
@@ -549,7 +535,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
               </div>
             </div>
           )}
-          {/* Description */}
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-[#2563eb]">
               <FileText className="w-4 h-4" />
@@ -567,7 +552,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
               </p>
             </div>
           </div>
-          {/* Innovator-specific details */}
           {isInnovator && profile && profile.problemSolved && (
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-[#2563eb]">
@@ -598,7 +582,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
               </div>
             </div>
           )}
-          {/* Skills Section */}
           {profile?.skills && profile.skills.length > 0 && (
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-[#2563eb]">
@@ -611,7 +594,7 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
                 {profile.skills.map((skill, index) => (
                   <span
                     key={index}
-                    className="px-3 py-1.5 bg-[#EEF2FF] text-[#2563eb] rounded-lg text-sm"
+                    className="px-3 py-1.5 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] hover:from-[#BFDBFE] hover:to-[#93C5FD] rounded-lg text-sm font-semibold shadow-sm transition-all duration-200"
                   >
                     {skill}
                   </span>
@@ -619,7 +602,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
               </div>
             </div>
           )}
-          {/* Startup Founders Section */}
           {isStartup && profile?.founders && profile.founders.length > 0 && (
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-[#2563eb]">
@@ -661,7 +643,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
             </div>
           )}
 
-          {/* Documents Section */}
           {hasAnyDocuments && (
             <div className="space-y-3">
               <div className="border-t border-[#E5E7EB] pt-4">
@@ -670,7 +651,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
                   Attached Documents
                 </h3>
                 <div className="space-y-3">
-                  {/* Intern Documents */}
                   {isIntern && (
                     <>
                       {documents.cvIntern && (
@@ -694,7 +674,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
                     </>
                   )}
 
-                  {/* Innovator Documents */}
                   {isInnovator && (
                     <>
                       {documents.businessPlan && (
@@ -718,7 +697,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
                     </>
                   )}
 
-                  {/* Startup Documents */}
                   {isStartup && (
                     <>
                       {documents.businessLicense && (
@@ -742,7 +720,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
                     </>
                   )}
 
-                  {/* Service/Training Documents */}
                   {(isService || isTraining) && (
                     <>
                       {documents.requestLetter && (
@@ -785,7 +762,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
                     </>
                   )}
 
-                  {/* Fallback for any other document types */}
                   {documents.metadataDocs &&
                     typeof documents.metadataDocs === "object" &&
                     Object.entries(documents.metadataDocs).map(
@@ -805,7 +781,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
               </div>
             </div>
           )}
-          {/* Timeline */}
           {request.timeline && request.timeline.length > 0 && (
             <div className="space-y-3">
               <div className="border-t border-[#E5E7EB] pt-4">
@@ -846,7 +821,6 @@ const RequestDetailModal = ({ request, onClose, onApprove, onReject }) => {
           )}
         </div>
 
-        {/* Actions */}
         {isPending && (
           <div className="p-5 border-t border-[#E5E7EB] bg-[#F9FAFB] rounded-b-2xl">
             <div className="space-y-3">

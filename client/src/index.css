@@ -67,6 +67,31 @@ body {
   box-shadow: none;
 }
 
+.btn-institutional {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500; /* font-medium */
+  color: #ffffff !important;
+  background-color: #2563eb !important;
+  border: 1px solid transparent !important;
+  border-radius: 0.5rem !important; /* rounded-lg */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important; /* shadow-sm */
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-institutional:hover {
+  background-color: #1d4ed8 !important;
+  color: #ffffff !important;
+}
+.btn-institutional:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
 /* ── Utility ─────────────────────────────────────────────── */
 @keyframes fadeIn {
   from {

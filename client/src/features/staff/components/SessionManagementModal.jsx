@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -70,13 +70,13 @@ const SessionManagementModal = ({ trainee, onClose, onRefresh }) => {
     }
     return {
       label: "Upcoming",
-      color: "bg-blue-500/20 text-blue-400",
+      color: "bg-[#EEF2FF] text-[#2563eb]",
       icon: Calendar,
     };
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -101,7 +101,7 @@ const SessionManagementModal = ({ trainee, onClose, onRefresh }) => {
         <div className="flex-1 overflow-y-auto p-5 space-y-5">
           <button
             onClick={() => setShowForm(!showForm)}
-            className="w-full py-3 border border-dashed border-[#2563eb]/50 rounded-xl text-[#2563eb] hover:bg-[#EEF2FF] transition flex items-center justify-center gap-2"
+            className="btn-institutional w-full py-3"
           >
             <Plus className="w-4 h-4" />
             {showForm ? "Cancel" : "Add New Session"}
@@ -122,7 +122,7 @@ const SessionManagementModal = ({ trainee, onClose, onRefresh }) => {
                   onChange={(e) =>
                     setFormData({ ...formData, title: e.target.value })
                   }
-                  className="w-full px-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                  className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
                 />
                 <div className="grid grid-cols-2 gap-3">
                   <div className="relative">
@@ -133,7 +133,7 @@ const SessionManagementModal = ({ trainee, onClose, onRefresh }) => {
                       onChange={(e) =>
                         setFormData({ ...formData, date: e.target.value })
                       }
-                      className="w-full pl-9 pr-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                      className="w-full pl-9 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
                     />
                   </div>
                   <div className="relative">
@@ -145,7 +145,7 @@ const SessionManagementModal = ({ trainee, onClose, onRefresh }) => {
                       onChange={(e) =>
                         setFormData({ ...formData, duration: e.target.value })
                       }
-                      className="w-full pl-9 pr-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                      className="w-full pl-9 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
                     />
                   </div>
                 </div>
@@ -158,13 +158,13 @@ const SessionManagementModal = ({ trainee, onClose, onRefresh }) => {
                     onChange={(e) =>
                       setFormData({ ...formData, location: e.target.value })
                     }
-                    className="w-full pl-9 pr-3 py-2 bg-gray-700 border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                    className="w-full pl-9 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
                   />
                 </div>
                 <button
                   onClick={handleSubmit}
                   disabled={!formData.title || !formData.date || loading}
-                  className="w-full py-2 bg-emerald-600 text-[#111827] rounded-lg hover:bg-emerald-700 disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="btn-institutional w-full py-2 disabled:opacity-50"
                 >
                   {loading ? (
                     <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />

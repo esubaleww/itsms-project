@@ -4,7 +4,7 @@ import Request from "../models/Request.js";
 import Report from "../models/Report.js";
 import PDFGenerator from "../utils/pdfGenerator.js";
 import CSVGenerator from "../utils/csvGenerator.js";
-import cleanData from "../utils/cleanData.js"; // Import the common cleanData utility
+import cleanData from "../utils/cleanData.js";
 
 class ExportService {
   async fetchData(type, dateFilter) {
@@ -60,7 +60,6 @@ class ExportService {
         throw new Error("Invalid export type");
     }
 
-    // Clean the data to remove IDs and show readable names
     return cleanData(rawData, type);
   }
 

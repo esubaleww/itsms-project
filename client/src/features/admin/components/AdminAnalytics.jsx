@@ -34,8 +34,8 @@ import {
 import { useAnalytics } from "../../../hooks/useAnalytics";
 
 const CHART_COLORS = {
-  primary: "#10B981",
-  secondary: "#3B82F6",
+  primary: "#2563EB",
+  secondary: "#60A5FA",
   danger: "#EF4444",
   warning: "#F59E0B",
   purple: "#8B5CF6",
@@ -204,11 +204,11 @@ const AdminAnalytics = () => {
       <div className="flex justify-between items-center flex-wrap gap-4">
         <div className="flex gap-4 text-sm">
           <span className="flex items-center gap-2 text-[#2563eb]">
-            <div className="w-2 h-2 rounded-full bg-emerald-500" />
+            <div className="w-2 h-2 rounded-full bg-[#2563eb]" />
             Requests: {totalRequests}
           </span>
-          <span className="flex items-center gap-2 text-blue-400">
-            <div className="w-2 h-2 rounded-full bg-blue-500" />
+          <span className="flex items-center gap-2 text-[#60A5FA]">
+            <div className="w-2 h-2 rounded-full bg-[#60A5FA]" />
             Approvals: {totalApprovals}
           </span>
           <span className="flex items-center gap-2 text-red-500">
@@ -538,7 +538,7 @@ const AdminAnalytics = () => {
               <span className="text-[#374151] text-sm font-medium">Approval Rate</span>
               <div className="flex-1 mx-4 h-2 bg-[#E5E7EB] rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-emerald-500 rounded-full"
+                  className="h-full bg-[#2563eb] rounded-full"
                   style={{ width: `${requestStats?.approvalRate || 0}%` }}
                 />
               </div>

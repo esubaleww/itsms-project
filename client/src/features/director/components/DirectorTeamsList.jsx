@@ -1,4 +1,4 @@
-﻿import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Users,
   UserCog,
@@ -29,7 +29,7 @@ const DirectorTeamsList = ({
         {onCreate && (
           <button
             onClick={onCreate}
-            className="mt-4 px-4 py-2 bg-linear-0-to-r from-emerald-500 to-teal-700 text-[#111827] rounded-lg hover:opacity-90 transition inline-flex items-center gap-2"
+            className="btn-institutional mt-4 px-4 py-2"
           >
             <Plus className="w-4 h-4" />
             Create Team
@@ -49,7 +49,7 @@ const DirectorTeamsList = ({
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-linear-0-to-r from-emerald-500/20 to-teal-700/20 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-linear-0-to-r from-[#DBEAFE]/40 to-[#BFDBFE]/40 rounded-lg flex items-center justify-center">
                   <Users className="w-5 h-5 text-[#2563eb]" />
                 </div>
                 <div>
@@ -58,11 +58,11 @@ const DirectorTeamsList = ({
                     {team.members?.length || 0} members
                     {team.lead && (
                       <span className="ml-2">
-                        • Lead: {team.lead.fullName || team.lead}
+                        � Lead: {team.lead.fullName || team.lead}
                       </span>
                     )}
                     {!team.lead && (
-                      <span className="ml-2 text-yellow-500">• No lead</span>
+                      <span className="ml-2 text-yellow-500">� No lead</span>
                     )}
                   </p>
                 </div>
@@ -75,7 +75,6 @@ const DirectorTeamsList = ({
     );
   }
 
-  // Detailed view for teams tab
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {teams.map((team) => (
@@ -84,10 +83,9 @@ const DirectorTeamsList = ({
           className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all overflow-hidden"
         >
           <div className="p-5">
-            {/* Header */}
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-linear-0-to-r from-emerald-500/20 to-teal-700/20 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-linear-0-to-r from-[#DBEAFE]/40 to-[#BFDBFE]/40 rounded-lg flex items-center justify-center">
                   <Users className="w-5 h-5 text-[#2563eb]" />
                 </div>
                 <div>
@@ -114,7 +112,6 @@ const DirectorTeamsList = ({
               </p>
             )}
 
-            {/* Team Lead */}
             <div className="flex items-center justify-between p-2 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg mb-3">
               <div className="flex items-center gap-2">
                 <UserCog className="w-4 h-4 text-[#2563eb]" />
@@ -134,7 +131,6 @@ const DirectorTeamsList = ({
               )}
             </div>
 
-            {/* Team Members */}
             <div className="mt-3">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs text-[#6b7280]">

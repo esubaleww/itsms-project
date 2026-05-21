@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -220,14 +220,13 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
     request.type === "service";
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden border border-[#E5E7EB] shadow-2xl"
       >
-        {/* Header */}
         <div className="sticky top-0 bg-white/90 backdrop-blur-sm border-b border-[#E5E7EB] p-6 flex justify-between items-center z-10 backdrop-blur-sm">
           <div className="flex items-center gap-3">
             <div
@@ -268,9 +267,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
           </button>
         </div>
 
-        {/* Content */}
         <div className="overflow-y-auto flex-1 p-6 space-y-6">
-          {/* Applicant Info Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-4 border border-[#E5E7EB]">
               <div className="flex items-center gap-2 text-[#6b7280] text-sm mb-2">
@@ -313,7 +310,6 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
             </div>
           </div>
 
-          {/* Description Section */}
           {(request.description || request.title) && (
             <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl border border-[#E5E7EB] overflow-hidden">
               <button
@@ -351,7 +347,6 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
             </div>
           )}
 
-          {/* Application Details */}
           {request.relatedProfile && (
             <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl border border-[#E5E7EB] overflow-hidden">
               <button
@@ -379,7 +374,6 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                     className="border-t border-[#E5E7EB]"
                   >
                     <div className="p-4 space-y-4">
-                      {/* Intern Profile */}
                       {request.type === "intern" &&
                         request.relatedProfile.university && (
                           <div className="space-y-3">
@@ -434,7 +428,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                                     (skill, i) => (
                                       <span
                                         key={i}
-                                        className="bg-gray-600/50 text-[#374151] px-2 py-1 rounded-lg text-sm"
+                                        className="bg-[#F3F4F6] text-[#374151] px-2 py-1 rounded-lg text-sm border border-[#E5E7EB]"
                                       >
                                         {skill}
                                       </span>
@@ -446,7 +440,6 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                           </div>
                         )}
 
-                      {/* Innovator Profile */}
                       {request.type === "innovator" &&
                         request.relatedProfile.ideaTitle && (
                           <div className="space-y-3">
@@ -508,7 +501,6 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                           </div>
                         )}
 
-                      {/* Startup Profile */}
                       {request.type === "startup" &&
                         request.relatedProfile.companyName && (
                           <div className="space-y-3">
@@ -570,7 +562,6 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                           </div>
                         )}
 
-                      {/* Service Request Details */}
                       {request.type === "service" && (
                         <div className="space-y-3">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -617,7 +608,6 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
             </div>
           )}
 
-          {/* Documents Section */}
           {request.documents && request.documents.length > 0 && (
             <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl border border-[#E5E7EB] overflow-hidden">
               <button
@@ -629,7 +619,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                   <span className="font-semibold text-[#111827]">
                     Attached Documents
                   </span>
-                  <span className="text-xs bg-gray-600 px-2 py-0.5 rounded-full text-[#374151]">
+                  <span className="text-xs bg-[#F3F4F6] border border-[#E5E7EB] px-2 py-0.5 rounded-full text-[#374151]">
                     {request.documents.length}
                   </span>
                 </div>
@@ -674,7 +664,6 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
             </div>
           )}
 
-          {/* Timeline Section */}
           {request.timeline && request.timeline.length > 0 && (
             <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl border border-[#E5E7EB] overflow-hidden">
               <button
@@ -708,7 +697,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                             <div className="flex flex-col items-center">
                               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 mt-1.5"></div>
                               {index < request.timeline.length - 1 && (
-                                <div className="w-0.5 h-full bg-gray-700 mt-1"></div>
+                                <div className="w-0.5 h-full bg-[#E5E7EB] mt-1"></div>
                               )}
                             </div>
                             <div className="flex-1 pb-3">
@@ -722,7 +711,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                               )}
                               <p className="text-xs text-[#6b7280] mt-1 flex items-center gap-1">
                                 <User className="w-3 h-3" />
-                                {event.by?.fullName || "System"} •{" "}
+                                {event.by?.fullName || "System"} �{" "}
                                 {formatDateTime(
                                   event.timestamp || event.createdAt,
                                 )}
@@ -738,7 +727,6 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
             </div>
           )}
 
-          {/* Assignment Info */}
           {request.assignedTeam && (
             <div className="bg-purple-500/10 border border-purple-500/30 rounded-xl p-4">
               <div className="flex items-center gap-2">
@@ -762,14 +750,13 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
           )}
         </div>
 
-        {/* Actions */}
         {isAssignable ? (
           <div className="sticky bottom-0 bg-white/90 backdrop-blur-sm border-t border-[#E5E7EB] p-4 backdrop-blur-sm rounded-b-2xl">
             {!showAssignForm ? (
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowAssignForm(true)}
-                  className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg"
+                  className="btn-institutional flex-1 py-2.5"
                 >
                   <UserPlus className="w-4 h-4" /> Assign to Team
                 </button>
@@ -811,7 +798,7 @@ const RequestDetailsModal = ({ request, onClose, onAssign, teams = [] }) => {
                   <button
                     onClick={handleAssign}
                     disabled={!selectedTeam || assigning}
-                    className="flex-1 bg-linear-to-r from-emerald-500 to-teal-700 text-[#111827] py-2.5 rounded-lg hover:from-emerald-600 hover:to-teal-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
+                    className="btn-institutional flex-1 py-2.5 disabled:opacity-50"
                   >
                     {assigning ? (
                       <>

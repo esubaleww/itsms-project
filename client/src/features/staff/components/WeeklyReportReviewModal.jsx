@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   X,
@@ -61,7 +61,7 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
   const reviewedReports = reports?.filter((r) => r.status === "reviewed") || [];
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -88,9 +88,7 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
 
         <div className="flex-1 overflow-y-auto p-5">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Left Side - Report List */}
             <div className="space-y-6">
-              {/* Pending Reports */}
               <div>
                 <h3 className="text-lg font-semibold text-[#111827] mb-3 flex items-center gap-2">
                   <AlertCircle className="w-5 h-5 text-yellow-400" />
@@ -128,7 +126,6 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
                 </div>
               </div>
 
-              {/* Reviewed Reports */}
               {reviewedReports.length > 0 && (
                 <div>
                   <h3 className="text-lg font-semibold text-[#111827] mb-3 flex items-center gap-2">
@@ -139,7 +136,7 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
                     {reviewedReports.map((report) => (
                       <div
                         key={report.week}
-                        className="p-3 rounded-lg border border-[#E5E7EB] bg-gray-700/20"
+                        className="p-3 rounded-lg border border-[#E5E7EB] bg-[#F9FAFB]"
                       >
                         <div className="flex justify-between items-center">
                           <div>
@@ -161,7 +158,6 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
               )}
             </div>
 
-            {/* Right Side - Report Details & Review Form */}
             <div className="space-y-6">
               {selectedReport ? (
                 <>
@@ -282,7 +278,7 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
                       <button
                         onClick={handleReview}
                         disabled={loading}
-                        className="w-full bg-emerald-600 hover:bg-emerald-700 text-[#111827] py-2 rounded-lg transition flex items-center justify-center gap-2"
+                        className="btn-institutional w-full py-2.5"
                       >
                         {loading ? (
                           <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent" />

@@ -36,8 +36,8 @@ import {
 import { useDirectorAnalytics } from "../../../hooks/useDirectorAnalytics";
 
 const CHART_COLORS = {
-  primary: "#10B981",
-  secondary: "#3B82F6",
+  primary: "#2563EB",
+  secondary: "#60A5FA",
   danger: "#EF4444",
   warning: "#F59E0B",
   purple: "#8B5CF6",
@@ -61,7 +61,7 @@ const DirectorAnalytics = () => {
     fetchAnalytics();
   }, []);
 
-  /* ---------- TEAM LOAD CALCULATION ---------- */
+  
   const enhancedTeams = useMemo(() => {
     return (analytics?.teamPerformance || []).map((team) => ({
       ...team,
@@ -69,7 +69,7 @@ const DirectorAnalytics = () => {
     }));
   }, [analytics]);
 
-  /* ---------- ALERT SYSTEM ---------- */
+  
   const alerts = useMemo(() => {
     const list = [];
 
@@ -92,7 +92,7 @@ const DirectorAnalytics = () => {
     return list;
   }, [analytics, enhancedTeams]);
 
-  /* ---------- RISKY/ACTIVE REQUESTS ---------- */
+  
   const riskyRequests = useMemo(() => {
     return (analytics?.recentRequests || []).filter(
       (r) => r.status !== "completed",
@@ -107,7 +107,7 @@ const DirectorAnalytics = () => {
     );
   }
 
-  /* ---------- METRICS CARDS ---------- */
+  
   const metrics = [
     {
       title: "Completion Rate",
@@ -139,7 +139,7 @@ const DirectorAnalytics = () => {
     },
   ];
 
-  /* ---------- DIRECTORATE-SPECIFIC METRICS ---------- */
+  
   const getDirectorateMetrics = () => {
     const type = analytics?.directorate?.type;
     if (type === "internship") {
@@ -211,7 +211,7 @@ const DirectorAnalytics = () => {
 
   const directorateMetrics = getDirectorateMetrics();
 
-  /* ---------- CHART DATA WITH COLORS ---------- */
+  
   const requestDistributionWithColors = (
     analytics?.requestDistribution || []
   ).map((item, i) => ({
@@ -226,7 +226,7 @@ const DirectorAnalytics = () => {
     fill: Object.values(CHART_COLORS)[i % Object.values(CHART_COLORS).length],
   }));
 
-  /* ---------- CHART TOOLTIP ---------- */
+  
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
@@ -245,7 +245,6 @@ const DirectorAnalytics = () => {
 
   return (
     <div className="space-y-6">
-      {/* ---------- ALERTS SECTION ---------- */}
       {alerts.length > 0 && (
         <div className="space-y-2">
           {alerts.map((alert, i) => (
@@ -265,7 +264,6 @@ const DirectorAnalytics = () => {
         </div>
       )}
 
-      {/* ---------- METRICS CARDS ---------- */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {metrics.map((metric, i) => (
           <motion.div
@@ -295,7 +293,6 @@ const DirectorAnalytics = () => {
         ))}
       </div>
 
-      {/* ---------- DIRECTORATE-SPECIFIC METRICS ---------- */}
       {directorateMetrics.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {directorateMetrics.map((metric, idx) => (
@@ -316,7 +313,6 @@ const DirectorAnalytics = () => {
         </div>
       )}
 
-      {/* ---------- WEEKLY ACTIVITY CHART ---------- */}
       <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
           <h3 className="text-[#111827] font-semibold flex items-center gap-2">
@@ -343,8 +339,8 @@ const DirectorAnalytics = () => {
             <AreaChart data={analytics?.weeklyActivity || []}>
               <defs>
                 <linearGradient id="colorRequests" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10B981" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#2563EB" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#2563EB" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3} />
@@ -375,7 +371,7 @@ const DirectorAnalytics = () => {
               <Area
                 type="monotone"
                 dataKey="requests"
-                stroke="#10B981"
+                stroke="#2563EB"
                 strokeWidth={2}
                 fill="url(#colorRequests)"
                 name="Requests"
@@ -401,7 +397,6 @@ const DirectorAnalytics = () => {
         </div>
       </div>
 
-      {/* ---------- REQUEST DISTRIBUTION (PIE CHART) ---------- */}
       <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
         <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
           <PieChart className="w-5 h-5 text-[#2563eb]" />
@@ -451,7 +446,6 @@ const DirectorAnalytics = () => {
         </div>
       </div>
 
-      {/* ---------- REQUEST STATUS (BAR CHART) ---------- */}
       <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
         <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
           <Target className="w-5 h-5 text-[#2563eb]" />
@@ -479,27 +473,27 @@ const DirectorAnalytics = () => {
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "#1e293b",
-                  borderColor: "#10b981",
+                  backgroundColor: "#ffffff",
+                  borderColor: "#2563EB",
                   borderRadius: "8px",
                   padding: "12px 16px",
-                  border: "1px solid #10b981",
+                  border: "1px solid #2563EB",
                 }}
                 labelStyle={{
-                  color: "#ffffff",
+                  color: "#111827",
                   fontSize: "12px",
                   fontWeight: "bold",
                   marginBottom: "8px",
-                  borderBottom: "1px solid #334155",
+                  borderBottom: "1px solid #E5E7EB",
                   paddingBottom: "6px",
                 }}
                 itemStyle={{
-                  color: "#cbd5e1",
+                  color: "#374151",
                   fontSize: "12px",
                   padding: "4px 0",
                 }}
                 cursor={{
-                  stroke: "#10b981",
+                  stroke: "#2563EB",
                   strokeWidth: 2,
                   strokeDasharray: "3 3",
                 }}
@@ -514,7 +508,6 @@ const DirectorAnalytics = () => {
         </div>
       </div>
 
-      {/* ---------- TEAM PERFORMANCE ---------- */}
       <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
         <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
           <Users className="w-5 h-5 text-[#2563eb]" />
@@ -542,7 +535,7 @@ const DirectorAnalytics = () => {
                 </div>
                 <div className="w-full bg-[#E5E7EB] rounded-full h-1.5">
                   <div
-                    className="bg-emerald-500 h-1.5 rounded-full"
+                    className="bg-[#2563eb] h-1.5 rounded-full"
                     style={{ width: `${team.completionRate}%` }}
                   />
                 </div>
@@ -556,7 +549,6 @@ const DirectorAnalytics = () => {
         </div>
       </div>
 
-      {/* ---------- ACTIVE/RISKY REQUESTS ---------- */}
       <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
         <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
           <AlertTriangle className="w-5 h-5 text-amber-400" />
