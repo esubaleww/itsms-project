@@ -35,7 +35,7 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
       value: "internship",
       label: "Internship",
       icon: GraduationCap,
-      color: "from-[#2563eb] to-[#93C5FD]",
+      color: "from-accent to-blue-500",
     },
     {
       value: "startup",
@@ -107,25 +107,27 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
   const TypeIcon = selectedType?.icon;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white rounded-2xl w-full max-w-md flex flex-col max-h-[90vh] border border-[#E5E7EB] shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+        className="bg-white rounded-2xl w-full max-w-md flex flex-col max-h-[90vh] border border-gray-200 shadow-xl"
       >
-        <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-sm z-10 rounded-t-2xl">
+        <div className="p-5 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10 rounded-t-2xl">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-[#EEF2FF] rounded-lg flex items-center justify-center border border-[#2563eb]/20">
-              <Building2 className="w-4 h-4 text-[#2563eb]" />
+            <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center border border-accent/20">
+              <Building2 className="w-4 h-4 text-accent" />
             </div>
-            <h2 className="text-xl font-bold text-[#111827]">Create Directorate</h2>
+            <h2 className="text-xl font-heading font-medium text-text-primary">
+              Create Directorate
+            </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
+            className="p-1 hover:bg-gray-100 rounded-lg transition"
           >
-            <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
+            <X className="w-5 h-5 text-text-muted hover:text-text-primary" />
           </button>
         </div>
 
@@ -136,16 +138,16 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
             className="space-y-4"
           >
             <div>
-              <label className="block text-sm font-medium text-[#374151] mb-1">
+              <label className="block text-sm font-medium text-text-secondary mb-1">
                 Directorate Name <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                 <input
                   type="text"
                   required
-                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm ${
-                    errors.name ? "border-red-500" : "border-[#D1D5DB]"
+                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all shadow-sm ${
+                    errors.name ? "border-red-500" : "border-gray-300"
                   }`}
                   value={formData.name}
                   onChange={(e) => handleInputChange("name", e.target.value)}
@@ -160,20 +162,20 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[#374151] mb-1">
+              <label className="block text-sm font-medium text-text-secondary mb-1">
                 Type <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                 <select
                   required
-                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm ${
-                    errors.type ? "border-red-500" : "border-[#D1D5DB]"
+                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all shadow-sm ${
+                    errors.type ? "border-red-500" : "border-gray-300"
                   }`}
                   value={formData.type}
                   onChange={(e) => handleInputChange("type", e.target.value)}
                 >
-                  <option value="" className="bg-white text-[#111827]">
+                  <option value="" className="bg-white text-text-primary">
                     Select Type
                   </option>
                   {types.map((t) => {
@@ -182,7 +184,7 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
                       <option
                         key={t.value}
                         value={t.value}
-                        className="bg-white text-[#111827]"
+                        className="bg-white text-text-primary"
                       >
                         {t.label}
                       </option>
@@ -198,18 +200,16 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
             </div>
 
             {selectedType && TypeIcon && (
-              <div
-                className="bg-[#F9FAFB] rounded-lg p-3 border border-[#E5E7EB]"
-              >
+              <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-white border border-[#E5E7EB] flex items-center justify-center">
-                    <TypeIcon className="w-5 h-5 text-[#2563eb]" />
+                  <div className="w-10 h-10 rounded-lg bg-white border border-gray-200 flex items-center justify-center">
+                    <TypeIcon className="w-5 h-5 text-accent" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-[#111827]">
+                    <p className="text-sm font-medium text-text-primary">
                       {selectedType.label}
                     </p>
-                    <p className="text-xs text-[#6b7280]">
+                    <p className="text-xs text-text-muted">
                       This directorate will handle{" "}
                       {selectedType.label.toLowerCase()} activities
                     </p>
@@ -219,14 +219,14 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-[#374151] mb-1">
+              <label className="block text-sm font-medium text-text-secondary mb-1">
                 Description
               </label>
               <div className="relative">
-                <FileText className="absolute left-3 top-3 w-4 h-4 text-[#6b7280]" />
+                <FileText className="absolute left-3 top-3 w-4 h-4 text-text-muted" />
                 <textarea
                   rows="3"
-                  className="w-full pl-9 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm"
+                  className="w-full pl-9 pr-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all shadow-sm"
                   value={formData.description}
                   onChange={(e) =>
                     handleInputChange("description", e.target.value)
@@ -234,23 +234,23 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
                   placeholder="Describe the directorate's purpose and responsibilities..."
                 />
               </div>
-              <p className="text-[#6b7280] text-xs mt-1">
+              <p className="text-text-muted text-xs mt-1">
                 Optional: Add details about what this directorate does
               </p>
             </div>
 
             {formData.name && formData.type && selectedType && TypeIcon && (
-              <div className="bg-[#F9FAFB] rounded-lg p-3 border border-[#E5E7EB]">
-                <p className="text-xs text-[#6b7280] mb-2">Preview:</p>
+              <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                <p className="text-xs text-text-muted mb-2">Preview:</p>
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg flex items-center justify-center">
-                    <TypeIcon className="w-4 h-4 text-[#2563eb]" />
+                  <div className="w-8 h-8 bg-blue-50 border border-accent/20 rounded-lg flex items-center justify-center">
+                    <TypeIcon className="w-4 h-4 text-accent" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-[#111827]">
+                    <p className="text-sm font-medium text-text-primary">
                       {formData.name}
                     </p>
-                    <p className="text-xs text-[#6b7280]">
+                    <p className="text-xs text-text-muted">
                       {selectedType.label} Directorate
                     </p>
                   </div>
@@ -260,13 +260,13 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
           </form>
         </div>
 
-        <div className="p-5 border-t border-[#E5E7EB] bg-[#F9FAFB] rounded-b-2xl sticky bottom-0">
+        <div className="p-5 border-t border-gray-200 bg-gray-50 rounded-b-2xl sticky bottom-0">
           <div className="flex gap-3">
             <button
               type="submit"
               form="create-directorate-form"
               disabled={loading}
-              className="btn-institutional flex-1 py-2.5 disabled:opacity-50"
+              className="flex-1 bg-accent text-white py-2.5 rounded-lg hover:bg-accent/90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -283,7 +283,7 @@ const CreateDirectorateModal = ({ onClose, onSubmit }) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 border border-[#D1D5DB] text-[#374151] py-2.5 rounded-lg hover:bg-[#F3F4F6] transition-all duration-200"
+              className="flex-1 border border-gray-300 text-text-secondary py-2.5 rounded-lg hover:bg-gray-50 transition-all duration-200"
             >
               Cancel
             </button>

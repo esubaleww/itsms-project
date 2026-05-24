@@ -25,7 +25,9 @@ const StaffStatsCards = ({
       value: stats?.totalTasks || 0,
       subValue: `${stats?.completedTasks || 0} completed`,
       icon: CheckSquare,
-      topBorder: "border-t-[3px] border-t-[#2563eb]",
+      bgColor: "bg-blue-50",
+      iconColor: "text-blue-600",
+      topBorder: "border-t-blue-600",
     });
   }
 
@@ -35,7 +37,9 @@ const StaffStatsCards = ({
       value: advisorStats.pendingReports || 0,
       subValue: `${advisorStats.totalInterns} total interns`,
       icon: GraduationCap,
-      topBorder: "border-t-[3px] border-t-[#f59e0b]",
+      bgColor: "bg-amber-50",
+      iconColor: "text-amber-600",
+      topBorder: "border-t-amber-500",
     });
   }
 
@@ -45,7 +49,9 @@ const StaffStatsCards = ({
       value: mentorStats.pendingReviews || 0,
       subValue: "Milestones awaiting feedback",
       icon: Lightbulb,
-      topBorder: "border-t-[3px] border-t-[#8b5cf6]",
+      bgColor: "bg-purple-50",
+      iconColor: "text-purple-600",
+      topBorder: "border-t-purple-500",
     });
 
     cards.push({
@@ -53,7 +59,9 @@ const StaffStatsCards = ({
       value: mentorStats.totalMentees || 0,
       subValue: "Innovators & startups in portfolio",
       icon: Users,
-      topBorder: "border-t-[3px] border-t-[#10b981]",
+      bgColor: "bg-green-50",
+      iconColor: "text-green-600",
+      topBorder: "border-t-green-500",
     });
   }
 
@@ -63,7 +71,9 @@ const StaffStatsCards = ({
       value: trainerStats.totalTrainees,
       subValue: `${trainerStats.pendingSessions || 0} upcoming sessions`,
       icon: School,
-      topBorder: "border-t-[3px] border-t-[#0ea5e9]",
+      bgColor: "bg-sky-50",
+      iconColor: "text-sky-600",
+      topBorder: "border-t-sky-500",
     });
   }
 
@@ -79,26 +89,26 @@ const StaffStatsCards = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className={`bg-white border-l border-r border-b border-[#E5E7EB] ${card.topBorder} rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden relative transition-all duration-200 ease-in-out hover:-translate-y-[3px] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)]`}
+            className={`bg-white border-l border-r border-b border-gray-200 ${card.topBorder} rounded-xl p-6 shadow-sm overflow-hidden relative transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md`}
           >
             <div className="flex justify-between items-start">
               <div className="z-10">
-                <p className="text-[#374151] text-[1rem] mb-1 font-medium">
+                <p className="text-text-secondary text-sm mb-1 font-medium">
                   {card.title}
                 </p>
-                <p className="text-[#111827] text-[2rem] font-bold mt-1">
+                <p className="text-text-primary text-2xl font-bold mt-1">
                   {typeof card.value === "number"
                     ? card.value.toLocaleString()
                     : card.value}
                 </p>
                 {card.subValue && (
-                  <p className="text-[#6b7280] text-[0.875rem] mt-2">
+                  <p className="text-text-muted text-xs mt-2">
                     {card.subValue}
                   </p>
                 )}
               </div>
-              <div className="bg-[#EEF2FF] rounded-[10px] p-[10px] group-hover:scale-105 transition-transform duration-200">
-                <Icon className="w-6 h-6 text-[#2563eb]" />
+              <div className={`${card.bgColor} rounded-lg p-2.5`}>
+                <Icon className={`w-6 h-6 ${card.iconColor}`} />
               </div>
             </div>
           </motion.div>

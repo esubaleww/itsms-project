@@ -5,31 +5,39 @@ const TeamStatsCards = ({ stats, membersCount }) => {
   const cards = [
     {
       title: "Completion Rate",
-      value: `${stats?.completionRate.toFixed(2) || 0}%`,
+      value: `${stats?.completionRate?.toFixed(2) || 0}%`,
       icon: TrendingUp,
       description: "Overall performance",
-      topBorder: "border-t-[3px] border-t-[#2563eb]",
+      bgColor: "bg-green-50",
+      iconColor: "text-green-600",
+      topBorder: "border-t-green-600",
     },
     {
       title: "Team Members",
       value: membersCount || 0,
       icon: Users,
       description: "Active members",
-      topBorder: "border-t-[3px] border-t-[#10b981]",
+      bgColor: "bg-blue-50",
+      iconColor: "text-blue-600",
+      topBorder: "border-t-blue-600",
     },
     {
       title: "Tasks Completed",
       value: stats?.stats?.completed || 0,
       icon: CheckCircle,
       description: "Successfully completed",
-      topBorder: "border-t-[3px] border-t-[#f59e0b]",
+      bgColor: "bg-emerald-50",
+      iconColor: "text-emerald-600",
+      topBorder: "border-t-emerald-600",
     },
     {
       title: "Team Rating",
       value: stats?.teamRating || "N/A",
       icon: Award,
       description: "Performance grade",
-      topBorder: "border-t-[3px] border-t-[#8b5cf6]",
+      bgColor: "bg-purple-50",
+      iconColor: "text-purple-600",
+      topBorder: "border-t-purple-600",
     },
   ];
 
@@ -43,24 +51,24 @@ const TeamStatsCards = ({ stats, membersCount }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
-            className={`bg-white border-l border-r border-b border-[#E5E7EB] ${card.topBorder} rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden transition-all duration-200 ease-in-out hover:-translate-y-[3px] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)]`}
+            className={`bg-white border-l border-r border-b border-gray-200 ${card.topBorder} rounded-xl p-6 shadow-sm overflow-hidden transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md`}
           >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-[#374151] text-[1rem] mb-1 font-medium">
+                <p className="text-text-secondary text-sm mb-1 font-medium">
                   {card.title}
                 </p>
-                <p className="text-[#111827] text-[2rem] font-bold mt-1">
+                <p className="text-text-primary text-3xl font-bold mt-1">
                   {typeof card.value === "number"
                     ? card.value.toLocaleString()
                     : card.value}
                 </p>
-                <p className="text-[#6b7280] text-[0.875rem] mt-2">
+                <p className="text-text-muted text-xs mt-2">
                   {card.description}
                 </p>
               </div>
-              <div className="bg-[#EEF2FF] rounded-[10px] p-[10px]">
-                <Icon className="w-6 h-6 text-[#2563eb]" />
+              <div className={`${card.bgColor} rounded-lg p-2.5`}>
+                <Icon className={`w-6 h-6 ${card.iconColor}`} />
               </div>
             </div>
           </motion.div>

@@ -40,21 +40,21 @@ const StaffList = ({
   const getPositionColor = (position) => {
     switch (position) {
       case "director":
-        return "bg-purple-500/20 text-purple-400 border border-purple-500/30";
+        return "bg-purple-50 text-purple-600 border border-purple-500/30";
       case "team_lead":
-        return "bg-blue-500/20 text-blue-400 border border-blue-500/30";
+        return "bg-blue-50 text-blue-600 border border-blue-500/30";
       case "technical_staff":
-        return "bg-gray-500/20 text-[#6b7280] border border-gray-500/30";
+        return "bg-gray-100 text-text-muted border border-gray-300";
       case "trainer":
-        return "bg-[#EEF2FF] text-[#2563eb] border border-[#2563eb]/30";
+        return "bg-blue-50 text-accent border border-accent/30";
       case "advisor":
-        return "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30";
+        return "bg-yellow-50 text-yellow-600 border border-yellow-500/30";
       case "hr_officer":
-        return "bg-pink-500/20 text-pink-400 border border-pink-500/30";
+        return "bg-pink-50 text-pink-600 border border-pink-500/30";
       case "innovation_officer":
-        return "bg-indigo-500/20 text-indigo-400 border border-indigo-500/30";
+        return "bg-indigo-50 text-indigo-600 border border-indigo-500/30";
       default:
-        return "bg-gray-500/20 text-[#6b7280] border border-gray-500/30";
+        return "bg-gray-100 text-text-muted border border-gray-300";
     }
   };
 
@@ -98,7 +98,7 @@ const StaffList = ({
   if (loading && !staff) {
     return (
       <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2563eb]"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent"></div>
       </div>
     );
   }
@@ -107,10 +107,10 @@ const StaffList = ({
     <div>
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-[#111827]">
+          <h2 className="text-xl sm:text-2xl font-heading font-medium text-text-primary">
             Staff Management
           </h2>
-          <p className="text-xs sm:text-sm text-[#6b7280] mt-1">
+          <p className="text-xs sm:text-sm text-text-muted mt-1">
             Manage staff members and their roles ({staff?.length || 0} total)
           </p>
         </div>
@@ -118,18 +118,18 @@ const StaffList = ({
 
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
           <input
             type="text"
             placeholder="Search by name or email..."
-            className="w-full pl-9 pr-4 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm"
+            className="w-full pl-9 pr-4 py-2 bg-white border border-gray-300 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all shadow-sm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           {searchTerm && (
             <button
               onClick={() => setSearchTerm("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6b7280] hover:text-[#374151]"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-secondary"
             >
               <X className="w-4 h-4" />
             </button>
@@ -137,12 +137,12 @@ const StaffList = ({
         </div>
 
         <select
-          className="px-4 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all cursor-pointer shadow-sm"
+          className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all cursor-pointer shadow-sm"
           value={filterPosition}
           onChange={(e) => setFilterPosition(e.target.value)}
         >
           {positions.map((p) => (
-            <option key={p} value={p} className="bg-white text-[#111827]">
+            <option key={p} value={p} className="bg-white text-text-primary">
               {p === "all" ? "All Positions" : getPositionLabel(p)}
             </option>
           ))}
@@ -150,7 +150,7 @@ const StaffList = ({
 
         <button
           onClick={onCreate}
-          className="bg-[#2563eb] text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-[#1d4ed8] transition-all duration-200 shadow-md whitespace-nowrap font-medium"
+          className="bg-accent text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-accent/90 transition-all duration-200 shadow-md whitespace-nowrap font-medium"
         >
           <Plus className="w-4 h-4" /> Add
         </button>
@@ -163,13 +163,13 @@ const StaffList = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.05 }}
-            className="bg-white border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-4 sm:p-5 hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-300 group"
+            className="bg-white border border-gray-200 shadow-sm rounded-xl p-4 sm:p-5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 group"
           >
             <div className="flex justify-between items-start">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-3 flex-wrap">
-                  <div className="w-8 h-8 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-full flex items-center justify-center">
-                    <User className="w-4 h-4 text-[#2563eb]" />
+                  <div className="w-8 h-8 bg-blue-50 border border-accent/20 rounded-full flex items-center justify-center">
+                    <User className="w-4 h-4 text-accent" />
                   </div>
                   <span
                     className={`px-2 py-1 rounded-full text-xs font-medium ${getPositionColor(staffMember.position)}`}
@@ -179,28 +179,28 @@ const StaffList = ({
                   <span
                     className={`px-2 py-1 rounded-full text-xs ${
                       staffMember.isActive
-                        ? "bg-[#EEF2FF] text-[#2563eb] border border-[#2563eb]/30"
-                        : "bg-red-500/20 text-red-500 border border-red-500/30"
+                        ? "bg-blue-50 text-accent border border-accent/30"
+                        : "bg-red-50 text-red-600 border border-red-500/30"
                     }`}
                   >
                     {staffMember.isActive ? "Active" : "Inactive"}
                   </span>
                 </div>
-                <h3 className="font-semibold text-[#111827] text-base sm:text-lg mb-1">
+                <h3 className="font-heading font-medium text-text-primary text-base sm:text-lg mb-1">
                   {staffMember.fullName}
                 </h3>
-                <div className="flex items-center gap-1 text-sm text-[#6b7280] mt-1">
+                <div className="flex items-center gap-1 text-sm text-text-muted mt-1">
                   <Mail className="w-3 h-3 shrink-0" />
                   <span className="truncate">{staffMember.email}</span>
                 </div>
                 {staffMember.phone && (
-                  <div className="flex items-center gap-1 text-sm text-[#6b7280] mt-1">
+                  <div className="flex items-center gap-1 text-sm text-text-muted mt-1">
                     <Phone className="w-3 h-3 shrink-0" />
                     <span>{staffMember.phone}</span>
                   </div>
                 )}
                 {staffMember.directorate?.name && (
-                  <div className="flex items-center gap-1 text-xs text-[#6b7280] mt-2">
+                  <div className="flex items-center gap-1 text-xs text-text-muted mt-2">
                     <Building2 className="w-3 h-3 shrink-0" />
                     <span className="truncate">
                       Directorate: {staffMember.directorate.name}
@@ -208,7 +208,7 @@ const StaffList = ({
                   </div>
                 )}
                 {staffMember.team?.name && (
-                  <div className="flex items-center gap-1 text-xs text-[#6b7280] mt-1">
+                  <div className="flex items-center gap-1 text-xs text-text-muted mt-1">
                     <Users className="w-3 h-3 shrink-0" />
                     <span className="truncate">
                       Team: {staffMember.team.name}
@@ -216,7 +216,7 @@ const StaffList = ({
                   </div>
                 )}
                 {staffMember.employeeId && (
-                  <p className="text-xs text-[#6b7280] mt-2">
+                  <p className="text-xs text-text-muted mt-2">
                     ID: {staffMember.employeeId}
                   </p>
                 )}
@@ -226,24 +226,24 @@ const StaffList = ({
                   onClick={() =>
                     onResetPassword(staffMember._id || staffMember.id)
                   }
-                  className="p-1.5 text-[#6b7280] hover:text-yellow-600 hover:bg-yellow-50 rounded-lg transition"
+                  className="p-1.5 text-text-muted hover:text-yellow-600 hover:bg-yellow-50 rounded-lg transition"
                   title="Reset Password"
                 >
-                  <Key className="w-3 h-3" />
+                  <Key className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => onEdit(staffMember)}
-                  className="p-1.5 text-[#6b7280] hover:text-[#2563eb] hover:bg-[#EEF2FF] rounded-lg transition"
+                  className="p-1.5 text-text-muted hover:text-accent hover:bg-blue-50 rounded-lg transition"
                   title="Edit"
                 >
-                  <Edit className="w-3 h-3" />
+                  <Edit className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => onDelete(staffMember._id || staffMember.id)}
-                  className="p-1.5 text-[#6b7280] hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                  className="p-1.5 text-text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition"
                   title="Delete"
                 >
-                  <Trash2 className="w-3 h-3" />
+                  <Trash2 className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -255,21 +255,21 @@ const StaffList = ({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center py-12 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB]"
+          className="text-center py-12 bg-white shadow-sm rounded-xl border border-gray-200"
         >
-          <Users className="w-16 h-16 text-[#9ca3af] mx-auto mb-4" />
-          <p className="text-[#6b7280]">No staff found</p>
+          <Users className="w-16 h-16 text-text-muted mx-auto mb-4" />
+          <p className="text-text-secondary">No staff found</p>
           {(searchTerm || filterPosition !== "all") && (
             <button
               onClick={clearFilters}
-              className="mt-2 text-[#2563eb] hover:text-[#1d4ed8] transition text-sm"
+              className="mt-2 text-accent hover:text-blue-700 transition text-sm"
             >
               Clear all filters
             </button>
           )}
           <button
             onClick={onCreate}
-            className="mt-4 text-[#2563eb] hover:text-[#1d4ed8] transition block mx-auto"
+            className="mt-4 text-accent hover:text-blue-700 transition block mx-auto"
           >
             + Add your first staff member
           </button>
@@ -277,7 +277,7 @@ const StaffList = ({
       )}
 
       {filtered?.length > 0 && (
-        <div className="mt-4 text-right text-sm text-[#6b7280]">
+        <div className="mt-4 text-right text-sm text-text-muted">
           Showing {filtered.length} of {staff?.length || 0} staff members
         </div>
       )}

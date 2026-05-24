@@ -50,7 +50,7 @@ const ProgramSection = ({ user, onTabChange }) => {
 
       return {
         type: "trainee",
-        icon: <School className="w-6 h-6 text-[#111827]" />,
+        icon: <School className="w-6 h-6 text-text-primary" />,
         title: "Training Program",
         status: "active",
         lastActivity: new Date().toISOString(),
@@ -63,7 +63,7 @@ const ProgramSection = ({ user, onTabChange }) => {
     } else if (user.position === "intern") {
       return {
         type: "intern",
-        icon: <GraduationCap className="w-6 h-6 text-[#111827]" />,
+        icon: <GraduationCap className="w-6 h-6 text-text-primary" />,
         title: "Internship Program",
         status: "active",
         lastActivity: new Date().toISOString(),
@@ -79,7 +79,7 @@ const ProgramSection = ({ user, onTabChange }) => {
     } else if (user.position === "innovator") {
       return {
         type: "innovator",
-        icon: <Lightbulb className="w-6 h-6 text-[#111827]" />,
+        icon: <Lightbulb className="w-6 h-6 text-text-primary" />,
         title: "Innovation Program",
         status: "active",
         lastActivity: new Date().toISOString(),
@@ -91,7 +91,7 @@ const ProgramSection = ({ user, onTabChange }) => {
     } else if (user.position === "startup") {
       return {
         type: "startup",
-        icon: <Rocket className="w-6 h-6 text-[#111827]" />,
+        icon: <Rocket className="w-6 h-6 text-text-primary" />,
         title: "Startup Program",
         status: "active",
         lastActivity: new Date().toISOString(),
@@ -131,7 +131,6 @@ const ProgramSection = ({ user, onTabChange }) => {
     }
   }, [user, fetchIntern, fetchInnovator, fetchStartup, fetchTrainee]);
 
-  // Update when data changes - without causing infinite loop
   useEffect(() => {
     if (!hasLoadedRef.current || loading) return;
 
@@ -176,9 +175,9 @@ const ProgramSection = ({ user, onTabChange }) => {
 
   if (loading) {
     return (
-      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl border border-[#E5E7EB] p-8">
+      <div className="bg-white shadow-sm rounded-2xl border border-gray-200 p-8">
         <div className="flex justify-center items-center h-32">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2563eb]" />
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent" />
         </div>
       </div>
     );
@@ -186,33 +185,33 @@ const ProgramSection = ({ user, onTabChange }) => {
 
   if (!programData) {
     return (
-      <div className="text-center py-12 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-2xl border border-[#E5E7EB] transition-all duration-200 hover:border-[#2563eb]/50">
-        <div className="w-20 h-20 bg-[#EEF2FF] rounded-full flex items-center justify-center mx-auto mb-4">
-          <Sparkles className="w-10 h-10 text-[#2563eb]" />
+      <div className="text-center py-12 bg-white shadow-sm rounded-2xl border border-gray-200 transition-all duration-200 hover:border-accent/50">
+        <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+          <Sparkles className="w-10 h-10 text-accent" />
         </div>
-        <h3 className="text-lg font-semibold text-[#111827] mb-2">
+        <h3 className="text-lg font-heading font-medium text-text-primary mb-2">
           No Active Program
         </h3>
-        <p className="text-[#6b7280] text-sm mb-4 max-w-md mx-auto">
+        <p className="text-text-muted text-sm mb-4 max-w-md mx-auto">
           You haven't applied for any program yet. Join our internship,
           innovation, or training programs to start your journey.
         </p>
         <div className="flex flex-wrap gap-3 justify-center">
           <button
             onClick={() => navigate("/applications/apply/internship")}
-            className="btn-institutional px-4 py-2"
+            className="btn-filled px-4 py-2"
           >
             Apply for Internship
           </button>
           <button
             onClick={() => navigate("/applications/apply/innovator")}
-            className="px-4 py-2 border border-purple-500/50 text-purple-400 rounded-lg hover:bg-purple-500/10 transition"
+            className="px-4 py-2 border border-purple-500/50 text-purple-600 rounded-lg hover:bg-purple-50 transition"
           >
             Apply for Innovation
           </button>
           <button
             onClick={() => navigate("/services/browse")}
-            className="px-4 py-2 border border-[#D1D5DB] text-[#374151] rounded-lg hover:bg-[#F3F4F6] transition"
+            className="px-4 py-2 border border-gray-300 text-text-secondary rounded-lg hover:bg-gray-50 transition"
           >
             Browse All Programs
           </button>

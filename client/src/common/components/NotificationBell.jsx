@@ -73,13 +73,13 @@ const NotificationBell = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl shadow-2xl border border-[#E5E7EB] overflow-hidden z-20 animate-fadeIn">
+        <div className="absolute right-0 mt-2 w-80 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden z-20 animate-fadeIn">
           <div className="p-3 border-b border-[#E5E7EB] flex justify-between items-center bg-white/90 backdrop-blur-sm">
-            <h3 className="font-semibold text-[#111827]">Notifications</h3>
+            <h3 className="font-medium text-[#111827]">Notifications</h3>
             {unreadCount > 0 && (
               <button
                 onClick={markAllAsRead}
-                className="text-xs text-[#2563eb] hover:text-[#1d4ed8]"
+                className="text-xs text-accent hover:text-[#1d4ed8]"
               >
                 Mark all as read
               </button>
@@ -103,7 +103,7 @@ const NotificationBell = () => {
                 >
                   <div className="flex items-start gap-2">
                     {!notif.isRead && (
-                      <div className="w-2 h-2 bg-[#2563eb] rounded-full mt-1.5 shrink-0" />
+                      <div className="w-2 h-2 bg-accent rounded-full mt-1.5 shrink-0" />
                     )}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
@@ -134,7 +134,7 @@ const NotificationBell = () => {
           <div className="p-2 border-t border-[#E5E7EB] bg-white/90 backdrop-blur-sm">
             <button
               onClick={handleViewAll}
-              className="w-full text-center text-sm text-[#2563eb] hover:text-[#1d4ed8] py-1"
+              className="w-full text-center text-sm text-accent hover:text-[#1d4ed8] py-1"
             >
               View all notifications
             </button>

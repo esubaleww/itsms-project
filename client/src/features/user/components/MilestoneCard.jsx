@@ -20,19 +20,19 @@ import DocumentItem from "../../../common/components/DocumentItem";
 const statusConfig = {
   pending: {
     label: "Pending",
-    color: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+    color: "bg-yellow-50 text-yellow-600 border-yellow-500/30",
     icon: Clock,
     nextStatus: "in_progress",
   },
   in_progress: {
     label: "In Progress",
-    color: "bg-[#EEF2FF] text-[#2563eb] border-[#2563eb]/30",
+    color: "bg-blue-50 text-accent border-accent/30",
     icon: AlertCircle,
     nextStatus: "completed",
   },
   completed: {
     label: "Completed",
-    color: "bg-[#EEF2FF] text-[#2563eb] border-[#2563eb]/30",
+    color: "bg-blue-50 text-accent border-accent/30",
     icon: CheckCircle,
     nextStatus: null,
   },
@@ -113,20 +113,20 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
-      className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200"
+      className="bg-gray-50 border border-gray-200 rounded-xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
     >
       <div
-        className="p-4 cursor-pointer hover:bg-[#F3F4F6]/20 transition"
+        className="p-4 cursor-pointer hover:bg-gray-100/20 transition"
         onClick={() => setExpanded(!expanded)}
       >
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3 flex-1">
-            <div className="w-10 h-10 rounded-lg bg-[#EEF2FF] border border-[#2563eb]/20 flex items-center justify-center">
-              <Target className="w-5 h-5 text-[#2563eb]" />
+            <div className="w-10 h-10 rounded-lg bg-blue-50 border border-accent/20 flex items-center justify-center">
+              <Target className="w-5 h-5 text-accent" />
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="font-semibold text-[#111827]">
+                <h3 className="font-heading font-medium text-text-primary">
                   Milestone {index + 1}: {milestone.title}
                 </h3>
                 <span
@@ -136,28 +136,30 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
                   {status.label}
                 </span>
               </div>
-              <p className="text-sm text-[#6b7280] mt-1 line-clamp-1">
+              <p className="text-sm text-text-muted mt-1 line-clamp-1">
                 {milestone.description}
               </p>
             </div>
           </div>
           {expanded ? (
-            <ChevronUp className="w-5 h-5 text-[#6b7280]" />
+            <ChevronUp className="w-5 h-5 text-text-muted" />
           ) : (
-            <ChevronDown className="w-5 h-5 text-[#6b7280]" />
+            <ChevronDown className="w-5 h-5 text-text-muted" />
           )}
         </div>
       </div>
 
       {expanded && (
-        <div className="px-4 pb-4 pt-2 border-t border-[#E5E7EB] space-y-3">
-          <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-lg p-3">
-            <p className="text-sm text-[#374151]">{milestone.description}</p>
+        <div className="px-4 pb-4 pt-2 border-t border-gray-200 space-y-3">
+          <div className="bg-white shadow-sm rounded-lg p-3 border border-gray-200">
+            <p className="text-sm text-text-secondary">
+              {milestone.description}
+            </p>
           </div>
 
           {milestone.resources && milestone.resources.length > 0 && (
-            <div className="bg-blue-500/10 rounded-lg p-3 border border-blue-500/20">
-              <p className="text-xs text-blue-400 mb-2 flex items-center gap-1">
+            <div className="bg-blue-50 rounded-lg p-3 border border-blue-200">
+              <p className="text-xs text-blue-600 mb-2 flex items-center gap-1">
                 <FileText className="w-3 h-3" />
                 Resources Provided by Mentor:
               </p>
@@ -175,7 +177,7 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
           )}
 
           {milestone.dueDate && (
-            <div className="flex items-center gap-2 text-xs text-[#6b7280]">
+            <div className="flex items-center gap-2 text-xs text-text-muted">
               <Clock className="w-3 h-3" />
               <span>
                 Due: {new Date(milestone.dueDate).toLocaleDateString()}
@@ -191,10 +193,10 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
                 handleStartWorking();
               }}
               disabled={updating}
-              className="btn-institutional w-full py-2 disabled:opacity-50"
+              className="btn-filled w-full py-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {updating ? (
-                <div className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent" />
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
               ) : (
                 <>Start Working</>
               )}
@@ -208,7 +210,7 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
                 e.stopPropagation();
                 setShowEvidenceForm(true);
               }}
-              className="btn-institutional w-full py-2"
+              className="btn-filled w-full py-2"
             >
               <Upload className="w-4 h-4" />
               Submit Work for Review
@@ -217,11 +219,11 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
 
           {showEvidenceForm && (
             <div
-              className="space-y-3 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-lg p-4"
+              className="space-y-3 bg-white shadow-sm rounded-lg p-4 border border-gray-200"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between items-center">
-                <h4 className="text-sm font-semibold text-[#111827]">
+                <h4 className="text-sm font-heading font-medium text-text-primary">
                   Submit Your Work
                 </h4>
                 <button
@@ -229,7 +231,7 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
                     setShowEvidenceForm(false);
                     setEvidence({ description: "", files: [] });
                   }}
-                  className="text-[#6b7280] hover:text-[#111827]"
+                  className="text-text-muted hover:text-text-primary"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -242,7 +244,7 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
                   setEvidence({ ...evidence, description: e.target.value })
                 }
                 rows={3}
-                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] text-sm focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
               />
 
               <DocumentUpload
@@ -254,11 +256,11 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
 
               {evidence.files.length > 0 && (
                 <div className="space-y-2">
-                  <p className="text-xs text-[#6b7280]">Attached Files:</p>
+                  <p className="text-xs text-text-muted">Attached Files:</p>
                   {evidence.files.map((file, idx) => (
                     <div
                       key={idx}
-                      className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 flex items-center justify-between border border-[#D1D5DB]"
+                      className="bg-gray-50 rounded-lg p-3 flex items-center justify-between border border-gray-200"
                     >
                       <div className="flex items-center gap-3 flex-1 min-w-0">
                         {file.isImage && file.url ? (
@@ -268,13 +270,13 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
                             alt="preview"
                           />
                         ) : (
-                          <FileText className="w-5 h-5 text-[#2563eb]" />
+                          <FileText className="w-5 h-5 text-accent" />
                         )}
                         <div className="flex-1 min-w-0">
-                          <p className="text-[#111827] text-sm font-medium truncate">
+                          <p className="text-text-primary text-sm font-medium truncate">
                             {file.name || "Document"}
                           </p>
-                          <p className="text-xs text-[#6b7280]">
+                          <p className="text-xs text-text-muted">
                             {(file.size / 1024 / 1024).toFixed(2)} MB
                           </p>
                         </div>
@@ -284,14 +286,14 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
                           <>
                             <button
                               onClick={() => openFile(file.url)}
-                              className="p-1 text-blue-400 hover:text-blue-300"
+                              className="p-1 text-blue-500 hover:text-blue-600"
                             >
                               <Eye className="w-4 h-4" />
                             </button>
                             <a
                               href={file.url}
                               download
-                              className="p-1 text-[#6b7280] hover:text-[#2563eb]"
+                              className="p-1 text-text-muted hover:text-accent"
                             >
                               <Download className="w-4 h-4" />
                             </a>
@@ -313,7 +315,7 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
                 type="button"
                 onClick={handleSubmitEvidence}
                 disabled={!canSubmitEvidence || uploading}
-                className="btn-institutional w-full py-2 disabled:opacity-50"
+                className="btn-filled w-full py-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {uploading ? (
                   <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
@@ -328,15 +330,15 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
           )}
 
           {milestone.status === "completed" && milestone.evidence && (
-            <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-lg p-3">
-              <p className="text-xs text-[#2563eb] mb-2 flex items-center gap-1">
+            <div className="bg-white shadow-sm rounded-lg p-3 border border-gray-200">
+              <p className="text-xs text-accent mb-2 flex items-center gap-1">
                 <FileText className="w-3 h-3" />
                 Work Submitted:
               </p>
               {milestone.evidence.description && (
                 <div className="mb-3">
-                  <p className="text-xs text-[#6b7280] mb-1">Description:</p>
-                  <p className="text-sm text-[#374151]">
+                  <p className="text-xs text-text-muted mb-1">Description:</p>
+                  <p className="text-sm text-text-secondary">
                     {milestone.evidence.description}
                   </p>
                 </div>
@@ -358,7 +360,7 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
           )}
 
           {milestone.status === "completed" && milestone.completedAt && (
-            <div className="text-xs text-[#2563eb]/70 flex items-center gap-2">
+            <div className="text-xs text-accent/70 flex items-center gap-2">
               <CheckCircle className="w-3 h-3" />
               <span>
                 Completed on:{" "}
@@ -368,9 +370,11 @@ const MilestoneCard = ({ milestone, onUpdateStatus, index }) => {
           )}
 
           {milestone.feedback && (
-            <div className="bg-purple-500/10 rounded-lg p-3 border border-purple-500/20">
-              <p className="text-xs text-purple-400 mb-1">Mentor Feedback:</p>
-              <p className="text-sm text-[#374151]">{milestone.feedback}</p>
+            <div className="bg-purple-50 rounded-lg p-3 border border-purple-200">
+              <p className="text-xs text-purple-600 mb-1">Mentor Feedback:</p>
+              <p className="text-sm text-text-secondary">
+                {milestone.feedback}
+              </p>
             </div>
           )}
         </div>

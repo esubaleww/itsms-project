@@ -220,17 +220,17 @@ const AdminDashboardPage = () => {
 
   if (loading && !stats) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6]">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-b from-gray-50 to-gray-100">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563eb] mx-auto"></div>
-          <p className="mt-4 text-[#6b7280]">Loading dashboard...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto"></div>
+          <p className="mt-4 text-text-muted">Loading dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6]">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-gray-100 font-body">
       <AdminHeader
         onRefresh={fetchAll}
         title="Admin Dashboard"
@@ -241,7 +241,7 @@ const AdminDashboardPage = () => {
 
       <div className="flex">
         <aside
-          className={`hidden md:block fixed left-0 top-16 h-[calc(100vh-4rem)] transition-all duration-300 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-r border-[#E5E7EB] ${
+          className={`hidden md:block fixed left-0 top-16 h-[calc(100vh-4rem)] transition-all duration-300 bg-white shadow-sm border-r border-gray-200 ${
             sidebarCollapsed ? "w-20" : "w-64"
           }`}
           style={{ zIndex: 40 }}
@@ -256,8 +256,8 @@ const AdminDashboardPage = () => {
             w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap
             ${
               activeTab === item.id
-                ? "bg-[#EEF2FF] text-[#2563eb] font-medium border-l-[3px] border-[#2563eb]"
-                : "text-[#374151] hover:bg-[#F3F4F6] hover:text-[#111827]"
+                ? "bg-blue-50 text-accent font-medium border-l-[3px] border-accent"
+                : "text-text-secondary hover:bg-gray-50 hover:text-text-primary"
             }
             ${sidebarCollapsed ? "justify-center px-2" : ""}
           `}
@@ -270,21 +270,25 @@ const AdminDashboardPage = () => {
                     </span>
                   )}
                   {!sidebarCollapsed && item.count > 0 && (
-                    <span className="text-xs px-2 py-0.5 bg-[#2563eb]/10 text-[#2563eb] rounded-full shrink-0">
+                    <span className="text-xs px-2 py-0.5 bg-accent/10 text-accent rounded-full shrink-0">
                       {item.count}
                     </span>
                   )}
                 </button>
               ))}
-              <div className="border-t border-[#E5E7EB] mt-2 pt-2">
+              <div className="border-t border-gray-200 mt-2 pt-2">
                 <button
                   onClick={handleLogout}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap text-red-500 hover:bg-red-50 ${sidebarCollapsed ? "justify-center px-2" : ""}`}
                   title={sidebarCollapsed ? "Sign Out" : ""}
                 >
-                  <div className="shrink-0"><LogOut className="w-5 h-5" /></div>
+                  <div className="shrink-0">
+                    <LogOut className="w-5 h-5" />
+                  </div>
                   {!sidebarCollapsed && (
-                    <span className="text-sm font-medium flex-1 text-left">Sign Out</span>
+                    <span className="text-sm font-medium flex-1 text-left">
+                      Sign Out
+                    </span>
                   )}
                 </button>
               </div>
@@ -292,12 +296,12 @@ const AdminDashboardPage = () => {
           </div>
           <button
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            className="absolute -right-3 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-100 rounded-full p-1.5 shadow-lg z-20 transition-colors border border-[#E5E7EB]"
+            className="absolute -right-3 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-100 rounded-full p-1.5 shadow-md z-20 transition-colors border border-gray-200"
           >
             {sidebarCollapsed ? (
-              <ChevronRight className="w-4 h-4 text-[#334155]" />
+              <ChevronRight className="w-4 h-4 text-text-muted" />
             ) : (
-              <ChevronLeft className="w-4 h-4 text-[#334155]" />
+              <ChevronLeft className="w-4 h-4 text-text-muted" />
             )}
           </button>
         </aside>
@@ -310,22 +314,22 @@ const AdminDashboardPage = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setMobileSidebarOpen(false)}
-                className="fixed inset-0 bg-black/60 z-40 md:hidden"
+                className="fixed inset-0 bg-black/50 z-40 md:hidden"
               />
               <motion.aside
                 initial={{ x: -280 }}
                 animate={{ x: 0 }}
                 exit={{ x: -280 }}
                 transition={{ type: "tween", duration: 0.3 }}
-                className="fixed left-0 top-0 bottom-0 w-64 bg-white border-r border-[#E5E7EB] z-[9999] md:hidden"
+                className="fixed left-0 top-0 bottom-0 w-64 bg-white border-r border-gray-200 z-50 md:hidden"
               >
-                <div className="flex justify-between items-center p-4 border-b border-[#E5E7EB]">
-                  <span className="text-[#0f172a] font-bold">Menu</span>
+                <div className="flex justify-between items-center p-4 border-b border-gray-200">
+                  <span className="text-text-primary font-bold">Menu</span>
                   <button
                     onClick={() => setMobileSidebarOpen(false)}
                     className="p-1 hover:bg-gray-100 rounded-lg"
                   >
-                    <X className="w-5 h-5 text-[#4b5563]" />
+                    <X className="w-5 h-5 text-text-muted" />
                   </button>
                 </div>
                 <nav className="p-4 space-y-1 overflow-y-auto h-[calc(100%-4rem)]">
@@ -337,8 +341,8 @@ const AdminDashboardPage = () => {
                         w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
                         ${
                           activeTab === item.id
-                            ? "bg-[#EEF2FF] text-[#2563eb] font-medium border-l-[3px] border-[#2563eb]"
-                            : "text-[#374151] hover:bg-[#F3F4F6] hover:text-[#111827]"
+                            ? "bg-blue-50 text-accent font-medium border-l-[3px] border-accent"
+                            : "text-text-secondary hover:bg-gray-50 hover:text-text-primary"
                         }
                       `}
                     >
@@ -347,13 +351,13 @@ const AdminDashboardPage = () => {
                         {item.label}
                       </span>
                       {item.count > 0 && (
-                        <span className="text-xs px-2 py-0.5 bg-[#2563eb]/10 text-[#2563eb] rounded-full">
+                        <span className="text-xs px-2 py-0.5 bg-accent/10 text-accent rounded-full">
                           {item.count}
                         </span>
                       )}
                     </button>
                   ))}
-                  <div className="border-t border-[#E5E7EB] mt-2 pt-2">
+                  <div className="border-t border-gray-200 mt-2 pt-2">
                     <button
                       onClick={handleLogout}
                       className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-red-500 hover:bg-red-50"
@@ -381,24 +385,24 @@ const AdminDashboardPage = () => {
                   />
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-                    <div className="bg-white rounded-xl border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200 ease-in-out overflow-hidden">
-                      <div className="px-6 py-4 border-b border-[#E5E7EB] flex justify-between items-center">
-                        <h2 className="text-lg font-semibold text-[#111827] flex items-center gap-2">
-                          <FileText className="w-5 h-5 text-[#2563eb]" />
+                    <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
+                      <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <h2 className="text-lg font-heading font-medium text-text-primary flex items-center gap-2">
+                          <FileText className="w-5 h-5 text-accent" />
                           Recent Requests
                         </h2>
                         <button
                           onClick={() => handleTabChange("requests")}
-                          className="text-sm text-[#2563eb] hover:text-[#1d4ed8] transition"
+                          className="text-sm text-accent hover:text-blue-700 transition"
                         >
                           View all →
                         </button>
                       </div>
-                      <div className="divide-y divide-[#E5E7EB]">
+                      <div className="divide-y divide-gray-200">
                         {pendingRequests?.slice(0, 5).map((req) => (
                           <div
                             key={req._id}
-                            className="px-6 py-4 hover:bg-[#F3F4F6] cursor-pointer transition"
+                            className="px-6 py-4 hover:bg-gray-50 cursor-pointer transition"
                             onClick={() => {
                               setSelectedRequest(req);
                               setModalType("request_detail");
@@ -407,21 +411,21 @@ const AdminDashboardPage = () => {
                           >
                             <div className="flex justify-between items-start">
                               <div>
-                                <p className="font-medium text-[#111827]">
+                                <p className="font-medium text-text-primary">
                                   {req.applicant?.fullName || "Unknown"}
                                 </p>
-                                <p className="text-sm text-[#374151] mt-0.5 capitalize">
+                                <p className="text-sm text-text-secondary mt-0.5 capitalize">
                                   {req.type}
                                 </p>
                               </div>
-                              <span className="text-xs text-[#64748b]">
+                              <span className="text-xs text-text-muted">
                                 {new Date(req.createdAt).toLocaleDateString()}
                               </span>
                             </div>
                           </div>
                         ))}
                         {pendingRequests?.length === 0 && (
-                          <div className="px-6 py-8 text-center text-[#6b7280]">
+                          <div className="px-6 py-8 text-center text-text-muted">
                             <FileText className="w-10 h-10 mx-auto text-gray-400 mb-2" />
                             <p>No pending requests</p>
                           </div>
@@ -429,24 +433,24 @@ const AdminDashboardPage = () => {
                       </div>
                     </div>
 
-                    <div className="bg-white rounded-xl border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden">
-                      <div className="px-6 py-4 border-b border-[#E5E7EB] flex justify-between items-center">
-                        <h2 className="text-lg font-semibold text-[#111827] flex items-center gap-2">
-                          <Award className="w-5 h-5 text-[#2563eb]" />
+                    <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
+                      <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <h2 className="text-lg font-heading font-medium text-text-primary flex items-center gap-2">
+                          <Award className="w-5 h-5 text-accent" />
                           Recent Reports
                         </h2>
                         <button
                           onClick={() => handleTabChange("reports")}
-                          className="text-sm text-[#2563eb] hover:text-[#1d4ed8] transition"
+                          className="text-sm text-accent hover:text-blue-700 transition"
                         >
                           View all →
                         </button>
                       </div>
-                      <div className="divide-y divide-[#E5E7EB]">
+                      <div className="divide-y divide-gray-200">
                         {directorReports?.slice(0, 5).map((report) => (
                           <div
                             key={report._id}
-                            className="px-6 py-4 hover:bg-[#F3F4F6] cursor-pointer transition"
+                            className="px-6 py-4 hover:bg-gray-50 cursor-pointer transition"
                             onClick={() => {
                               setSelectedReport(report);
                               setModalType("report_detail");
@@ -455,10 +459,10 @@ const AdminDashboardPage = () => {
                           >
                             <div className="flex justify-between items-start">
                               <div>
-                                <p className="font-medium text-[#111827]">
+                                <p className="font-medium text-text-primary">
                                   {report.title}
                                 </p>
-                                <p className="text-sm text-[#374151] mt-0.5">
+                                <p className="text-sm text-text-secondary mt-0.5">
                                   By:{" "}
                                   {report.submittedBy?.fullName || "Unknown"}
                                 </p>
@@ -466,12 +470,12 @@ const AdminDashboardPage = () => {
                               <span
                                 className={`px-2 py-1 rounded-full text-xs font-medium ${
                                   report.status === "approved"
-                                    ? "bg-green-500/20 text-green-700"
+                                    ? "bg-green-50 text-green-600"
                                     : report.status === "rejected"
-                                      ? "bg-red-500/20 text-red-700"
+                                      ? "bg-red-50 text-red-600"
                                       : report.status === "reviewed"
-                                        ? "bg-blue-500/20 text-blue-700"
-                                        : "bg-yellow-500/20 text-yellow-700"
+                                        ? "bg-blue-50 text-blue-600"
+                                        : "bg-yellow-50 text-yellow-600"
                                 }`}
                               >
                                 {report.status || "pending"}
@@ -480,7 +484,7 @@ const AdminDashboardPage = () => {
                           </div>
                         ))}
                         {directorReports?.length === 0 && (
-                          <div className="px-6 py-8 text-center text-[#6b7280]">
+                          <div className="px-6 py-8 text-center text-text-muted">
                             <Award className="w-10 h-10 mx-auto text-gray-400 mb-2" />
                             <p>No reports submitted</p>
                           </div>
@@ -489,9 +493,9 @@ const AdminDashboardPage = () => {
                     </div>
                   </div>
 
-                  <div className="mt-6 bg-[#F3F4F6] border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6">
-                    <h3 className="text-lg font-semibold text-[#111827] mb-4 flex items-center gap-2">
-                      <Zap className="w-5 h-5 text-[#2563eb]" />
+                  <div className="mt-6 bg-gray-50 border border-gray-200 shadow-sm rounded-xl p-6">
+                    <h3 className="text-lg font-heading font-medium text-text-primary mb-4 flex items-center gap-2">
+                      <Zap className="w-5 h-5 text-accent" />
                       Quick Actions
                     </h3>
                     <div className="flex flex-wrap gap-3">
@@ -501,9 +505,10 @@ const AdminDashboardPage = () => {
                           setFormData({});
                           setShowModal(true);
                         }}
-                        className="px-5 py-2.5 rounded-full border border-[#93C5FD] text-[#1D4ED8] bg-[#2563eb]/[0.04] font-medium tracking-[0.2px] transition-all duration-200 hover:bg-[#2563eb] hover:text-white hover:-translate-y-px hover:shadow-[0_6px_16px_rgba(37,99,235,0.2)] flex items-center gap-2 group shadow-sm"
+                        className="px-5 py-2.5 rounded-full border border-accent/30 text-accent bg-accent/5 font-medium transition-all duration-200 hover:bg-accent hover:text-white hover:-translate-y-px hover:shadow-md flex items-center gap-2 group shadow-sm"
                       >
-                        <Users className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity" /> Add Staff
+                        <Users className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity" />{" "}
+                        Add Staff
                       </button>
                       <button
                         onClick={() => {
@@ -511,9 +516,10 @@ const AdminDashboardPage = () => {
                           setFormData({});
                           setShowModal(true);
                         }}
-                        className="px-5 py-2.5 rounded-full border border-[#93C5FD] text-[#1D4ED8] bg-[#2563eb]/[0.04] font-medium tracking-[0.2px] transition-all duration-200 hover:bg-[#2563eb] hover:text-white hover:-translate-y-px hover:shadow-[0_6px_16px_rgba(37,99,235,0.2)] flex items-center gap-2 group shadow-sm"
+                        className="px-5 py-2.5 rounded-full border border-accent/30 text-accent bg-accent/5 font-medium transition-all duration-200 hover:bg-accent hover:text-white hover:-translate-y-px hover:shadow-md flex items-center gap-2 group shadow-sm"
                       >
-                        <Building2 className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity" /> Add Directorate
+                        <Building2 className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity" />{" "}
+                        Add Directorate
                       </button>
                       <button
                         onClick={() => {
@@ -521,15 +527,17 @@ const AdminDashboardPage = () => {
                           setFormData({});
                           setShowModal(true);
                         }}
-                        className="px-5 py-2.5 rounded-full border border-[#93C5FD] text-[#1D4ED8] bg-[#2563eb]/[0.04] font-medium tracking-[0.2px] transition-all duration-200 hover:bg-[#2563eb] hover:text-white hover:-translate-y-px hover:shadow-[0_6px_16px_rgba(37,99,235,0.2)] flex items-center gap-2 group shadow-sm"
+                        className="px-5 py-2.5 rounded-full border border-accent/30 text-accent bg-accent/5 font-medium transition-all duration-200 hover:bg-accent hover:text-white hover:-translate-y-px hover:shadow-md flex items-center gap-2 group shadow-sm"
                       >
-                        <Megaphone className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity" /> Post Announcement
+                        <Megaphone className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity" />{" "}
+                        Post Announcement
                       </button>
                       <button
                         onClick={() => handleTabChange("requests")}
-                        className="px-5 py-2.5 rounded-full border border-[#93C5FD] text-[#1D4ED8] bg-[#2563eb]/[0.04] font-medium tracking-[0.2px] transition-all duration-200 hover:bg-[#2563eb] hover:text-white hover:-translate-y-px hover:shadow-[0_6px_16px_rgba(37,99,235,0.2)] flex items-center gap-2 group shadow-sm"
+                        className="px-5 py-2.5 rounded-full border border-accent/30 text-accent bg-accent/5 font-medium transition-all duration-200 hover:bg-accent hover:text-white hover:-translate-y-px hover:shadow-md flex items-center gap-2 group shadow-sm"
                       >
-                        <Clock className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity" /> Review Pending
+                        <Clock className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity" />{" "}
+                        Review Pending
                       </button>
                     </div>
                   </div>

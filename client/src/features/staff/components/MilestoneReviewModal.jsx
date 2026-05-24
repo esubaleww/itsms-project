@@ -21,17 +21,17 @@ import { DocumentUpload } from "../../../common/components/DocumentUpload";
 const statusConfig = {
   pending: {
     label: "Pending",
-    color: "bg-yellow-500/20 text-yellow-400",
+    color: "bg-yellow-50 text-yellow-600",
     icon: Clock,
   },
   in_progress: {
     label: "In Progress",
-    color: "bg-blue-500/20 text-blue-400",
+    color: "bg-blue-50 text-blue-600",
     icon: AlertCircle,
   },
   completed: {
     label: "Completed",
-    color: "bg-[#EEF2FF] text-[#2563eb]",
+    color: "bg-blue-50 text-accent",
     icon: CheckCircle,
   },
 };
@@ -115,32 +115,32 @@ const MilestoneReviewModal = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden border border-[#E5E7EB] shadow-2xl"
+        className="bg-white shadow-lg rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden border border-gray-200"
       >
-        <div className="sticky top-0 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/95 border-b border-[#E5E7EB] p-5 flex justify-between items-center">
+        <div className="sticky top-0 bg-white border-b border-gray-200 p-5 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#EEF2FF] border border-[#2563eb]/20 flex items-center justify-center">
-              <Target className="w-5 h-5 text-[#111827]" />
+            <div className="w-10 h-10 rounded-xl bg-blue-50 border border-accent/20 flex items-center justify-center">
+              <Target className="w-5 h-5 text-text-primary" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-[#111827]">
+              <h2 className="text-xl font-heading font-medium text-text-primary">
                 Milestones - {participantName}
               </h2>
-              <p className="text-xs text-[#6b7280]">
+              <p className="text-xs text-text-muted">
                 {type === "innovator" ? "Innovator" : "Startup"}
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-[#F3F4F6] rounded-lg transition"
+            className="p-2 hover:bg-gray-100 rounded-lg transition"
           >
-            <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
+            <X className="w-5 h-5 text-text-muted hover:text-text-primary" />
           </button>
         </div>
 
@@ -148,14 +148,14 @@ const MilestoneReviewModal = ({
           {!showAddForm ? (
             <button
               onClick={() => setShowAddForm(true)}
-              className="btn-institutional w-full py-3"
+              className="btn-filled w-full py-3"
             >
               <Plus className="w-4 h-4" />
               Add New Milestone
             </button>
           ) : (
-            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-4 border border-[#E5E7EB] space-y-4">
-              <h3 className="text-sm font-semibold text-[#111827]">
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-4">
+              <h3 className="text-sm font-heading font-medium text-text-primary">
                 Add Milestone
               </h3>
 
@@ -166,7 +166,7 @@ const MilestoneReviewModal = ({
                 onChange={(e) =>
                   setNewMilestone({ ...newMilestone, title: e.target.value })
                 }
-                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
               />
 
               <textarea
@@ -179,7 +179,7 @@ const MilestoneReviewModal = ({
                     description: e.target.value,
                   })
                 }
-                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
               />
 
               <input
@@ -191,11 +191,11 @@ const MilestoneReviewModal = ({
                     dueDate: e.target.value,
                   })
                 }
-                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
               />
 
               <div>
-                <label className="block text-xs text-[#6b7280] mb-2">
+                <label className="block text-xs text-text-muted mb-2">
                   Attach Resources (Optional)
                 </label>
                 <DocumentUpload
@@ -207,15 +207,17 @@ const MilestoneReviewModal = ({
 
                 {newMilestone.files.length > 0 && (
                   <div className="mt-3 space-y-2">
-                    <p className="text-xs text-[#6b7280]">Attached Resources:</p>
+                    <p className="text-xs text-text-muted">
+                      Attached Resources:
+                    </p>
                     {newMilestone.files.map((file, idx) => (
                       <div
                         key={idx}
-                        className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-2 flex items-center justify-between"
+                        className="bg-gray-50 border border-gray-200 rounded-lg p-2 flex items-center justify-between"
                       >
                         <div className="flex items-center gap-2 flex-1 min-w-0">
-                          <FileText className="w-4 h-4 text-[#2563eb] shrink-0" />
-                          <span className="text-sm text-[#111827] truncate">
+                          <FileText className="w-4 h-4 text-accent shrink-0" />
+                          <span className="text-sm text-text-primary truncate">
                             {file.name || "Resource File"}
                           </span>
                         </div>
@@ -224,7 +226,7 @@ const MilestoneReviewModal = ({
                             <>
                               <button
                                 onClick={() => openFile(file.url)}
-                                className="text-blue-400 hover:text-blue-300"
+                                className="text-blue-500 hover:text-blue-600"
                                 title="View"
                               >
                                 <Eye className="w-4 h-4" />
@@ -232,7 +234,7 @@ const MilestoneReviewModal = ({
                               <a
                                 href={file.url}
                                 download
-                                className="text-[#6b7280] hover:text-[#2563eb]"
+                                className="text-text-muted hover:text-accent"
                                 title="Download"
                               >
                                 <Download className="w-4 h-4" />
@@ -264,14 +266,14 @@ const MilestoneReviewModal = ({
                       files: [],
                     });
                   }}
-                  className="flex-1 px-4 py-2 border border-[#D1D5DB] text-[#374151] rounded-lg hover:bg-[#F3F4F6]"
+                  className="flex-1 px-4 py-2 border border-gray-300 text-text-secondary rounded-lg hover:bg-gray-50 transition"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleAddMilestone}
                   disabled={!newMilestone.title || submitting}
-                  className="btn-institutional flex-1 py-2 disabled:opacity-50"
+                  className="btn-filled flex-1 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {submitting ? (
                     <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
@@ -287,13 +289,13 @@ const MilestoneReviewModal = ({
           )}
 
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-[#111827]">
+            <h3 className="text-sm font-heading font-medium text-text-primary">
               Existing Milestones
             </h3>
             {milestones.length === 0 ? (
-              <div className="text-center py-8 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl">
-                <Target className="w-10 h-10 text-[#9ca3af] mx-auto mb-2" />
-                <p className="text-[#6b7280] text-sm">No milestones yet</p>
+              <div className="text-center py-8 bg-gray-50 border border-gray-200 rounded-xl">
+                <Target className="w-10 h-10 text-text-muted mx-auto mb-2" />
+                <p className="text-text-muted text-sm">No milestones yet</p>
               </div>
             ) : (
               milestones.map((milestone, idx) => {
@@ -309,12 +311,12 @@ const MilestoneReviewModal = ({
                 return (
                   <div
                     key={milestone._id}
-                    className={`bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg border ${
-                      isSelected ? "border-[#2563eb]" : "border-[#E5E7EB]"
+                    className={`bg-gray-50 rounded-lg border ${
+                      isSelected ? "border-accent" : "border-gray-200"
                     } overflow-hidden transition-all`}
                   >
                     <div
-                      className="p-4 cursor-pointer hover:bg-[#F3F4F6]/20"
+                      className="p-4 cursor-pointer hover:bg-gray-100/20"
                       onClick={() => {
                         if (isSelected) {
                           setSelectedMilestone(null);
@@ -327,7 +329,7 @@ const MilestoneReviewModal = ({
                       <div className="flex justify-between items-start">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1 flex-wrap">
-                            <span className="font-medium text-[#111827]">
+                            <span className="font-heading font-medium text-text-primary">
                               Milestone {idx + 1}: {milestone.title}
                             </span>
                             <span
@@ -337,12 +339,12 @@ const MilestoneReviewModal = ({
                               {status.label}
                             </span>
                           </div>
-                          <p className="text-sm text-[#6b7280]">
+                          <p className="text-sm text-text-muted">
                             {milestone.description}
                           </p>
                           <div className="flex items-center gap-3 mt-1">
                             {milestone.dueDate && (
-                              <p className="text-xs text-[#6b7280]">
+                              <p className="text-xs text-text-muted">
                                 Due:{" "}
                                 {new Date(
                                   milestone.dueDate,
@@ -350,13 +352,13 @@ const MilestoneReviewModal = ({
                               </p>
                             )}
                             {hasEvidence && (
-                              <p className="text-xs text-[#2563eb] flex items-center gap-1">
+                              <p className="text-xs text-accent flex items-center gap-1">
                                 <Paperclip className="w-3 h-3" />
                                 Evidence submitted
                               </p>
                             )}
                             {alreadyHasFeedback && (
-                              <p className="text-xs text-purple-400 flex items-center gap-1">
+                              <p className="text-xs text-purple-600 flex items-center gap-1">
                                 <MessageSquare className="w-3 h-3" />
                                 Feedback given
                               </p>
@@ -367,32 +369,32 @@ const MilestoneReviewModal = ({
                     </div>
 
                     {isSelected && (
-                      <div className="px-4 pb-4 pt-2 border-t border-[#E5E7EB] space-y-3">
+                      <div className="px-4 pb-4 pt-2 border-t border-gray-200 space-y-3">
                         {hasEvidence && (
-                          <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-lg p-3">
-                            <p className="text-xs text-[#2563eb] mb-2 flex items-center gap-1">
+                          <div className="bg-white shadow-sm rounded-lg p-3 border border-gray-200">
+                            <p className="text-xs text-accent mb-2 flex items-center gap-1">
                               <Paperclip className="w-3 h-3" />
                               Evidence Submitted by Mentee:
                             </p>
                             {milestone.evidence.description && (
                               <div className="mb-3">
-                                <p className="text-xs text-[#6b7280] mb-1">
+                                <p className="text-xs text-text-muted mb-1">
                                   Description:
                                 </p>
-                                <p className="text-sm text-[#374151]">
+                                <p className="text-sm text-text-secondary">
                                   {milestone.evidence.description}
                                 </p>
                               </div>
                             )}
                             {milestone.evidence.submittedAt && (
-                              <p className="text-xs text-[#6b7280] mb-2">
+                              <p className="text-xs text-text-muted mb-2">
                                 Submitted on:{" "}
                                 {new Date(
                                   milestone.evidence.submittedAt,
                                 ).toLocaleDateString()}
                               </p>
                             )}
-                            <p className="text-xs text-[#6b7280] mb-2">
+                            <p className="text-xs text-text-muted mb-2">
                               Attached Files:
                             </p>
                             <div className="space-y-2">
@@ -409,15 +411,15 @@ const MilestoneReviewModal = ({
                         )}
 
                         {alreadyHasFeedback && (
-                          <div className="bg-purple-500/10 rounded-lg p-3 border border-purple-500/20">
-                            <p className="text-xs text-purple-400 mb-1">
+                          <div className="bg-purple-50 rounded-lg p-3 border border-purple-200">
+                            <p className="text-xs text-purple-600 mb-1">
                               Previous Feedback:
                             </p>
-                            <p className="text-sm text-[#374151]">
+                            <p className="text-sm text-text-secondary">
                               {milestone.feedback}
                             </p>
                             {milestone.feedbackGivenAt && (
-                              <p className="text-xs text-[#6b7280] mt-1">
+                              <p className="text-xs text-text-muted mt-1">
                                 Given on:{" "}
                                 {new Date(
                                   milestone.feedbackGivenAt,
@@ -429,7 +431,7 @@ const MilestoneReviewModal = ({
 
                         {completed && !alreadyHasFeedback && (
                           <div>
-                            <label className="text-xs text-[#6b7280] block mb-1">
+                            <label className="text-xs text-text-muted block mb-1">
                               Add Feedback
                             </label>
                             <textarea
@@ -437,12 +439,12 @@ const MilestoneReviewModal = ({
                               onChange={(e) => setFeedback(e.target.value)}
                               rows={3}
                               placeholder="Add feedback for the mentee's completed work..."
-                              className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] text-sm focus:outline-none focus:border-[#2563eb]"
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                             />
                             <button
                               onClick={handleAddFeedback}
                               disabled={!feedback.trim() || submitting}
-                              className="btn-institutional w-full mt-3 py-2 disabled:opacity-50"
+                              className="btn-filled w-full mt-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                               {submitting ? (
                                 <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
@@ -457,12 +459,12 @@ const MilestoneReviewModal = ({
                         )}
 
                         {!completed && (
-                          <div className="bg-yellow-500/10 rounded-lg p-3 border border-yellow-500/20">
-                            <p className="text-xs text-yellow-400 flex items-center gap-1">
+                          <div className="bg-yellow-50 rounded-lg p-3 border border-yellow-200">
+                            <p className="text-xs text-yellow-600 flex items-center gap-1">
                               <Clock className="w-3 h-3" />
                               Waiting for mentee to complete this milestone
                             </p>
-                            <p className="text-sm text-[#6b7280] mt-1">
+                            <p className="text-sm text-text-muted mt-1">
                               Feedback can only be given after the mentee marks
                               this milestone as completed and submits their
                               work.
@@ -471,8 +473,8 @@ const MilestoneReviewModal = ({
                         )}
 
                         {completed && alreadyHasFeedback && (
-                          <div className="bg-[#EEF2FF] rounded-lg p-3 border border-[#2563eb]/20">
-                            <p className="text-xs text-[#2563eb] flex items-center gap-1">
+                          <div className="bg-blue-50 rounded-lg p-3 border border-accent/20">
+                            <p className="text-xs text-accent flex items-center gap-1">
                               <CheckCircle className="w-3 h-3" />
                               Feedback already provided for this milestone
                             </p>
@@ -487,10 +489,10 @@ const MilestoneReviewModal = ({
           </div>
         </div>
 
-        <div className="sticky bottom-0 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/95 border-t border-[#E5E7EB] p-4 rounded-b-2xl">
+        <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4 rounded-b-2xl">
           <button
             onClick={onClose}
-            className="w-full border border-[#D1D5DB] text-[#374151] py-2.5 rounded-lg hover:bg-[#F3F4F6] transition"
+            className="w-full border border-gray-300 text-text-secondary py-2.5 rounded-lg hover:bg-gray-50 transition"
           >
             Close
           </button>

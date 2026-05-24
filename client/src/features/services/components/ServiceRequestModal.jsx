@@ -48,14 +48,14 @@ const ServiceRequestModal = ({
   const [errors, setErrors] = useState({});
 
   const priorities = [
-    { value: "low", label: "Low", color: "bg-[#F3F4F6] text-[#374151]" },
+    { value: "low", label: "Low", color: "bg-gray-100 text-text-secondary" },
     {
       value: "medium",
       label: "Medium",
-      color: "bg-[#EEF2FF] text-[#2563eb]",
+      color: "bg-blue-50 text-accent",
     },
-    { value: "high", label: "High", color: "bg-[#FFFBEB] text-[#d97706]" },
-    { value: "urgent", label: "Urgent", color: "bg-[#FEF2F2] text-[#ef4444]" },
+    { value: "high", label: "High", color: "bg-amber-50 text-amber-600" },
+    { value: "urgent", label: "Urgent", color: "bg-red-50 text-red-600" },
   ];
 
   const handleChange = (e) => {
@@ -139,20 +139,20 @@ const ServiceRequestModal = ({
     if (!doc) return null;
 
     return (
-      <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 mt-2">
+      <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 mt-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 flex-1 min-w-0">
-            <File className="w-4 h-4 text-[#2563eb] shrink-0" />
-            <span className="text-sm text-[#111827] truncate">{label}</span>
+            <File className="w-4 h-4 text-accent shrink-0" />
+            <span className="text-sm text-text-primary truncate">{label}</span>
             {doc.name && (
-              <span className="text-xs text-[#6b7280]">({doc.name})</span>
+              <span className="text-xs text-text-muted">({doc.name})</span>
             )}
           </div>
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => window.open(doc.viewLink, "_blank")}
-              className="p-1.5 text-blue-400 hover:text-blue-300 rounded-lg transition"
+              className="p-1.5 text-blue-500 hover:text-blue-600 rounded-lg transition"
             >
               <Eye className="w-4 h-4" />
             </button>
@@ -160,7 +160,7 @@ const ServiceRequestModal = ({
               href={doc.viewLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-1.5 text-[#6b7280] hover:text-[#2563eb] rounded-lg transition"
+              className="p-1.5 text-text-muted hover:text-accent rounded-lg transition"
             >
               <ExternalLink className="w-4 h-4" />
             </a>
@@ -175,7 +175,7 @@ const ServiceRequestModal = ({
             )}
           </div>
         </div>
-        <div className="mt-1 text-xs text-[#6b7280] truncate">
+        <div className="mt-1 text-xs text-text-muted truncate">
           {doc.viewLink}
         </div>
       </div>
@@ -183,58 +183,62 @@ const ServiceRequestModal = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-[#E5E7EB]"
+        className="bg-white shadow-lg rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-gray-200"
       >
-        <div className="sticky top-0 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-b border-[#E5E7EB] p-5 flex justify-between items-center z-10">
+        <div className="sticky top-0 bg-white border-b border-gray-200 p-5 flex justify-between items-center z-10">
           <div>
-            <h2 className="text-xl font-bold text-[#111827]">Request Service</h2>
-            <p className="text-sm text-[#6b7280] mt-0.5">{service?.name}</p>
+            <h2 className="text-xl font-heading font-medium text-text-primary">
+              Request Service
+            </h2>
+            <p className="text-sm text-text-muted mt-0.5">{service?.name}</p>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
+            className="p-1 hover:bg-gray-100 rounded-lg transition"
           >
-            <X className="w-5 h-5 text-[#6b7280]" />
+            <X className="w-5 h-5 text-text-muted hover:text-text-primary" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-5 space-y-5">
-          <div className="bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg p-3 flex items-center gap-3">
-            <Briefcase className="w-5 h-5 text-[#2563eb]" />
+          <div className="bg-blue-50 border border-accent/20 rounded-lg p-3 flex items-center gap-3">
+            <Briefcase className="w-5 h-5 text-accent" />
             <div>
-              <p className="text-sm font-medium text-[#111827]">{service?.name}</p>
-              <p className="text-xs text-[#6b7280]">
+              <p className="text-sm font-medium text-text-primary">
+                {service?.name}
+              </p>
+              <p className="text-xs text-text-muted">
                 Estimated: {service?.estimatedTime}
               </p>
             </div>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-[#374151] mb-3 flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-[#2563eb]" />
+            <h3 className="text-sm font-heading font-medium text-text-secondary mb-3 flex items-center gap-2">
+              <Building2 className="w-4 h-4 text-accent" />
               Requester Information
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-[#374151] mb-1">
+                <label className="block text-sm font-medium text-text-secondary mb-1">
                   Organization Name *
                 </label>
                 <div className="relative">
-                  <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                  <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                   <input
                     type="text"
                     name="organizationName"
                     value={formData.organizationName}
                     onChange={handleChange}
-                    className={`w-full pl-10 pr-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] ${
+                    className={`w-full pl-10 pr-3 py-2 bg-white border rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all ${
                       errors.organizationName
                         ? "border-red-500"
-                        : "border-[#D1D5DB]"
+                        : "border-gray-300"
                     }`}
                     placeholder="Your Organization"
                   />
@@ -246,7 +250,7 @@ const ServiceRequestModal = ({
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-[#374151] mb-1">
+                <label className="block text-sm font-medium text-text-secondary mb-1">
                   Department
                 </label>
                 <input
@@ -254,12 +258,12 @@ const ServiceRequestModal = ({
                   name="department"
                   value={formData.department}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                  className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                   placeholder="e.g., IT Department"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-[#374151] mb-1">
+                <label className="block text-sm font-medium text-text-secondary mb-1">
                   Position / Title
                 </label>
                 <input
@@ -267,25 +271,25 @@ const ServiceRequestModal = ({
                   name="position"
                   value={formData.position}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                  className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                   placeholder="e.g., IT Manager"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-[#374151] mb-1">
+                <label className="block text-sm font-medium text-text-secondary mb-1">
                   Contact Person *
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                   <input
                     type="text"
                     name="contactPerson"
                     value={formData.contactPerson}
                     onChange={handleChange}
-                    className={`w-full pl-10 pr-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] ${
+                    className={`w-full pl-10 pr-3 py-2 bg-white border rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all ${
                       errors.contactPerson
                         ? "border-red-500"
-                        : "border-[#D1D5DB]"
+                        : "border-gray-300"
                     }`}
                     placeholder="Full Name"
                   />
@@ -297,18 +301,18 @@ const ServiceRequestModal = ({
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-[#374151] mb-1">
+                <label className="block text-sm font-medium text-text-secondary mb-1">
                   Contact Phone *
                 </label>
                 <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                   <input
                     type="tel"
                     name="contactPhone"
                     value={formData.contactPhone}
                     onChange={handleChange}
-                    className={`w-full pl-10 pr-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] ${
-                      errors.contactPhone ? "border-red-500" : "border-[#D1D5DB]"
+                    className={`w-full pl-10 pr-3 py-2 bg-white border rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all ${
+                      errors.contactPhone ? "border-red-500" : "border-gray-300"
                     }`}
                     placeholder="+251 912 345 678"
                   />
@@ -320,18 +324,18 @@ const ServiceRequestModal = ({
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-[#374151] mb-1">
+                <label className="block text-sm font-medium text-text-secondary mb-1">
                   Contact Email
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                   <input
                     type="email"
                     name="contactEmail"
                     value={formData.contactEmail}
                     onChange={handleChange}
-                    className={`w-full pl-10 pr-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] ${
-                      errors.contactEmail ? "border-red-500" : "border-[#D1D5DB]"
+                    className={`w-full pl-10 pr-3 py-2 bg-white border rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all ${
+                      errors.contactEmail ? "border-red-500" : "border-gray-300"
                     }`}
                     placeholder="contact@example.com"
                   />
@@ -346,13 +350,13 @@ const ServiceRequestModal = ({
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-[#374151] mb-3 flex items-center gap-2">
-              <FileText className="w-4 h-4 text-[#2563eb]" />
+            <h3 className="text-sm font-heading font-medium text-text-secondary mb-3 flex items-center gap-2">
+              <FileText className="w-4 h-4 text-accent" />
               Service Details
             </h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-[#374151] mb-1">
+                <label className="block text-sm font-medium text-text-secondary mb-1">
                   Service Description *
                 </label>
                 <textarea
@@ -361,8 +365,8 @@ const ServiceRequestModal = ({
                   value={formData.description}
                   onChange={handleChange}
                   placeholder="Please describe what you need in detail..."
-                  className={`w-full px-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] ${
-                    errors.description ? "border-red-500" : "border-[#D1D5DB]"
+                  className={`w-full px-3 py-2 bg-white border rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all ${
+                    errors.description ? "border-red-500" : "border-gray-300"
                   }`}
                 />
                 {errors.description && (
@@ -373,7 +377,7 @@ const ServiceRequestModal = ({
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#374151] mb-1">
+                <label className="block text-sm font-medium text-text-secondary mb-1">
                   Special Requirements
                 </label>
                 <textarea
@@ -382,12 +386,12 @@ const ServiceRequestModal = ({
                   value={formData.requirements}
                   onChange={handleChange}
                   placeholder="Any specific requirements or constraints?"
-                  className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                  className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#374151] mb-2">
+                <label className="block text-sm font-medium text-text-secondary mb-2">
                   Priority Level
                 </label>
                 <div className="flex gap-2">
@@ -400,8 +404,8 @@ const ServiceRequestModal = ({
                       }
                       className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition ${
                         formData.priority === p.value
-                          ? p.color + " ring-2 ring-offset-1 ring-emerald-500"
-                          : "bg-white text-[#6b7280] hover:bg-[#F3F4F6]"
+                          ? p.color + " ring-2 ring-offset-1 ring-accent"
+                          : "bg-white text-text-muted hover:bg-gray-100"
                       }`}
                     >
                       {p.label}
@@ -413,17 +417,17 @@ const ServiceRequestModal = ({
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-[#374151] mb-3 flex items-center gap-2">
-              <Upload className="w-4 h-4 text-[#2563eb]" />
+            <h3 className="text-sm font-heading font-medium text-text-secondary mb-3 flex items-center gap-2">
+              <Upload className="w-4 h-4 text-accent" />
               Supporting Documents
             </h3>
 
-            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3 mb-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
               <div className="flex items-start gap-2">
-                <Upload className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" />
-                <p className="text-xs text-blue-300">
-                  Upload your documents from Google Drive. Files will be
-                  automatically shared with the service team.
+                <Upload className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
+                <p className="text-xs text-blue-700">
+                  Upload your documents. Files will be automatically shared with
+                  the service team.
                 </p>
               </div>
             </div>
@@ -437,10 +441,7 @@ const ServiceRequestModal = ({
                     setFormData((prev) => ({ ...prev, requestLetter: file }))
                   }
                   required={false}
-                  accept={{
-                    "application/pdf": [".pdf"],
-                    "application/msword": [".doc", ".docx"],
-                  }}
+                  maxSizeMB={10}
                 />
               </ErrorBoundary>
               {formData.requestLetter && (
@@ -464,10 +465,7 @@ const ServiceRequestModal = ({
                     }))
                   }
                   required={false}
-                  accept={{
-                    "application/pdf": [".pdf"],
-                    "application/msword": [".doc", ".docx"],
-                  }}
+                  maxSizeMB={10}
                 />
               </ErrorBoundary>
               {formData.authorizationLetter && (
@@ -490,19 +488,13 @@ const ServiceRequestModal = ({
                     value={null}
                     onChange={addSupportingDoc}
                     required={false}
-                    multiple={false}
-                    accept={{
-                      "application/pdf": [".pdf"],
-                      "application/msword": [".doc", ".docx"],
-                      "image/jpeg": [".jpg", ".jpeg"],
-                      "image/png": [".png"],
-                    }}
+                    maxSizeMB={10}
                   />
                 </ErrorBoundary>
 
                 {formData.supportingDocs.length > 0 && (
                   <div className="mt-3 space-y-2">
-                    <p className="text-xs font-medium text-[#6b7280]">
+                    <p className="text-xs font-medium text-text-muted">
                       Uploaded Documents ({formData.supportingDocs.length})
                     </p>
                     {formData.supportingDocs.map((doc, idx) => (
@@ -522,10 +514,10 @@ const ServiceRequestModal = ({
           <button
             type="submit"
             disabled={loading}
-            className="btn-institutional w-full py-3 disabled:opacity-50"
+            className="btn-filled w-full py-3 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
-              <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+              <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent" />
             ) : (
               <>
                 <Send className="w-4 h-4" /> Submit Request

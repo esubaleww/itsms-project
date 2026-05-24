@@ -46,57 +46,57 @@ const DirectorRequestsList = ({
     switch (status) {
       case "approved":
         return {
-          color: "text-[#2563eb]",
-          bg: "bg-[#EEF2FF]",
-          border: "border-[#2563eb]/30",
+          color: "text-accent",
+          bg: "bg-blue-50",
+          border: "border-accent/30",
           icon: Check,
           label: "Approved",
         };
       case "rejected":
         return {
           color: "text-red-500",
-          bg: "bg-red-500/20",
+          bg: "bg-red-50",
           border: "border-red-500/30",
           icon: X,
           label: "Rejected",
         };
       case "in_progress":
         return {
-          color: "text-blue-400",
-          bg: "bg-blue-500/20",
+          color: "text-blue-500",
+          bg: "bg-blue-50",
           border: "border-blue-500/30",
           icon: Clock,
           label: "In Progress",
         };
       case "assigned_to_team":
         return {
-          color: "text-purple-400",
-          bg: "bg-purple-500/20",
+          color: "text-purple-500",
+          bg: "bg-purple-50",
           border: "border-purple-500/30",
           icon: Users,
           label: "Assigned to Team",
         };
       case "completed":
         return {
-          color: "text-[#2563eb]",
-          bg: "bg-[#EEF2FF]",
-          border: "border-[#2563eb]/30",
+          color: "text-accent",
+          bg: "bg-blue-50",
+          border: "border-accent/30",
           icon: Check,
           label: "Completed",
         };
       case "pending_admin":
         return {
-          color: "text-yellow-400",
-          bg: "bg-yellow-500/20",
+          color: "text-yellow-500",
+          bg: "bg-yellow-50",
           border: "border-yellow-500/30",
           icon: Clock,
           label: "Pending Admin",
         };
       default:
         return {
-          color: "text-[#6b7280]",
-          bg: "bg-gray-500/20",
-          border: "border-gray-500/30",
+          color: "text-text-muted",
+          bg: "bg-gray-100",
+          border: "border-gray-300",
           icon: AlertCircle,
           label: status?.replace(/_/g, " ").toUpperCase() || "Pending",
         };
@@ -109,43 +109,43 @@ const DirectorRequestsList = ({
         return {
           label: "Internship Application",
           icon: GraduationCap,
-          color: "text-[#2563eb]",
-          bg: "bg-[#EEF2FF]",
+          color: "text-accent",
+          bg: "bg-blue-50",
         };
       case "innovation":
         return {
           label: "Innovation Application",
           icon: Lightbulb,
-          color: "text-purple-400",
-          bg: "bg-purple-500/20",
+          color: "text-purple-600",
+          bg: "bg-purple-50",
         };
       case "startup":
         return {
           label: "Startup Application",
           icon: Rocket,
-          color: "text-orange-400",
-          bg: "bg-orange-500/20",
+          color: "text-orange-600",
+          bg: "bg-orange-50",
         };
       case "service":
         return {
           label: "Service Request",
           icon: Briefcase,
-          color: "text-blue-400",
-          bg: "bg-blue-500/20",
+          color: "text-blue-600",
+          bg: "bg-blue-50",
         };
       case "training":
         return {
           label: "Training Request",
           icon: GraduationCap,
-          color: "text-cyan-400",
-          bg: "bg-cyan-500/20",
+          color: "text-cyan-600",
+          bg: "bg-cyan-50",
         };
       default:
         return {
           label: type || "Application",
           icon: FileText,
-          color: "text-[#6b7280]",
-          bg: "bg-gray-500/20",
+          color: "text-text-muted",
+          bg: "bg-gray-100",
         };
     }
   };
@@ -155,29 +155,29 @@ const DirectorRequestsList = ({
       case "urgent":
         return {
           color: "text-red-500",
-          bg: "bg-red-500/20",
+          bg: "bg-red-50",
           border: "border-red-500/30",
           label: "Urgent",
         };
       case "high":
         return {
-          color: "text-orange-400",
-          bg: "bg-orange-500/20",
+          color: "text-orange-600",
+          bg: "bg-orange-50",
           border: "border-orange-500/30",
           label: "High",
         };
       case "medium":
         return {
-          color: "text-yellow-400",
-          bg: "bg-yellow-500/20",
+          color: "text-yellow-600",
+          bg: "bg-yellow-50",
           border: "border-yellow-500/30",
           label: "Medium",
         };
       default:
         return {
-          color: "text-[#6b7280]",
-          bg: "bg-gray-500/20",
-          border: "border-gray-500/30",
+          color: "text-text-muted",
+          bg: "bg-gray-100",
+          border: "border-gray-300",
           label: "Low",
         };
     }
@@ -308,15 +308,6 @@ const DirectorRequestsList = ({
   };
 
   const needsMentor = (req) => {
-    console.log("Mentor check - req:", {
-      type: req.type,
-      status: req.status,
-      assignedMentor: req.assignedMentor,
-      mentor: req.mentor,
-      assignedTo: req.assignedTo,
-      assignments: req.assignments,
-    });
-
     return (
       (req.type === "innovation" || req.type === "startup") &&
       req.status === "approved" &&
@@ -344,16 +335,16 @@ const DirectorRequestsList = ({
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] p-5 animate-pulse"
+            className="bg-white shadow-sm rounded-xl border border-gray-200 p-5 animate-pulse"
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="h-6 w-20 bg-[#E5E7EB] rounded-full"></div>
-                  <div className="h-4 w-24 bg-[#E5E7EB] rounded"></div>
+                  <div className="h-6 w-20 bg-gray-200 rounded-full"></div>
+                  <div className="h-4 w-24 bg-gray-200 rounded"></div>
                 </div>
-                <div className="h-5 w-3/4 bg-[#E5E7EB] rounded mb-2"></div>
-                <div className="h-4 w-1/2 bg-[#E5E7EB] rounded"></div>
+                <div className="h-5 w-3/4 bg-gray-200 rounded mb-2"></div>
+                <div className="h-4 w-1/2 bg-gray-200 rounded"></div>
               </div>
             </div>
           </div>
@@ -361,15 +352,14 @@ const DirectorRequestsList = ({
       </div>
     );
   }
-
   if (!requests || requests.length === 0) {
     return (
       <div className="text-center py-16">
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-full mb-4 border border-[#E5E7EB]">
-          <AlertCircle className="w-10 h-10 text-[#9ca3af]" />
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-white shadow-sm rounded-full mb-4 border border-gray-200">
+          <AlertCircle className="w-10 h-10 text-text-muted" />
         </div>
-        <p className="text-[#6b7280] text-lg">No requests found</p>
-        <p className="text-sm text-[#6b7280] mt-1 max-w-md mx-auto">
+        <p className="text-text-secondary text-lg">No requests found</p>
+        <p className="text-sm text-text-muted mt-1 max-w-md mx-auto">
           All caught up! New requests will appear here once submitted.
         </p>
       </div>
@@ -397,7 +387,7 @@ const DirectorRequestsList = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.05 }}
-            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200"
+            className="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
           >
             <div className="p-5">
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
@@ -417,7 +407,7 @@ const DirectorRequestsList = ({
                         {priorityConfig.label}
                       </span>
                     )}
-                    <span className="flex items-center gap-1 text-xs text-[#6b7280]">
+                    <span className="flex items-center gap-1 text-xs text-text-muted">
                       <Calendar className="w-3 h-3" />
                       {formatDate(req.createdAt)}
                     </span>
@@ -429,25 +419,25 @@ const DirectorRequestsList = ({
                     >
                       <TypeIcon className={`w-4 h-4 ${typeConfig.color}`} />
                     </div>
-                    <p className="font-semibold text-[#111827] text-lg">
+                    <p className="font-heading font-medium text-text-primary text-lg">
                       {typeConfig.label}
                     </p>
                   </div>
 
                   <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
-                    <div className="flex items-center gap-1 text-sm text-[#374151]">
-                      <User className="w-3 h-3 text-[#6b7280]" />
+                    <div className="flex items-center gap-1 text-sm text-text-secondary">
+                      <User className="w-3 h-3 text-text-muted" />
                       <span className="font-medium">From:</span>
                       <span>{req.applicant?.fullName || "Unknown"}</span>
                     </div>
                     {req.applicant?.email && (
-                      <div className="flex items-center gap-1 text-xs text-[#6b7280]">
+                      <div className="flex items-center gap-1 text-xs text-text-muted">
                         <Mail className="w-3 h-3" />
                         {req.applicant.email}
                       </div>
                     )}
                     {req.applicant?.phone && (
-                      <div className="flex items-center gap-1 text-xs text-[#6b7280]">
+                      <div className="flex items-center gap-1 text-xs text-text-muted">
                         <Phone className="w-3 h-3" />
                         {req.applicant.phone}
                       </div>
@@ -455,14 +445,14 @@ const DirectorRequestsList = ({
                   </div>
 
                   {req.description && (
-                    <p className="text-sm text-[#374151] mt-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 line-clamp-2">
+                    <p className="text-sm text-text-secondary mt-3 bg-gray-50 border border-gray-200 rounded-lg p-3 line-clamp-2">
                       {req.description}
                     </p>
                   )}
 
                   <div className="mt-3 space-y-1">
                     {req.assignedTeam && (
-                      <div className="flex items-center gap-1 text-xs text-purple-400">
+                      <div className="flex items-center gap-1 text-xs text-purple-600">
                         <Users className="w-3 h-3" />
                         <span>Assigned to team:</span>
                         <span className="font-medium">
@@ -471,7 +461,7 @@ const DirectorRequestsList = ({
                       </div>
                     )}
                     {req.assignedAdvisor && (
-                      <div className="flex items-center gap-1 text-xs text-[#2563eb]">
+                      <div className="flex items-center gap-1 text-xs text-accent">
                         <UserPlus className="w-3 h-3" />
                         <span>Advisor:</span>
                         <span className="font-medium">
@@ -480,7 +470,7 @@ const DirectorRequestsList = ({
                       </div>
                     )}
                     {req.assignedMentor && (
-                      <div className="flex items-center gap-1 text-xs text-purple-400">
+                      <div className="flex items-center gap-1 text-xs text-purple-600">
                         <UserPlus className="w-3 h-3" />
                         <span>Mentor:</span>
                         <span className="font-medium">
@@ -489,7 +479,7 @@ const DirectorRequestsList = ({
                       </div>
                     )}
                     {req.assignedTrainer && (
-                      <div className="flex items-center gap-1 text-xs text-cyan-400">
+                      <div className="flex items-center gap-1 text-xs text-cyan-600">
                         <UserPlus className="w-3 h-3" />
                         <span>Trainer:</span>
                         <span className="font-medium">
@@ -504,22 +494,22 @@ const DirectorRequestsList = ({
                   {showAssign &&
                     needsTeam(req) &&
                     (isAssigning ? (
-                      <div className="flex flex-col gap-2 bg-[#E5E7EB] rounded-lg border border-[#D1D5DB] p-2">
+                      <div className="flex flex-col gap-2 bg-gray-100 rounded-lg border border-gray-300 p-2">
                         <select
                           value={selectedTeam}
                           onChange={(e) => setSelectedTeam(e.target.value)}
-                          className="text-sm bg-transparent px-2 py-1 text-[#111827] focus:outline-none min-w-40"
+                          className="text-sm bg-transparent px-2 py-1 text-text-primary focus:outline-none min-w-40"
                           autoFocus
                           disabled={isLoading}
                         >
-                          <option value="" className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+                          <option value="" className="bg-white shadow-sm">
                             Select Team...
                           </option>
                           {teams.map((team) => (
                             <option
                               key={team._id}
                               value={team._id}
-                              className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
+                              className="bg-white shadow-sm"
                             >
                               {team.name} ({team.members?.length || 0} members)
                             </option>
@@ -529,7 +519,7 @@ const DirectorRequestsList = ({
                           value={instructions}
                           onChange={(e) => setInstructions(e.target.value)}
                           placeholder="Instructions for the team (optional)..."
-                          className="text-sm bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-[#D1D5DB] rounded-lg p-2 text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb]"
+                          className="text-sm bg-white border border-gray-300 rounded-lg p-2 text-text-primary placeholder-text-muted focus:outline-none focus:border-accent"
                           rows="2"
                           disabled={isLoading}
                         />
@@ -539,8 +529,8 @@ const DirectorRequestsList = ({
                             disabled={!selectedTeam || isLoading}
                             className={`px-2 py-1 rounded transition ${
                               selectedTeam && !isLoading
-                                ? "btn-institutional"
-                                : "bg-[#F3F4F6] border border-[#E5E7EB] text-[#9ca3af] cursor-not-allowed"
+                                ? "btn-filled text-sm"
+                                : "bg-gray-100 border border-gray-200 text-text-muted cursor-not-allowed"
                             }`}
                           >
                             {isLoading ? (
@@ -552,7 +542,7 @@ const DirectorRequestsList = ({
                           <button
                             onClick={handleCancelAssign}
                             disabled={isLoading}
-                            className="px-2 py-1 bg-[#F3F4F6] text-[#374151] rounded hover:bg-[#E5E7EB] transition"
+                            className="px-2 py-1 bg-gray-100 text-text-secondary rounded hover:bg-gray-200 transition"
                           >
                             Cancel
                           </button>
@@ -561,7 +551,7 @@ const DirectorRequestsList = ({
                     ) : (
                       <button
                         onClick={() => handleAssignClick(req._id)}
-                        className="text-blue-400 text-xs font-medium px-2 py-1 rounded-lg hover:bg-blue-500/20 transition flex items-center gap-1"
+                        className="text-blue-600 text-xs font-medium px-2 py-1 rounded-lg hover:bg-blue-50 transition flex items-center gap-1"
                       >
                         <UserPlus className="w-3 h-3" />
                         Assign Team
@@ -570,7 +560,7 @@ const DirectorRequestsList = ({
 
                   <button
                     onClick={() => onViewDetails?.(req._id)}
-                    className="text-[#6b7280] hover:text-[#111827] p-2 rounded-lg hover:bg-[#F3F4F6] transition"
+                    className="text-text-muted hover:text-text-primary p-2 rounded-lg hover:bg-gray-100 transition"
                     title="View Details"
                   >
                     <Eye className="w-4 h-4" />
@@ -581,8 +571,8 @@ const DirectorRequestsList = ({
                       onClick={() => setExpandedId(isExpanded ? null : req._id)}
                       className={`p-2 rounded-lg transition ${
                         isExpanded
-                          ? "text-[#2563eb] bg-[#EEF2FF]"
-                          : "text-[#6b7280] hover:text-[#111827] hover:bg-[#F3F4F6]"
+                          ? "text-accent bg-blue-50"
+                          : "text-text-muted hover:text-text-primary hover:bg-gray-100"
                       }`}
                       title={isExpanded ? "Hide timeline" : "Show timeline"}
                     >
@@ -599,10 +589,10 @@ const DirectorRequestsList = ({
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  className="border-t border-[#E5E7EB] overflow-hidden"
+                  className="border-t border-gray-200 overflow-hidden"
                 >
-                  <div className="p-5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
-                    <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <div className="p-5 bg-gray-50">
+                    <h4 className="text-xs font-medium text-text-muted uppercase tracking-wider mb-4 flex items-center gap-2">
                       <Clock className="w-3 h-3" />
                       Request Timeline
                     </h4>
@@ -614,32 +604,32 @@ const DirectorRequestsList = ({
                               className={`w-2.5 h-2.5 rounded-full ${
                                 event.action === "Application approved" ||
                                 event.action === "Request completed"
-                                  ? "bg-emerald-500"
+                                  ? "bg-accent"
                                   : event.action === "Application rejected"
                                     ? "bg-red-500"
                                     : event.action === "Task completed"
                                       ? "bg-purple-500"
                                       : event.action === "Assigned to team"
                                         ? "bg-blue-500"
-                                        : "bg-gray-500"
+                                        : "bg-gray-400"
                               } mt-1.5`}
                             ></div>
                             {idx < req.timeline.length - 1 && (
-                              <div className="w-0.5 h-full bg-[#E5E7EB] group-hover:bg-[#F3F4F6] mt-1"></div>
+                              <div className="w-0.5 h-full bg-gray-200 group-hover:bg-gray-300 mt-1"></div>
                             )}
                           </div>
                           <div className="flex-1 pb-3">
-                            <p className="text-sm font-medium text-[#111827]">
+                            <p className="text-sm font-medium text-text-primary">
                               {event.action || "Status Update"}
                             </p>
                             {event.details && (
-                              <p className="text-xs text-[#6b7280] mt-0.5">
+                              <p className="text-xs text-text-muted mt-0.5">
                                 {event.details}
                               </p>
                             )}
-                            <p className="text-xs text-[#6b7280] mt-1 flex items-center gap-1">
+                            <p className="text-xs text-text-muted mt-1 flex items-center gap-1">
                               <User className="w-3 h-3" />
-                              {event.by?.fullName || "System"} �{" "}
+                              {event.by?.fullName || "System"} •{" "}
                               {formatDateTime(
                                 event.date ||
                                   event.timestamp ||
@@ -670,19 +660,23 @@ const StaffAssignmentDropdown = ({
   isLoading,
   placeholder,
 }) => (
-  <div className="flex items-center gap-2 bg-[#E5E7EB] rounded-lg border border-[#D1D5DB] p-1">
+  <div className="flex items-center gap-2 bg-gray-100 rounded-lg border border-gray-300 p-1">
     <select
       value={selectedStaff}
       onChange={(e) => onSelect(e.target.value)}
-      className="text-sm bg-transparent px-2 py-1 text-[#111827] focus:outline-none min-w-40"
+      className="text-sm bg-transparent px-2 py-1 text-text-primary focus:outline-none min-w-40"
       autoFocus
       disabled={isLoading}
     >
-      <option value="" className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+      <option value="" className="bg-white shadow-sm">
         {placeholder}
       </option>
       {options.map((staff) => (
-        <option key={staff._id} value={staff._id} className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+        <option
+          key={staff._id}
+          value={staff._id}
+          className="bg-white shadow-sm"
+        >
           {staff.fullName} - {staff.position}
         </option>
       ))}
@@ -692,12 +686,12 @@ const StaffAssignmentDropdown = ({
       disabled={!selectedStaff || isLoading}
       className={`p-1 rounded transition ${
         selectedStaff && !isLoading
-          ? "text-[#2563eb] hover:bg-[#EEF2FF]"
-          : "text-[#6b7280] cursor-not-allowed"
+          ? "text-accent hover:bg-blue-50"
+          : "text-text-muted cursor-not-allowed"
       }`}
     >
       {isLoading ? (
-        <div className="animate-spin rounded-full h-4 w-4 border-2 border-emerald-400 border-t-transparent"></div>
+        <div className="animate-spin rounded-full h-4 w-4 border-2 border-accent border-t-transparent"></div>
       ) : (
         <Check className="w-4 h-4" />
       )}
@@ -705,7 +699,7 @@ const StaffAssignmentDropdown = ({
     <button
       onClick={onCancel}
       disabled={isLoading}
-      className="p-1 text-[#6b7280] hover:text-red-500 hover:bg-red-500/20 rounded transition"
+      className="p-1 text-text-muted hover:text-red-500 hover:bg-red-50 rounded transition"
     >
       <X className="w-4 h-4" />
     </button>

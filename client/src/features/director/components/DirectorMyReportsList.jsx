@@ -23,9 +23,9 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
     switch (status) {
       case "approved":
         return {
-          color: "text-[#2563eb]",
-          bg: "bg-[#EEF2FF]",
-          border: "border-[#2563eb]/30",
+          color: "text-accent",
+          bg: "bg-blue-50",
+          border: "border-accent/30",
           icon: CheckCircle,
           label: "Approved",
         };
@@ -39,15 +39,15 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
         };
       case "reviewed":
         return {
-          color: "text-[#2563eb]",
-          bg: "bg-[#EEF2FF]",
-          border: "border-[#2563eb]/30",
+          color: "text-accent",
+          bg: "bg-blue-50",
+          border: "border-accent/30",
           icon: Eye,
           label: "Under Review",
         };
       default:
         return {
-          color: "text-amber-700",
+          color: "text-amber-600",
           bg: "bg-amber-50",
           border: "border-amber-200",
           icon: Clock,
@@ -90,16 +90,16 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] p-5 animate-pulse"
+            className="bg-white shadow-sm rounded-xl border border-gray-200 p-5 animate-pulse"
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="h-6 w-20 bg-[#E5E7EB] rounded-full"></div>
-                  <div className="h-4 w-24 bg-[#E5E7EB] rounded"></div>
+                  <div className="h-6 w-20 bg-gray-200 rounded-full"></div>
+                  <div className="h-4 w-24 bg-gray-200 rounded"></div>
                 </div>
-                <div className="h-5 w-3/4 bg-[#E5E7EB] rounded mb-2"></div>
-                <div className="h-4 w-1/2 bg-[#E5E7EB] rounded"></div>
+                <div className="h-5 w-3/4 bg-gray-200 rounded mb-2"></div>
+                <div className="h-4 w-1/2 bg-gray-200 rounded"></div>
               </div>
             </div>
           </div>
@@ -111,11 +111,11 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
   if (!reports || reports.length === 0) {
     return (
       <div className="text-center py-16">
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-full mb-4 border border-[#E5E7EB]">
-          <FileText className="w-10 h-10 text-[#9ca3af]" />
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-white shadow-sm rounded-full mb-4 border border-gray-200">
+          <FileText className="w-10 h-10 text-text-muted" />
         </div>
-        <p className="text-[#6b7280] text-lg">No reports submitted</p>
-        <p className="text-sm text-[#6b7280] mt-1 max-w-md mx-auto">
+        <p className="text-text-secondary text-lg">No reports submitted</p>
+        <p className="text-sm text-text-muted mt-1 max-w-md mx-auto">
           Your submitted director reports will appear here. Reports help track
           progress and performance metrics.
         </p>
@@ -141,7 +141,7 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.05 }}
-            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200"
+            className="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
           >
             <div className="p-5">
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
@@ -153,18 +153,18 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                       <StatusIcon className="w-3 h-3" />
                       {statusConfig.label}
                     </span>
-                    <span className="flex items-center gap-1 text-xs text-[#6b7280]">
+                    <span className="flex items-center gap-1 text-xs text-text-muted">
                       <Calendar className="w-3 h-3" />
                       {formatDateTime(report.createdAt)}
                     </span>
                   </div>
 
-                  <h3 className="text-[#111827] font-semibold text-lg mb-2">
+                  <h3 className="text-text-primary font-heading font-medium text-lg mb-2">
                     {report.title}
                   </h3>
 
                   {report.period && (
-                    <div className="flex items-center gap-2 text-sm text-[#6b7280] mb-3">
+                    <div className="flex items-center gap-2 text-sm text-text-muted mb-3">
                       <Calendar className="w-4 h-4" />
                       <span>
                         {formatDate(report.period?.startDate)} -{" "}
@@ -174,7 +174,7 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                   )}
 
                   {report.summary && (
-                    <p className="text-[#374151] text-sm line-clamp-2 mb-3">
+                    <p className="text-text-secondary text-sm line-clamp-2 mb-3">
                       {report.summary}
                     </p>
                   )}
@@ -182,25 +182,25 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                   {hasMetrics && (
                     <div className="flex flex-wrap gap-3 mt-2">
                       {report.metrics.applicationsProcessed !== undefined && (
-                        <div className="flex items-center gap-1 text-xs bg-white px-2 py-1 rounded-lg">
-                          <FileText className="w-3 h-3 text-blue-400" />
-                          <span className="text-[#374151]">
+                        <div className="flex items-center gap-1 text-xs bg-gray-50 border border-gray-200 px-2 py-1 rounded-lg">
+                          <FileText className="w-3 h-3 text-blue-500" />
+                          <span className="text-text-secondary">
                             {report.metrics.applicationsProcessed} processed
                           </span>
                         </div>
                       )}
                       {report.metrics.approvedApplications !== undefined && (
-                        <div className="flex items-center gap-1 text-xs bg-white px-2 py-1 rounded-lg">
-                          <CheckCircle className="w-3 h-3 text-[#2563eb]" />
-                          <span className="text-[#374151]">
+                        <div className="flex items-center gap-1 text-xs bg-gray-50 border border-gray-200 px-2 py-1 rounded-lg">
+                          <CheckCircle className="w-3 h-3 text-accent" />
+                          <span className="text-text-secondary">
                             {report.metrics.approvedApplications} approved
                           </span>
                         </div>
                       )}
                       {report.metrics.completedRequests !== undefined && (
-                        <div className="flex items-center gap-1 text-xs bg-white px-2 py-1 rounded-lg">
-                          <Award className="w-3 h-3 text-purple-400" />
-                          <span className="text-[#374151]">
+                        <div className="flex items-center gap-1 text-xs bg-gray-50 border border-gray-200 px-2 py-1 rounded-lg">
+                          <Award className="w-3 h-3 text-purple-500" />
+                          <span className="text-text-secondary">
                             {report.metrics.completedRequests} completed
                           </span>
                         </div>
@@ -209,9 +209,9 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                   )}
 
                   {hasFeedback && !isExpanded && (
-                    <div className="mt-3 flex items-start gap-2 text-xs bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg p-2">
-                      <MessageSquare className="w-3 h-3 text-[#2563eb] mt-0.5 shrink-0" />
-                      <span className="text-[#6b7280] line-clamp-1">
+                    <div className="mt-3 flex items-start gap-2 text-xs bg-blue-50 border border-accent/20 rounded-lg p-2">
+                      <MessageSquare className="w-3 h-3 text-accent mt-0.5 shrink-0" />
+                      <span className="text-text-muted line-clamp-1">
                         Feedback: {report.feedback}
                       </span>
                     </div>
@@ -222,7 +222,7 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                   {onViewDetails && (
                     <button
                       onClick={() => onViewDetails?.(report._id)}
-                      className="text-[#6b7280] hover:text-[#111827] p-2 rounded-lg hover:bg-[#F3F4F6] transition"
+                      className="text-text-muted hover:text-text-primary p-2 rounded-lg hover:bg-gray-100 transition"
                       title="View Full Report"
                     >
                       <Eye className="w-4 h-4" />
@@ -234,8 +234,8 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                     }
                     className={`p-2 rounded-lg transition ${
                       isExpanded
-                        ? "text-[#2563eb] bg-[#EEF2FF]"
-                        : "text-[#6b7280] hover:text-[#111827] hover:bg-[#F3F4F6]"
+                        ? "text-accent bg-blue-50"
+                        : "text-text-muted hover:text-text-primary hover:bg-gray-100"
                     }`}
                   >
                     <ChevronRight
@@ -255,17 +255,17 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="border-t border-[#E5E7EB] overflow-hidden"
+                  className="border-t border-gray-200 overflow-hidden"
                 >
-                  <div className="p-5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] space-y-5">
+                  <div className="p-5 bg-gray-50 space-y-5">
                     {report.summary && (
                       <div>
-                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <h4 className="text-xs font-medium text-text-muted uppercase tracking-wider mb-2 flex items-center gap-2">
                           <FileText className="w-3 h-3" />
                           Full Summary
                         </h4>
-                        <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4">
-                          <p className="text-[#374151] whitespace-pre-wrap">
+                        <div className="bg-white border border-gray-200 rounded-lg p-4">
+                          <p className="text-text-secondary whitespace-pre-wrap">
                             {report.summary}
                           </p>
                         </div>
@@ -274,16 +274,16 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
 
                     {report.achievements?.length > 0 && (
                       <div>
-                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
-                          <TrendingUp className="w-3 h-3 text-[#2563eb]" />
+                        <h4 className="text-xs font-medium text-text-muted uppercase tracking-wider mb-2 flex items-center gap-2">
+                          <TrendingUp className="w-3 h-3 text-accent" />
                           Key Achievements
                         </h4>
-                        <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4">
+                        <div className="bg-white border border-gray-200 rounded-lg p-4">
                           <ul className="space-y-2">
                             {report.achievements.map((achievement, idx) => (
                               <li key={idx} className="flex items-start gap-2">
-                                <CheckCircle className="w-4 h-4 text-[#2563eb] mt-0.5 shrink-0" />
-                                <span className="text-[#374151] text-sm">
+                                <CheckCircle className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                                <span className="text-text-secondary text-sm">
                                   {achievement}
                                 </span>
                               </li>
@@ -295,16 +295,16 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
 
                     {report.challenges?.length > 0 && (
                       <div>
-                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <h4 className="text-xs font-medium text-text-muted uppercase tracking-wider mb-2 flex items-center gap-2">
                           <TrendingDown className="w-3 h-3 text-red-500" />
                           Challenges Faced
                         </h4>
-                        <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4">
+                        <div className="bg-white border border-gray-200 rounded-lg p-4">
                           <ul className="space-y-2">
                             {report.challenges.map((challenge, idx) => (
                               <li key={idx} className="flex items-start gap-2">
                                 <AlertCircle className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
-                                <span className="text-[#374151] text-sm">
+                                <span className="text-text-secondary text-sm">
                                   {challenge}
                                 </span>
                               </li>
@@ -316,18 +316,18 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
 
                     {report.nextSteps?.length > 0 && (
                       <div>
-                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
-                          <Calendar className="w-3 h-3 text-blue-400" />
+                        <h4 className="text-xs font-medium text-text-muted uppercase tracking-wider mb-2 flex items-center gap-2">
+                          <Calendar className="w-3 h-3 text-blue-500" />
                           Next Steps
                         </h4>
-                        <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4">
+                        <div className="bg-white border border-gray-200 rounded-lg p-4">
                           <ul className="space-y-2">
                             {report.nextSteps.map((step, idx) => (
                               <li key={idx} className="flex items-start gap-2">
-                                <div className="w-4 h-4 rounded-full bg-[#EEF2FF] text-[#2563eb] flex items-center justify-center text-xs mt-0.5">
+                                <div className="w-4 h-4 rounded-full bg-blue-50 text-accent flex items-center justify-center text-xs mt-0.5">
                                   {idx + 1}
                                 </div>
-                                <span className="text-[#374151] text-sm">
+                                <span className="text-text-secondary text-sm">
                                   {step}
                                 </span>
                               </li>
@@ -339,46 +339,52 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
 
                     {hasMetrics && (
                       <div>
-                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <h4 className="text-xs font-medium text-text-muted uppercase tracking-wider mb-2 flex items-center gap-2">
                           <Award className="w-3 h-3" />
                           Detailed Metrics
                         </h4>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                           {report.metrics.applicationsProcessed !==
                             undefined && (
-                            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 text-center">
-                              <p className="text-2xl font-bold text-blue-400">
+                            <div className="bg-white border border-gray-200 rounded-lg p-3 text-center">
+                              <p className="text-2xl font-bold text-blue-500">
                                 {report.metrics.applicationsProcessed}
                               </p>
-                              <p className="text-xs text-[#6b7280]">
+                              <p className="text-xs text-text-muted">
                                 Applications Processed
                               </p>
                             </div>
                           )}
                           {report.metrics.approvedApplications !==
                             undefined && (
-                            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 text-center">
-                              <p className="text-2xl font-bold text-[#2563eb]">
+                            <div className="bg-white border border-gray-200 rounded-lg p-3 text-center">
+                              <p className="text-2xl font-bold text-accent">
                                 {report.metrics.approvedApplications}
                               </p>
-                              <p className="text-xs text-[#6b7280]">Approved</p>
+                              <p className="text-xs text-text-muted">
+                                Approved
+                              </p>
                             </div>
                           )}
                           {report.metrics.rejectedApplications !==
                             undefined && (
-                            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 text-center">
+                            <div className="bg-white border border-gray-200 rounded-lg p-3 text-center">
                               <p className="text-2xl font-bold text-red-500">
                                 {report.metrics.rejectedApplications}
                               </p>
-                              <p className="text-xs text-[#6b7280]">Rejected</p>
+                              <p className="text-xs text-text-muted">
+                                Rejected
+                              </p>
                             </div>
                           )}
                           {report.metrics.completedRequests !== undefined && (
-                            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 text-center">
-                              <p className="text-2xl font-bold text-purple-400">
+                            <div className="bg-white border border-gray-200 rounded-lg p-3 text-center">
+                              <p className="text-2xl font-bold text-purple-500">
                                 {report.metrics.completedRequests}
                               </p>
-                              <p className="text-xs text-[#6b7280]">Completed</p>
+                              <p className="text-xs text-text-muted">
+                                Completed
+                              </p>
                             </div>
                           )}
                         </div>
@@ -386,15 +392,15 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                     )}
 
                     {performanceTrend !== null && (
-                      <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
+                      <div className="bg-white border border-gray-200 rounded-lg p-3">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm text-[#374151]">
+                          <span className="text-sm text-text-secondary">
                             Approval Rate Change
                           </span>
                           <div
                             className={`flex items-center gap-1 ${
                               performanceTrend >= 0
-                                ? "text-[#2563eb]"
+                                ? "text-accent"
                                 : "text-red-500"
                             }`}
                           >
@@ -403,18 +409,16 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
                             ) : (
                               <TrendingDown className="w-3 h-3" />
                             )}
-                            <span className="font-semibold">
+                            <span className="font-medium">
                               {performanceTrend >= 0 ? "+" : ""}
                               {performanceTrend.toFixed(1)}%
                             </span>
                           </div>
                         </div>
-                        <div className="mt-2 w-full bg-[#F3F4F6] rounded-full h-1.5">
+                        <div className="mt-2 w-full bg-gray-200 rounded-full h-1.5">
                           <div
                             className={`h-1.5 rounded-full transition-all duration-500 ${
-                              performanceTrend >= 0
-                                ? "bg-[#2563eb]"
-                                : "bg-red-500"
+                              performanceTrend >= 0 ? "bg-accent" : "bg-red-500"
                             }`}
                             style={{
                               width: `${Math.min(
@@ -429,16 +433,16 @@ const DirectorMyReportsList = ({ reports = [], onViewDetails }) => {
 
                     {hasFeedback && (
                       <div>
-                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-2">
-                          <MessageSquare className="w-3 h-3 text-blue-400" />
+                        <h4 className="text-xs font-medium text-text-muted uppercase tracking-wider mb-2 flex items-center gap-2">
+                          <MessageSquare className="w-3 h-3 text-blue-500" />
                           Feedback & Comments
                         </h4>
-                        <div className="bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg p-4">
-                          <p className="text-[#374151] whitespace-pre-wrap">
+                        <div className="bg-blue-50 border border-accent/20 rounded-lg p-4">
+                          <p className="text-text-secondary whitespace-pre-wrap">
                             {report.feedback}
                           </p>
                           {report.reviewedBy && (
-                            <p className="text-xs text-[#6b7280] mt-2 flex items-center gap-1">
+                            <p className="text-xs text-text-muted mt-2 flex items-center gap-1">
                               <User className="w-3 h-3" />
                               Reviewed by:{" "}
                               {report.reviewedBy?.fullName || "Admin"}

@@ -107,7 +107,6 @@ const DirectorDashboard = () => {
 
   const [greeting, setGreeting] = useState("");
   const [activeTab, setActiveTab] = useState("overview");
-  const [showAnalytics, setShowAnalytics] = useState(false);
   const [showWelcome, setShowWelcome] = useState(true);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -386,6 +385,7 @@ const DirectorDashboard = () => {
     else if (hour < 18) setGreeting("Good Afternoon");
     else setGreeting("Good Evening");
   }, [directorateType, isServiceDirectorate]);
+
   const handleRefresh = async () => {
     try {
       const promises = [
@@ -524,6 +524,7 @@ const DirectorDashboard = () => {
     trainerReports: Array.isArray(trainerReports) ? trainerReports : [],
     myReports: Array.isArray(myReports) ? myReports : [],
   };
+
   const getCurrentReports = () => {
     if (isServiceDirectorate) return safeData.teamReports;
     if (directorateType === "internship") return safeData.advisorReports;
@@ -593,8 +594,8 @@ const DirectorDashboard = () => {
           actionText: "Assign to team",
           actionIcon: <UserPlus className="w-4 h-4" />,
           icon: <ClipboardList className="w-6 h-6" />,
-          color: "from-amber-500 to-orange-500",
-          bgColor: "bg-amber-500/10",
+          bgColor: "bg-amber-50",
+          iconColor: "text-amber-600",
           onClick: () => {
             setActiveTab("requests");
             setRequestFilters({ ...requestFilters, status: "pending" });
@@ -605,7 +606,7 @@ const DirectorDashboard = () => {
             pendingServiceRequestsCount === 0
               ? "All caught up!"
               : `${pendingServiceRequestsCount} request${pendingServiceRequestsCount !== 1 ? "s" : ""} awaiting assignment`,
-          topBorder: "border-t-[3px] border-t-[#f59e0b]",
+          topBorder: "border-t-amber-500",
         },
         {
           id: "teams",
@@ -614,13 +615,13 @@ const DirectorDashboard = () => {
           actionText: "Manage teams",
           actionIcon: <Users className="w-4 h-4" />,
           icon: <Users className="w-6 h-6" />,
-          color: "from-[#DBEAFE] to-[#BFDBFE]",
-          bgColor: "bg-[#EEF2FF]",
+          bgColor: "bg-blue-50",
+          iconColor: "text-blue-600",
           onClick: () => setActiveTab("teams"),
           isEmpty: safeData.teams.length === 0,
           emptyMessage: "No teams yet",
           description: `${safeData.teams.length} active team${safeData.teams.length !== 1 ? "s" : ""}`,
-          topBorder: "border-t-[3px] border-t-[#2563eb]",
+          topBorder: "border-t-accent",
         },
         {
           id: "reports",
@@ -634,8 +635,8 @@ const DirectorDashboard = () => {
               <ThumbsUp className="w-4 h-4" />
             ),
           icon: <FileText className="w-6 h-6" />,
-          color: "from-purple-500 to-pink-500",
-          bgColor: "bg-purple-500/10",
+          bgColor: "bg-purple-50",
+          iconColor: "text-purple-600",
           onClick: () => setActiveTab("reports"),
           isEmpty: pendingReportsCount === 0,
           emptyMessage: "No pending reports 🎉",
@@ -643,7 +644,7 @@ const DirectorDashboard = () => {
             pendingReportsCount === 0
               ? "All caught up!"
               : `${pendingReportsCount} report${pendingReportsCount !== 1 ? "s" : ""} awaiting review`,
-          topBorder: "border-t-[3px] border-t-[#8b5cf6]",
+          topBorder: "border-t-purple-500",
         },
         {
           id: "staffs",
@@ -652,13 +653,13 @@ const DirectorDashboard = () => {
           actionText: "View all",
           actionIcon: <ArrowRight className="w-4 h-4" />,
           icon: <Users className="w-6 h-6" />,
-          color: "from-blue-500 to-cyan-500",
-          bgColor: "bg-blue-500/10",
+          bgColor: "bg-green-50",
+          iconColor: "text-green-600",
           onClick: () => navigate("/staff"),
           isEmpty: (stats?.totalStaff || 0) === 0,
           emptyMessage: "No staff members yet",
           description: `${stats?.totalStaff || 0} member${stats?.totalStaff !== 1 ? "s" : ""}`,
-          topBorder: "border-t-[3px] border-t-[#10b981]",
+          topBorder: "border-t-green-500",
         },
       ];
     }
@@ -680,13 +681,13 @@ const DirectorDashboard = () => {
           ) : (
             <School className="w-6 h-6" />
           ),
-        color: "from-[#DBEAFE] to-[#BFDBFE]",
-        bgColor: "bg-[#EEF2FF]",
+        bgColor: "bg-blue-50",
+        iconColor: "text-blue-600",
         onClick: () => setActiveTab(getParticipantListTab()),
         isEmpty: assignedCount + unassignedCount === 0,
         emptyMessage: `No ${getParticipantLabel().toLowerCase()} yet`,
         description: `${assignedCount + unassignedCount} total ${getParticipantLabel().toLowerCase()}`,
-        topBorder: "border-t-[3px] border-t-[#2563eb]",
+        topBorder: "border-t-accent",
       },
       {
         id: "active",
@@ -704,13 +705,13 @@ const DirectorDashboard = () => {
           ) : (
             <School className="w-6 h-6" />
           ),
-        color: "from-[#DBEAFE] to-[#BFDBFE]",
-        bgColor: "bg-[#EEF2FF]",
+        bgColor: "bg-green-50",
+        iconColor: "text-green-600",
         onClick: () => setActiveTab(getParticipantListTab()),
         isEmpty: assignedCount === 0,
         emptyMessage: `No active ${getParticipantLabel().toLowerCase()} yet`,
         description: `${assignedCount} active ${getParticipantLabel().toLowerCase()}`,
-        topBorder: "border-t-[3px] border-t-[#10b981]",
+        topBorder: "border-t-green-500",
       },
       {
         id: "reports",
@@ -724,8 +725,8 @@ const DirectorDashboard = () => {
             <ThumbsUp className="w-4 h-4" />
           ),
         icon: <FileText className="w-6 h-6" />,
-        color: "from-purple-500 to-pink-500",
-        bgColor: "bg-purple-500/10",
+        bgColor: "bg-purple-50",
+        iconColor: "text-purple-600",
         onClick: () => setActiveTab("reports"),
         isEmpty: pendingReportsCount === 0,
         emptyMessage: "No pending reports 🎉",
@@ -733,7 +734,7 @@ const DirectorDashboard = () => {
           pendingReportsCount === 0
             ? "All caught up!"
             : `${pendingReportsCount} report${pendingReportsCount !== 1 ? "s" : ""} awaiting review`,
-        topBorder: "border-t-[3px] border-t-[#8b5cf6]",
+        topBorder: "border-t-purple-500",
       },
     ];
   };
@@ -750,14 +751,14 @@ const DirectorDashboard = () => {
 
   if (loading && !stats) {
     return (
-      <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563eb]" />
+      <div className="min-h-screen bg-linear-to-b from-gray-50 to-gray-100 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent" />
       </div>
     );
   }
 
   return (
-    <div className="h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] overflow-hidden flex flex-col">
+    <div className="h-screen bg-linear-to-b from-gray-50 to-gray-100 overflow-hidden flex flex-col font-body">
       <DirectorHeader
         onRefresh={handleRefresh}
         title={`${directorateType.charAt(0).toUpperCase() + directorateType.slice(1)} Director Dashboard`}
@@ -768,7 +769,7 @@ const DirectorDashboard = () => {
 
       <div className="flex flex-1 overflow-hidden relative">
         <aside
-          className={`hidden md:block fixed left-0 top-[calc(4rem+var(--analytics-height,0px))] h-[calc(100vh-4rem-var(--analytics-height,0px))] transition-all duration-300 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-r border-[#E5E7EB] ${
+          className={`hidden md:block fixed left-0 top-[calc(4rem+var(--analytics-height,0px))] h-[calc(100vh-4rem-var(--analytics-height,0px))] transition-all duration-300 bg-white shadow-sm border-r border-gray-200 ${
             sidebarCollapsed ? "w-20" : "w-64"
           }`}
           style={{ zIndex: 40 }}
@@ -783,8 +784,8 @@ const DirectorDashboard = () => {
                     w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap
                     ${
                       activeTab === item.id
-                        ? "bg-[#EEF2FF] text-[#2563eb] border-l-2 border-[#2563eb]"
-                        : "text-[#6b7280] hover:bg-[#F3F4F6] hover:text-[#111827]"
+                        ? "bg-blue-50 text-accent border-l-2 border-accent"
+                        : "text-text-muted hover:bg-gray-50 hover:text-text-primary"
                     }
                     ${sidebarCollapsed ? "justify-center px-2" : ""}
                   `}
@@ -797,21 +798,25 @@ const DirectorDashboard = () => {
                     </span>
                   )}
                   {!sidebarCollapsed && item.count > 0 && (
-                    <span className="text-xs px-2 py-0.5 bg-[#EEF2FF] text-[#2563eb] rounded-full shrink-0">
+                    <span className="text-xs px-2 py-0.5 bg-blue-50 text-accent rounded-full shrink-0">
                       {item.count}
                     </span>
                   )}
                 </button>
               ))}
-              <div className="border-t border-[#E5E7EB] mt-2 pt-2">
+              <div className="border-t border-gray-200 mt-2 pt-2">
                 <button
                   onClick={handleLogout}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap text-red-500 hover:bg-red-50 ${sidebarCollapsed ? "justify-center px-2" : ""}`}
                   title={sidebarCollapsed ? "Sign Out" : ""}
                 >
-                  <div className="shrink-0"><LogOut className="w-5 h-5" /></div>
+                  <div className="shrink-0">
+                    <LogOut className="w-5 h-5" />
+                  </div>
                   {!sidebarCollapsed && (
-                    <span className="text-sm font-medium flex-1 text-left">Sign Out</span>
+                    <span className="text-sm font-medium flex-1 text-left">
+                      Sign Out
+                    </span>
                   )}
                 </button>
               </div>
@@ -820,12 +825,12 @@ const DirectorDashboard = () => {
 
           <button
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            className="absolute -right-3 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-100 rounded-full p-1.5 shadow-lg z-20 transition-colors border border-[#E5E7EB]"
+            className="absolute -right-3 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-100 rounded-full p-1.5 shadow-md z-20 transition-colors border border-gray-200"
           >
             {sidebarCollapsed ? (
-              <ChevronRight className="w-4 h-4 text-[#334155]" />
+              <ChevronRight className="w-4 h-4 text-text-muted" />
             ) : (
-              <ChevronLeft className="w-4 h-4 text-[#334155]" />
+              <ChevronLeft className="w-4 h-4 text-text-muted" />
             )}
           </button>
         </aside>
@@ -838,22 +843,22 @@ const DirectorDashboard = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setMobileSidebarOpen(false)}
-                className="fixed inset-0 bg-black/60 z-40 md:hidden"
+                className="fixed inset-0 bg-black/50 z-40 md:hidden"
               />
               <motion.aside
                 initial={{ x: -280 }}
                 animate={{ x: 0 }}
                 exit={{ x: -280 }}
                 transition={{ type: "tween", duration: 0.3 }}
-                className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-r border-[#E5E7EB] z-[9999] md:hidden"
+                className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-sm border-r border-gray-200 z-50 md:hidden"
               >
-                <div className="flex justify-between items-center p-4 border-b border-[#E5E7EB]">
-                  <span className="text-[#111827] font-bold">Menu</span>
+                <div className="flex justify-between items-center p-4 border-b border-gray-200">
+                  <span className="text-text-primary font-bold">Menu</span>
                   <button
                     onClick={() => setMobileSidebarOpen(false)}
-                    className="p-1 hover:bg-[#F3F4F6] rounded-lg"
+                    className="p-1 hover:bg-gray-100 rounded-lg"
                   >
-                    <X className="w-5 h-5 text-[#6b7280]" />
+                    <X className="w-5 h-5 text-text-muted" />
                   </button>
                 </div>
                 <nav className="p-4 space-y-1 overflow-y-auto h-[calc(100%-4rem)]">
@@ -868,8 +873,8 @@ const DirectorDashboard = () => {
                         w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
                         ${
                           activeTab === item.id
-                            ? "bg-[#EEF2FF] text-[#2563eb]"
-                            : "text-[#6b7280] hover:bg-[#F3F4F6] hover:text-[#111827]"
+                            ? "bg-blue-50 text-accent"
+                            : "text-text-muted hover:bg-gray-50 hover:text-text-primary"
                         }
                       `}
                     >
@@ -878,13 +883,13 @@ const DirectorDashboard = () => {
                         {item.label}
                       </span>
                       {item.count > 0 && (
-                        <span className="text-xs px-2 py-0.5 bg-[#EEF2FF] text-[#2563eb] rounded-full">
+                        <span className="text-xs px-2 py-0.5 bg-blue-50 text-accent rounded-full">
                           {item.count}
                         </span>
                       )}
                     </button>
                   ))}
-                  <div className="border-t border-[#E5E7EB] mt-2 pt-2">
+                  <div className="border-t border-gray-200 mt-2 pt-2">
                     <button
                       onClick={handleLogout}
                       className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-red-500 hover:bg-red-50"
@@ -916,32 +921,34 @@ const DirectorDashboard = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
                         onClick={card.onClick}
-                        className={`relative overflow-hidden bg-white border-l border-r border-b border-[#E5E7EB] ${card.topBorder} rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] ${
+                        className={`relative overflow-hidden bg-white border-l border-r border-b border-gray-200 ${card.topBorder} rounded-xl p-6 shadow-sm ${
                           !card.isEmpty && card.value > 0
-                            ? "cursor-pointer transition-all duration-200 ease-in-out hover:-translate-y-[3px] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)]"
+                            ? "cursor-pointer transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md"
                             : ""
                         }`}
                       >
                         <div className="relative z-10">
                           <div className="flex items-center justify-between mb-3">
-                            <div className="bg-[#EEF2FF] rounded-[10px] p-[10px] text-[#2563eb] [&_svg]:shrink-0">
+                            <div
+                              className={`${card.bgColor} rounded-lg p-2.5 ${card.iconColor} [&_svg]:shrink-0`}
+                            >
                               {card.icon}
                             </div>
                             {card.isEmpty ? (
-                              <span className="text-xs text-[#2563eb] flex items-center gap-1">
+                              <span className="text-xs text-accent flex items-center gap-1">
                                 <CheckCircle className="w-3 h-3" /> All good
                               </span>
                             ) : (
-                              <TrendingUp className="w-4 h-4 text-[#6b7280]" />
+                              <TrendingUp className="w-4 h-4 text-text-muted" />
                             )}
                           </div>
-                          <p className="text-3xl font-bold text-[#111827]">
+                          <p className="text-3xl font-bold text-text-primary">
                             {card.value}
                           </p>
-                          <p className="text-sm text-[#6b7280] mt-1">
+                          <p className="text-sm text-text-muted mt-1">
                             {card.title}
                           </p>
-                          <p className="text-xs text-[#6b7280] mt-1">
+                          <p className="text-xs text-text-muted mt-1">
                             {card.description}
                           </p>
                           {!card.isEmpty && (
@@ -950,7 +957,7 @@ const DirectorDashboard = () => {
                                 e.stopPropagation();
                                 card.onClick();
                               }}
-                              className="mt-3 text-xs text-[#2563eb] hover:text-[#1d4ed8] transition flex items-center gap-1 group"
+                              className="mt-3 text-xs text-accent hover:text-blue-700 transition flex items-center gap-1 group"
                             >
                               <span>{card.actionText}</span>
                               <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition" />
@@ -966,18 +973,18 @@ const DirectorDashboard = () => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 }}
-                      className="relative overflow-hidden bg-linear-to-r from-[#DBEAFE]/40 to-[#BFDBFE]/40 border border-[#2563eb]/20 rounded-xl"
+                      className="relative overflow-hidden bg-linear-to-r from-blue-50 to-blue-100 border border-accent/20 rounded-xl"
                     >
                       <div className="relative z-10 px-5 py-3 flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-[#EEF2FF] rounded-lg flex items-center justify-center">
-                            <Sparkles className="w-4 h-4 text-[#2563eb]" />
+                          <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <Sparkles className="w-4 h-4 text-accent" />
                           </div>
                           <div>
-                            <p className="text-sm text-[#2563eb]">
+                            <p className="text-sm text-accent">
                               {greeting}, {user?.fullName?.split(" ")[0]}
                             </p>
-                            <p className="text-xs text-[#6b7280]">
+                            <p className="text-xs text-text-muted">
                               {isServiceDirectorate
                                 ? "Review and assign service requests to your teams"
                                 : `Manage ${getParticipantLabel().toLowerCase()} and review ${getReportLabel().toLowerCase()}`}
@@ -986,7 +993,7 @@ const DirectorDashboard = () => {
                         </div>
                         <button
                           onClick={() => setShowWelcome(false)}
-                          className="text-[#6b7280] hover:text-[#6b7280] transition"
+                          className="text-text-muted hover:text-text-primary transition"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -995,11 +1002,11 @@ const DirectorDashboard = () => {
                   )}
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden transition-all duration-200 ease-in-out hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]">
-                      <div className="px-6 py-4 border-b border-[#E5E7EB] bg-white">
+                    <div className="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ease-in-out hover:shadow-md hover:-translate-y-0.5">
+                      <div className="px-6 py-4 border-b border-gray-200 bg-white">
                         <div className="flex items-center justify-between">
-                          <h2 className="font-semibold text-[#111827] flex items-center gap-2">
-                            <Zap className="w-5 h-5 text-[#2563eb]" />
+                          <h2 className="font-heading font-medium text-text-primary flex items-center gap-2">
+                            <Zap className="w-5 h-5 text-accent" />
                             {isServiceDirectorate
                               ? "Pending Service Requests"
                               : `${unassignedCount} ${getParticipantLabel()} Need ${getAssignmentPersonLabel()}s`}
@@ -1009,7 +1016,7 @@ const DirectorDashboard = () => {
                               onClick={() =>
                                 setActiveTab(getParticipantListTab())
                               }
-                              className="text-xs text-[#2563eb] hover:text-[#1d4ed8] transition flex items-center gap-1"
+                              className="text-xs text-accent hover:text-blue-700 transition flex items-center gap-1"
                             >
                               View all <ChevronRight className="w-3 h-3" />
                             </button>
@@ -1037,7 +1044,7 @@ const DirectorDashboard = () => {
                           }}
                         />
                       ) : (
-                        <div className="divide-y divide-[#E5E7EB]">
+                        <div className="divide-y divide-gray-200">
                           {unassignedParticipants
                             .slice(0, 5)
                             .map((participant) => {
@@ -1046,7 +1053,7 @@ const DirectorDashboard = () => {
                               return (
                                 <div
                                   key={participantId}
-                                  className="p-4 hover:bg-[#F3F4F6]/30 transition group cursor-pointer"
+                                  className="p-4 hover:bg-gray-50 transition group cursor-pointer"
                                   onClick={() => {
                                     handleViewParticipant(participant._id);
                                   }}
@@ -1054,16 +1061,16 @@ const DirectorDashboard = () => {
                                   <div className="flex justify-between items-center">
                                     <div className="flex-1">
                                       <div className="flex items-center gap-2">
-                                        <p className="text-[#111827] font-medium group-hover:text-[#2563eb] transition">
+                                        <p className="text-text-primary font-medium group-hover:text-accent transition">
                                           {directorateType === "startup"
                                             ? participant.companyName
                                             : participant.user?.fullName}
                                         </p>
-                                        <span className="text-xs px-2 py-0.5 bg-amber-500/20 text-amber-400 rounded-full">
+                                        <span className="text-xs px-2 py-0.5 bg-amber-50 text-amber-600 rounded-full">
                                           Needs {getAssignmentPersonLabel()}
                                         </span>
                                       </div>
-                                      <p className="text-xs text-[#6b7280] mt-1">
+                                      <p className="text-xs text-text-muted mt-1">
                                         {directorateType === "internship" &&
                                           participant.university?.name}
                                         {directorateType === "innovation" &&
@@ -1106,7 +1113,7 @@ const DirectorDashboard = () => {
                                           }));
                                         }
                                       }}
-                                      className="px-3 py-1.5 bg-emerald-600/20 hover:bg-emerald-600 text-[#2563eb] hover:text-[#111827] rounded-lg transition text-sm flex items-center gap-1"
+                                      className="px-3 py-1.5 bg-accent/10 hover:bg-accent text-accent hover:text-white rounded-lg transition text-sm flex items-center gap-1"
                                     >
                                       <UserPlus className="w-3 h-3" />
                                       {getAssignmentLabel()}
@@ -1117,10 +1124,10 @@ const DirectorDashboard = () => {
                             })}
                           {unassignedCount === 0 && (
                             <div className="p-12 text-center">
-                              <div className="w-16 h-16 bg-[#F9FAFB] border border-[#E5E7EB] rounded-full flex items-center justify-center mx-auto mb-3">
-                                <CheckCircle className="w-8 h-8 text-[#2563eb]" />
+                              <div className="w-16 h-16 bg-gray-50 border border-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <CheckCircle className="w-8 h-8 text-accent" />
                               </div>
-                              <p className="text-[#6b7280]">
+                              <p className="text-text-muted">
                                 All {getParticipantLabel().toLowerCase()} have
                                 been assigned! 🎉
                               </p>
@@ -1131,30 +1138,30 @@ const DirectorDashboard = () => {
                     </div>
 
                     {!isServiceDirectorate && assignedCount > 0 && (
-                      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden transition-all duration-200 ease-in-out hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]">
-                        <div className="px-6 py-4 border-b border-[#E5E7EB] bg-white">
+                      <div className="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ease-in-out hover:shadow-md hover:-translate-y-0.5">
+                        <div className="px-6 py-4 border-b border-gray-200 bg-white">
                           <div className="flex items-center justify-between">
-                            <h2 className="font-semibold text-[#111827] flex items-center gap-2">
-                              <Users className="w-5 h-5 text-[#2563eb]" />
+                            <h2 className="font-heading font-medium text-text-primary flex items-center gap-2">
+                              <Users className="w-5 h-5 text-accent" />
                               Active {getParticipantLabel()}
                             </h2>
                             <button
                               onClick={() =>
                                 setActiveTab(getParticipantListTab())
                               }
-                              className="text-xs text-[#2563eb] hover:text-[#1d4ed8] transition flex items-center gap-1"
+                              className="text-xs text-accent hover:text-blue-700 transition flex items-center gap-1"
                             >
                               View all <ChevronRight className="w-3 h-3" />
                             </button>
                           </div>
                         </div>
-                        <div className="divide-y divide-[#E5E7EB]">
+                        <div className="divide-y divide-gray-200">
                           {assignedParticipants
                             .slice(0, 5)
                             .map((participant) => (
                               <div
                                 key={participant._id}
-                                className="p-4 hover:bg-[#F3F4F6]/30 transition group cursor-pointer"
+                                className="p-4 hover:bg-gray-50 transition group cursor-pointer"
                                 onClick={() => {
                                   handleViewParticipant(participant._id);
                                 }}
@@ -1162,16 +1169,16 @@ const DirectorDashboard = () => {
                                 <div className="flex justify-between items-center">
                                   <div className="flex-1">
                                     <div className="flex items-center gap-2">
-                                      <p className="text-[#111827] font-medium group-hover:text-[#2563eb] transition">
+                                      <p className="text-text-primary font-medium group-hover:text-accent transition">
                                         {directorateType === "startup"
                                           ? participant.companyName
                                           : participant.user?.fullName}
                                       </p>
-                                      <span className="text-xs px-2 py-0.5 bg-[#EEF2FF] text-[#2563eb] rounded-full">
+                                      <span className="text-xs px-2 py-0.5 bg-blue-50 text-accent rounded-full">
                                         {getAssignmentPersonLabel()} Assigned
                                       </span>
                                     </div>
-                                    <p className="text-xs text-[#6b7280] mt-1">
+                                    <p className="text-xs text-text-muted mt-1">
                                       {directorateType === "internship" &&
                                         participant.university?.name}
                                       {directorateType === "innovation" &&
@@ -1181,7 +1188,7 @@ const DirectorDashboard = () => {
                                       {directorateType === "training" &&
                                         participant.program}
                                     </p>
-                                    <p className="text-xs text-[#6b7280] mt-1">
+                                    <p className="text-xs text-text-muted mt-1">
                                       Assigned to:{" "}
                                       {directorateType === "internship" &&
                                         participant.assignedAdvisor?.fullName}
@@ -1193,7 +1200,7 @@ const DirectorDashboard = () => {
                                         participant.trainer?.fullName}
                                     </p>
                                   </div>
-                                  <Eye className="w-4 h-4 text-[#6b7280] group-hover:text-[#2563eb] transition" />
+                                  <Eye className="w-4 h-4 text-text-muted group-hover:text-accent transition" />
                                 </div>
                               </div>
                             ))}
@@ -1202,17 +1209,17 @@ const DirectorDashboard = () => {
                     )}
 
                     {isServiceDirectorate && (
-                      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden transition-all duration-200 ease-in-out hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]">
-                        <div className="px-6 py-4 border-b border-[#E5E7EB] bg-white">
+                      <div className="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ease-in-out hover:shadow-md hover:-translate-y-0.5">
+                        <div className="px-6 py-4 border-b border-gray-200 bg-white">
                           <div className="flex items-center justify-between">
-                            <h2 className="font-semibold text-[#111827] flex items-center gap-2">
-                              <Users className="w-5 h-5 text-[#2563eb]" />
+                            <h2 className="font-heading font-medium text-text-primary flex items-center gap-2">
+                              <Users className="w-5 h-5 text-accent" />
                               Your Teams
                             </h2>
                             {safeData.teams.length > 0 && (
                               <button
                                 onClick={() => setActiveTab("teams")}
-                                className="text-xs text-[#2563eb] hover:text-[#1d4ed8] transition flex items-center gap-1"
+                                className="text-xs text-accent hover:text-blue-700 transition flex items-center gap-1"
                               >
                                 Manage all <ChevronRight className="w-3 h-3" />
                               </button>
@@ -1226,31 +1233,31 @@ const DirectorDashboard = () => {
                       </div>
                     )}
 
-                    <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden transition-all duration-200 ease-in-out hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]">
-                      <div className="px-6 py-4 border-b border-[#E5E7EB] bg-white">
+                    <div className="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ease-in-out hover:shadow-md hover:-translate-y-0.5">
+                      <div className="px-6 py-4 border-b border-gray-200 bg-white">
                         <div className="flex items-center justify-between">
-                          <h2 className="font-semibold text-[#111827] flex items-center gap-2">
+                          <h2 className="font-heading font-medium text-text-primary flex items-center gap-2">
                             {getReportIcon()}
                             Pending {getReportLabel()}
                           </h2>
                           {pendingReportsCount > 0 && (
                             <button
                               onClick={() => setActiveTab("reports")}
-                              className="text-xs text-[#2563eb] hover:text-[#1d4ed8] transition flex items-center gap-1"
+                              className="text-xs text-accent hover:text-blue-700 transition flex items-center gap-1"
                             >
                               Review all <ChevronRight className="w-3 h-3" />
                             </button>
                           )}
                         </div>
                       </div>
-                      <div className="divide-y divide-[#E5E7EB]">
+                      <div className="divide-y divide-gray-200">
                         {safeData.teamReports
                           .filter((r) => r.status === "pending")
                           .slice(0, 5)
                           .map((report) => (
                             <div
                               key={report._id}
-                              className="p-4 hover:bg-[#F3F4F6]/30 transition cursor-pointer group"
+                              className="p-4 hover:bg-gray-50 transition cursor-pointer group"
                               onClick={() => {
                                 setSelectedItem(report);
                                 setModals((prev) => ({
@@ -1262,31 +1269,31 @@ const DirectorDashboard = () => {
                               <div className="flex items-center justify-between">
                                 <div className="flex-1">
                                   <div className="flex items-center gap-2 mb-1">
-                                    <Clock className="w-3 h-3 text-amber-400" />
-                                    <span className="text-xs text-amber-400">
+                                    <Clock className="w-3 h-3 text-amber-500" />
+                                    <span className="text-xs text-amber-600">
                                       Needs your review
                                     </span>
                                   </div>
-                                  <p className="text-[#111827] font-medium group-hover:text-[#2563eb] transition">
+                                  <p className="text-text-primary font-medium group-hover:text-accent transition">
                                     {report.title}
                                   </p>
-                                  <p className="text-xs text-[#6b7280] mt-1">
+                                  <p className="text-xs text-text-muted mt-1">
                                     Submitted:{" "}
                                     {new Date(
                                       report.createdAt,
                                     ).toLocaleDateString()}
                                   </p>
                                 </div>
-                                <Eye className="w-4 h-4 text-[#6b7280] group-hover:text-[#2563eb] transition" />
+                                <Eye className="w-4 h-4 text-text-muted group-hover:text-accent transition" />
                               </div>
                             </div>
                           ))}
                         {pendingReportsCount === 0 && (
                           <div className="p-12 text-center">
-                            <div className="w-16 h-16 bg-[#F9FAFB] border border-[#E5E7EB] rounded-full flex items-center justify-center mx-auto mb-3">
-                              <ThumbsUp className="w-8 h-8 text-[#2563eb]" />
+                            <div className="w-16 h-16 bg-gray-50 border border-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
+                              <ThumbsUp className="w-8 h-8 text-accent" />
                             </div>
-                            <p className="text-[#6b7280]">
+                            <p className="text-text-muted">
                               No pending reports to review 🎉
                             </p>
                           </div>
@@ -1301,10 +1308,10 @@ const DirectorDashboard = () => {
                 <div>
                   <div className="flex justify-between items-center mb-4 flex-wrap gap-3">
                     <div>
-                      <h2 className="text-2xl font-bold text-[#111827]">
+                      <h2 className="text-2xl font-heading font-medium text-text-primary">
                         Service Requests
                       </h2>
-                      <p className="text-[#6b7280] text-sm">
+                      <p className="text-text-muted text-sm">
                         Track and manage all service requests
                       </p>
                     </div>
@@ -1319,8 +1326,8 @@ const DirectorDashboard = () => {
                         }
                         className={`px-3 py-1.5 rounded-lg text-sm transition font-medium ${
                           requestFilters.status === "all"
-                            ? "bg-[#EEF2FF] text-[#2563eb] border border-[#2563eb]/20 shadow-sm"
-                            : "bg-white text-[#4b5563] border border-[#E5E7EB] hover:bg-gray-50"
+                            ? "bg-blue-50 text-accent border border-accent/20 shadow-sm"
+                            : "bg-white text-text-muted border border-gray-200 hover:bg-gray-50"
                         }`}
                       >
                         All ({getAllServiceRequests.length})
@@ -1334,8 +1341,8 @@ const DirectorDashboard = () => {
                         }
                         className={`px-3 py-1.5 rounded-lg text-sm transition font-medium ${
                           requestFilters.status === "pending"
-                            ? "bg-[#EEF2FF] text-[#2563eb] border border-[#2563eb]/20 shadow-sm"
-                            : "bg-white text-[#4b5563] border border-[#E5E7EB] hover:bg-gray-50"
+                            ? "bg-blue-50 text-accent border border-accent/20 shadow-sm"
+                            : "bg-white text-text-muted border border-gray-200 hover:bg-gray-50"
                         }`}
                       >
                         Pending (
@@ -1355,8 +1362,8 @@ const DirectorDashboard = () => {
                         }
                         className={`px-3 py-1.5 rounded-lg text-sm transition font-medium ${
                           requestFilters.status === "assigned"
-                            ? "bg-[#EEF2FF] text-[#2563eb] border border-[#2563eb]/20 shadow-sm"
-                            : "bg-white text-[#4b5563] border border-[#E5E7EB] hover:bg-gray-50"
+                            ? "bg-blue-50 text-accent border border-accent/20 shadow-sm"
+                            : "bg-white text-text-muted border border-gray-200 hover:bg-gray-50"
                         }`}
                       >
                         Assigned (
@@ -1379,8 +1386,8 @@ const DirectorDashboard = () => {
                         }
                         className={`px-3 py-1.5 rounded-lg text-sm transition font-medium ${
                           requestFilters.status === "completed"
-                            ? "bg-[#EEF2FF] text-[#2563eb] border border-[#2563eb]/20 shadow-sm"
-                            : "bg-white text-[#4b5563] border border-[#E5E7EB] hover:bg-gray-50"
+                            ? "bg-blue-50 text-accent border border-accent/20 shadow-sm"
+                            : "bg-white text-text-muted border border-gray-200 hover:bg-gray-50"
                         }`}
                       >
                         Completed (
@@ -1395,14 +1402,14 @@ const DirectorDashboard = () => {
                   </div>
 
                   {filteredServiceRequests.length === 0 ? (
-                    <div className="text-center py-16 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB]">
-                      <div className="inline-flex items-center justify-center w-20 h-20 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-full mb-4 border border-[#E5E7EB]">
-                        <AlertCircle className="w-10 h-10 text-[#9ca3af]" />
+                    <div className="text-center py-16 bg-white shadow-sm rounded-xl border border-gray-200">
+                      <div className="inline-flex items-center justify-center w-20 h-20 bg-white shadow-sm rounded-full mb-4 border border-gray-200">
+                        <AlertCircle className="w-10 h-10 text-text-muted" />
                       </div>
-                      <p className="text-[#6b7280] text-lg">
+                      <p className="text-text-secondary text-lg">
                         No service requests found
                       </p>
-                      <p className="text-sm text-[#6b7280] mt-1">
+                      <p className="text-sm text-text-muted mt-1">
                         {requestFilters.status === "pending"
                           ? "All requests have been assigned to teams"
                           : requestFilters.status === "assigned"
@@ -1437,8 +1444,10 @@ const DirectorDashboard = () => {
                 <div>
                   <div className="flex justify-between items-center mb-6">
                     <div>
-                      <h2 className="text-2xl font-bold text-[#111827]">Teams</h2>
-                      <p className="text-[#6b7280] text-sm">
+                      <h2 className="text-2xl font-heading font-medium text-text-primary">
+                        Teams
+                      </h2>
+                      <p className="text-text-muted text-sm">
                         Manage teams, assign leads, and add members
                       </p>
                     </div>
@@ -1446,7 +1455,7 @@ const DirectorDashboard = () => {
                       onClick={() =>
                         setModals((prev) => ({ ...prev, createTeam: true }))
                       }
-                      className="btn-institutional px-4 py-2 text-sm"
+                      className="btn-filled px-4 py-2 text-sm"
                     >
                       <Plus className="w-4 h-4" /> Create Team
                     </button>
@@ -1473,8 +1482,10 @@ const DirectorDashboard = () => {
                 <div>
                   <div className="flex justify-between items-center mb-6">
                     <div>
-                      <h2 className="text-2xl font-bold text-[#111827]">Interns</h2>
-                      <p className="text-[#6b7280] text-sm">
+                      <h2 className="text-2xl font-heading font-medium text-text-primary">
+                        Interns
+                      </h2>
+                      <p className="text-text-muted text-sm">
                         Manage interns and assign advisors
                       </p>
                     </div>
@@ -1495,10 +1506,10 @@ const DirectorDashboard = () => {
                   <div>
                     <div className="flex justify-between items-center mb-6">
                       <div>
-                        <h2 className="text-2xl font-bold text-[#111827]">
+                        <h2 className="text-2xl font-heading font-medium text-text-primary">
                           Innovators
                         </h2>
-                        <p className="text-[#6b7280] text-sm">
+                        <p className="text-text-muted text-sm">
                           Manage innovators and assign mentors
                         </p>
                       </div>
@@ -1519,10 +1530,10 @@ const DirectorDashboard = () => {
                 <div>
                   <div className="flex justify-between items-center mb-6">
                     <div>
-                      <h2 className="text-2xl font-bold text-[#111827]">
+                      <h2 className="text-2xl font-heading font-medium text-text-primary">
                         Startups
                       </h2>
-                      <p className="text-[#6b7280] text-sm">
+                      <p className="text-text-muted text-sm">
                         Manage startups and assign mentors
                       </p>
                     </div>
@@ -1543,10 +1554,10 @@ const DirectorDashboard = () => {
                 <div>
                   <div className="flex justify-between items-center mb-6">
                     <div>
-                      <h2 className="text-2xl font-bold text-[#111827]">
+                      <h2 className="text-2xl font-heading font-medium text-text-primary">
                         Trainees
                       </h2>
-                      <p className="text-[#6b7280] text-sm">
+                      <p className="text-text-muted text-sm">
                         Manage trainees and assign trainers
                       </p>
                     </div>
@@ -1554,7 +1565,7 @@ const DirectorDashboard = () => {
                       onClick={() =>
                         setModals((prev) => ({ ...prev, assignTrainer: true }))
                       }
-                      className="btn-institutional px-4 py-2 text-sm"
+                      className="btn-filled px-4 py-2 text-sm"
                     >
                       <UserPlus className="w-4 h-4" /> Assign Trainer
                     </button>
@@ -1574,10 +1585,10 @@ const DirectorDashboard = () => {
                 <div>
                   <div className="flex justify-between items-center mb-6">
                     <div>
-                      <h2 className="text-2xl font-bold text-[#111827]">
+                      <h2 className="text-2xl font-heading font-medium text-text-primary">
                         {getReportLabel()}
                       </h2>
-                      <p className="text-[#6b7280] text-sm">
+                      <p className="text-text-muted text-sm">
                         Review and approve reports submitted by{" "}
                         {isServiceDirectorate
                           ? "team leads"
@@ -1606,10 +1617,10 @@ const DirectorDashboard = () => {
                 <div>
                   <div className="flex justify-between items-center mb-6">
                     <div>
-                      <h2 className="text-2xl font-bold text-[#111827]">
+                      <h2 className="text-2xl font-heading font-medium text-text-primary">
                         My Reports
                       </h2>
-                      <p className="text-[#6b7280] text-sm">
+                      <p className="text-text-muted text-sm">
                         Reports you've submitted to admin
                       </p>
                     </div>
@@ -1617,7 +1628,7 @@ const DirectorDashboard = () => {
                       onClick={() =>
                         setModals((prev) => ({ ...prev, submitReport: true }))
                       }
-                      className="btn-institutional px-4 py-2 text-sm"
+                      className="btn-filled px-4 py-2 text-sm"
                     >
                       <Plus className="w-4 h-4" /> Submit Report
                     </button>
@@ -1638,6 +1649,7 @@ const DirectorDashboard = () => {
         </main>
       </div>
 
+      {/* Modals remain the same */}
       {modals.createTeam && isServiceDirectorate && (
         <CreateTeamModal
           onClose={() => setModals((prev) => ({ ...prev, createTeam: false }))}

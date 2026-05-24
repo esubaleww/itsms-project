@@ -50,16 +50,16 @@ const InternReportModal = ({
     switch (status) {
       case "advisor_reviewed":
         return {
-          color: "text-[#2563eb]",
-          bg: "bg-[#EEF2FF]",
-          border: "border-[#2563eb]/30",
+          color: "text-accent",
+          bg: "bg-blue-50",
+          border: "border-accent/30",
           icon: CheckCircle,
           label: "Reviewed",
         };
       default:
         return {
-          color: "text-yellow-400",
-          bg: "bg-yellow-500/20",
+          color: "text-yellow-600",
+          bg: "bg-yellow-50",
           border: "border-yellow-500/30",
           icon: Clock,
           label: "Pending Review",
@@ -111,20 +111,20 @@ const InternReportModal = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden border border-[#E5E7EB] shadow-2xl"
+        className="bg-white shadow-lg rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden border border-gray-200"
       >
-        <div className="sticky top-0 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/95 border-b border-[#E5E7EB] p-5 flex justify-between items-center z-10">
+        <div className="sticky top-0 bg-white border-b border-gray-200 p-5 flex justify-between items-center z-10">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#EEF2FF] border border-[#2563eb]/20 flex items-center justify-center">
-              <FileText className="w-5 h-5 text-[#111827]" />
+            <div className="w-10 h-10 rounded-xl bg-blue-50 border border-accent/20 flex items-center justify-center">
+              <FileText className="w-5 h-5 text-text-primary" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-[#111827]">
+              <h2 className="text-xl font-heading font-semibold text-text-primary">
                 Week {report.week} Report
               </h2>
               <div className="flex items-center gap-2 mt-1">
@@ -141,24 +141,24 @@ const InternReportModal = ({
             {canEdit && !isEditing && (
               <button
                 onClick={handleEdit}
-                className="p-2 hover:bg-[#F3F4F6] rounded-lg transition"
+                className="p-2 hover:bg-gray-100 rounded-lg transition"
                 title="Edit Report"
               >
-                <Edit className="w-5 h-5 text-[#6b7280] hover:text-[#2563eb]" />
+                <Edit className="w-5 h-5 text-text-muted hover:text-accent" />
               </button>
             )}
             <button
               onClick={onClose}
-              className="p-2 hover:bg-[#F3F4F6] rounded-lg transition"
+              className="p-2 hover:bg-gray-100 rounded-lg transition"
             >
-              <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
+              <X className="w-5 h-5 text-text-muted hover:text-text-primary" />
             </button>
           </div>
         </div>
 
         <div className="overflow-y-auto flex-1 p-5 space-y-5">
-          <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-4 border border-[#E5E7EB]">
-            <div className="flex items-center gap-2 text-[#6b7280] text-sm mb-2">
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
+            <div className="flex items-center gap-2 text-text-muted text-sm mb-2">
               <Clock className="w-4 h-4" />
               <span>Hours Worked</span>
             </div>
@@ -169,19 +169,19 @@ const InternReportModal = ({
                 onChange={(e) =>
                   handleChange("hoursWorked", parseInt(e.target.value) || 0)
                 }
-                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
                 min="0"
               />
             ) : (
-              <p className="font-medium text-[#111827]">
+              <p className="font-medium text-text-primary">
                 {report.hoursWorked || 0} hours
               </p>
             )}
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-[#111827] mb-2 flex items-center gap-2">
-              <FileText className="w-4 h-4 text-[#2563eb]" />
+            <h3 className="text-sm font-heading font-semibold text-text-primary mb-2 flex items-center gap-2">
+              <FileText className="w-4 h-4 text-accent" />
               Weekly Summary
             </h3>
             {isEditing ? (
@@ -189,12 +189,12 @@ const InternReportModal = ({
                 value={editData.content}
                 onChange={(e) => handleChange("content", e.target.value)}
                 rows={4}
-                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
                 placeholder="Write your weekly summary..."
               />
             ) : (
-              <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4">
-                <p className="text-[#374151] whitespace-pre-wrap">
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                <p className="text-text-secondary whitespace-pre-wrap">
                   {report.content || "No content provided"}
                 </p>
               </div>
@@ -202,8 +202,8 @@ const InternReportModal = ({
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-[#111827] mb-2 flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-[#2563eb]" />
+            <h3 className="text-sm font-heading font-semibold text-text-primary mb-2 flex items-center gap-2">
+              <CheckCircle className="w-4 h-4 text-accent" />
               Key Learnings
             </h3>
             {isEditing ? (
@@ -211,12 +211,12 @@ const InternReportModal = ({
                 value={editData.learnings}
                 onChange={(e) => handleChange("learnings", e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
                 placeholder="What did you learn this week?"
               />
             ) : (
-              <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4">
-                <p className="text-[#374151] whitespace-pre-wrap">
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                <p className="text-text-secondary whitespace-pre-wrap">
                   {report.learnings || "No learnings recorded"}
                 </p>
               </div>
@@ -224,7 +224,7 @@ const InternReportModal = ({
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-[#111827] mb-2 flex items-center gap-2">
+            <h3 className="text-sm font-heading font-semibold text-text-primary mb-2 flex items-center gap-2">
               <XCircle className="w-4 h-4 text-red-500" />
               Challenges
             </h3>
@@ -233,12 +233,12 @@ const InternReportModal = ({
                 value={editData.challenges}
                 onChange={(e) => handleChange("challenges", e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
                 placeholder="What challenges did you face?"
               />
             ) : (
-              <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4">
-                <p className="text-[#374151] whitespace-pre-wrap">
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                <p className="text-text-secondary whitespace-pre-wrap">
                   {report.challenges || "No challenges reported"}
                 </p>
               </div>
@@ -246,8 +246,8 @@ const InternReportModal = ({
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-[#111827] mb-2 flex items-center gap-2">
-              <MessageSquare className="w-4 h-4 text-blue-400" />
+            <h3 className="text-sm font-heading font-semibold text-text-primary mb-2 flex items-center gap-2">
+              <MessageSquare className="w-4 h-4 text-blue-500" />
               Next Week Plan
             </h3>
             {isEditing ? (
@@ -255,12 +255,12 @@ const InternReportModal = ({
                 value={editData.nextPlan}
                 onChange={(e) => handleChange("nextPlan", e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
                 placeholder="What are your plans for next week?"
               />
             ) : (
-              <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4">
-                <p className="text-[#374151] whitespace-pre-wrap">
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                <p className="text-text-secondary whitespace-pre-wrap">
                   {report.nextPlan || "No plans recorded"}
                 </p>
               </div>
@@ -268,14 +268,14 @@ const InternReportModal = ({
           </div>
 
           {report.advisorFeedback && (
-            <div className="bg-[#EEF2FF] rounded-xl p-4 border border-[#2563eb]/30">
-              <h3 className="text-sm font-semibold text-[#2563eb] mb-2 flex items-center gap-2">
+            <div className="bg-blue-50 rounded-xl p-4 border border-accent/30">
+              <h3 className="text-sm font-heading font-semibold text-accent mb-2 flex items-center gap-2">
                 <User className="w-4 h-4" />
                 Advisor Feedback
               </h3>
-              <p className="text-[#374151]">{report.advisorFeedback}</p>
+              <p className="text-text-secondary">{report.advisorFeedback}</p>
               {report.reviewedAt && (
-                <p className="text-xs text-[#6b7280] mt-2">
+                <p className="text-xs text-text-muted mt-2">
                   Reviewed on: {formatDateTime(report.reviewedAt)}
                 </p>
               )}
@@ -283,18 +283,18 @@ const InternReportModal = ({
           )}
 
           {report.submittedAt && (
-            <div className="text-xs text-[#6b7280] border-t border-[#E5E7EB] pt-3">
+            <div className="text-xs text-text-muted border-t border-gray-200 pt-3">
               Submitted: {formatDateTime(report.submittedAt)}
             </div>
           )}
         </div>
 
-        <div className="sticky bottom-0 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/95 border-t border-[#E5E7EB] p-4 rounded-b-2xl">
+        <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4 rounded-b-2xl">
           {isEditing ? (
             <div className="flex gap-3">
               <button
                 onClick={handleCancelEdit}
-                className="flex-1 border border-[#D1D5DB] text-[#374151] py-2.5 rounded-lg hover:bg-[#F3F4F6] transition"
+                className="flex-1 border border-gray-300 text-text-secondary py-2.5 rounded-lg hover:bg-gray-50 transition"
                 disabled={loading}
               >
                 Cancel
@@ -302,7 +302,7 @@ const InternReportModal = ({
               <button
                 onClick={handleSave}
                 disabled={loading}
-                className="btn-institutional flex-1 py-2.5"
+                className="flex-1 bg-accent text-white py-2.5 rounded-lg hover:bg-accent/90 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
@@ -317,7 +317,7 @@ const InternReportModal = ({
           ) : (
             <button
               onClick={onClose}
-              className="w-full border border-[#D1D5DB] text-[#374151] py-2.5 rounded-lg hover:bg-[#F3F4F6] transition"
+              className="w-full border border-gray-300 text-text-secondary py-2.5 rounded-lg hover:bg-gray-50 transition"
             >
               Close
             </button>

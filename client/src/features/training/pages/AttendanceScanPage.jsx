@@ -15,7 +15,7 @@ const AttendanceScanPage = () => {
       try {
         await markAttendance(sessionId);
         setStatus("success");
-        setMessage("? Attendance recorded successfully!");
+        setMessage("✅ Attendance recorded successfully!");
         setTimeout(() => navigate("/dashboard?tab=my-sessions"), 2000);
       } catch (error) {
         let userMessage = error.message || "Failed to record attendance";
@@ -24,20 +24,20 @@ const AttendanceScanPage = () => {
           userMessage.includes("hasn't started") ||
           userMessage.includes("starts on")
         ) {
-          userMessage = "? " + userMessage;
+          userMessage = "⏰ " + userMessage;
         } else if (userMessage.includes("expired")) {
-          userMessage = "? " + userMessage;
+          userMessage = "⌛ " + userMessage;
         } else if (
           userMessage.includes("already marked") ||
           userMessage.includes("already recorded")
         ) {
-          userMessage = "? " + userMessage;
+          userMessage = "✅ " + userMessage;
         } else if (userMessage.includes("not found")) {
-          userMessage = "? Session not found. Please check the QR code.";
+          userMessage = "❌ Session not found. Please check the QR code.";
         } else if (userMessage.includes("not assigned")) {
-          userMessage = "?? You are not assigned to this session.";
+          userMessage = "🔒 You are not assigned to this session.";
         } else if (userMessage.includes("500")) {
-          userMessage = "?? Server error. Please try again later.";
+          userMessage = "⚠️ Server error. Please try again later.";
         }
 
         setStatus("error");
@@ -52,15 +52,15 @@ const AttendanceScanPage = () => {
   }, [sessionId, markAttendance, navigate]);
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] flex items-center justify-center p-4">
-      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl p-8 max-w-md w-full text-center border border-[#E5E7EB]">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-gray-100 flex items-center justify-center p-4 font-body">
+      <div className="bg-white shadow-sm rounded-2xl p-8 max-w-md w-full text-center border border-gray-200">
         {status === "loading" && (
           <>
-            <Loader2 className="w-16 h-16 text-[#2563eb] animate-spin mx-auto mb-4" />
-            <h2 className="text-xl font-bold text-[#111827] mb-2">
+            <Loader2 className="w-16 h-16 text-accent animate-spin mx-auto mb-4" />
+            <h2 className="text-xl font-heading font-medium text-text-primary mb-2">
               Recording Attendance...
             </h2>
-            <p className="text-[#6b7280]">
+            <p className="text-text-muted">
               Please wait while we record your attendance
             </p>
           </>
@@ -68,12 +68,12 @@ const AttendanceScanPage = () => {
 
         {status === "success" && (
           <>
-            <CheckCircle className="w-16 h-16 text-[#2563eb] mx-auto mb-4" />
-            <h2 className="text-xl font-bold text-[#111827] mb-2">
+            <CheckCircle className="w-16 h-16 text-accent mx-auto mb-4" />
+            <h2 className="text-xl font-heading font-medium text-text-primary mb-2">
               Attendance Recorded!
             </h2>
-            <p className="text-[#2563eb] text-sm">{message}</p>
-            <p className="text-[#6b7280] text-xs mt-4">
+            <p className="text-accent text-sm">{message}</p>
+            <p className="text-text-muted text-xs mt-4">
               Redirecting to dashboard...
             </p>
           </>
@@ -82,13 +82,13 @@ const AttendanceScanPage = () => {
         {status === "error" && (
           <>
             <XCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-            <h2 className="text-xl font-bold text-[#111827] mb-2">
+            <h2 className="text-xl font-heading font-medium text-text-primary mb-2">
               Cannot Mark Attendance
             </h2>
-            <p className="text-red-500 text-sm">{message}</p>
+            <p className="text-red-600 text-sm">{message}</p>
             <button
               onClick={() => navigate("/dashboard?tab=my-sessions")}
-              className="btn-institutional mt-6 px-4 py-2"
+              className="btn-filled mt-6 px-4 py-2"
             >
               Go to Dashboard
             </button>

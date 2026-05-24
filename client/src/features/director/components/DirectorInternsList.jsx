@@ -74,25 +74,25 @@ const DirectorInternsList = ({
     switch (status) {
       case "active":
         return (
-          <span className="bg-[#EEF2FF] text-[#2563eb] text-xs px-2 py-0.5 rounded-full border border-[#2563eb]/30">
+          <span className="bg-blue-50 text-accent text-xs px-2 py-0.5 rounded-full border border-accent/30">
             Active
           </span>
         );
       case "pending":
         return (
-          <span className="bg-amber-50 text-amber-700 border border-amber-200 text-xs px-2 py-0.5 rounded-full">
+          <span className="bg-amber-50 text-amber-600 border border-amber-200 text-xs px-2 py-0.5 rounded-full">
             Pending
           </span>
         );
       case "completed":
         return (
-          <span className="bg-[#EEF2FF] text-[#2563eb] text-xs px-2 py-0.5 rounded-full border border-[#2563eb]/30">
+          <span className="bg-blue-50 text-accent text-xs px-2 py-0.5 rounded-full border border-accent/30">
             Completed
           </span>
         );
       default:
         return (
-          <span className="bg-[#F3F4F6] text-[#6b7280] text-xs px-2 py-0.5 rounded-full border border-[#E5E7EB]">
+          <span className="bg-gray-100 text-text-muted text-xs px-2 py-0.5 rounded-full border border-gray-200">
             {status || "Unknown"}
           </span>
         );
@@ -127,13 +127,13 @@ const DirectorInternsList = ({
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] p-4 animate-pulse"
+            className="bg-white shadow-sm rounded-xl border border-gray-200 p-4 animate-pulse"
           >
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 bg-[#E5E7EB] rounded-full"></div>
+              <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
               <div className="flex-1">
-                <div className="h-5 bg-[#E5E7EB] rounded w-48 mb-2"></div>
-                <div className="h-4 bg-[#E5E7EB] rounded w-64"></div>
+                <div className="h-5 bg-gray-200 rounded w-48 mb-2"></div>
+                <div className="h-4 bg-gray-200 rounded w-64"></div>
               </div>
             </div>
           </div>
@@ -145,11 +145,11 @@ const DirectorInternsList = ({
   if (!interns || interns.length === 0) {
     return (
       <div className="text-center py-16">
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-full mb-4 border border-[#E5E7EB]">
-          <User className="w-10 h-10 text-[#9ca3af]" />
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-white shadow-sm rounded-full mb-4 border border-gray-200">
+          <User className="w-10 h-10 text-text-muted" />
         </div>
-        <p className="text-[#6b7280] text-lg">No interns found</p>
-        <p className="text-sm text-[#6b7280] mt-1 max-w-md mx-auto">
+        <p className="text-text-secondary text-lg">No interns found</p>
+        <p className="text-sm text-text-muted mt-1 max-w-md mx-auto">
           Interns will appear here after their applications are approved and
           assigned to your directorate.
         </p>
@@ -189,23 +189,23 @@ const DirectorInternsList = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.05 }}
-            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200"
+            className="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
           >
             <div className="p-5">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-xl flex items-center justify-center text-[#111827] font-semibold text-lg shadow-lg">
+                    <div className="w-12 h-12 bg-blue-50 border border-accent/20 rounded-xl flex items-center justify-center text-text-primary font-semibold text-lg shadow-md">
                       {internData.fullName?.charAt(0)?.toUpperCase() || "?"}
                     </div>
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <p className="font-semibold text-[#111827] text-lg">
+                        <p className="font-heading font-semibold text-text-primary text-lg">
                           {internData.fullName}
                         </p>
                         {getStatusBadge(internData.status)}
                       </div>
-                      <div className="flex flex-wrap items-center gap-3 mt-1 text-sm text-[#6b7280]">
+                      <div className="flex flex-wrap items-center gap-3 mt-1 text-sm text-text-muted">
                         {internData.email && (
                           <span className="flex items-center gap-1">
                             <Mail className="w-3 h-3" />
@@ -229,24 +229,24 @@ const DirectorInternsList = ({
                   </div>
 
                   <div className="mt-3 flex flex-wrap items-center gap-4 text-sm">
-                    <div className="flex items-center gap-1 text-[#6b7280]">
+                    <div className="flex items-center gap-1 text-text-muted">
                       <FileText className="w-4 h-4" />
                       <span>{totalReports} reports</span>
                     </div>
                     {reviewedReports > 0 && (
-                      <div className="flex items-center gap-1 text-[#2563eb]">
+                      <div className="flex items-center gap-1 text-accent">
                         <CheckCircle className="w-4 h-4" />
                         <span>{reviewedReports} reviewed</span>
                       </div>
                     )}
                     {internData.summary?.overallPerformance && (
-                      <div className="flex items-center gap-1 text-yellow-400">
+                      <div className="flex items-center gap-1 text-yellow-500">
                         <Star className="w-4 h-4" />
                         <span>{internData.summary.overallPerformance}/5</span>
                       </div>
                     )}
                     {getDuration() && (
-                      <div className="flex items-center gap-1 text-blue-400">
+                      <div className="flex items-center gap-1 text-blue-500">
                         <Clock className="w-4 h-4" />
                         <span>{getDuration()}</span>
                       </div>
@@ -254,14 +254,14 @@ const DirectorInternsList = ({
                   </div>
 
                   {hasAdvisor ? (
-                    <div className="mt-3 flex items-center gap-2 text-sm bg-[#EEF2FF] text-[#2563eb] px-3 py-1.5 rounded-lg border border-[#2563eb]/20 w-fit">
+                    <div className="mt-3 flex items-center gap-2 text-sm bg-blue-50 text-accent px-3 py-1.5 rounded-lg border border-accent/20 w-fit">
                       <UserCheck className="w-4 h-4" />
                       <span>
                         Advisor: {internData.advisorName} (
                         {internData.advisorPosition || "Advisor"})
                       </span>
                       {internData.advisorAssignedAt && (
-                        <span className="text-xs text-[#2563eb] ml-1">
+                        <span className="text-xs text-accent ml-1">
                           assigned{" "}
                           {new Date(
                             internData.advisorAssignedAt,
@@ -270,7 +270,7 @@ const DirectorInternsList = ({
                       )}
                     </div>
                   ) : (
-                    <div className="mt-3 text-sm text-orange-400 bg-orange-500/10 px-3 py-1.5 rounded-lg inline-flex items-center gap-1 border border-orange-500/20">
+                    <div className="mt-3 text-sm text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg inline-flex items-center gap-1 border border-amber-500/30">
                       <AlertCircle className="w-4 h-4" />
                       <span>No advisor assigned</span>
                     </div>
@@ -281,21 +281,21 @@ const DirectorInternsList = ({
                   {!hasAdvisor &&
                     onAssignAdvisor &&
                     (isAssigning ? (
-                      <div className="flex items-center gap-2 bg-white border border-[#D1D5DB] rounded-lg p-1">
+                      <div className="flex items-center gap-2 bg-white border border-gray-300 rounded-lg p-1">
                         <select
                           value={selectedAdvisor}
                           onChange={(e) => setSelectedAdvisor(e.target.value)}
-                          className="text-sm bg-transparent px-2 py-1 text-[#111827] focus:outline-none min-w-40"
+                          className="text-sm bg-transparent px-2 py-1 text-text-primary focus:outline-none min-w-40"
                           autoFocus
                         >
-                          <option value="" className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+                          <option value="" className="bg-white shadow-sm">
                             Select Advisor...
                           </option>
                           {advisorOptions.map((staff) => (
                             <option
                               key={staff._id}
                               value={staff._id}
-                              className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
+                              className="bg-white shadow-sm"
                             >
                               {staff.fullName} - {staff.position || "Staff"}
                             </option>
@@ -306,8 +306,8 @@ const DirectorInternsList = ({
                           disabled={!selectedAdvisor}
                           className={`p-1 rounded transition ${
                             selectedAdvisor
-                              ? "text-[#2563eb] hover:bg-[#EEF2FF]"
-                              : "text-[#6b7280] cursor-not-allowed"
+                              ? "text-accent hover:bg-blue-50"
+                              : "text-text-muted cursor-not-allowed"
                           }`}
                         >
                           <CheckCircle className="w-4 h-4" />
@@ -317,7 +317,7 @@ const DirectorInternsList = ({
                             setAssigningId(null);
                             setSelectedAdvisor("");
                           }}
-                          className="p-1 text-[#6b7280] hover:text-red-500 hover:bg-red-500/20 rounded transition"
+                          className="p-1 text-text-muted hover:text-red-500 hover:bg-red-50 rounded transition"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -325,7 +325,7 @@ const DirectorInternsList = ({
                     ) : (
                       <button
                         onClick={() => setAssigningId(internData.id)}
-                        className="text-[#2563eb] text-xs font-medium px-2 py-1 rounded-lg hover:bg-[#EEF2FF] transition flex items-center gap-1"
+                        className="text-accent text-xs font-medium px-2 py-1 rounded-lg hover:bg-blue-50 transition flex items-center gap-1"
                       >
                         <UserCheck className="w-3 h-3" />
                         Assign Advisor
@@ -338,8 +338,8 @@ const DirectorInternsList = ({
                     }
                     className={`p-1.5 rounded-lg transition ${
                       isExpanded
-                        ? "text-[#2563eb] bg-[#EEF2FF]"
-                        : "text-[#6b7280] hover:text-[#111827] hover:bg-[#F3F4F6]"
+                        ? "text-accent bg-blue-50"
+                        : "text-text-muted hover:text-text-primary hover:bg-gray-100"
                     }`}
                   >
                     <ChevronRight
@@ -359,32 +359,32 @@ const DirectorInternsList = ({
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="border-t border-[#E5E7EB] overflow-hidden"
+                  className="border-t border-gray-200 overflow-hidden"
                 >
-                  <div className="p-5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] space-y-5">
+                  <div className="p-5 bg-gray-50 space-y-5">
                     {(internData.placement || internData.startDate) && (
                       <div>
-                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-3 flex items-center gap-2">
+                        <h4 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3 flex items-center gap-2">
                           <Building2 className="w-3 h-3" />
                           Placement Details
                         </h4>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                           {internData.department && (
-                            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
-                              <span className="text-[#6b7280] text-xs">
+                            <div className="bg-white border border-gray-200 rounded-lg p-3">
+                              <span className="text-text-muted text-xs">
                                 Department
                               </span>
-                              <p className="text-[#111827] font-medium text-sm mt-1">
+                              <p className="text-text-primary font-medium text-sm mt-1">
                                 {internData.department}
                               </p>
                             </div>
                           )}
                           {internData.startDate && (
-                            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
-                              <span className="text-[#6b7280] text-xs">
+                            <div className="bg-white border border-gray-200 rounded-lg p-3">
+                              <span className="text-text-muted text-xs">
                                 Start Date
                               </span>
-                              <p className="text-[#111827] font-medium text-sm mt-1">
+                              <p className="text-text-primary font-medium text-sm mt-1">
                                 {new Date(
                                   internData.startDate,
                                 ).toLocaleDateString()}
@@ -392,11 +392,11 @@ const DirectorInternsList = ({
                             </div>
                           )}
                           {internData.endDate && (
-                            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
-                              <span className="text-[#6b7280] text-xs">
+                            <div className="bg-white border border-gray-200 rounded-lg p-3">
+                              <span className="text-text-muted text-xs">
                                 End Date
                               </span>
-                              <p className="text-[#111827] font-medium text-sm mt-1">
+                              <p className="text-text-primary font-medium text-sm mt-1">
                                 {new Date(
                                   internData.endDate,
                                 ).toLocaleDateString()}
@@ -404,21 +404,21 @@ const DirectorInternsList = ({
                             </div>
                           )}
                           {internData.studentId && (
-                            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
-                              <span className="text-[#6b7280] text-xs">
+                            <div className="bg-white border border-gray-200 rounded-lg p-3">
+                              <span className="text-text-muted text-xs">
                                 Student ID
                               </span>
-                              <p className="text-[#111827] font-medium text-sm mt-1">
+                              <p className="text-text-primary font-medium text-sm mt-1">
                                 {internData.studentId}
                               </p>
                             </div>
                           )}
                           {internData.year && (
-                            <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
-                              <span className="text-[#6b7280] text-xs">
+                            <div className="bg-white border border-gray-200 rounded-lg p-3">
+                              <span className="text-text-muted text-xs">
                                 Year
                               </span>
-                              <p className="text-[#111827] font-medium text-sm mt-1">
+                              <p className="text-text-primary font-medium text-sm mt-1">
                                 Year {internData.year}
                               </p>
                             </div>
@@ -429,21 +429,21 @@ const DirectorInternsList = ({
 
                     {hasSummary && (
                       <div>
-                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-3 flex items-center gap-2">
+                        <h4 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3 flex items-center gap-2">
                           <Award className="w-3 h-3" />
                           Advisor Summary
                         </h4>
-                        <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4 space-y-3">
+                        <div className="bg-white border border-gray-200 rounded-lg p-4 space-y-3">
                           {internData.summary.overallPerformance && (
                             <div className="flex items-center gap-3">
-                              <span className="text-sm font-medium text-[#374151]">
+                              <span className="text-sm font-medium text-text-secondary">
                                 Overall Performance:
                               </span>
                               <div className="flex items-center gap-1">
                                 {getPerformanceStars(
                                   internData.summary.overallPerformance,
                                 )}
-                                <span className="text-sm text-[#6b7280] ml-1">
+                                <span className="text-sm text-text-muted ml-1">
                                   ({internData.summary.overallPerformance}/5)
                                 </span>
                               </div>
@@ -451,33 +451,33 @@ const DirectorInternsList = ({
                           )}
                           {internData.summary.strengths && (
                             <div>
-                              <span className="text-sm font-medium text-[#2563eb] flex items-center gap-1">
+                              <span className="text-sm font-medium text-accent flex items-center gap-1">
                                 <TrendingUp className="w-3 h-3" />
                                 Strengths:
                               </span>
-                              <p className="text-sm text-[#374151] mt-1 ml-5">
+                              <p className="text-sm text-text-secondary mt-1 ml-5">
                                 {internData.summary.strengths}
                               </p>
                             </div>
                           )}
                           {internData.summary.weaknesses && (
                             <div>
-                              <span className="text-sm font-medium text-orange-400 flex items-center gap-1">
+                              <span className="text-sm font-medium text-amber-600 flex items-center gap-1">
                                 <AlertCircle className="w-3 h-3" />
                                 Areas for Improvement:
                               </span>
-                              <p className="text-sm text-[#374151] mt-1 ml-5">
+                              <p className="text-sm text-text-secondary mt-1 ml-5">
                                 {internData.summary.weaknesses}
                               </p>
                             </div>
                           )}
                           {internData.summary.recommendation && (
                             <div>
-                              <span className="text-sm font-medium text-blue-400 flex items-center gap-1">
+                              <span className="text-sm font-medium text-blue-500 flex items-center gap-1">
                                 <BookOpen className="w-3 h-3" />
                                 Recommendation:
                               </span>
-                              <p className="text-sm text-[#374151] mt-1 ml-5">
+                              <p className="text-sm text-text-secondary mt-1 ml-5">
                                 {internData.summary.recommendation}
                               </p>
                             </div>
@@ -488,7 +488,7 @@ const DirectorInternsList = ({
 
                     {recentReports.length > 0 && (
                       <div>
-                        <h4 className="text-xs font-semibold text-[#6b7280] uppercase tracking-wider mb-3 flex items-center gap-2">
+                        <h4 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3 flex items-center gap-2">
                           <FileText className="w-3 h-3" />
                           Recent Reports ({totalReports} total)
                         </h4>
@@ -496,15 +496,15 @@ const DirectorInternsList = ({
                           {recentReports.map((report, idx) => (
                             <div
                               key={idx}
-                              className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3 hover:bg-[#F3F4F6] transition"
+                              className="bg-white border border-gray-200 rounded-lg p-3 hover:bg-gray-50 transition"
                             >
                               <div className="flex flex-wrap justify-between items-start gap-2">
                                 <div>
-                                  <p className="font-medium text-[#111827] text-sm">
+                                  <p className="font-medium text-text-primary text-sm">
                                     Week {report.week}
                                   </p>
                                   {report.startDate && report.endDate && (
-                                    <p className="text-xs text-[#6b7280] mt-0.5">
+                                    <p className="text-xs text-text-muted mt-0.5">
                                       {new Date(
                                         report.startDate,
                                       ).toLocaleDateString()}{" "}
@@ -518,8 +518,8 @@ const DirectorInternsList = ({
                                 <span
                                   className={`text-xs px-2 py-0.5 rounded-full ${
                                     report.status === "advisor_reviewed"
-                                      ? "bg-[#EEF2FF] text-[#2563eb] border border-[#2563eb]/30"
-                                      : "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
+                                      ? "bg-blue-50 text-accent border border-accent/30"
+                                      : "bg-yellow-50 text-yellow-600 border border-yellow-500/30"
                                   }`}
                                 >
                                   {report.status === "advisor_reviewed"
@@ -528,14 +528,14 @@ const DirectorInternsList = ({
                                 </span>
                               </div>
                               {report.content && (
-                                <p className="text-sm text-[#374151] mt-2 line-clamp-2">
+                                <p className="text-sm text-text-secondary mt-2 line-clamp-2">
                                   {report.content}
                                 </p>
                               )}
                               {report.advisorRating && (
                                 <div className="flex items-center gap-1 mt-2">
                                   <Star className="w-3 h-3 text-yellow-400" />
-                                  <span className="text-xs text-[#6b7280]">
+                                  <span className="text-xs text-text-muted">
                                     Rating: {report.advisorRating}/5
                                   </span>
                                 </div>
@@ -548,11 +548,11 @@ const DirectorInternsList = ({
 
                     {totalReports === 0 && (
                       <div className="text-center py-6">
-                        <FileText className="w-12 h-12 text-[#9ca3af] mx-auto mb-2" />
-                        <p className="text-sm text-[#6b7280]">
+                        <FileText className="w-12 h-12 text-text-muted mx-auto mb-2" />
+                        <p className="text-sm text-text-muted">
                           No reports submitted yet
                         </p>
-                        <p className="text-xs text-[#6b7280] mt-1">
+                        <p className="text-xs text-text-muted mt-1">
                           Reports will appear here once the intern starts
                           submitting weekly updates.
                         </p>

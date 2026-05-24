@@ -39,19 +39,19 @@ const AnnouncementsList = ({
   const getCategoryBadge = (category) => {
     switch (category) {
       case "announcement":
-        return "bg-blue-500/20 text-blue-400 border border-blue-500/30";
+        return "bg-blue-50 text-blue-600 border border-blue-500/30";
       case "news":
-        return "bg-[#EEF2FF] text-[#2563eb] border border-[#2563eb]/30";
+        return "bg-blue-50 text-accent border border-accent/30";
       case "event":
-        return "bg-purple-500/20 text-purple-400 border border-purple-500/30";
+        return "bg-purple-50 text-purple-600 border border-purple-500/30";
       case "success_story":
-        return "bg-green-500/20 text-green-400 border border-green-500/30";
+        return "bg-green-50 text-green-600 border border-green-500/30";
       case "opportunity":
-        return "bg-orange-500/20 text-orange-400 border border-orange-500/30";
+        return "bg-orange-50 text-orange-600 border border-orange-500/30";
       case "update":
-        return "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30";
+        return "bg-cyan-50 text-cyan-600 border border-cyan-500/30";
       default:
-        return "bg-gray-500/20 text-[#6b7280] border border-gray-500/30";
+        return "bg-gray-50 text-text-muted border border-gray-500/30";
     }
   };
 
@@ -102,10 +102,10 @@ const AnnouncementsList = ({
     <div>
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-[#111827]">
+          <h2 className="text-xl sm:text-2xl font-heading font-medium text-text-primary">
             Announcements
           </h2>
-          <p className="text-xs sm:text-sm text-[#6b7280] mt-1">
+          <p className="text-xs sm:text-sm text-text-muted mt-1">
             Manage public announcements and updates (
             {announcements?.length || 0} total)
           </p>
@@ -114,18 +114,18 @@ const AnnouncementsList = ({
 
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
           <input
             type="text"
             placeholder="Search announcements..."
-            className="w-full pl-9 pr-4 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm"
+            className="w-full pl-9 pr-4 py-2 bg-white border border-gray-300 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all shadow-sm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           {searchTerm && (
             <button
               onClick={() => setSearchTerm("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6b7280] hover:text-[#374151]"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-secondary"
             >
               <X className="w-4 h-4" />
             </button>
@@ -133,12 +133,12 @@ const AnnouncementsList = ({
         </div>
 
         <select
-          className="px-4 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all cursor-pointer shadow-sm"
+          className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all cursor-pointer shadow-sm"
           value={filterCategory}
           onChange={(e) => setFilterCategory(e.target.value)}
         >
           {categories.map((c) => (
-            <option key={c} value={c} className="bg-white text-[#111827]">
+            <option key={c} value={c} className="bg-white text-text-primary">
               {c === "all"
                 ? "All Categories"
                 : categoryLabels[c] || c.replace("_", " ")}
@@ -148,7 +148,7 @@ const AnnouncementsList = ({
 
         <button
           onClick={onCreate}
-          className="bg-[#2563eb] text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-[#1d4ed8] transition-all duration-200 shadow-md whitespace-nowrap"
+          className="bg-accent text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-accent/90 transition-all duration-200 shadow-md whitespace-nowrap"
         >
           <Plus className="w-4 h-4" /> Add
         </button>
@@ -163,28 +163,30 @@ const AnnouncementsList = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}
-              className="bg-white border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-4 sm:p-5 hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-300 group"
+              className="bg-white border border-gray-200 shadow-sm rounded-xl p-4 sm:p-5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 group"
             >
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-3 flex-wrap">
-                    <Megaphone className="w-4 h-4 text-[#2563eb]" />
+                    <Megaphone className="w-4 h-4 text-accent" />
                     <span
                       className={`px-2 py-1 rounded-full text-xs ${
                         announcement.isPublished
-                          ? "bg-[#EEF2FF] text-[#2563eb] border border-[#2563eb]/30"
-                          : "bg-gray-500/20 text-[#6b7280] border border-gray-500/30"
+                          ? "bg-blue-50 text-accent border border-accent/30"
+                          : "bg-gray-100 text-text-muted border border-gray-300"
                       }`}
                     >
-                      {announcement.isPublished ? (
-                        <span className="flex items-center gap-1">
-                          <Eye className="w-3 h-3" /> Published
-                        </span>
-                      ) : (
-                        <span className="flex items-center gap-1">
-                          <EyeOff className="w-3 h-3" /> Draft
-                        </span>
-                      )}
+                      <span className="flex items-center gap-1">
+                        {announcement.isPublished ? (
+                          <>
+                            <Eye className="w-3 h-3" /> Published
+                          </>
+                        ) : (
+                          <>
+                            <EyeOff className="w-3 h-3" /> Draft
+                          </>
+                        )}
+                      </span>
                     </span>
                     <span
                       className={`px-2 py-1 rounded-full text-xs ${getCategoryBadge(announcement.category)}`}
@@ -193,19 +195,19 @@ const AnnouncementsList = ({
                         announcement.category}
                     </span>
                     {announcement.isFeatured && (
-                      <span className="px-2 py-1 rounded-full text-xs bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
+                      <span className="px-2 py-1 rounded-full text-xs bg-yellow-50 text-yellow-600 border border-yellow-500/30">
                         <Star className="w-3 h-3 inline mr-1" />
                         Featured
                       </span>
                     )}
                   </div>
-                  <h3 className="font-semibold text-[#111827] text-base sm:text-lg mb-2">
+                  <h3 className="font-heading font-medium text-text-primary text-base sm:text-lg mb-2">
                     {announcement.title}
                   </h3>
-                  <p className="text-sm text-[#6b7280] mt-1 line-clamp-2">
+                  <p className="text-sm text-text-muted mt-1 line-clamp-2">
                     {announcement.content}
                   </p>
-                  <div className="flex items-center gap-2 mt-3 text-xs text-[#6b7280] flex-wrap">
+                  <div className="flex items-center gap-2 mt-3 text-xs text-text-muted flex-wrap">
                     <Calendar className="w-3 h-3" />
                     <span>
                       {new Date(
@@ -214,7 +216,7 @@ const AnnouncementsList = ({
                     </span>
                     {announcement.expiryDate && (
                       <>
-                        <span className="text-gray-600">•</span>
+                        <span className="text-text-muted">•</span>
                         <span>
                           Expires:{" "}
                           {new Date(
@@ -231,8 +233,8 @@ const AnnouncementsList = ({
                     disabled={isLoading}
                     className={`p-1.5 rounded-lg transition ${
                       announcement.isFeatured
-                        ? "text-yellow-400 hover:text-yellow-300 hover:bg-yellow-500/10"
-                        : "text-[#6b7280] hover:text-yellow-400 hover:bg-yellow-500/10"
+                        ? "text-yellow-500 hover:text-yellow-600 hover:bg-yellow-50"
+                        : "text-text-muted hover:text-yellow-500 hover:bg-yellow-50"
                     } disabled:opacity-50 disabled:cursor-not-allowed`}
                     title={
                       announcement.isFeatured
@@ -254,8 +256,8 @@ const AnnouncementsList = ({
                     disabled={isLoading}
                     className={`p-1.5 rounded-lg transition ${
                       announcement.isPublished
-                        ? "text-green-400 hover:text-yellow-400 hover:bg-yellow-500/10"
-                        : "text-[#6b7280] hover:text-green-400 hover:bg-green-500/10"
+                        ? "text-green-600 hover:text-yellow-500 hover:bg-yellow-50"
+                        : "text-text-muted hover:text-green-600 hover:bg-green-50"
                     } disabled:opacity-50 disabled:cursor-not-allowed`}
                     title={announcement.isPublished ? "Unpublish" : "Publish"}
                   >
@@ -270,7 +272,7 @@ const AnnouncementsList = ({
 
                   <button
                     onClick={() => onEdit(announcement)}
-                    className="p-1.5 text-[#6b7280] hover:text-[#2563eb] hover:bg-[#EEF2FF] rounded-lg transition"
+                    className="p-1.5 text-text-muted hover:text-accent hover:bg-blue-50 rounded-lg transition"
                     title="Edit"
                   >
                     <Edit className="w-4 h-4" />
@@ -278,7 +280,7 @@ const AnnouncementsList = ({
 
                   <button
                     onClick={() => onDelete(announcement._id)}
-                    className="p-1.5 text-[#6b7280] hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                    className="p-1.5 text-text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition"
                     title="Delete"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -293,21 +295,21 @@ const AnnouncementsList = ({
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center py-12 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB]"
+            className="text-center py-12 bg-white shadow-sm rounded-xl border border-gray-200"
           >
-            <Megaphone className="w-16 h-16 text-[#9ca3af] mx-auto mb-4" />
-            <p className="text-[#6b7280]">No announcements found</p>
+            <Megaphone className="w-16 h-16 text-text-muted mx-auto mb-4" />
+            <p className="text-text-secondary">No announcements found</p>
             {(searchTerm || filterCategory !== "all") && (
               <button
                 onClick={clearFilters}
-                className="mt-2 text-[#2563eb] hover:text-[#1d4ed8] transition text-sm"
+                className="mt-2 text-accent hover:text-blue-700 transition text-sm"
               >
                 Clear all filters
               </button>
             )}
             <button
               onClick={onCreate}
-              className="mt-4 text-[#2563eb] hover:text-[#1d4ed8] transition block mx-auto"
+              className="mt-4 text-accent hover:text-blue-700 transition block mx-auto"
             >
               + Create your first announcement
             </button>
@@ -316,7 +318,7 @@ const AnnouncementsList = ({
       </div>
 
       {filtered?.length > 0 && (
-        <div className="mt-4 text-right text-sm text-[#6b7280]">
+        <div className="mt-4 text-right text-sm text-text-muted">
           Showing {filtered.length} of {announcements?.length || 0}{" "}
           announcements
         </div>
