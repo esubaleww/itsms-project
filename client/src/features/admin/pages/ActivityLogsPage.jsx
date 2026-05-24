@@ -63,15 +63,15 @@ const ActivityLogsPage = () => {
       case "DELETE":
         return <XCircle className="w-4 h-4 text-red-500" />;
       case "APPROVE":
-        return <CheckCircle className="w-4 h-4 text-[#2563eb]" />;
+        return <CheckCircle className="w-4 h-4 text-accent" />;
       case "REVIEW":
         return <Clock className="w-4 h-4 text-yellow-500" />;
       case "REJECT":
         return <XCircle className="w-4 h-4 text-red-500" />;
       case "LOGIN":
-        return <LogIn className="w-4 h-4 text-[#2563eb]" />;
+        return <LogIn className="w-4 h-4 text-accent" />;
       case "LOGOUT":
-        return <LogOut className="w-4 h-4 text-[#6b7280]" />;
+        return <LogOut className="w-4 h-4 text-text-muted" />;
       case "ASSIGN":
         return <Users className="w-4 h-4 text-purple-500" />;
       case "ROUTE":
@@ -79,7 +79,7 @@ const ActivityLogsPage = () => {
       case "COMPLETE":
         return <Flag className="w-4 h-4 text-blue-500" />;
       default:
-        return <History className="w-4 h-4 text-[#6b7280]" />;
+        return <History className="w-4 h-4 text-text-muted" />;
     }
   };
 
@@ -87,34 +87,34 @@ const ActivityLogsPage = () => {
     const actionUpper = action?.toUpperCase() || "";
 
     if (actionUpper === "LOGIN" && success === false) {
-      return "bg-red-100 text-red-700";
+      return "bg-red-50 text-red-600";
     }
 
     switch (actionUpper) {
       case "CREATE":
-        return "bg-green-100 text-green-700";
+        return "bg-green-50 text-green-600";
       case "UPDATE":
-        return "bg-blue-100 text-blue-700";
+        return "bg-blue-50 text-blue-600";
       case "DELETE":
-        return "bg-red-100 text-red-700";
+        return "bg-red-50 text-red-600";
       case "APPROVE":
-        return "bg-[#EEF2FF] text-[#1d4ed8]";
+        return "bg-blue-50 text-accent";
       case "REVIEW":
-        return "bg-yellow-100 text-yellow-700";
+        return "bg-yellow-50 text-yellow-600";
       case "REJECT":
-        return "bg-red-100 text-red-700";
+        return "bg-red-50 text-red-600";
       case "LOGIN":
-        return "bg-[#EEF2FF] text-[#1d4ed8]";
+        return "bg-blue-50 text-accent";
       case "LOGOUT":
-        return "bg-gray-100 text-[#6b7280]";
+        return "bg-gray-100 text-text-muted";
       case "ASSIGN":
-        return "bg-purple-100 text-purple-700";
+        return "bg-purple-50 text-purple-600";
       case "ROUTE":
-        return "bg-yellow-100 text-yellow-700";
+        return "bg-yellow-50 text-yellow-600";
       case "COMPLETE":
-        return "bg-blue-100 text-blue-700";
+        return "bg-blue-50 text-blue-600";
       default:
-        return "bg-gray-100 text-[#6b7280]";
+        return "bg-gray-100 text-text-muted";
     }
   };
 
@@ -303,25 +303,27 @@ const ActivityLogsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB]">
-      <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-[#E5E7EB]">
+    <div className="min-h-screen bg-gray-50 font-body">
+      <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-4 mb-4">
             <button
               onClick={() => navigate("/admin")}
-              className="flex items-center gap-2 text-[#6b7280] hover:text-[#2563eb] transition-colors group"
+              className="flex items-center gap-2 text-text-muted hover:text-accent transition-colors group"
             >
               <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
               <span>Back to Dashboard</span>
             </button>
-            <div className="h-6 w-px bg-[#E5E7EB]" />
+            <div className="h-6 w-px bg-gray-200" />
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#2563eb] rounded-full flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center shadow-md">
                 <History className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-[#111827]">Activity Logs</h1>
-                <p className="text-sm text-[#6b7280] mt-0.5">
+                <h1 className="text-2xl font-heading font-semibold text-text-primary">
+                  Activity Logs
+                </h1>
+                <p className="text-sm text-text-muted mt-0.5">
                   Complete audit trail of all system activities
                 </p>
               </div>
@@ -331,28 +333,28 @@ const ActivityLogsPage = () => {
                 fetchAll();
                 setCurrentPage(1);
               }}
-              className="ml-auto p-2 hover:bg-[#F3F4F6] rounded-lg transition"
+              className="ml-auto p-2 hover:bg-gray-100 rounded-lg transition"
               title="Refresh"
             >
-              <RefreshCw className="w-5 h-5 text-[#6b7280] hover:text-[#2563eb]" />
+              <RefreshCw className="w-5 h-5 text-text-muted hover:text-accent" />
             </button>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
               <input
                 type="text"
                 placeholder="Search logs..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-shadow shadow-sm"
+                className="w-full pl-9 pr-4 py-2 bg-white border border-gray-300 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-shadow shadow-sm"
               />
             </div>
             <select
               value={filterAction}
               onChange={(e) => setFilterAction(e.target.value)}
-              className="px-4 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent shadow-sm"
+              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent shadow-sm"
             >
               {actions.map((a) => (
                 <option key={a.value} value={a.value}>
@@ -364,7 +366,7 @@ const ActivityLogsPage = () => {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="px-4 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent shadow-sm"
+              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent shadow-sm"
             >
               {statusOptions.map((s) => (
                 <option key={s.value} value={s.value}>
@@ -375,7 +377,7 @@ const ActivityLogsPage = () => {
             <select
               value={filterEntity}
               onChange={(e) => setFilterEntity(e.target.value)}
-              className="px-4 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent shadow-sm"
+              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent shadow-sm"
             >
               {entities.map((e) => (
                 <option key={e.value} value={e.value}>
@@ -386,20 +388,20 @@ const ActivityLogsPage = () => {
           </div>
 
           <div className="mt-4 flex justify-between items-center text-sm">
-            <div className="text-[#6b7280]">
+            <div className="text-text-muted">
               {filteredTotal > 0 ? (
                 <>
                   Showing{" "}
-                  <span className="text-[#111827] font-medium">
+                  <span className="text-text-primary font-medium">
                     {currentLogs?.length}
                   </span>{" "}
                   of{" "}
-                  <span className="text-[#111827] font-medium">
+                  <span className="text-text-primary font-medium">
                     {filteredTotal}
                   </span>{" "}
                   logs
                   {totalLogs !== filteredTotal && (
-                    <span className="text-[#6b7280] ml-2">
+                    <span className="text-text-muted ml-2">
                       (filtered from {totalLogs} total)
                     </span>
                   )}
@@ -419,7 +421,7 @@ const ActivityLogsPage = () => {
                   setFilterEntity("all");
                   setFilterStatus("all");
                 }}
-                className="text-[#2563eb] hover:text-[#1d4ed8] text-sm font-medium"
+                className="text-accent hover:text-blue-700 text-sm font-medium"
               >
                 Clear all filters
               </button>
@@ -429,41 +431,41 @@ const ActivityLogsPage = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="bg-white rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-[#E5E7EB] overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-[#F9FAFB] border-b border-[#E5E7EB] sticky top-0 z-10">
+              <thead className="bg-gray-50 border-b border-gray-200 sticky top-0 z-10">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-[#6b7280] uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wider">
                     Action
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-[#6b7280] uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wider">
                     Entity
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-[#6b7280] uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wider">
                     Description
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-[#6b7280] uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wider">
                     User / Email
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-[#6b7280] uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wider">
                     Time
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-[#6b7280]"></th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-text-muted"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E5E7EB]">
+              <tbody className="divide-y divide-gray-200">
                 {loading ? (
                   <tr>
                     <td colSpan="6" className="px-4 py-12 text-center">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2563eb] mx-auto" />
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent mx-auto" />
                     </td>
                   </tr>
                 ) : currentLogs?.length === 0 ? (
                   <tr>
                     <td
                       colSpan="6"
-                      className="px-4 py-12 text-center text-[#6b7280]"
+                      className="px-4 py-12 text-center text-text-muted"
                     >
                       No activity logs found
                     </td>
@@ -481,7 +483,7 @@ const ActivityLogsPage = () => {
                     return (
                       <Fragment key={log._id}>
                         <tr
-                          className="hover:bg-[#F9FAFB] transition cursor-pointer"
+                          className="hover:bg-gray-50 transition cursor-pointer"
                           onClick={() =>
                             setSelectedLog(
                               selectedLog?._id === log._id ? null : log,
@@ -498,10 +500,10 @@ const ActivityLogsPage = () => {
                               </span>
                             </div>
                           </td>
-                          <td className="px-4 py-3 text-sm text-[#374151]">
+                          <td className="px-4 py-3 text-sm text-text-secondary">
                             {getEntityDisplay(log)}
                           </td>
-                          <td className="px-4 py-3 text-sm text-[#4b5563] max-w-md truncate">
+                          <td className="px-4 py-3 text-sm text-text-muted max-w-md truncate">
                             {getDescription(log)}
                           </td>
                           <td className="px-4 py-3">
@@ -511,30 +513,30 @@ const ActivityLogsPage = () => {
                               </div>
                             ) : (
                               <>
-                                <div className="text-sm font-medium text-[#111827]">
+                                <div className="text-sm font-medium text-text-primary">
                                   {log.user?.fullName || "System"}
                                 </div>
-                                <div className="text-xs text-[#6b7280]">
+                                <div className="text-xs text-text-muted">
                                   {log.user?.email}
                                 </div>
                               </>
                             )}
                           </td>
-                          <td className="px-4 py-3 text-sm text-[#6b7280]">
+                          <td className="px-4 py-3 text-sm text-text-muted">
                             {formatTimestamp(log.timestamp)}
                           </td>
                           <td className="px-4 py-3">
                             <ChevronRight
-                              className={`w-4 h-4 text-[#9ca3af] transition-transform ${
+                              className={`w-4 h-4 text-text-muted transition-transform ${
                                 selectedLog?._id === log._id ? "rotate-90" : ""
                               }`}
                             />
                           </td>
                         </tr>
                         {selectedLog?._id === log._id && (
-                          <tr className="bg-[#F9FAFB]">
+                          <tr className="bg-gray-50">
                             <td colSpan="6" className="px-4 py-4">
-                              <div className="bg-white border border-[#E5E7EB] rounded-lg p-4 space-y-2 shadow-sm">
+                              <div className="bg-white border border-gray-200 rounded-lg p-4 space-y-2 shadow-sm">
                                 {isFailedLogin && (
                                   <div className="space-y-2 mb-3 pb-3 border-b border-red-100">
                                     <div className="flex items-center gap-2 text-red-600">
@@ -544,7 +546,7 @@ const ActivityLogsPage = () => {
                                       </span>
                                     </div>
                                     <div className="text-sm">
-                                      <span className="text-[#6b7280]">
+                                      <span className="text-text-muted">
                                         Email:
                                       </span>{" "}
                                       <span className="text-red-600 font-mono ml-2">
@@ -554,7 +556,7 @@ const ActivityLogsPage = () => {
                                       </span>
                                     </div>
                                     <div className="text-sm">
-                                      <span className="text-[#6b7280]">
+                                      <span className="text-text-muted">
                                         Reason:
                                       </span>{" "}
                                       <span className="text-red-600 ml-2">
@@ -564,10 +566,10 @@ const ActivityLogsPage = () => {
                                     </div>
                                     {log.ipAddress && (
                                       <div className="text-sm">
-                                        <span className="text-[#6b7280]">
+                                        <span className="text-text-muted">
                                           IP Address:
                                         </span>{" "}
-                                        <span className="text-[#374151] ml-2">
+                                        <span className="text-text-secondary ml-2">
                                           {log.ipAddress}
                                         </span>
                                       </div>
@@ -577,58 +579,58 @@ const ActivityLogsPage = () => {
 
                                 {log.entityId && !isFailedLogin && (
                                   <div className="text-sm">
-                                    <span className="text-[#6b7280]">
+                                    <span className="text-text-muted">
                                       Entity ID:
                                     </span>{" "}
-                                    <span className="text-[#374151] font-mono ml-2 bg-[#F3F4F6] px-1 py-0.5 rounded">
+                                    <span className="text-text-secondary font-mono ml-2 bg-gray-100 px-1 py-0.5 rounded">
                                       {log.entityId}
                                     </span>
                                   </div>
                                 )}
                                 {log.request && (
                                   <div className="text-sm">
-                                    <span className="text-[#6b7280]">
+                                    <span className="text-text-muted">
                                       Request ID:
                                     </span>{" "}
-                                    <span className="text-[#374151] font-mono ml-2 bg-[#F3F4F6] px-1 py-0.5 rounded">
+                                    <span className="text-text-secondary font-mono ml-2 bg-gray-100 px-1 py-0.5 rounded">
                                       {log.request}
                                     </span>
                                   </div>
                                 )}
                                 {log.oldValue && (
                                   <div>
-                                    <p className="text-sm font-medium text-[#6b7280] mb-1">
+                                    <p className="text-sm font-medium text-text-muted mb-1">
                                       Old Value:
                                     </p>
-                                    <pre className="text-xs text-[#374151] bg-[#F3F4F6] border border-[#E5E7EB] p-3 rounded-lg max-h-40 overflow-auto whitespace-pre-wrap">
+                                    <pre className="text-xs text-text-secondary bg-gray-100 border border-gray-200 p-3 rounded-lg max-h-40 overflow-auto whitespace-pre-wrap">
                                       {JSON.stringify(log.oldValue, null, 2)}
                                     </pre>
                                   </div>
                                 )}
                                 {log.newValue && (
                                   <div>
-                                    <p className="text-sm font-medium text-[#6b7280] mb-1">
+                                    <p className="text-sm font-medium text-text-muted mb-1">
                                       New Value:
                                     </p>
-                                    <pre className="text-xs text-[#374151] bg-[#F3F4F6] border border-[#E5E7EB] p-3 rounded-lg max-h-40 overflow-auto whitespace-pre-wrap">
+                                    <pre className="text-xs text-text-secondary bg-gray-100 border border-gray-200 p-3 rounded-lg max-h-40 overflow-auto whitespace-pre-wrap">
                                       {JSON.stringify(log.newValue, null, 2)}
                                     </pre>
                                   </div>
                                 )}
                                 {log.ipAddress && !isFailedLogin && (
                                   <div className="text-sm">
-                                    <span className="text-[#6b7280]">IP:</span>{" "}
-                                    <span className="text-[#374151] ml-2 font-mono text-xs bg-[#F3F4F6] px-1 py-0.5 rounded">
+                                    <span className="text-text-muted">IP:</span>{" "}
+                                    <span className="text-text-secondary ml-2 font-mono text-xs bg-gray-100 px-1 py-0.5 rounded">
                                       {log.ipAddress}
                                     </span>
                                   </div>
                                 )}
                                 {log.userAgent && (
                                   <div className="text-sm">
-                                    <span className="text-[#6b7280]">
+                                    <span className="text-text-muted">
                                       User Agent:
                                     </span>{" "}
-                                    <span className="text-[#374151] text-xs break-all ml-2">
+                                    <span className="text-text-secondary text-xs break-all ml-2">
                                       {log.userAgent}
                                     </span>
                                   </div>
@@ -651,7 +653,7 @@ const ActivityLogsPage = () => {
             <button
               onClick={() => handlePageChange(1)}
               disabled={currentPage === 1}
-              className="p-2 rounded-lg bg-white border border-[#E5E7EB] text-[#4b5563] hover:bg-[#F9FAFB] hover:text-[#111827] disabled:opacity-50 disabled:cursor-not-allowed shadow-sm transition"
+              className="p-2 rounded-lg bg-white border border-gray-200 text-text-muted hover:bg-gray-50 hover:text-text-primary disabled:opacity-50 disabled:cursor-not-allowed shadow-sm transition"
               title="First Page"
             >
               <ChevronsLeft className="w-4 h-4" />
@@ -659,7 +661,7 @@ const ActivityLogsPage = () => {
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className="p-2 rounded-lg bg-white border border-[#E5E7EB] text-[#4b5563] hover:bg-[#F9FAFB] hover:text-[#111827] disabled:opacity-50 disabled:cursor-not-allowed shadow-sm transition"
+              className="p-2 rounded-lg bg-white border border-gray-200 text-text-muted hover:bg-gray-50 hover:text-text-primary disabled:opacity-50 disabled:cursor-not-allowed shadow-sm transition"
               title="Previous Page"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -670,7 +672,7 @@ const ActivityLogsPage = () => {
                 page === "..." ? (
                   <span
                     key={`dots-${index}`}
-                    className="px-3 py-2 text-[#6b7280]"
+                    className="px-3 py-2 text-text-muted"
                   >
                     ...
                   </span>
@@ -680,8 +682,8 @@ const ActivityLogsPage = () => {
                     onClick={() => handlePageChange(page)}
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition shadow-sm ${
                       currentPage === page
-                        ? "bg-[#2563eb] text-white border border-[#2563eb]"
-                        : "bg-white border border-[#E5E7EB] text-[#4b5563] hover:bg-[#F9FAFB] hover:text-[#111827]"
+                        ? "bg-accent text-white border border-accent"
+                        : "bg-white border border-gray-200 text-text-muted hover:bg-gray-50 hover:text-text-primary"
                     }`}
                   >
                     {page}
@@ -693,7 +695,7 @@ const ActivityLogsPage = () => {
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="p-2 rounded-lg bg-white border border-[#E5E7EB] text-[#4b5563] hover:bg-[#F9FAFB] hover:text-[#111827] disabled:opacity-50 disabled:cursor-not-allowed shadow-sm transition"
+              className="p-2 rounded-lg bg-white border border-gray-200 text-text-muted hover:bg-gray-50 hover:text-text-primary disabled:opacity-50 disabled:cursor-not-allowed shadow-sm transition"
               title="Next Page"
             >
               <ChevronRight className="w-4 h-4" />
@@ -701,7 +703,7 @@ const ActivityLogsPage = () => {
             <button
               onClick={() => handlePageChange(totalPages)}
               disabled={currentPage === totalPages}
-              className="p-2 rounded-lg bg-white border border-[#E5E7EB] text-[#4b5563] hover:bg-[#F9FAFB] hover:text-[#111827] disabled:opacity-50 disabled:cursor-not-allowed shadow-sm transition"
+              className="p-2 rounded-lg bg-white border border-gray-200 text-text-muted hover:bg-gray-50 hover:text-text-primary disabled:opacity-50 disabled:cursor-not-allowed shadow-sm transition"
               title="Last Page"
             >
               <ChevronsRight className="w-4 h-4" />
@@ -710,7 +712,7 @@ const ActivityLogsPage = () => {
         )}
 
         {!loading && filteredTotal > 0 && totalPages > 1 && (
-          <div className="mt-4 text-center text-sm text-[#6b7280]">
+          <div className="mt-4 text-center text-sm text-text-muted">
             Page {currentPage} of {totalPages}
           </div>
         )}

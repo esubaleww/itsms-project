@@ -29,12 +29,8 @@ const AdminHeader = ({
   const { auditLogs, loading: logsLoading } = useAdmin();
   const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
-  const [showUserMenu, setShowUserMenu] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
-  const [showMobileSearch, setShowMobileSearch] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const notificationRef = useRef(null);
-  const userMenuRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -43,9 +39,6 @@ const AdminHeader = ({
         !notificationRef.current.contains(event.target)
       ) {
         setShowNotifications(false);
-      }
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
-        setShowUserMenu(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -65,11 +58,6 @@ const AdminHeader = ({
     navigate("/notifications");
   };
 
-  const handleLogout = async () => {
-    await logout();
-    navigate("/login");
-  };
-
   const getUserInitials = () => {
     if (!user?.fullName) return "A";
     return user.fullName
@@ -82,55 +70,57 @@ const AdminHeader = ({
 
   return (
     <>
-      <header className="bg-white/80 backdrop-blur-sm border-b border-[#E5E7EB] sticky top-0 z-40">
+      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 h-16">
           <div className="flex justify-between items-center h-full">
             <div className="flex items-center gap-4">
               <button
                 onClick={onMenuClick}
-                className="md:hidden p-2 hover:bg-white rounded-lg transition-colors"
+                className="md:hidden p-2 hover:bg-gray-50 rounded-lg transition-colors"
               >
-                <Menu className="w-5 h-5 text-[#4b5563]" />
+                <Menu className="w-5 h-5 text-text-muted" />
               </button>
 
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#2563eb] rounded-full flex items-center justify-center shadow-lg">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent rounded-full flex items-center justify-center shadow-md">
                 <LayoutDashboard className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
 
               <div className="hidden sm:block">
-                <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-[#111827]">
+                <h1 className="text-lg sm:text-xl md:text-2xl font-heading font-medium text-text-primary">
                   {title}
                 </h1>
-                <p className="text-xs text-[#374151] hidden md:block">
+                <p className="text-xs text-text-secondary hidden md:block">
                   Welcome back, {user?.fullName?.split(" ")[0] || "Admin"}
                 </p>
               </div>
 
               <div className="sm:hidden">
-                <h1 className="text-sm font-bold text-[#111827]">Admin</h1>
+                <h1 className="text-sm font-heading font-medium text-text-primary">
+                  Admin
+                </h1>
               </div>
             </div>
 
             <div className="flex items-center gap-1 sm:gap-2 lg:gap-3">
               <button
                 onClick={() => setShowExportModal(true)}
-                className="p-2 hover:bg-white rounded-lg transition-colors duration-200 group"
+                className="p-2 hover:bg-gray-50 rounded-lg transition-colors duration-200 group"
                 title="Export Data"
               >
-                <Download className="w-5 h-5 text-[#4b5563] group-hover:text-[#2563eb] transition-colors" />
+                <Download className="w-5 h-5 text-text-muted group-hover:text-accent transition-colors" />
               </button>
 
               <button
                 onClick={onRefresh}
-                className="p-2 hover:bg-white rounded-lg transition-colors duration-200 group"
+                className="p-2 hover:bg-gray-50 rounded-lg transition-colors duration-200 group"
                 title="Refresh Dashboard"
               >
-                <RefreshCw className="w-5 h-5 text-[#4b5563] group-hover:text-[#2563eb] transition-colors" />
+                <RefreshCw className="w-5 h-5 text-text-muted group-hover:text-accent transition-colors" />
               </button>
 
               <button
                 onClick={() => navigate("/admin/analytics")}
-                className="p-2 rounded-lg transition text-[#4b5563] hover:bg-[#F3F4F6] hover:text-[#2563eb]"
+                className="p-2 rounded-lg transition text-text-muted hover:bg-gray-50 hover:text-accent"
                 title="Analytics"
               >
                 <BarChart3 className="w-5 h-5" />
@@ -138,19 +128,19 @@ const AdminHeader = ({
 
               <button
                 onClick={() => navigate("/admin/activity-logs")}
-                className="p-2 hover:bg-[#F3F4F6] rounded-lg transition-colors duration-200 group"
+                className="p-2 hover:bg-gray-50 rounded-lg transition-colors duration-200 group"
                 title="Activity Logs"
               >
-                <History className="w-5 h-5 text-[#4b5563] group-hover:text-[#2563eb] transition-colors" />
+                <History className="w-5 h-5 text-text-muted group-hover:text-accent transition-colors" />
               </button>
 
               <div className="relative" ref={notificationRef}>
                 <button
                   onClick={() => setShowNotifications(!showNotifications)}
-                  className="p-2 hover:bg-white rounded-lg transition-colors duration-200 relative group"
+                  className="p-2 hover:bg-gray-50 rounded-lg transition-colors duration-200 relative group"
                   title="Notifications"
                 >
-                  <Bell className="w-5 h-5 text-[#4b5563] group-hover:text-[#2563eb] transition-colors" />
+                  <Bell className="w-5 h-5 text-text-muted group-hover:text-accent transition-colors" />
                   {unreadCount > 0 && (
                     <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse">
                       {unreadCount > 9 ? "9+" : unreadCount}
@@ -159,15 +149,15 @@ const AdminHeader = ({
                 </button>
 
                 {showNotifications && (
-                  <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-[#E5E7EB] overflow-hidden z-20 animate-fadeIn">
-                    <div className="p-3 border-b border-[#E5E7EB] flex justify-between items-center bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
-                      <h3 className="font-semibold text-[#111827]">
+                  <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden z-20 animate-fadeIn">
+                    <div className="p-3 border-b border-gray-200 flex justify-between items-center bg-white">
+                      <h3 className="font-heading font-medium text-text-primary">
                         Notifications
                       </h3>
                       {unreadCount > 0 && (
                         <button
                           onClick={markAllAsRead}
-                          className="text-xs text-[#2563eb] hover:text-[#1d4ed8] transition-colors"
+                          className="text-xs text-accent hover:text-blue-700 transition-colors"
                         >
                           Mark all as read
                         </button>
@@ -175,8 +165,8 @@ const AdminHeader = ({
                     </div>
                     <div className="max-h-96 overflow-y-auto">
                       {notifications.length === 0 ? (
-                        <div className="p-8 text-center text-[#64748b]">
-                          <Bell className="w-10 h-10 mx-auto text-[#64748b] mb-2" />
+                        <div className="p-8 text-center text-text-muted">
+                          <Bell className="w-10 h-10 mx-auto text-text-muted mb-2" />
                           <p className="text-sm">No notifications</p>
                         </div>
                       ) : (
@@ -184,24 +174,24 @@ const AdminHeader = ({
                           <div
                             key={notif._id}
                             onClick={() => handleNotificationClick(notif)}
-                            className={`p-3 border-b border-[#E5E7EB] hover:bg-white cursor-pointer transition-all duration-200 ${
+                            className={`p-3 border-b border-gray-200 hover:bg-gray-50 cursor-pointer transition-all duration-200 ${
                               !notif.isRead ? "bg-gray-50" : ""
                             }`}
                           >
                             <div className="flex items-start gap-2">
                               {!notif.isRead && (
-                                <div className="w-2 h-2 bg-[#2563eb] rounded-full mt-1.5 shrink-0" />
+                                <div className="w-2 h-2 bg-accent rounded-full mt-1.5 shrink-0" />
                               )}
                               <div className="flex-1">
                                 <p
-                                  className={`text-sm ${!notif.isRead ? "text-[#111827] font-medium" : "text-[#374151]"}`}
+                                  className={`text-sm ${!notif.isRead ? "text-text-primary font-medium" : "text-text-secondary"}`}
                                 >
                                   {notif.title}
                                 </p>
-                                <p className="text-xs text-[#6b7280] mt-1 line-clamp-2">
+                                <p className="text-xs text-text-muted mt-1 line-clamp-2">
                                   {notif.message}
                                 </p>
-                                <p className="text-xs text-[#6b7280] mt-1">
+                                <p className="text-xs text-text-muted mt-1">
                                   {new Date(notif.createdAt).toLocaleString()}
                                 </p>
                               </div>
@@ -210,58 +200,29 @@ const AdminHeader = ({
                         ))
                       )}
                     </div>
-                    <div className="p-2 border-t border-[#E5E7EB] bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+                    <div className="p-2 border-t border-gray-200 bg-gray-50">
                       <button
                         onClick={handleViewAll}
-                        className="w-full text-center text-sm text-[#2563eb] hover:text-[#1d4ed8] py-1 transition-colors"
+                        className="w-full text-center text-sm text-accent hover:text-blue-700 py-1 transition-colors"
                       >
-                         View all notifications
+                        View all notifications
                       </button>
                     </div>
                   </div>
                 )}
               </div>
 
-              <div className="relative" ref={userMenuRef}>
-                <button
-                  onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center gap-2 p-1.5 hover:bg-[#F3F4F6] rounded-lg transition-colors duration-200 group"
-                >
-                  <div className="w-8 h-8 bg-[#2563eb] rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-medium">
-                      {getUserInitials()}
-                    </span>
-                  </div>
-                  <ChevronDown className="w-4 h-4 text-[#374151] group-hover:text-[#111827] transition-colors hidden sm:block" />
-                </button>
-
-                {showUserMenu && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-[#E5E7EB] overflow-hidden z-20 animate-fadeIn">
-                    <div className="p-3 border-b border-[#E5E7EB] bg-white">
-                      <p className="text-[#111827] font-medium">{user?.fullName}</p>
-                      <p className="text-xs text-[#374151] mt-0.5">
-                        {user?.email}
-                      </p>
-                      <p className="text-xs text-[#2563eb] mt-1 capitalize">
-                        {user?.role}{" "}
-                        {user?.position ? `• ${user.position}` : ""}
-                      </p>
-                    </div>
-                    <div className="py-1">
-                      <button
-                        onClick={() => {
-                          setShowUserMenu(false);
-                          navigate("/profile");
-                        }}
-                        className="w-full px-4 py-2 text-left text-sm text-[#374151] hover:bg-[#F3F4F6] transition-colors flex items-center gap-2"
-                      >
-                        <User className="w-4 h-4" />
-                        Profile Settings
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
+              <button
+                onClick={() => navigate("/profile")}
+                className="flex items-center gap-2 p-1.5 hover:bg-gray-50 rounded-lg transition-colors duration-200 group"
+                title="Profile"
+              >
+                <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+                  <span className="text-white text-sm font-medium">
+                    {getUserInitials()}
+                  </span>
+                </div>
+              </button>
             </div>
           </div>
         </div>

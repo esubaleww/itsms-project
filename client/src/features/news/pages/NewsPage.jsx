@@ -14,12 +14,12 @@ import { format } from "date-fns";
 import { useAnnouncements } from "../../../hooks/useAnnouncements";
 
 const categoryColors = {
-  announcement: "bg-[#EEF2FF] text-[#2563eb]",
-  news: "bg-[#F0FDF4] text-[#16a34a]",
-  event: "bg-[#FAF5FF] text-[#9333ea]",
-  success_story: "bg-[#FFFBEB] text-[#d97706]",
-  opportunity: "bg-[#ECFEFF] text-[#0891b2]",
-  update: "bg-[#F5F3FF] text-[#7c3aed]",
+  announcement: "bg-blue-50 text-accent",
+  news: "bg-green-50 text-green-600",
+  event: "bg-purple-50 text-purple-600",
+  success_story: "bg-amber-50 text-amber-600",
+  opportunity: "bg-cyan-50 text-cyan-600",
+  update: "bg-indigo-50 text-indigo-600",
 };
 
 const categoryLabels = {
@@ -58,21 +58,21 @@ export default function NewsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] flex items-center justify-center">
-        <Loader2 className="w-10 h-10 text-[#2563eb] animate-spin" />
+      <div className="min-h-screen bg-linear-to-b from-gray-50 to-gray-100 flex items-center justify-center">
+        <Loader2 className="w-10 h-10 text-accent animate-spin" />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-b from-gray-50 to-gray-100 flex items-center justify-center">
         <div className="text-center">
           <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
           <p className="text-red-500">{error}</p>
           <button
             onClick={fetchAnnouncements}
-            className="mt-4 text-[#2563eb] hover:text-[#1d4ed8]"
+            className="mt-4 text-accent hover:text-blue-700"
           >
             Try Again
           </button>
@@ -82,12 +82,12 @@ export default function NewsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6]">
-      <div className="sticky top-0 z-30 bg-[#F9FAFB]/95 backdrop-blur-md border-b border-[#E5E7EB]">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-gray-100 font-body">
+      <div className="sticky top-0 z-30 bg-gray-50/95 backdrop-blur-md border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <button
             onClick={() => navigate("/")}
-            className="flex items-center gap-2 text-[#6b7280] hover:text-[#2563eb] transition-colors group"
+            className="flex items-center gap-2 text-text-muted hover:text-accent transition-colors group"
           >
             <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
             <span>Back to Home</span>
@@ -95,10 +95,7 @@ export default function NewsPage() {
         </div>
       </div>
 
-      <section
-        className="text-[#111827] py-16 border-b border-[#E5E7EB]"
-        style={{ background: "linear-gradient(135deg, #EEF2FF, #DBEAFE)" }}
-      >
+      <section className="py-16 border-b border-gray-200 bg-linear-to-b from-white/88 to-white/75">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -106,10 +103,10 @@ export default function NewsPage() {
             transition={{ duration: 0.6 }}
             className="text-center space-y-4"
           >
-            <h1 className="text-4xl sm:text-5xl font-bold">
+            <h1 className="text-4xl sm:text-5xl font-heading font-medium text-text-primary">
               News & Announcements
             </h1>
-            <p className="text-lg text-[#334155] max-w-2xl mx-auto">
+            <p className="text-lg text-text-secondary max-w-2xl mx-auto">
               Stay updated with the latest news, events, and success stories
               from the Innovation and Technology Bureau
             </p>
@@ -125,7 +122,9 @@ export default function NewsPage() {
             transition={{ duration: 0.6 }}
             className="mb-16"
           >
-            <h2 className="text-2xl font-bold text-[#111827] mb-6">Featured</h2>
+            <h2 className="text-2xl font-heading font-medium text-text-primary mb-6">
+              Featured
+            </h2>
             <div className="space-y-8">
               {featuredNews.map((item, index) => {
                 const categoryColor =
@@ -138,7 +137,7 @@ export default function NewsPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-2xl border border-[#E5E7EB] overflow-hidden hover:border-[#2563eb]/50 transition-all duration-300"
+                    className="bg-white shadow-sm backdrop-blur-sm rounded-2xl border border-gray-200 overflow-hidden hover:border-accent/50 transition-all duration-300"
                   >
                     <div className="grid lg:grid-cols-2 gap-0">
                       <div className="relative overflow-hidden">
@@ -149,8 +148,8 @@ export default function NewsPage() {
                             className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                           />
                         ) : (
-                          <div className="w-full h-full min-h-75 bg-[#F3F4F6] flex items-center justify-center">
-                            <Newspaper className="w-16 h-16 text-[#9CA3AF]" />
+                          <div className="w-full h-full min-h-75 bg-gray-100 flex items-center justify-center">
+                            <Newspaper className="w-16 h-16 text-text-muted" />
                           </div>
                         )}
                       </div>
@@ -162,26 +161,26 @@ export default function NewsPage() {
                             >
                               {categoryLabel}
                             </span>
-                            <span className="text-sm text-[#6b7280] flex items-center gap-1">
+                            <span className="text-sm text-text-muted flex items-center gap-1">
                               <Calendar className="w-4 h-4" />
                               {formatDate(item.publishedDate)}
                             </span>
                           </div>
-                          <h3 className="text-2xl lg:text-3xl font-bold text-[#111827] mb-4">
+                          <h3 className="text-2xl lg:text-3xl font-heading font-medium text-text-primary mb-4">
                             {item.title}
                           </h3>
-                          <p className="text-[#6b7280] mb-6">
+                          <p className="text-text-muted mb-6">
                             {item.excerpt || item.content?.substring(0, 300)}
                             {item.content?.length > 300 && "..."}
                           </p>
                         </div>
                         <div className="flex items-center justify-between mt-auto pt-4">
-                          <span className="text-sm text-[#6b7280] flex items-center gap-1">
+                          <span className="text-sm text-text-muted flex items-center gap-1">
                             <Clock className="w-4 h-4" />
                             {formatReadTime(item.content)}
                           </span>
                           <Link to={`/news/${item._id}`}>
-                            <button className="px-5 py-2 bg-emerald-600/20 hover:bg-emerald-600 text-[#2563eb] hover:text-[#111827] rounded-lg transition flex items-center gap-2 text-sm font-medium border border-[#2563eb]/20 hover:border-transparent">
+                            <button className="px-5 py-2 bg-accent/10 hover:bg-accent text-accent hover:text-white rounded-lg transition-all duration-300 flex items-center gap-2 text-sm font-medium border border-accent/20 hover:border-transparent">
                               Read More <ArrowRight className="w-4 h-4" />
                             </button>
                           </Link>
@@ -196,15 +195,15 @@ export default function NewsPage() {
         )}
 
         <div className="space-y-8">
-          <div className="pb-4 border-b border-[#E5E7EB]">
-            <h2 className="text-2xl font-bold text-[#111827]">
+          <div className="pb-4 border-b border-gray-200">
+            <h2 className="text-2xl font-heading font-medium text-text-primary">
               Latest Updates
             </h2>
           </div>
           {regularNews.length === 0 && featuredNews.length === 0 ? (
             <div className="text-center py-20">
-              <Newspaper className="w-12 h-12 text-[#9ca3af] mx-auto mb-4" />
-              <p className="text-[#6b7280]">No announcements yet</p>
+              <Newspaper className="w-12 h-12 text-text-muted mx-auto mb-4" />
+              <p className="text-text-secondary">No announcements yet</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -221,7 +220,7 @@ export default function NewsPage() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
-                    <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-xl hover:border-[#2563eb]/50 transition-all duration-300 group h-full flex flex-col">
+                    <div className="bg-white shadow-sm backdrop-blur-sm rounded-xl border border-gray-200 overflow-hidden hover:shadow-xl hover:border-accent/50 transition-all duration-300 group h-full flex flex-col">
                       <div className="relative h-48 overflow-hidden shrink-0">
                         {item.image?.url ? (
                           <img
@@ -230,8 +229,8 @@ export default function NewsPage() {
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                           />
                         ) : (
-                          <div className="w-full h-full bg-[#F3F4F6] flex items-center justify-center">
-                            <Newspaper className="w-8 h-8 text-[#9CA3AF]" />
+                          <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                            <Newspaper className="w-8 h-8 text-text-muted" />
                           </div>
                         )}
                         <div className="absolute top-4 left-4">
@@ -243,7 +242,7 @@ export default function NewsPage() {
                         </div>
                       </div>
                       <div className="p-5 flex flex-col flex-1">
-                        <div className="flex items-center gap-3 text-xs text-[#6b7280] mb-3 flex-wrap">
+                        <div className="flex items-center gap-3 text-xs text-text-muted mb-3 flex-wrap">
                           <span className="flex items-center gap-1">
                             <Calendar className="w-3 h-3" />
                             {formatDate(item.publishedDate)}
@@ -253,16 +252,16 @@ export default function NewsPage() {
                             {formatReadTime(item.content)}
                           </span>
                         </div>
-                        <h3 className="text-lg font-bold text-[#111827] mb-2 line-clamp-2 group-hover:text-[#2563eb] transition">
+                        <h3 className="text-lg font-heading font-medium text-text-primary mb-2 line-clamp-2 group-hover:text-accent transition">
                           {item.title}
                         </h3>
-                        <p className="text-[#6b7280] text-sm mb-4 line-clamp-3">
+                        <p className="text-text-muted text-sm mb-4 line-clamp-3">
                           {item.excerpt || item.content?.substring(0, 120)}
                         </p>
                         <Link to={`/news/${item._id}`}>
-                          <div className="inline-flex items-center text-[#2563eb] text-sm font-medium group-hover:gap-2 transition-all mt-auto">
-                            Read More{" "}
-                            <ArrowRight className="w-4 h-4 ml-1 group-hover:ml-2 transition" />
+                          <div className="inline-flex items-center text-accent text-sm font-medium gap-1 group-hover:gap-2 transition-all mt-auto">
+                            Read More
+                            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                           </div>
                         </Link>
                       </div>

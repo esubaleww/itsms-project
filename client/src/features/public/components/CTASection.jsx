@@ -4,7 +4,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 
 export default function CTASection() {
   return (
-    <section className="py-20 bg-[#F7E6E6]">
+    <section className="py-20 bg-linear-to-b from-white/88 to-white/75">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -13,16 +13,16 @@ export default function CTASection() {
           transition={{ duration: 0.6 }}
           className="space-y-6"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-[#E5E7EB] rounded-full shadow-sm">
-            <Sparkles className="w-4 h-4 text-[#2563eb]" />
-            <span className="text-sm text-[#374151] font-medium">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-gray-200 rounded-full shadow-sm">
+            <Sparkles className="w-4 h-4 text-accent" />
+            <span className="text-sm text-text-secondary font-medium">
               Get Started Today
             </span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#111827]">
+          <h2 className="text-3xl sm:text-4xl font-heading font-medium text-text-primary">
             Ready to Transform Your Ideas?
           </h2>
-          <p className="text-lg text-[#374151] max-w-2xl mx-auto">
+          <p className="text-lg text-text-secondary max-w-2xl mx-auto">
             Join hundreds of innovators, interns, and professionals who are
             already benefiting from our programs and services.
           </p>

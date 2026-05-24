@@ -50,26 +50,26 @@ const TrainingApplyPage = () => {
 
   if (user?.profiles?.training) {
     return (
-      <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] flex items-center justify-center py-12 px-4">
+      <div className="min-h-screen bg-linear-to-b from-gray-50 to-gray-100 flex items-center justify-center py-12 px-4 font-body">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="max-w-md w-full bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-2xl border border-[#E5E7EB] p-8 text-center"
+          className="max-w-md w-full bg-white shadow-sm rounded-2xl border border-gray-200 p-8 text-center"
         >
-          <div className="w-20 h-20 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            <AlertCircle className="w-10 h-10 text-yellow-400" />
+          <div className="w-20 h-20 bg-yellow-50 rounded-full flex items-center justify-center mx-auto mb-4">
+            <AlertCircle className="w-10 h-10 text-yellow-600" />
           </div>
-          <h2 className="text-2xl font-bold text-[#111827] mb-2">
+          <h2 className="text-2xl font-heading font-medium text-text-primary mb-2">
             Already Applied!
           </h2>
-          <p className="text-[#6b7280] mb-6">
+          <p className="text-text-muted mb-6">
             You have already submitted a training application. Our team is
             reviewing your application. You will be notified once there's an
             update.
           </p>
           <button
             onClick={() => navigate("/dashboard")}
-            className="px-6 py-2 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] rounded-lg hover:from-[#BFDBFE] hover:to-[#93C5FD] transition-all duration-200 shadow-[0_4px_10px_rgba(37,99,235,0.08)] flex items-center justify-center gap-2 mx-auto"
+            className="px-6 py-2 bg-accent text-white rounded-lg hover:bg-accent/90 transition-all duration-200 shadow-md flex items-center justify-center gap-2 mx-auto"
           >
             Back to Dashboard
             <ArrowRight className="w-4 h-4" />
@@ -174,20 +174,20 @@ const TrainingApplyPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] py-12 px-4">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-gray-100 py-12 px-4 font-body">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <div className="inline-flex items-center justify-center p-3 bg-[#EEF2FF] border border-[#2563eb]/20 rounded-2xl mb-4 shadow-sm">
-            <School className="w-8 h-8 text-[#2563eb]" />
+          <div className="inline-flex items-center justify-center p-3 bg-blue-50 border border-accent/20 rounded-2xl mb-4 shadow-sm">
+            <School className="w-8 h-8 text-accent" />
           </div>
-          <h1 className="text-3xl font-bold text-[#111827] mb-2">
+          <h1 className="text-3xl font-heading font-medium text-text-primary mb-2">
             Training Application
           </h1>
-          <p className="text-[#6b7280]">
+          <p className="text-text-muted">
             Enhance your skills and join our professional training programs
           </p>
         </motion.div>
@@ -203,8 +203,8 @@ const TrainingApplyPage = () => {
                   <div
                     className={`relative w-12 h-12 rounded-full flex items-center justify-center mx-auto transition-all duration-300 ${
                       isActive
-                        ? "bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] shadow-md"
-                        : "bg-[#F3F4F6] border border-[#E5E7EB] text-[#6b7280]"
+                        ? "bg-accent text-white shadow-md"
+                        : "bg-gray-100 border border-gray-200 text-text-muted"
                     }`}
                   >
                     {isCompleted ? (
@@ -215,7 +215,7 @@ const TrainingApplyPage = () => {
                   </div>
                   <p
                     className={`text-xs mt-2 font-medium ${
-                      isActive ? "text-[#2563eb]" : "text-[#6b7280]"
+                      isActive ? "text-accent" : "text-text-muted"
                     }`}
                   >
                     {step.title}
@@ -224,9 +224,9 @@ const TrainingApplyPage = () => {
               );
             })}
           </div>
-          <div className="relative w-full bg-[#E5E7EB] rounded-full h-2">
+          <div className="relative w-full bg-gray-200 rounded-full h-2">
             <motion.div
-              className="absolute left-0 top-0 h-full bg-gradient-to-r from-[#DBEAFE] to-[#2563eb] rounded-full"
+              className="absolute left-0 top-0 h-full bg-accent rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${(currentStep / totalSteps) * 100}%` }}
               transition={{ duration: 0.3 }}
@@ -237,7 +237,7 @@ const TrainingApplyPage = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-2xl border border-[#E5E7EB] overflow-hidden"
+          className="bg-white shadow-sm rounded-2xl border border-gray-200 overflow-hidden"
         >
           <form onSubmit={handleSubmit}>
             <AnimatePresence mode="wait">
@@ -250,67 +250,67 @@ const TrainingApplyPage = () => {
                   className="p-8 space-y-6"
                 >
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-[#EEF2FF] rounded-lg">
-                      <User className="w-5 h-5 text-[#2563eb]" />
+                    <div className="p-2 bg-blue-50 rounded-lg">
+                      <User className="w-5 h-5 text-accent" />
                     </div>
-                    <h2 className="text-xl font-semibold text-[#111827]">
+                    <h2 className="text-xl font-heading font-medium text-text-primary">
                       Personal Information
                     </h2>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-[#374151] mb-2">
+                      <label className="block text-sm font-medium text-text-secondary mb-2">
                         Full Name
                       </label>
                       <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                         <input
                           type="text"
                           value={formData.fullName}
                           disabled
-                          className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] cursor-not-allowed"
+                          className="w-full pl-10 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-text-primary cursor-not-allowed"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-[#374151] mb-2">
+                      <label className="block text-sm font-medium text-text-secondary mb-2">
                         Email Address
                       </label>
                       <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                         <input
                           type="email"
                           value={formData.email}
                           disabled
-                          className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] cursor-not-allowed"
+                          className="w-full pl-10 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-text-primary cursor-not-allowed"
                         />
                       </div>
                     </div>
 
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-[#374151] mb-2">
+                      <label className="block text-sm font-medium text-text-secondary mb-2">
                         Phone Number <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
-                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                         <input
                           type="tel"
                           name="phone"
                           value={formData.phone}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
+                          className="w-full pl-10 pr-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
                           placeholder="+251 912 345 678"
                         />
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg p-4">
+                  <div className="bg-blue-50 border border-accent/20 rounded-lg p-4">
                     <div className="flex items-start gap-3">
-                      <Sparkles className="w-5 h-5 text-[#2563eb] mt-0.5" />
-                      <p className="text-sm text-[#1d4ed8]">
+                      <Sparkles className="w-5 h-5 text-accent mt-0.5" />
+                      <p className="text-sm text-text-secondary">
                         Your personal information is pre-filled from your
                         account. Please add your phone number to continue.
                       </p>
@@ -328,53 +328,53 @@ const TrainingApplyPage = () => {
                   className="p-8 space-y-6"
                 >
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-[#EEF2FF] rounded-lg">
-                      <GraduationCap className="w-5 h-5 text-[#2563eb]" />
+                    <div className="p-2 bg-blue-50 rounded-lg">
+                      <GraduationCap className="w-5 h-5 text-accent" />
                     </div>
-                    <h2 className="text-xl font-semibold text-[#111827]">
+                    <h2 className="text-xl font-heading font-medium text-text-primary">
                       Background & Skills
                     </h2>
                   </div>
 
                   <div className="space-y-5">
                     <div>
-                      <label className="block text-sm font-medium text-[#374151] mb-2">
+                      <label className="block text-sm font-medium text-text-secondary mb-2">
                         Institution / Organization{" "}
                         <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
-                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                         <input
                           type="text"
                           name="institution"
                           value={formData.institution}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
+                          className="w-full pl-10 pr-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
                           placeholder="Your university, college, or organization"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-[#374151] mb-2">
+                      <label className="block text-sm font-medium text-text-secondary mb-2">
                         Profession / Field of Expertise{" "}
                         <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
-                        <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                        <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                         <input
                           type="text"
                           name="profession"
                           value={formData.profession}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
+                          className="w-full pl-10 pr-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
                           placeholder="e.g., Software Developer, Data Scientist, Project Manager"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-[#374151] mb-2">
+                      <label className="block text-sm font-medium text-text-secondary mb-2">
                         Skills
                       </label>
                       <div className="flex gap-2">
@@ -382,7 +382,7 @@ const TrainingApplyPage = () => {
                           type="text"
                           value={skillInput}
                           onChange={(e) => setSkillInput(e.target.value)}
-                          className="flex-1 px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb]"
+                          className="flex-1 px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
                           placeholder="e.g., JavaScript, Python, Project Management"
                           onKeyDown={(e) =>
                             e.key === "Enter" &&
@@ -392,7 +392,7 @@ const TrainingApplyPage = () => {
                         <button
                           type="button"
                           onClick={addSkill}
-                          className="px-4 py-2 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] rounded-lg hover:from-[#BFDBFE] hover:to-[#93C5FD] transition-all duration-200 flex items-center gap-2"
+                          className="px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent/90 transition-all duration-200 flex items-center gap-2"
                         >
                           <Plus className="w-4 h-4" /> Add
                         </button>
@@ -401,7 +401,7 @@ const TrainingApplyPage = () => {
                         {formData.skills.map((skill) => (
                           <span
                             key={skill}
-                            className="bg-[#EEF2FF] text-[#2563eb] px-3 py-1 rounded-full text-sm flex items-center gap-2"
+                            className="bg-blue-50 text-accent px-3 py-1 rounded-full text-sm flex items-center gap-2"
                           >
                             {skill}
                             <button
@@ -428,20 +428,20 @@ const TrainingApplyPage = () => {
                   className="p-8 space-y-6"
                 >
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-[#EEF2FF] rounded-lg">
-                      <FileText className="w-5 h-5 text-[#2563eb]" />
+                    <div className="p-2 bg-blue-50 rounded-lg">
+                      <FileText className="w-5 h-5 text-accent" />
                     </div>
-                    <h2 className="text-xl font-semibold text-[#111827]">
+                    <h2 className="text-xl font-heading font-medium text-text-primary">
                       Required Documents
                     </h2>
                   </div>
 
-                  <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-4">
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
                     <div className="flex items-start gap-3">
-                      <Upload className="w-5 h-5 text-blue-400 mt-0.5" />
-                      <p className="text-sm text-blue-300">
-                        Upload your documents from Google Drive. Files will be
-                        automatically shared with the training team.
+                      <Upload className="w-5 h-5 text-blue-600 mt-0.5" />
+                      <p className="text-sm text-blue-700">
+                        Upload your documents. Files will be automatically
+                        shared with the training team.
                       </p>
                     </div>
                   </div>
@@ -458,10 +458,7 @@ const TrainingApplyPage = () => {
                           }))
                         }
                         required
-                        accept={{
-                          "application/pdf": [".pdf"],
-                          "application/msword": [".doc", ".docx"],
-                        }}
+                        maxSizeMB={10}
                       />
                     </ErrorBoundary>
 
@@ -476,18 +473,15 @@ const TrainingApplyPage = () => {
                           }))
                         }
                         required={false}
-                        accept={{
-                          "application/pdf": [".pdf"],
-                          "application/msword": [".doc", ".docx"],
-                        }}
+                        maxSizeMB={10}
                       />
                     </ErrorBoundary>
                   </div>
 
-                  <div className="bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg p-4 mt-4">
+                  <div className="bg-blue-50 border border-accent/20 rounded-lg p-4 mt-4">
                     <div className="flex items-start gap-3">
-                      <Rocket className="w-5 h-5 text-[#2563eb] mt-0.5" />
-                      <p className="text-sm text-[#1d4ed8]">
+                      <Rocket className="w-5 h-5 text-accent mt-0.5" />
+                      <p className="text-sm text-text-secondary">
                         Your application will be reviewed by our training team.
                         We'll get back to you within 5-7 business days.
                       </p>
@@ -497,12 +491,12 @@ const TrainingApplyPage = () => {
               )}
             </AnimatePresence>
 
-            <div className="border-t border-[#E5E7EB] p-6 flex justify-between">
+            <div className="border-t border-gray-200 p-6 flex justify-between">
               {currentStep > 1 && (
                 <button
                   type="button"
                   onClick={prevStep}
-                  className="px-6 py-2 border border-[#D1D5DB] rounded-lg text-[#374151] hover:bg-[#F3F4F6] transition flex items-center gap-2"
+                  className="px-6 py-2 border border-gray-300 rounded-lg text-text-secondary hover:bg-gray-50 transition flex items-center gap-2"
                 >
                   Previous
                 </button>
@@ -511,7 +505,7 @@ const TrainingApplyPage = () => {
                 <button
                   type="button"
                   onClick={nextStep}
-                  className={`px-6 py-2 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] font-medium rounded-lg hover:from-[#BFDBFE] hover:to-[#93C5FD] transition-all duration-200 shadow-[0_4px_10px_rgba(37,99,235,0.08)] flex items-center gap-2 ${
+                  className={`px-6 py-2 bg-accent text-white font-medium rounded-lg hover:bg-accent/90 transition-all duration-200 shadow-md flex items-center gap-2 ${
                     currentStep === 1 ? "ml-auto" : ""
                   }`}
                 >
@@ -521,7 +515,7 @@ const TrainingApplyPage = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-6 py-2 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] font-medium rounded-lg hover:from-[#BFDBFE] hover:to-[#93C5FD] transition-all duration-200 shadow-[0_4px_10px_rgba(37,99,235,0.08)] flex items-center gap-2 ml-auto disabled:opacity-50"
+                  className="px-6 py-2 bg-accent text-white font-medium rounded-lg hover:bg-accent/90 transition-all duration-200 shadow-md flex items-center gap-2 ml-auto disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <>
@@ -546,7 +540,7 @@ const TrainingApplyPage = () => {
           transition={{ delay: 0.5 }}
           className="mt-6 text-center"
         >
-          <p className="text-xs text-[#6b7280]">
+          <p className="text-xs text-text-muted">
             By submitting this application, you agree to our terms and
             conditions. Your information will be kept confidential and used only
             for the training program.

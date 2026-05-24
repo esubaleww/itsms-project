@@ -40,9 +40,9 @@ const DirectorReportsList = ({
     switch (status) {
       case "approved":
         return {
-          color: "text-[#2563eb]",
-          bg: "bg-[#EEF2FF]",
-          border: "border-[#2563eb]/30",
+          color: "text-accent",
+          bg: "bg-blue-50",
+          border: "border-accent/30",
           icon: CheckCircle,
           label: "Approved",
         };
@@ -56,15 +56,15 @@ const DirectorReportsList = ({
         };
       case "reviewed":
         return {
-          color: "text-[#2563eb]",
-          bg: "bg-[#EEF2FF]",
-          border: "border-[#2563eb]/30",
+          color: "text-accent",
+          bg: "bg-blue-50",
+          border: "border-accent/30",
           icon: BookOpen,
           label: "Reviewed",
         };
       default:
         return {
-          color: "text-amber-700",
+          color: "text-amber-600",
           bg: "bg-amber-50",
           border: "border-amber-200",
           icon: Clock,
@@ -212,16 +212,16 @@ const DirectorReportsList = ({
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] p-5 animate-pulse"
+            className="bg-white shadow-sm rounded-xl border border-gray-200 p-5 animate-pulse"
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="h-6 w-20 bg-[#E5E7EB] rounded-full"></div>
-                  <div className="h-4 w-24 bg-[#E5E7EB] rounded"></div>
+                  <div className="h-6 w-20 bg-gray-200 rounded-full"></div>
+                  <div className="h-4 w-24 bg-gray-200 rounded"></div>
                 </div>
-                <div className="h-5 w-3/4 bg-[#E5E7EB] rounded mb-2"></div>
-                <div className="h-4 w-1/2 bg-[#E5E7EB] rounded"></div>
+                <div className="h-5 w-3/4 bg-gray-200 rounded mb-2"></div>
+                <div className="h-4 w-1/2 bg-gray-200 rounded"></div>
               </div>
             </div>
           </div>
@@ -233,11 +233,11 @@ const DirectorReportsList = ({
   if (!reports || reports.length === 0) {
     return (
       <div className="text-center py-16">
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-full mb-4 border border-[#E5E7EB]">
-          <FileText className="w-10 h-10 text-[#9ca3af]" />
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-white shadow-sm rounded-full mb-4 border border-gray-200">
+          <FileText className="w-10 h-10 text-text-muted" />
         </div>
-        <p className="text-[#6b7280] text-lg">No reports submitted</p>
-        <p className="text-sm text-[#6b7280] mt-1 max-w-md mx-auto">
+        <p className="text-text-secondary text-lg">No reports submitted</p>
+        <p className="text-sm text-text-muted mt-1 max-w-md mx-auto">
           Reports will appear here once submitted.
         </p>
       </div>
@@ -267,13 +267,13 @@ const DirectorReportsList = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}
-              className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-200"
+              className="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
             >
               <div className="p-5">
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex flex-wrap items-center gap-2 mb-3">
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-white text-[#374151] border border-[#D1D5DB]">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-text-secondary border border-gray-300">
                         {getReportTypeIcon(report.type)}
                         {getReportTypeLabel(report.type)}
                       </span>
@@ -283,17 +283,17 @@ const DirectorReportsList = ({
                         <StatusIcon className="w-3 h-3" />
                         {statusConfig.label}
                       </span>
-                      <span className="flex items-center gap-1 text-xs text-[#6b7280]">
+                      <span className="flex items-center gap-1 text-xs text-text-muted">
                         <Calendar className="w-3 h-3" />
                         {formatDateTime(report.createdAt)}
                       </span>
                     </div>
 
-                    <h3 className="text-[#111827] font-semibold text-lg mb-2">
+                    <h3 className="text-text-primary font-heading font-medium text-lg mb-2">
                       {report.title}
                     </h3>
 
-                    <div className="flex flex-wrap items-center gap-3 text-sm text-[#6b7280] mb-3">
+                    <div className="flex flex-wrap items-center gap-3 text-sm text-text-muted mb-3">
                       <span className="flex items-center gap-1">
                         <User className="w-3 h-3" />
                         Submitted by: {getSubmittedByName(report)}
@@ -314,10 +314,10 @@ const DirectorReportsList = ({
 
                     {report.data?.overallPerformance && (
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="text-xs text-[#6b7280]">
+                        <span className="text-xs text-text-muted">
                           Performance:
                         </span>
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200">
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 border border-purple-200">
                           {report.data.overallPerformance}
                         </span>
                       </div>
@@ -331,27 +331,27 @@ const DirectorReportsList = ({
                             .map((skill, i) => (
                               <span
                                 key={i}
-                                className="text-xs px-2 py-0.5 bg-[#F3F4F6] rounded-full text-[#374151] border border-[#E5E7EB]"
+                                className="text-xs px-2 py-0.5 bg-gray-100 rounded-full text-text-secondary border border-gray-200"
                               >
                                 {skill}
                               </span>
                             ))}
                           {report.data.skillsAcquired.length > 3 && (
-                            <span className="text-xs px-2 py-0.5 bg-[#F3F4F6] border border-[#E5E7EB] rounded-full text-[#6b7280]">
+                            <span className="text-xs px-2 py-0.5 bg-gray-100 border border-gray-200 rounded-full text-text-muted">
                               +{report.data.skillsAcquired.length - 3} more
                             </span>
                           )}
                         </div>
                       )}
 
-                    <p className="text-[#374151] text-sm line-clamp-2 mb-3">
+                    <p className="text-text-secondary text-sm line-clamp-2 mb-3">
                       {getSummaryText(report)}
                     </p>
 
                     {hasFeedback && !isExpanded && (
-                      <div className="mt-3 flex items-start gap-2 text-xs bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg p-2">
-                        <MessageSquare className="w-3 h-3 text-[#2563eb] mt-0.5 shrink-0" />
-                        <span className="text-[#6b7280] line-clamp-1">
+                      <div className="mt-3 flex items-start gap-2 text-xs bg-blue-50 border border-accent/20 rounded-lg p-2">
+                        <MessageSquare className="w-3 h-3 text-accent mt-0.5 shrink-0" />
+                        <span className="text-text-muted line-clamp-1">
                           Feedback: {report.feedback}
                         </span>
                       </div>
@@ -362,7 +362,7 @@ const DirectorReportsList = ({
                     {isPending && onReview && !showReview && (
                       <button
                         onClick={() => setShowReviewForm(report._id)}
-                        className="p-2 rounded-lg transition text-[#2563eb] hover:bg-[#EEF2FF]"
+                        className="p-2 rounded-lg transition text-accent hover:bg-blue-50"
                         title="Review Report"
                       >
                         <BookOpen className="w-4 h-4" />
@@ -374,7 +374,7 @@ const DirectorReportsList = ({
                         {!showApprove && (
                           <button
                             onClick={() => setShowApproveForm(report._id)}
-                            className="p-2 rounded-lg transition text-[#2563eb] hover:bg-[#EEF2FF]"
+                            className="p-2 rounded-lg transition text-accent hover:bg-blue-50"
                             title="Approve Report"
                           >
                             <CheckCircle className="w-4 h-4" />
@@ -394,7 +394,7 @@ const DirectorReportsList = ({
 
                     <button
                       onClick={() => handleViewDetails(report._id)}
-                      className="text-[#6b7280] hover:text-[#111827] p-2 rounded-lg hover:bg-[#F3F4F6] transition"
+                      className="text-text-muted hover:text-text-primary p-2 rounded-lg hover:bg-gray-100 transition"
                       title="View Details"
                     >
                       <Eye className="w-4 h-4" />
@@ -405,8 +405,8 @@ const DirectorReportsList = ({
                       }
                       className={`p-2 rounded-lg transition ${
                         isExpanded
-                          ? "text-[#2563eb] bg-[#EEF2FF]"
-                          : "text-[#6b7280] hover:text-[#111827] hover:bg-[#F3F4F6]"
+                          ? "text-accent bg-blue-50"
+                          : "text-text-muted hover:text-text-primary hover:bg-gray-100"
                       }`}
                     >
                       <ChevronRight
@@ -419,8 +419,8 @@ const DirectorReportsList = ({
                 </div>
 
                 {showReview && (
-                  <div className="mt-4 p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg border border-[#D1D5DB]">
-                    <p className="text-sm text-[#374151] mb-2">
+                  <div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <p className="text-sm text-text-secondary mb-2">
                       Provide feedback for this report:
                     </p>
                     <textarea
@@ -433,7 +433,7 @@ const DirectorReportsList = ({
                         }))
                       }
                       placeholder="Enter your feedback and comments..."
-                      className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb]"
+                      className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent"
                     />
                     <div className="flex gap-3 mt-3">
                       <button
@@ -444,14 +444,14 @@ const DirectorReportsList = ({
                             [report._id]: "",
                           }));
                         }}
-                        className="px-4 py-2 border border-[#D1D5DB] rounded-lg text-[#374151] hover:bg-[#F3F4F6]"
+                        className="px-4 py-2 border border-gray-300 rounded-lg text-text-secondary hover:bg-gray-50"
                       >
                         Cancel
                       </button>
                       <button
                         onClick={() => handleReview(report._id)}
                         disabled={!reviewFeedback[report._id]?.trim()}
-                        className="btn-institutional px-4 py-2 disabled:opacity-50"
+                        className="btn-filled px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {isLoading ? (
                           <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
@@ -465,8 +465,8 @@ const DirectorReportsList = ({
                 )}
 
                 {showApprove && (
-                  <div className="mt-4 p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg border border-[#D1D5DB]">
-                    <p className="text-sm text-[#374151] mb-2">
+                  <div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <p className="text-sm text-text-secondary mb-2">
                       Approve this report?
                     </p>
                     <div className="flex gap-3">
@@ -474,13 +474,13 @@ const DirectorReportsList = ({
                         onClick={() => {
                           setShowApproveForm(null);
                         }}
-                        className="px-4 py-2 border border-[#D1D5DB] rounded-lg text-[#374151] hover:bg-[#F3F4F6]"
+                        className="px-4 py-2 border border-gray-300 rounded-lg text-text-secondary hover:bg-gray-50"
                       >
                         Cancel
                       </button>
                       <button
                         onClick={() => handleApprove(report._id)}
-                        className="btn-institutional px-4 py-2"
+                        className="btn-filled px-4 py-2"
                       >
                         {isLoading ? (
                           <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
@@ -494,8 +494,8 @@ const DirectorReportsList = ({
                 )}
 
                 {showReject && (
-                  <div className="mt-4 p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg border border-[#D1D5DB]">
-                    <p className="text-sm text-[#374151] mb-2">
+                  <div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <p className="text-sm text-text-secondary mb-2">
                       Reason for rejection:
                     </p>
                     <textarea
@@ -503,7 +503,7 @@ const DirectorReportsList = ({
                       value={rejectReason}
                       onChange={(e) => setRejectReason(e.target.value)}
                       placeholder="Please provide a reason for rejection..."
-                      className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-red-500"
+                      className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-red-500"
                     />
                     <div className="flex gap-3 mt-3">
                       <button
@@ -511,14 +511,14 @@ const DirectorReportsList = ({
                           setShowRejectForm(null);
                           setRejectReason("");
                         }}
-                        className="px-4 py-2 border border-[#D1D5DB] rounded-lg text-[#374151] hover:bg-[#F3F4F6]"
+                        className="px-4 py-2 border border-gray-300 rounded-lg text-text-secondary hover:bg-gray-50"
                       >
                         Cancel
                       </button>
                       <button
                         onClick={() => handleReject(report._id)}
                         disabled={!rejectReason.trim()}
-                        className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 flex items-center gap-2 font-medium"
+                        className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 font-medium"
                       >
                         {isLoading ? (
                           <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
@@ -539,24 +539,24 @@ const DirectorReportsList = ({
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="border-t border-[#E5E7EB] overflow-hidden"
+                    className="border-t border-gray-200 overflow-hidden"
                   >
-                    <div className="p-5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] space-y-5">
+                    <div className="p-5 bg-gray-50 space-y-5">
                       <div>
-                        <h4 className="text-sm font-medium text-[#6b7280] mb-2">
+                        <h4 className="text-sm font-medium text-text-muted mb-2">
                           Detailed Summary
                         </h4>
-                        <p className="text-[#111827] text-sm">
+                        <p className="text-text-primary text-sm">
                           {getSummaryText(report)}
                         </p>
                       </div>
 
                       {report.data?.recommendation && (
                         <div>
-                          <h4 className="text-sm font-medium text-[#6b7280] mb-2">
+                          <h4 className="text-sm font-medium text-text-muted mb-2">
                             Recommendation
                           </h4>
-                          <p className="text-[#374151] text-sm">
+                          <p className="text-text-secondary text-sm">
                             {report.data.recommendation}
                           </p>
                         </div>
@@ -565,14 +565,14 @@ const DirectorReportsList = ({
                       {report.data?.skillsAcquired &&
                         report.data.skillsAcquired.length > 0 && (
                           <div>
-                            <h4 className="text-sm font-medium text-[#6b7280] mb-2">
+                            <h4 className="text-sm font-medium text-text-muted mb-2">
                               Skills Acquired
                             </h4>
                             <div className="flex flex-wrap gap-2">
                               {report.data.skillsAcquired.map((skill, i) => (
                                 <span
                                   key={i}
-                                  className="text-xs px-2 py-1 bg-[#F3F4F6] rounded-full text-[#374151] border border-[#E5E7EB]"
+                                  className="text-xs px-2 py-1 bg-gray-100 rounded-full text-text-secondary border border-gray-200"
                                 >
                                   {skill}
                                 </span>
@@ -583,10 +583,10 @@ const DirectorReportsList = ({
 
                       {report.data?.certificationRecommended !== undefined && (
                         <div>
-                          <h4 className="text-sm font-medium text-[#6b7280] mb-2">
+                          <h4 className="text-sm font-medium text-text-muted mb-2">
                             Certification Recommendation
                           </h4>
-                          <p className="text-[#374151] text-sm">
+                          <p className="text-text-secondary text-sm">
                             {report.data.certificationRecommended
                               ? "Yes, recommended"
                               : "Not recommended"}
@@ -596,11 +596,11 @@ const DirectorReportsList = ({
 
                       {hasFeedback && (
                         <div>
-                          <h4 className="text-sm font-medium text-[#6b7280] mb-2">
+                          <h4 className="text-sm font-medium text-text-muted mb-2">
                             Director Feedback
                           </h4>
-                          <div className="bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg p-3">
-                            <p className="text-[#374151] text-sm">
+                          <div className="bg-blue-50 border border-accent/20 rounded-lg p-3">
+                            <p className="text-text-secondary text-sm">
                               {report.feedback}
                             </p>
                           </div>

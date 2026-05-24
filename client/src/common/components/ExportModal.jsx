@@ -133,29 +133,31 @@ const ExportModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999]">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden border border-[#E5E7EB]"
+        className="bg-white shadow-lg rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden border border-gray-200"
       >
-        <div className="flex justify-between items-center p-5 border-b border-[#E5E7EB]">
+        <div className="flex justify-between items-center p-5 border-b border-gray-200">
           <div className="flex items-center gap-2">
-            <Download className="w-5 h-5 text-[#2563eb]" />
-            <h2 className="text-xl font-bold text-[#111827]">Export Data</h2>
+            <Download className="w-5 h-5 text-accent" />
+            <h2 className="text-xl font-heading font-medium text-text-primary">
+              Export Data
+            </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
+            className="p-1 hover:bg-gray-100 rounded-lg transition"
           >
-            <X className="w-5 h-5 text-[#6b7280]" />
+            <X className="w-5 h-5 text-text-muted" />
           </button>
         </div>
 
         <div className="p-5 overflow-y-auto max-h-[calc(90vh-120px)] space-y-5">
           <div>
-            <label className="block text-sm font-medium text-[#374151] mb-3">
+            <label className="block text-sm font-medium text-text-secondary mb-3">
               Data Type
             </label>
             <div className="grid grid-cols-2 gap-3">
@@ -165,8 +167,8 @@ const ExportModal = ({
                   onClick={() => setType(et.id)}
                   className={`p-3 rounded-lg border transition-all text-left ${
                     type === et.id
-                      ? "bg-[#EEF2FF] border-[#2563eb]/50 text-[#2563eb]"
-                      : "bg-[#F9FAFB] border border-[#E5E7EB] border-[#D1D5DB] text-[#6b7280] hover:border-gray-500"
+                      ? "bg-blue-50 border-accent/50 text-accent"
+                      : "bg-gray-50 border border-gray-200 text-text-muted hover:border-gray-400"
                   }`}
                 >
                   <div className="flex items-center gap-2 mb-1">
@@ -179,7 +181,7 @@ const ExportModal = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#374151] mb-3">
+            <label className="block text-sm font-medium text-text-secondary mb-3">
               Format
             </label>
             <div className="flex gap-3">
@@ -187,8 +189,8 @@ const ExportModal = ({
                 onClick={() => setFormat("csv")}
                 className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg border transition-all ${
                   format === "csv"
-                    ? "bg-[#EEF2FF] border-[#2563eb]/50 text-[#2563eb]"
-                    : "bg-[#F9FAFB] border border-[#E5E7EB] border-[#D1D5DB] text-[#6b7280] hover:border-gray-500"
+                    ? "bg-blue-50 border-accent/50 text-accent"
+                    : "bg-gray-50 border border-gray-200 text-text-muted hover:border-gray-400"
                 }`}
               >
                 <FileSpreadsheet className="w-4 h-4" />
@@ -198,8 +200,8 @@ const ExportModal = ({
                 onClick={() => setFormat("pdf")}
                 className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg border transition-all ${
                   format === "pdf"
-                    ? "bg-[#EEF2FF] border-[#2563eb]/50 text-[#2563eb]"
-                    : "bg-[#F9FAFB] border border-[#E5E7EB] border-[#D1D5DB] text-[#6b7280] hover:border-gray-500"
+                    ? "bg-blue-50 border-accent/50 text-accent"
+                    : "bg-gray-50 border border-gray-200 text-text-muted hover:border-gray-400"
                 }`}
               >
                 <FileText className="w-4 h-4" />
@@ -209,7 +211,7 @@ const ExportModal = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#374151] mb-3">
+            <label className="block text-sm font-medium text-text-secondary mb-3">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4" />
                 <span>Date Range (Optional)</span>
@@ -222,7 +224,7 @@ const ExportModal = ({
                 onChange={(e) =>
                   setDateRange({ ...dateRange, start: e.target.value })
                 }
-                className="px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] text-sm focus:outline-none focus:border-[#2563eb]"
+                className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
               />
               <input
                 type="date"
@@ -230,7 +232,7 @@ const ExportModal = ({
                 onChange={(e) =>
                   setDateRange({ ...dateRange, end: e.target.value })
                 }
-                className="px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] text-sm focus:outline-none focus:border-[#2563eb]"
+                className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
               />
             </div>
           </div>
@@ -238,7 +240,7 @@ const ExportModal = ({
           <button
             onClick={handleExport}
             disabled={isExporting || !type}
-            className="w-full bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] text-[#1D4ED8] border border-[#93C5FD] py-3 rounded-lg hover:from-[#BFDBFE] hover:to-[#93C5FD] transition-all duration-200 shadow-[0_4px_10px_rgba(37,99,235,0.08)] flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full bg-accent text-white py-3 rounded-lg hover:bg-accent/90 transition-all duration-200 shadow-md flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isExporting ? (
               <>

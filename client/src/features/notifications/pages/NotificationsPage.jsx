@@ -26,31 +26,32 @@ const NotificationsPage = () => {
   const navigate = useNavigate();
   const [filter, setFilter] = useState("all");
   const [selectedNotifications, setSelectedNotifications] = useState([]);
-  const [showFilters, setShowFilters] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const getIcon = (type) => {
     switch (type) {
       case "success":
-        return <CheckCircle className="w-5 h-5 text-[#2563eb]" />;
+        return <CheckCircle className="w-5 h-5 text-accent" />;
       case "warning":
-        return <AlertCircle className="w-5 h-5 text-yellow-400" />;
+        return <AlertCircle className="w-5 h-5 text-yellow-500" />;
       case "error":
         return <AlertCircle className="w-5 h-5 text-red-500" />;
       default:
-        return <Info className="w-5 h-5 text-blue-400" />;
+        return <Info className="w-5 h-5 text-blue-500" />;
     }
   };
 
   const getTypeGradient = (type) => {
     switch (type) {
       case "success":
-        return "from-[#DBEAFE]/40 to-[#BFDBFE]/40";
+        return "from-blue-50/40 to-blue-100/40";
       case "warning":
-        return "from-yellow-500/20 to-amber-500/10";
+        return "from-yellow-50/40 to-amber-50/40";
       case "error":
-        return "from-red-500/20 to-rose-500/10";
+        return "from-red-50/40 to-rose-50/40";
       default:
-        return "from-blue-500/20 to-indigo-500/10";
+        return "from-blue-50/40 to-indigo-50/40";
     }
   };
 
@@ -60,11 +61,33 @@ const NotificationsPage = () => {
     return true;
   });
 
+  const totalPages = Math.ceil(filteredNotifications.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentNotifications = filteredNotifications.slice(
+    startIndex,
+    endIndex,
+  );
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   const handleSelectAll = () => {
-    if (selectedNotifications.length === filteredNotifications.length) {
+    if (selectedNotifications.length === currentNotifications.length) {
       setSelectedNotifications([]);
     } else {
-      setSelectedNotifications(filteredNotifications.map((n) => n._id));
+      setSelectedNotifications(currentNotifications.map((n) => n._id));
     }
   };
 
@@ -80,6 +103,11 @@ const NotificationsPage = () => {
     setSelectedNotifications([]);
   };
 
+  const handleMarkAllAsRead = async () => {
+    await markAllAsRead();
+    await fetchNotifications();
+  };
+
   const stats = {
     total: notifications.length,
     unread: unreadCount,
@@ -87,12 +115,12 @@ const NotificationsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] py-8">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-gray-100 font-body py-8">
       <div className="max-w-4xl mx-auto px-4">
         <div className="mb-6">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-[#6b7280] hover:text-[#111827] mb-4 transition group"
+            className="flex items-center gap-2 text-text-muted hover:text-text-primary mb-4 transition group"
           >
             <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition" />
             <span className="text-sm">Back</span>
@@ -101,14 +129,14 @@ const NotificationsPage = () => {
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
             <div>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] border border-[#93C5FD] rounded-xl flex items-center justify-center">
-                  <Bell className="w-5 h-5 text-[#111827]" />
+                <div className="w-10 h-10 bg-linear-to-br from-blue-100 to-blue-200 border border-blue-300 rounded-xl flex items-center justify-center">
+                  <Bell className="w-5 h-5 text-text-primary" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-[#111827]">
+                  <h1 className="text-2xl font-heading font-medium text-text-primary">
                     Notifications
                   </h1>
-                  <p className="text-[#6b7280] text-sm mt-0.5">
+                  <p className="text-text-muted text-sm mt-0.5">
                     Stay updated with your activity
                   </p>
                 </div>
@@ -117,8 +145,8 @@ const NotificationsPage = () => {
 
             {unreadCount > 0 && (
               <button
-                onClick={markAllAsRead}
-                className="flex items-center gap-2 px-4 py-2 bg-emerald-600/20 text-[#2563eb] rounded-lg hover:bg-emerald-600/30 transition border border-[#2563eb]/30"
+                onClick={handleMarkAllAsRead}
+                className="flex items-center gap-2 px-4 py-2 bg-accent/10 text-accent rounded-lg hover:bg-accent/20 transition border border-accent/30"
               >
                 <Check className="w-4 h-4" /> Mark all as read
               </button>
@@ -127,29 +155,33 @@ const NotificationsPage = () => {
         </div>
 
         <div className="grid grid-cols-3 gap-4 mb-6">
-          <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl p-4 text-center border border-[#E5E7EB]">
-            <p className="text-2xl font-bold text-[#2563eb]">{stats.total}</p>
-            <p className="text-sm text-[#6b7280]">Total</p>
+          <div className="bg-white shadow-sm rounded-xl p-4 text-center border border-gray-200">
+            <p className="text-2xl font-bold text-accent">{stats.total}</p>
+            <p className="text-sm text-text-muted">Total</p>
           </div>
-          <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl p-4 text-center border border-[#E5E7EB]">
-            <p className="text-2xl font-bold text-yellow-400">{stats.unread}</p>
-            <p className="text-sm text-[#6b7280]">Unread</p>
+          <div className="bg-white shadow-sm rounded-xl p-4 text-center border border-gray-200">
+            <p className="text-2xl font-bold text-yellow-500">{stats.unread}</p>
+            <p className="text-sm text-text-muted">Unread</p>
           </div>
-          <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl p-4 text-center border border-[#E5E7EB]">
-            <p className="text-2xl font-bold text-blue-400">{stats.read}</p>
-            <p className="text-sm text-[#6b7280]">Read</p>
+          <div className="bg-white shadow-sm rounded-xl p-4 text-center border border-gray-200">
+            <p className="text-2xl font-bold text-blue-500">{stats.read}</p>
+            <p className="text-sm text-text-muted">Read</p>
           </div>
         </div>
 
-        <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border border-[#E5E7EB] mb-4 overflow-hidden">
+        <div className="bg-white shadow-sm rounded-xl border border-gray-200 mb-4 overflow-hidden">
           <div className="p-4 flex flex-wrap justify-between items-center gap-4">
             <div className="flex gap-2">
               <button
-                onClick={() => setFilter("all")}
+                onClick={() => {
+                  setFilter("all");
+                  setCurrentPage(1);
+                  setSelectedNotifications([]);
+                }}
                 className={`px-3 py-1.5 rounded-lg text-sm transition ${
                   filter === "all"
-                    ? "bg-emerald-600 text-[#111827]"
-                    : "bg-white text-[#374151] hover:bg-[#F3F4F6]"
+                    ? "bg-accent text-white"
+                    : "bg-white text-text-secondary hover:bg-gray-50"
                 }`}
               >
                 <div className="flex items-center gap-1">
@@ -158,29 +190,37 @@ const NotificationsPage = () => {
                 </div>
               </button>
               <button
-                onClick={() => setFilter("unread")}
+                onClick={() => {
+                  setFilter("unread");
+                  setCurrentPage(1);
+                  setSelectedNotifications([]);
+                }}
                 className={`px-3 py-1.5 rounded-lg text-sm transition ${
                   filter === "unread"
-                    ? "bg-emerald-600 text-[#111827]"
-                    : "bg-white text-[#374151] hover:bg-[#F3F4F6]"
+                    ? "bg-accent text-white"
+                    : "bg-white text-text-secondary hover:bg-gray-50"
                 }`}
               >
                 <div className="flex items-center gap-1">
                   <Mail className="w-3 h-3" />
                   <span>Unread</span>
                   {stats.unread > 0 && (
-                    <span className="ml-1 text-xs bg-yellow-500/20 text-yellow-400 px-1 rounded">
+                    <span className="ml-1 text-xs bg-yellow-500/20 text-yellow-600 px-1 rounded">
                       {stats.unread}
                     </span>
                   )}
                 </div>
               </button>
               <button
-                onClick={() => setFilter("read")}
+                onClick={() => {
+                  setFilter("read");
+                  setCurrentPage(1);
+                  setSelectedNotifications([]);
+                }}
                 className={`px-3 py-1.5 rounded-lg text-sm transition ${
                   filter === "read"
-                    ? "bg-emerald-600 text-[#111827]"
-                    : "bg-white text-[#374151] hover:bg-[#F3F4F6]"
+                    ? "bg-accent text-white"
+                    : "bg-white text-text-secondary hover:bg-gray-50"
                 }`}
               >
                 <div className="flex items-center gap-1">
@@ -192,18 +232,18 @@ const NotificationsPage = () => {
 
             {selectedNotifications.length > 0 && (
               <div className="flex items-center gap-2">
-                <span className="text-xs text-[#6b7280]">
+                <span className="text-xs text-text-muted">
                   {selectedNotifications.length} selected
                 </span>
                 <button
                   onClick={handleMarkSelectedAsRead}
-                  className="flex items-center gap-1 px-3 py-1.5 text-sm text-[#2563eb] hover:bg-[#EEF2FF] rounded-lg transition"
+                  className="flex items-center gap-1 px-3 py-1.5 text-sm text-accent hover:bg-blue-50 rounded-lg transition"
                 >
                   <Check className="w-4 h-4" /> Mark read
                 </button>
                 <button
                   onClick={handleClearSelection}
-                  className="flex items-center gap-1 px-3 py-1.5 text-sm text-[#6b7280] hover:bg-[#F3F4F6] rounded-lg transition"
+                  className="flex items-center gap-1 px-3 py-1.5 text-sm text-text-muted hover:bg-gray-50 rounded-lg transition"
                 >
                   <X className="w-4 h-4" /> Clear
                 </button>
@@ -212,22 +252,23 @@ const NotificationsPage = () => {
           </div>
 
           {selectedNotifications.length > 0 && (
-            <div className="border-t border-[#E5E7EB] p-3 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/40 flex justify-between items-center">
-              <span className="text-xs text-[#6b7280]">
+            <div className="border-t border-gray-200 p-3 bg-gray-50 flex justify-between items-center">
+              <span className="text-xs text-text-muted">
                 <input
                   type="checkbox"
                   checked={
                     selectedNotifications.length ===
-                    filteredNotifications.length
+                      currentNotifications.length &&
+                    currentNotifications.length > 0
                   }
                   onChange={handleSelectAll}
-                  className="mr-2 rounded border-[#D1D5DB] bg-white text-[#2563eb] focus:ring-[#2563eb]"
+                  className="mr-2 rounded border-gray-300 bg-white text-accent focus:ring-accent"
                 />
-                Select all ({filteredNotifications.length})
+                Select all ({currentNotifications.length})
               </span>
               <button
                 onClick={handleMarkSelectedAsRead}
-                className="text-sm text-[#2563eb] hover:text-[#1d4ed8]"
+                className="text-sm text-accent hover:text-blue-700"
               >
                 Mark selected as read
               </button>
@@ -236,35 +277,35 @@ const NotificationsPage = () => {
         </div>
 
         <div className="space-y-3">
-          {filteredNotifications.length === 0 ? (
+          {currentNotifications.length === 0 ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-2xl border border-[#E5E7EB] p-12 text-center"
+              className="bg-white shadow-sm rounded-2xl border border-gray-200 p-12 text-center"
             >
-              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
-                <Bell className="w-10 h-10 text-[#6b7280]" />
+              <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Bell className="w-10 h-10 text-text-muted" />
               </div>
-              <h3 className="text-lg font-medium text-[#6b7280]">
+              <h3 className="text-lg font-medium text-text-secondary">
                 No notifications
               </h3>
-              <p className="text-[#6b7280] text-sm mt-1">
+              <p className="text-text-muted text-sm mt-1">
                 You're all caught up!
               </p>
             </motion.div>
           ) : (
-            filteredNotifications.map((notif, index) => (
+            currentNotifications.map((notif, index) => (
               <motion.div
                 key={notif._id}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className={`bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-xl border ${
+                className={`bg-white shadow-sm rounded-xl border ${
                   !notif.isRead
-                    ? "border-[#2563eb]/30 bg-linear-to-r " +
+                    ? "border-accent/30 bg-linear-to-r " +
                       getTypeGradient(notif.type)
-                    : "border-[#E5E7EB]"
-                } hover:shadow-lg transition-all cursor-pointer group`}
+                    : "border-gray-200"
+                } hover:shadow-md transition-all cursor-pointer group`}
                 onClick={() => {
                   if (!notif.isRead) markAsRead(notif._id);
                   if (notif.actionUrl) navigate(notif.actionUrl);
@@ -290,7 +331,7 @@ const NotificationsPage = () => {
                           );
                         }
                       }}
-                      className="w-4 h-4 rounded border-[#D1D5DB] bg-white text-[#2563eb] focus:ring-[#2563eb] focus:ring-offset-0"
+                      className="w-4 h-4 rounded border-gray-300 bg-white text-accent focus:ring-accent focus:ring-offset-0"
                     />
                   </div>
 
@@ -299,29 +340,31 @@ const NotificationsPage = () => {
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap justify-between items-start gap-2">
                       <h3
-                        className={`font-semibold ${
-                          !notif.isRead ? "text-[#111827]" : "text-[#374151]"
+                        className={`font-heading font-medium ${
+                          !notif.isRead
+                            ? "text-text-primary"
+                            : "text-text-secondary"
                         }`}
                       >
                         {notif.title}
                       </h3>
-                      <span className="text-xs text-[#6b7280] shrink-0">
+                      <span className="text-xs text-text-muted shrink-0">
                         {new Date(notif.createdAt).toLocaleString()}
                       </span>
                     </div>
-                    <p className="text-sm text-[#6b7280] mt-1">
+                    <p className="text-sm text-text-muted mt-1">
                       {notif.message}
                     </p>
                     {notif.actionUrl && (
-                      <div className="mt-2 text-xs text-[#2563eb] flex items-center gap-1">
-                        Click to view details ?
+                      <div className="mt-2 text-xs text-accent flex items-center gap-1">
+                        Click to view details →
                       </div>
                     )}
                   </div>
 
                   {!notif.isRead && (
                     <div className="shrink-0">
-                      <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+                      <div className="w-2 h-2 bg-accent rounded-full animate-pulse" />
                     </div>
                   )}
                 </div>
@@ -330,14 +373,32 @@ const NotificationsPage = () => {
           )}
         </div>
 
-        {filteredNotifications.length > 10 && (
+        {totalPages > 1 && (
           <div className="mt-6 flex justify-center">
             <div className="flex gap-2">
-              <button className="px-3 py-1.5 rounded-lg bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-[#E5E7EB] text-[#6b7280] hover:bg-[#F3F4F6] transition text-sm">
+              <button
+                onClick={goToPrevPage}
+                disabled={currentPage === 1}
+                className={`px-3 py-1.5 rounded-lg bg-white shadow-sm border border-gray-200 text-sm transition ${
+                  currentPage === 1
+                    ? "opacity-50 cursor-not-allowed text-text-muted"
+                    : "text-text-secondary hover:bg-gray-50"
+                }`}
+              >
                 Previous
               </button>
-              <span className="px-3 py-1.5 text-[#6b7280] text-sm">1 / 2</span>
-              <button className="px-3 py-1.5 rounded-lg bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-[#E5E7EB] text-[#6b7280] hover:bg-[#F3F4F6] transition text-sm">
+              <span className="px-3 py-1.5 text-text-muted text-sm">
+                {currentPage} / {totalPages}
+              </span>
+              <button
+                onClick={goToNextPage}
+                disabled={currentPage === totalPages}
+                className={`px-3 py-1.5 rounded-lg bg-white shadow-sm border border-gray-200 text-sm transition ${
+                  currentPage === totalPages
+                    ? "opacity-50 cursor-not-allowed text-text-muted"
+                    : "text-text-secondary hover:bg-gray-50"
+                }`}
+              >
                 Next
               </button>
             </div>

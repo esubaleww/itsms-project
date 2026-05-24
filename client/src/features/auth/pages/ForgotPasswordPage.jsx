@@ -34,7 +34,7 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] flex items-start justify-center pt-14 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-gray-100 flex items-start justify-center pt-14 px-4 sm:px-6 lg:px-8 font-body">
       <div className="max-w-6xl w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <motion.div
@@ -44,17 +44,17 @@ const ForgotPasswordPage = () => {
             transition={{ duration: 0.8 }}
           >
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-[#DBEAFE]/50 to-[#BFDBFE]/50 rounded-2xl blur-3xl" />
+              <div className="absolute inset-0 bg-linear-to-r from-blue-100/50 to-blue-200/50 rounded-2xl blur-3xl" />
               <img
                 src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80"
                 alt="Password reset illustration"
                 className="relative rounded-2xl shadow-2xl object-cover w-full h-150"
               />
-              <div className="absolute bottom-8 left-8 right-8 bg-white/95 backdrop-blur-sm p-6 rounded-xl border border-[#E5E7EB] shadow-2xl">
-                <h3 className="text-[#111827] text-xl font-bold mb-2">
+              <div className="absolute bottom-8 left-8 right-8 bg-white/95 backdrop-blur-sm p-6 rounded-xl border border-gray-200 shadow-2xl">
+                <h3 className="text-text-primary text-xl font-heading font-medium mb-2">
                   Forgot Your Password?
                 </h3>
-                <p className="text-[#6b7280] text-sm font-medium">
+                <p className="text-text-muted text-sm font-medium">
                   Don't worry! We'll help you reset it and get back to your
                   account.
                 </p>
@@ -68,17 +68,17 @@ const ForgotPasswordPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] py-8 px-6 sm:px-10 rounded-2xl shadow-2xl border border-[#E5E7EB]">
+            <div className="bg-white shadow-sm py-8 px-6 sm:px-10 rounded-2xl border border-gray-200">
               <div className="text-center mb-8">
                 <div className="flex justify-center mb-4">
-                  <div className="w-12 h-12 bg-[#2563eb] rounded-xl flex items-center justify-center">
-                    <Mail className="w-6 h-6 text-[#0f172a]" />
+                  <div className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center shadow-md">
+                    <Mail className="w-6 h-6 text-white" />
                   </div>
                 </div>
-                <h2 className="text-3xl font-bold text-[#0f172a] mb-2">
+                <h2 className="text-3xl font-heading font-medium text-text-primary mb-2">
                   Reset Password
                 </h2>
-                <p className="text-[#4b5563] text-sm">
+                <p className="text-text-muted text-sm">
                   Enter your email address and we'll send you a link to reset
                   your password
                 </p>
@@ -89,13 +89,13 @@ const ForgotPasswordPage = () => {
                   <div>
                     <label
                       htmlFor="email"
-                      className="block text-sm font-medium text-[#374151] mb-2"
+                      className="block text-sm font-medium text-text-secondary mb-2"
                     >
                       Email Address
                     </label>
                     <div className="relative rounded-md shadow-sm">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Mail className="h-5 w-5 text-[#6b7280]" />
+                        <Mail className="h-5 w-5 text-text-muted" />
                       </div>
                       <input
                         id="email"
@@ -105,7 +105,7 @@ const ForgotPasswordPage = () => {
                         required
                         value={email}
                         onChange={handleChange}
-                        className="block w-full px-3 py-2.5 pl-10 bg-white border border-[#D1D5DB] rounded-lg shadow-sm placeholder-[#9ca3af] text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent sm:text-sm transition duration-150"
+                        className="block w-full px-3 py-2.5 pl-10 bg-white border border-gray-300 rounded-lg shadow-sm placeholder-text-muted text-text-primary focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent sm:text-sm transition duration-150"
                         placeholder="you@example.com"
                       />
                     </div>
@@ -124,7 +124,7 @@ const ForgotPasswordPage = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full flex justify-center items-center py-2.5 px-4 rounded-lg shadow-sm text-sm font-medium text-white bg-[#2563eb] hover:bg-[#1d4ed8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2563eb] transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full flex justify-center items-center py-2.5 px-4 rounded-lg shadow-md text-sm font-medium text-white bg-accent hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loading ? (
                       <>
@@ -142,7 +142,7 @@ const ForgotPasswordPage = () => {
                   <div className="text-center">
                     <Link
                       to="/login"
-                      className="inline-flex items-center text-sm text-[#2563eb] hover:text-[#1d4ed8] transition"
+                      className="inline-flex items-center text-sm text-accent hover:text-blue-700 transition"
                     >
                       <ArrowLeft className="mr-2 h-4 w-4" />
                       Back to Sign In
@@ -156,28 +156,28 @@ const ForgotPasswordPage = () => {
                   className="text-center space-y-6"
                 >
                   <div className="flex justify-center">
-                    <div className="w-16 h-16 bg-[#EEF2FF] rounded-full flex items-center justify-center">
-                      <CheckCircle className="w-8 h-8 text-[#2563eb]" />
+                    <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center shadow-md">
+                      <CheckCircle className="w-8 h-8 text-accent" />
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-[#111827] text-xl font-semibold mb-2">
+                    <h3 className="text-text-primary text-xl font-heading font-medium mb-2">
                       Check Your Email
                     </h3>
-                    <p className="text-[#6b7280] text-sm">
+                    <p className="text-text-muted text-sm">
                       We've sent a password reset link to:
                     </p>
-                    <p className="text-[#2563eb] font-medium mt-1">{email}</p>
+                    <p className="text-accent font-medium mt-1">{email}</p>
                   </div>
-                  <div className="bg-[#EEF2FF] border border-[#2563eb]/20 rounded-lg p-4">
-                    <p className="text-sm text-[#1d4ed8]">
+                  <div className="bg-blue-50 border border-accent/20 rounded-lg p-4">
+                    <p className="text-sm text-text-secondary">
                       📧 The reset link will expire in 1 hour. If you don't see
                       the email, please check your spam folder.
                     </p>
                   </div>
                   <button
                     onClick={() => navigate("/login")}
-                    className="w-full flex justify-center items-center py-2.5 px-4 border border-[#D1D5DB] rounded-lg shadow-sm text-sm font-medium text-[#374151] hover:bg-[#F3F4F6] bg-white transition duration-150"
+                    className="w-full flex justify-center items-center py-2.5 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-text-secondary hover:bg-gray-50 bg-white transition duration-150"
                   >
                     Return to Sign In
                   </button>

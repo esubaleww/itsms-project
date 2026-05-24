@@ -15,9 +15,9 @@ const AdminStatsCards = ({ stats, onTabChange, loading }) => {
       title: "Total Users",
       value: stats?.totalUsers || 0,
       icon: Users,
-      iconBg: "bg-[#EEF2FF]",
-      iconColor: "text-[#2563eb]",
-      topBorder: "border-t-[3px] border-t-[#2563eb]",
+      iconBg: "bg-blue-50",
+      iconColor: "text-blue-600",
+      topBorder: "border-t-blue-600",
       change: `${stats?.newUsersThisMonth || 0} new this month`,
       tab: "users",
     },
@@ -25,9 +25,9 @@ const AdminStatsCards = ({ stats, onTabChange, loading }) => {
       title: "Pending Requests",
       value: stats?.pendingRequests || 0,
       icon: Clock,
-      iconBg: "bg-[#EEF2FF]",
-      iconColor: "text-[#2563eb]",
-      topBorder: "border-t-[3px] border-t-[#f59e0b]",
+      iconBg: "bg-amber-50",
+      iconColor: "text-amber-500",
+      topBorder: "border-t-amber-500",
       change: `${pendingPercentage}% of total requests`,
       tab: "requests",
     },
@@ -35,9 +35,9 @@ const AdminStatsCards = ({ stats, onTabChange, loading }) => {
       title: "Active Interns",
       value: stats?.activeInterns || 0,
       icon: Briefcase,
-      iconBg: "bg-[#EEF2FF]",
-      iconColor: "text-[#2563eb]",
-      topBorder: "border-t-[3px] border-t-[#10b981]",
+      iconBg: "bg-green-50",
+      iconColor: "text-green-600",
+      topBorder: "border-t-green-600",
       change: `${stats?.activeInterns || 0} currently interning`,
       tab: "users",
     },
@@ -45,9 +45,9 @@ const AdminStatsCards = ({ stats, onTabChange, loading }) => {
       title: "Active Innovators",
       value: stats?.activeInnovators || 0,
       icon: TrendingUp,
-      iconBg: "bg-[#EEF2FF]",
-      iconColor: "text-[#2563eb]",
-      topBorder: "border-t-[3px] border-t-[#8b5cf6]",
+      iconBg: "bg-purple-50",
+      iconColor: "text-purple-600",
+      topBorder: "border-t-purple-600",
       change: `${stats?.activeStartups || 0} startups incubating`,
       tab: "users",
     },
@@ -59,7 +59,7 @@ const AdminStatsCards = ({ stats, onTabChange, loading }) => {
         {[1, 2, 3, 4].map((i) => (
           <div
             key={i}
-            className="bg-white rounded-xl border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] p-6 animate-pulse"
+            className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 animate-pulse"
           >
             <div className="flex justify-between items-start">
               <div className="space-y-2">
@@ -84,24 +84,24 @@ const AdminStatsCards = ({ stats, onTabChange, loading }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: index * 0.1 }}
           onClick={() => card.tab && onTabChange?.(card.tab)}
-          className={`bg-white border-l border-r border-b border-[#E5E7EB] ${card.topBorder} rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden relative group ${
+          className={`bg-white border-l border-r border-b border-gray-200 border-t-[3px] ${card.topBorder} rounded-xl p-6 shadow-sm overflow-hidden relative group ${
             card.tab
-              ? "cursor-pointer transition-all duration-200 ease-in-out hover:-translate-y-[3px] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)]"
+              ? "cursor-pointer transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md"
               : ""
           }`}
         >
           <div className="flex justify-between items-start">
             <div className="z-10">
-              <p className="text-[#374151] text-[1rem] mb-1 font-medium">
+              <p className="text-text-secondary text-sm mb-1 font-medium">
                 {card.title}
               </p>
-              <p className="text-[#111827] text-[2rem] font-bold mt-1">
+              <p className="text-text-primary text-3xl font-bold mt-1">
                 {card.value.toLocaleString()}
               </p>
-              <p className="text-[#6b7280] text-[0.875rem] mt-2">{card.change}</p>
+              <p className="text-text-muted text-xs mt-2">{card.change}</p>
             </div>
             <div
-              className={`${card.iconBg} rounded-[10px] p-[10px] group-hover:scale-105 transition-transform duration-200`}
+              className={`${card.iconBg} rounded-lg p-2.5 group-hover:scale-105 transition-transform duration-200`}
             >
               <card.icon className={`w-6 h-6 ${card.iconColor}`} />
             </div>

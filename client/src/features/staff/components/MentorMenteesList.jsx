@@ -25,23 +25,23 @@ const MentorMenteesList = ({
   if (loading) {
     return (
       <div className="flex justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2563eb]" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent" />
       </div>
     );
   }
 
   if (!mentees || mentees.length === 0) {
     return (
-      <div className="text-center py-12 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB]">
+      <div className="text-center py-12 bg-white shadow-sm rounded-xl border border-gray-200">
         {isInnovator ? (
-          <Lightbulb className="w-12 h-12 text-[#9ca3af] mx-auto mb-3" />
+          <Lightbulb className="w-12 h-12 text-text-muted mx-auto mb-3" />
         ) : (
-          <Rocket className="w-12 h-12 text-[#9ca3af] mx-auto mb-3" />
+          <Rocket className="w-12 h-12 text-text-muted mx-auto mb-3" />
         )}
-        <p className="text-[#6b7280]">
+        <p className="text-text-secondary">
           No {isInnovator ? "innovators" : "startups"} assigned to you
         </p>
-        <p className="text-sm text-[#6b7280] mt-1">
+        <p className="text-sm text-text-muted mt-1">
           Mentees will appear here once assigned by the director
         </p>
       </div>
@@ -112,25 +112,25 @@ const MentorMenteesList = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
-            className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] p-5 hover:border-[#2563eb]/50 transition group"
+            className="bg-white shadow-sm rounded-xl border border-gray-200 p-5 hover:border-accent/50 transition group"
           >
             <div className="flex justify-between items-start mb-3">
               <div className="flex-1">
-                <h3 className="font-semibold text-[#111827] group-hover:text-[#2563eb] transition text-base">
+                <h3 className="font-heading font-medium text-text-primary group-hover:text-accent transition text-base">
                   {getMenteeName(mentee)}
                 </h3>
-                <p className="text-xs text-[#6b7280] mt-1 line-clamp-1">
+                <p className="text-xs text-text-muted mt-1 line-clamp-1">
                   {getMenteeTitle(mentee)}
                 </p>
               </div>
               {pendingCount > 0 && (
-                <span className="text-xs px-2.5 py-1 bg-amber-50 text-amber-700 border border-amber-200 rounded-full font-medium whitespace-nowrap ml-2">
+                <span className="text-xs px-2.5 py-1 bg-amber-50 text-amber-600 border border-amber-200 rounded-full font-medium whitespace-nowrap ml-2">
                   {pendingCount} Pending
                 </span>
               )}
             </div>
 
-            <div className="space-y-1.5 text-xs text-[#6b7280] mb-4">
+            <div className="space-y-1.5 text-xs text-text-muted mb-4">
               <div className="flex items-center gap-2">
                 {isInnovator ? (
                   <Lightbulb className="w-3 h-3" />
@@ -146,14 +146,14 @@ const MentorMenteesList = ({
 
               <div className="mt-3 pt-2">
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-xs text-[#6b7280]">Progress</span>
-                  <span className="text-xs text-[#2563eb] font-medium">
+                  <span className="text-xs text-text-muted">Progress</span>
+                  <span className="text-xs text-accent font-medium">
                     {progress}%
                   </span>
                 </div>
-                <div className="w-full bg-[#F3F4F6] rounded-full h-2">
+                <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
-                    className="bg-[#2563eb] h-2 rounded-full transition-all shadow-sm"
+                    className="bg-accent h-2 rounded-full transition-all shadow-sm"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
@@ -163,20 +163,20 @@ const MentorMenteesList = ({
             <div className="flex flex-wrap gap-2 mt-4">
               <button
                 onClick={() => onViewProgress(userId, type)}
-                className="btn-institutional flex-1 min-w-20 px-3 py-2 text-sm"
+                className="btn-filled flex-1 min-w-20 px-3 py-2 text-sm"
               >
                 <Eye className="w-3 h-3" /> Progress
               </button>
               <button
                 onClick={() => onReviewMilestones(mentee, type)}
-                className="btn-institutional flex-1 min-w-[100px] px-3 py-2 text-sm"
+                className="btn-filled flex-1 min-w-25 px-3 py-2 text-sm"
               >
                 <FileText className="w-3 h-3" />
                 {hasAnyMilestones ? "Review" : "Add Milestones"}
               </button>
               <button
                 onClick={() => onFinalReview(mentee, type)}
-                className="flex-1 min-w-20 px-3 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-lg transition text-sm flex items-center justify-center gap-1 font-medium"
+                className="flex-1 min-w-20 px-3 py-2 bg-purple-50 hover:bg-purple-100 text-purple-600 border border-purple-200 rounded-lg transition text-sm flex items-center justify-center gap-1 font-medium"
               >
                 <Award className="w-3 h-3" /> Final
               </button>

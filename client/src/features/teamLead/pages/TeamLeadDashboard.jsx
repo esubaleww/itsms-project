@@ -206,17 +206,17 @@ const TeamLeadDashboard = () => {
 
   if (loading && !team) {
     return (
-      <div className="min-h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-b from-gray-50 to-gray-100 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563eb] mx-auto"></div>
-          <p className="mt-4 text-[#6b7280]">Loading dashboard...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto"></div>
+          <p className="mt-4 text-text-muted">Loading dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="h-screen bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] overflow-hidden flex flex-col">
+    <div className="h-screen bg-linear-to-b from-gray-50 to-gray-100 overflow-hidden flex flex-col font-body">
       <TeamLeadHeader
         onRefresh={handleRefresh}
         refreshing={refreshing}
@@ -228,7 +228,7 @@ const TeamLeadDashboard = () => {
 
       <div className="flex flex-1 overflow-hidden relative">
         <aside
-          className={`hidden md:block fixed left-0 top-16 h-[calc(100vh-4rem)] transition-all duration-300 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-r border-[#E5E7EB] ${
+          className={`hidden md:block fixed left-0 top-16 h-[calc(100vh-4rem)] transition-all duration-300 bg-white shadow-sm border-r border-gray-200 ${
             sidebarCollapsed ? "w-20" : "w-64"
           }`}
           style={{ zIndex: 40 }}
@@ -243,8 +243,8 @@ const TeamLeadDashboard = () => {
                     w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap
                     ${
                       activeTab === item.id
-                        ? "bg-[#EEF2FF] text-[#2563eb] border-l-2 border-[#2563eb]"
-                        : "text-[#6b7280] hover:bg-[#F3F4F6] hover:text-[#111827]"
+                        ? "bg-blue-50 text-accent border-l-2 border-accent"
+                        : "text-text-muted hover:bg-gray-50 hover:text-text-primary"
                     }
                     ${sidebarCollapsed ? "justify-center px-2" : ""}
                   `}
@@ -257,21 +257,25 @@ const TeamLeadDashboard = () => {
                     </span>
                   )}
                   {!sidebarCollapsed && item.count > 0 && (
-                    <span className="text-xs px-2 py-0.5 bg-[#EEF2FF] text-[#2563eb] rounded-full shrink-0">
+                    <span className="text-xs px-2 py-0.5 bg-blue-50 text-accent rounded-full shrink-0">
                       {item.count}
                     </span>
                   )}
                 </button>
               ))}
-              <div className="border-t border-[#E5E7EB] mt-2 pt-2">
+              <div className="border-t border-gray-200 mt-2 pt-2">
                 <button
                   onClick={handleLogout}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap text-red-500 hover:bg-red-50 ${sidebarCollapsed ? "justify-center px-2" : ""}`}
                   title={sidebarCollapsed ? "Sign Out" : ""}
                 >
-                  <div className="shrink-0"><LogOut className="w-5 h-5" /></div>
+                  <div className="shrink-0">
+                    <LogOut className="w-5 h-5" />
+                  </div>
                   {!sidebarCollapsed && (
-                    <span className="text-sm font-medium flex-1 text-left">Sign Out</span>
+                    <span className="text-sm font-medium flex-1 text-left">
+                      Sign Out
+                    </span>
                   )}
                 </button>
               </div>
@@ -280,12 +284,12 @@ const TeamLeadDashboard = () => {
 
           <button
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            className="absolute -right-3 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-100 rounded-full p-1.5 shadow-lg z-20 transition-colors border border-[#E5E7EB]"
+            className="absolute -right-3 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-100 rounded-full p-1.5 shadow-md z-20 transition-colors border border-gray-200"
           >
             {sidebarCollapsed ? (
-              <ChevronRight className="w-4 h-4 text-[#334155]" />
+              <ChevronRight className="w-4 h-4 text-text-muted" />
             ) : (
-              <ChevronLeft className="w-4 h-4 text-[#334155]" />
+              <ChevronLeft className="w-4 h-4 text-text-muted" />
             )}
           </button>
         </aside>
@@ -298,22 +302,24 @@ const TeamLeadDashboard = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setMobileSidebarOpen(false)}
-                className="fixed inset-0 bg-black/60 z-40 md:hidden"
+                className="fixed inset-0 bg-black/50 z-40 md:hidden"
               />
               <motion.aside
                 initial={{ x: -280 }}
                 animate={{ x: 0 }}
                 exit={{ x: -280 }}
                 transition={{ type: "tween", duration: 0.3 }}
-                className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-r border-[#E5E7EB] z-[9999] md:hidden"
+                className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-md border-r border-gray-200 z-50 md:hidden"
               >
-                <div className="flex justify-between items-center p-4 border-b border-[#E5E7EB]">
-                  <span className="text-[#111827] font-bold">Menu</span>
+                <div className="flex justify-between items-center p-4 border-b border-gray-200">
+                  <span className="text-text-primary font-heading font-medium">
+                    Menu
+                  </span>
                   <button
                     onClick={() => setMobileSidebarOpen(false)}
-                    className="p-1 hover:bg-[#F3F4F6] rounded-lg"
+                    className="p-1 hover:bg-gray-100 rounded-lg"
                   >
-                    <X className="w-5 h-5 text-[#6b7280]" />
+                    <X className="w-5 h-5 text-text-muted" />
                   </button>
                 </div>
                 <nav className="p-4 space-y-1 overflow-y-auto h-[calc(100%-4rem)]">
@@ -328,8 +334,8 @@ const TeamLeadDashboard = () => {
                         w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
                         ${
                           activeTab === item.id
-                            ? "bg-[#EEF2FF] text-[#2563eb]"
-                            : "text-[#6b7280] hover:bg-[#F3F4F6] hover:text-[#111827]"
+                            ? "bg-blue-50 text-accent"
+                            : "text-text-muted hover:bg-gray-50 hover:text-text-primary"
                         }
                       `}
                     >
@@ -338,13 +344,13 @@ const TeamLeadDashboard = () => {
                         {item.label}
                       </span>
                       {item.count > 0 && (
-                        <span className="text-xs px-2 py-0.5 bg-[#EEF2FF] text-[#2563eb] rounded-full">
+                        <span className="text-xs px-2 py-0.5 bg-blue-50 text-accent rounded-full">
                           {item.count}
                         </span>
                       )}
                     </button>
                   ))}
-                  <div className="border-t border-[#E5E7EB] mt-2 pt-2">
+                  <div className="border-t border-gray-200 mt-2 pt-2">
                     <button
                       onClick={handleLogout}
                       className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-red-500 hover:bg-red-50"
@@ -372,24 +378,24 @@ const TeamLeadDashboard = () => {
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="relative overflow-hidden bg-linear-to-r from-[#DBEAFE]/40 to-[#BFDBFE]/40 border border-[#2563eb]/20 rounded-xl"
+                      className="relative overflow-hidden bg-linear-to-r from-blue-50 to-blue-100 border border-accent/20 rounded-xl"
                     >
                       <div className="relative z-10 px-5 py-4 flex items-center justify-between">
                         <div>
-                          <div className="flex items-center gap-2 text-[#2563eb] text-sm mb-1">
+                          <div className="flex items-center gap-2 text-accent text-sm mb-1">
                             <Sparkles className="w-4 h-4" />
                             <span>{greeting}</span>
                           </div>
-                          <h2 className="text-xl font-bold text-[#111827] mb-1">
+                          <h2 className="text-xl font-heading font-medium text-text-primary mb-1">
                             {user?.fullName?.split(" ")[0]}!
                           </h2>
-                          <p className="text-[#6b7280] text-sm">
+                          <p className="text-text-muted text-sm">
                             Manage your team, assign tasks, and track progress.
                           </p>
                         </div>
                         <button
                           onClick={() => setShowWelcome(false)}
-                          className="text-[#6b7280] hover:text-[#6b7280] transition"
+                          className="text-text-muted hover:text-text-primary transition"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -403,55 +409,57 @@ const TeamLeadDashboard = () => {
                   />
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                    <div className="bg-white border-l border-r border-b border-[#E5E7EB] border-t-[3px] border-t-[#2563eb] rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all duration-200 ease-in-out hover:-translate-y-[3px] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)]">
+                    <div className="bg-white border-l border-r border-b border-gray-200 border-t-2 border-t-accent rounded-xl p-6 shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md">
                       <div className="flex justify-between items-center">
                         <div>
-                          <p className="text-[#2563eb] text-xs">
+                          <p className="text-text-muted text-xs">
                             Completion Rate
                           </p>
-                          <p className="text-2xl font-bold text-[#111827]">
-                            {progress?.completionRate.toFixed(2) || 0}%
+                          <p className="text-2xl font-bold text-text-primary">
+                            {progress?.completionRate?.toFixed(2) || 0}%
                           </p>
                         </div>
-                        <CheckCircle className="w-8 h-8 text-[#2563eb] opacity-50" />
+                        <CheckCircle className="w-8 h-8 text-accent opacity-50" />
                       </div>
                     </div>
-                    <div className="bg-white border-l border-r border-b border-[#E5E7EB] border-t-[3px] border-t-[#f59e0b] rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all duration-200 ease-in-out hover:-translate-y-[3px] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)]">
+                    <div className="bg-white border-l border-r border-b border-gray-200 border-t-2 border-t-amber-500 rounded-xl p-6 shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md">
                       <div className="flex justify-between items-center">
                         <div>
-                          <p className="text-[#2563eb] text-xs">Active Tasks</p>
-                          <p className="text-2xl font-bold text-[#111827]">
+                          <p className="text-text-muted text-xs">
+                            Active Tasks
+                          </p>
+                          <p className="text-2xl font-bold text-text-primary">
                             {inProgressTasksCount}
                           </p>
                         </div>
-                        <Clock className="w-8 h-8 text-[#2563eb] opacity-50" />
+                        <Clock className="w-8 h-8 text-amber-500 opacity-50" />
                       </div>
                     </div>
-                    <div className="bg-white border-l border-r border-b border-[#E5E7EB] border-t-[3px] border-t-[#8b5cf6] rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all duration-200 ease-in-out hover:-translate-y-[3px] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)]">
+                    <div className="bg-white border-l border-r border-b border-gray-200 border-t-2 border-t-purple-500 rounded-xl p-6 shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md">
                       <div className="flex justify-between items-center">
                         <div>
-                          <p className="text-[#2563eb] text-xs">
+                          <p className="text-text-muted text-xs">
                             Pending Tasks
                           </p>
-                          <p className="text-2xl font-bold text-[#111827]">
+                          <p className="text-2xl font-bold text-text-primary">
                             {pendingTasksCount}
                           </p>
                         </div>
-                        <Clock className="w-8 h-8 text-[#2563eb] opacity-50" />
+                        <Clock className="w-8 h-8 text-purple-500 opacity-50" />
                       </div>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden transition-all duration-200 ease-in-out hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]">
-                      <div className="px-6 py-4 border-b border-[#E5E7EB] flex justify-between items-center">
-                        <h2 className="font-semibold text-[#111827] flex items-center gap-2">
-                          <ClipboardList className="w-4 h-4 text-[#2563eb]" />
+                    <div className="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ease-in-out hover:shadow-md hover:-translate-y-0.5">
+                      <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <h2 className="font-heading font-medium text-text-primary flex items-center gap-2">
+                          <ClipboardList className="w-4 h-4 text-accent" />
                           Recent Tasks
                         </h2>
                         <button
                           onClick={() => setActiveTab("tasks")}
-                          className="text-xs text-[#2563eb] hover:text-[#1d4ed8] transition"
+                          className="text-xs text-accent hover:text-blue-700 transition"
                         >
                           View all →
                         </button>
@@ -471,15 +479,15 @@ const TeamLeadDashboard = () => {
                       />
                     </div>
 
-                    <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] overflow-hidden transition-all duration-200 ease-in-out hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]">
-                      <div className="px-6 py-4 border-b border-[#E5E7EB] flex justify-between items-center">
-                        <h2 className="font-semibold text-[#111827] flex items-center gap-2">
-                          <Users className="w-4 h-4 text-[#2563eb]" />
+                    <div className="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ease-in-out hover:shadow-md hover:-translate-y-0.5">
+                      <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <h2 className="font-heading font-medium text-text-primary flex items-center gap-2">
+                          <Users className="w-4 h-4 text-accent" />
                           Team Members
                         </h2>
                         <button
                           onClick={() => setActiveTab("members")}
-                          className="text-xs text-[#2563eb] hover:text-[#1d4ed8] transition"
+                          className="text-xs text-accent hover:text-blue-700 transition"
                         >
                           View all →
                         </button>
@@ -497,10 +505,10 @@ const TeamLeadDashboard = () => {
                 <div>
                   <div className="flex justify-between items-center mb-5">
                     <div>
-                      <h2 className="text-xl font-bold text-[#111827]">
+                      <h2 className="text-xl font-heading font-medium text-text-primary">
                         Team Tasks
                       </h2>
-                      <p className="text-xs text-[#6b7280]">
+                      <p className="text-xs text-text-muted">
                         Manage and track tasks assigned to your team
                       </p>
                     </div>
@@ -523,10 +531,10 @@ const TeamLeadDashboard = () => {
                 <div>
                   <div className="flex justify-between items-center mb-5">
                     <div>
-                      <h2 className="text-xl font-bold text-[#111827]">
+                      <h2 className="text-xl font-heading font-medium text-text-primary">
                         Team Members
                       </h2>
-                      <p className="text-xs text-[#6b7280]">
+                      <p className="text-xs text-text-muted">
                         {safeData.members.length} members in your team
                       </p>
                     </div>
@@ -534,7 +542,7 @@ const TeamLeadDashboard = () => {
                       onClick={() =>
                         setModals((prev) => ({ ...prev, requestStaff: true }))
                       }
-                      className="btn-institutional px-4 py-2"
+                      className="btn-filled px-4 py-2"
                     >
                       <UserPlus className="w-4 h-4" /> Request Staff
                     </button>
@@ -551,10 +559,10 @@ const TeamLeadDashboard = () => {
                 <div>
                   <div className="flex justify-between items-center mb-5">
                     <div>
-                      <h2 className="text-xl font-bold text-[#111827]">
+                      <h2 className="text-xl font-heading font-medium text-text-primary">
                         My Reports
                       </h2>
-                      <p className="text-xs text-[#6b7280]">
+                      <p className="text-xs text-text-muted">
                         Reports you've submitted to the director
                       </p>
                     </div>
@@ -562,7 +570,7 @@ const TeamLeadDashboard = () => {
                       onClick={() =>
                         setModals((prev) => ({ ...prev, submitReport: true }))
                       }
-                      className="btn-institutional px-4 py-2"
+                      className="btn-filled px-4 py-2"
                     >
                       <Plus className="w-4 h-4" /> Submit Report
                     </button>

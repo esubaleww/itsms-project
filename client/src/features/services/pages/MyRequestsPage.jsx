@@ -28,15 +28,15 @@ const MyRequestsPage = () => {
   const getStatusColor = (status) => {
     switch (status) {
       case "completed":
-        return "bg-[#EEF2FF] text-[#2563eb] border border-[#2563eb]/30";
+        return "bg-blue-50 text-accent border border-accent/30";
       case "in_progress":
-        return "bg-blue-500/20 text-blue-400 border border-blue-500/30";
+        return "bg-blue-500/10 text-blue-600 border border-blue-500/30";
       case "approved":
-        return "bg-purple-500/20 text-purple-400 border border-purple-500/30";
+        return "bg-purple-500/10 text-purple-600 border border-purple-500/30";
       case "rejected":
-        return "bg-red-500/20 text-red-500 border border-red-500/30";
+        return "bg-red-500/10 text-red-600 border border-red-500/30";
       default:
-        return "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30";
+        return "bg-yellow-500/10 text-yellow-600 border border-yellow-500/30";
     }
   };
 
@@ -55,18 +55,18 @@ const MyRequestsPage = () => {
 
   if (loading && !serviceRequests.length) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-gray-900 to-gray-800 flex items-center justify-center">
-        <Loader2 className="w-10 h-10 text-[#2563eb] animate-spin" />
+      <div className="min-h-screen bg-linear-to-b from-gray-50 to-gray-100 flex items-center justify-center">
+        <Loader2 className="w-10 h-10 text-accent animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-900 to-gray-800 py-8">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-gray-100 font-body py-8">
       <div className="max-w-4xl mx-auto px-4">
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-[#6b7280] hover:text-[#111827] mb-6 transition group"
+          className="flex items-center gap-2 text-text-muted hover:text-text-primary mb-6 transition group"
         >
           <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition" />
           <span className="text-sm">Back</span>
@@ -75,27 +75,29 @@ const MyRequestsPage = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur-sm rounded-2xl border border-[#E5E7EB] p-6"
+          className="bg-white shadow-sm rounded-2xl border border-gray-200 p-6"
         >
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-[#EEF2FF] rounded-xl flex items-center justify-center">
-              <Briefcase className="w-5 h-5 text-[#2563eb]" />
+            <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+              <Briefcase className="w-5 h-5 text-accent" />
             </div>
-            <h1 className="text-2xl font-bold text-[#111827]">
+            <h1 className="text-2xl font-heading font-medium text-text-primary">
               My Service Requests
             </h1>
           </div>
 
           {serviceRequests.length === 0 ? (
             <div className="text-center py-12">
-              <Briefcase className="w-16 h-16 text-[#9ca3af] mx-auto mb-4" />
-              <p className="text-[#6b7280] text-lg">No service requests yet</p>
-              <p className="text-[#6b7280] text-sm mt-2">
+              <Briefcase className="w-16 h-16 text-text-muted mx-auto mb-4" />
+              <p className="text-text-secondary text-lg">
+                No service requests yet
+              </p>
+              <p className="text-text-muted text-sm mt-2">
                 Browse the service catalog to request technology services
               </p>
               <button
                 onClick={() => navigate("/services/browse")}
-                className="btn-institutional mt-6 px-4 py-2"
+                className="btn-filled mt-6"
               >
                 Browse Services
               </button>
@@ -108,7 +110,7 @@ const MyRequestsPage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB] p-5 hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all cursor-pointer"
+                  className="bg-white shadow-sm rounded-xl border border-gray-200 p-5 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer"
                   onClick={() => navigate(`/services/request/${request._id}`)}
                 >
                   <div className="flex justify-between items-start">
@@ -120,14 +122,14 @@ const MyRequestsPage = () => {
                           {getStatusIcon(request.status)}
                           {request.status?.replace(/_/g, " ")}
                         </span>
-                        <span className="text-xs text-[#6b7280]">
+                        <span className="text-xs text-text-muted">
                           {new Date(request.createdAt).toLocaleDateString()}
                         </span>
                       </div>
-                      <h3 className="font-semibold text-[#111827] text-lg">
+                      <h3 className="font-heading font-medium text-text-primary text-lg">
                         {request.metadata?.serviceType || request.type}
                       </h3>
-                      <p className="text-sm text-[#6b7280] mt-1 line-clamp-2">
+                      <p className="text-sm text-text-muted mt-1 line-clamp-2">
                         {request.metadata?.description}
                       </p>
                       {request.metadata?.priority && (
@@ -135,10 +137,10 @@ const MyRequestsPage = () => {
                           <span
                             className={`text-xs px-2 py-1 rounded-full ${
                               request.metadata.priority === "urgent"
-                                ? "bg-red-500/20 text-red-500"
+                                ? "bg-red-500/10 text-red-600"
                                 : request.metadata.priority === "high"
-                                  ? "bg-orange-500/20 text-orange-400"
-                                  : "bg-yellow-500/20 text-yellow-400"
+                                  ? "bg-orange-500/10 text-orange-600"
+                                  : "bg-yellow-500/10 text-yellow-600"
                             }`}
                           >
                             Priority: {request.metadata.priority}
@@ -146,7 +148,7 @@ const MyRequestsPage = () => {
                         </div>
                       )}
                     </div>
-                    <Eye className="w-5 h-5 text-[#6b7280] group-hover:text-[#2563eb] transition ml-4" />
+                    <Eye className="w-5 h-5 text-text-muted group-hover:text-accent transition ml-4" />
                   </div>
                 </motion.div>
               ))}

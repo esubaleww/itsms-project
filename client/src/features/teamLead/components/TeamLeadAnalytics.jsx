@@ -39,7 +39,7 @@ const TeamAnalyticsWidget = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2563eb]" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent" />
       </div>
     );
   }
@@ -72,28 +72,32 @@ const TeamAnalyticsWidget = () => {
       title: "Completion Rate",
       value: `${teamPerformance.completionRate.toFixed(2) || 0}%`,
       icon: TrendingUp,
-      color: "emerald",
+      bgColor: "bg-green-50",
+      iconColor: "text-green-600",
       description: "Overall team performance",
     },
     {
       title: "Total Tasks",
       value: teamPerformance.totalTasks || 0,
       icon: Briefcase,
-      color: "blue",
+      bgColor: "bg-blue-50",
+      iconColor: "text-blue-600",
       description: "All assigned tasks",
     },
     {
       title: "Completed",
       value: teamPerformance.completedTasks || 0,
       icon: CheckCircle,
-      color: "green",
+      bgColor: "bg-emerald-50",
+      iconColor: "text-emerald-600",
       description: "Successfully completed",
     },
     {
       title: "In Progress",
       value: teamPerformance.inProgressTasks || 0,
       icon: Clock,
-      color: "yellow",
+      bgColor: "bg-yellow-50",
+      iconColor: "text-yellow-600",
       description: "Currently working on",
     },
   ];
@@ -101,8 +105,8 @@ const TeamAnalyticsWidget = () => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-[#E5E7EB] rounded-lg p-3 shadow-lg">
-          <p className="text-[#111827] text-sm font-medium mb-2">{label}</p>
+        <div className="bg-white shadow-sm border border-gray-200 rounded-lg p-3">
+          <p className="text-text-primary text-sm font-medium mb-2">{label}</p>
           {payload.map((item, idx) => (
             <p key={idx} className="text-xs" style={{ color: item.color }}>
               {item.name}: {item.value}
@@ -115,7 +119,7 @@ const TeamAnalyticsWidget = () => {
   };
 
   return (
-    <div className="max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar">
+    <div className="max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar font-body">
       <div className="space-y-6 pb-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {metrics.map((metric, idx) => (
@@ -124,43 +128,45 @@ const TeamAnalyticsWidget = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
-              className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-4 border border-[#E5E7EB] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all"
+              className="bg-white shadow-sm rounded-xl p-4 border border-gray-200 hover:shadow-md hover:-translate-y-0.5 transition-all"
             >
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[#6b7280] text-xs uppercase tracking-wide">
+                <span className="text-text-muted text-xs uppercase tracking-wide">
                   {metric.description}
                 </span>
-                <metric.icon className={`w-5 h-5 text-${metric.color}-400`} />
+                <div className={`${metric.bgColor} p-2 rounded-lg`}>
+                  <metric.icon className={`w-4 h-4 ${metric.iconColor}`} />
+                </div>
               </div>
               <div className="mt-2">
-                <span className="text-2xl font-bold text-[#111827]">
+                <span className="text-2xl font-bold text-text-primary">
                   {metric.value}
                 </span>
               </div>
-              <p className="text-xs text-[#6b7280] mt-1">{metric.title}</p>
+              <p className="text-xs text-text-muted mt-1">{metric.title}</p>
             </motion.div>
           ))}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
+          <div className="bg-white shadow-sm rounded-xl p-6 border border-gray-200">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-[#111827] font-semibold flex items-center gap-2">
-                <Activity className="w-5 h-5 text-[#2563eb]" />
+              <h3 className="text-text-primary font-heading font-medium flex items-center gap-2">
+                <Activity className="w-5 h-5 text-accent" />
                 Active Tasks Over Time
               </h3>
               <div className="flex items-center gap-2 text-xs">
                 <span className="flex items-center gap-1">
                   <div className="w-2 h-2 bg-purple-500 rounded-full" />
-                  <span className="text-[#6b7280]">Active Tasks</span>
+                  <span className="text-text-muted">Active Tasks</span>
                 </span>
                 <span className="flex items-center gap-1">
                   <div className="w-2 h-2 bg-green-500 rounded-full" />
-                  <span className="text-[#6b7280]">Completed</span>
+                  <span className="text-text-muted">Completed</span>
                 </span>
                 <span className="flex items-center gap-1">
                   <div className="w-2 h-2 bg-yellow-500 rounded-full" />
-                  <span className="text-[#6b7280]">In Progress</span>
+                  <span className="text-text-muted">In Progress</span>
                 </span>
               </div>
             </div>
@@ -200,8 +206,12 @@ const TeamAnalyticsWidget = () => {
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                  <XAxis dataKey="name" stroke="#6B7280" />
-                  <YAxis stroke="#6B7280" />
+                  <XAxis
+                    dataKey="name"
+                    stroke="#6B7280"
+                    tick={{ fill: "#6B7280" }}
+                  />
+                  <YAxis stroke="#6B7280" tick={{ fill: "#6B7280" }} />
                   <Tooltip content={<CustomTooltip />} />
                   <Area
                     type="monotone"
@@ -230,16 +240,16 @@ const TeamAnalyticsWidget = () => {
                 </AreaChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex flex-col items-center justify-center h-62.5 text-[#6b7280]">
+              <div className="flex flex-col items-center justify-center h-62.5 text-text-muted">
                 <BarChart3 className="w-12 h-12 mb-2 opacity-50" />
                 <p className="text-sm">No weekly activity data</p>
               </div>
             )}
           </div>
 
-          <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
-            <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
-              <Target className="w-5 h-5 text-[#2563eb]" />
+          <div className="bg-white shadow-sm rounded-xl p-6 border border-gray-200">
+            <h3 className="text-text-primary font-heading font-medium mb-4 flex items-center gap-2">
+              <Target className="w-5 h-5 text-accent" />
               Service Request Distribution
             </h3>
             {taskDistribution.length > 0 ? (
@@ -266,9 +276,11 @@ const TeamAnalyticsWidget = () => {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: "#1F2937",
-                      border: "none",
+                      backgroundColor: "#FFFFFF",
+                      borderColor: "#E5E7EB",
                       borderRadius: "8px",
+                      padding: "8px 12px",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
                     }}
                     formatter={(value, name) => {
                       const item = taskDistribution.find(
@@ -289,7 +301,7 @@ const TeamAnalyticsWidget = () => {
                         (d) => d.name === value,
                       );
                       return (
-                        <span className="text-[#374151] text-xs block whitespace-normal wrap-break-word max-w-37.5">
+                        <span className="text-text-secondary text-xs block whitespace-normal max-w-40">
                           {value} ({item?.percentage || 0}%)
                         </span>
                       );
@@ -298,10 +310,10 @@ const TeamAnalyticsWidget = () => {
                 </PieChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex flex-col items-center justify-center h-62.5 text-[#6b7280]">
+              <div className="flex flex-col items-center justify-center h-62.5 text-text-muted">
                 <BarChart3 className="w-12 h-12 mb-2 opacity-50" />
                 <p className="text-sm">No service requests yet</p>
-                <p className="text-xs text-[#9ca3af] mt-1">
+                <p className="text-xs text-text-muted mt-1">
                   Requests will appear here once assigned
                 </p>
               </div>
@@ -309,9 +321,9 @@ const TeamAnalyticsWidget = () => {
           </div>
         </div>
 
-        <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
-          <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
-            <Users className="w-5 h-5 text-[#2563eb]" />
+        <div className="bg-white shadow-sm rounded-xl p-6 border border-gray-200">
+          <h3 className="text-text-primary font-heading font-medium mb-4 flex items-center gap-2">
+            <Users className="w-5 h-5 text-accent" />
             Team Member Performance
           </h3>
           <div className="space-y-3 max-h-75 overflow-y-auto pr-2">
@@ -319,41 +331,41 @@ const TeamAnalyticsWidget = () => {
               memberPerformance.map((member, idx) => (
                 <div
                   key={idx}
-                  className="p-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg hover:bg-[#F3F4F6] transition"
+                  className="p-3 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition"
                 >
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-[#111827] font-medium">
+                    <span className="text-text-primary font-medium">
                       {member.name}
                     </span>
                     <div className="flex items-center gap-3">
-                      <span className="text-[#2563eb] text-sm font-medium">
+                      <span className="text-accent text-sm font-medium">
                         {member.completionRate}%
                       </span>
                       {member.avgResponseTime !== "N/A" && (
-                        <span className="text-xs text-[#6b7280] flex items-center gap-1">
+                        <span className="text-xs text-text-muted flex items-center gap-1">
                           <Zap className="w-3 h-3 text-yellow-500" />
                           {member.avgResponseTime}
                         </span>
                       )}
                     </div>
                   </div>
-                  <div className="flex justify-between text-xs text-[#6b7280] mb-2">
+                  <div className="flex justify-between text-xs text-text-muted mb-2">
                     <span>{member.position}</span>
                     <span>
                       {member.completedTasks}/{member.totalTasks} tasks
                       completed
                     </span>
                   </div>
-                  <div className="w-full bg-[#E5E7EB] rounded-full h-1.5">
+                  <div className="w-full bg-gray-200 rounded-full h-1.5">
                     <div
-                      className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
+                      className="bg-accent h-1.5 rounded-full transition-all duration-500"
                       style={{ width: `${member.completionRate}%` }}
                     />
                   </div>
                 </div>
               ))
             ) : (
-              <div className="text-center py-8 text-[#6b7280]">
+              <div className="text-center py-8 text-text-muted">
                 <Users className="w-12 h-12 mx-auto mb-2 opacity-50" />
                 <p>No team members found</p>
               </div>
@@ -362,33 +374,33 @@ const TeamAnalyticsWidget = () => {
         </div>
 
         {recentRequests.length > 0 && (
-          <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
-            <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
-              <Award className="w-5 h-5 text-[#2563eb]" />
+          <div className="bg-white shadow-sm rounded-xl p-6 border border-gray-200">
+            <h3 className="text-text-primary font-heading font-medium mb-4 flex items-center gap-2">
+              <Award className="w-5 h-5 text-accent" />
               Recent Service Requests
             </h3>
             <div className="space-y-2 max-h-75 overflow-y-auto pr-2">
               {recentRequests.map((request, idx) => (
                 <div
                   key={idx}
-                  className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg hover:bg-[#F3F4F6] transition gap-2"
+                  className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition gap-2"
                 >
                   <div className="flex-1">
-                    <p className="text-[#111827] text-sm font-medium">
+                    <p className="text-text-primary text-sm font-medium">
                       {request.title}
                     </p>
                     <div className="flex flex-wrap gap-2 mt-1">
-                      <span className="text-xs text-[#6b7280]">
+                      <span className="text-xs text-text-muted">
                         From: {request.applicant}
                       </span>
-                      <span className="text-xs text-[#6b7280]">•</span>
-                      <span className="text-xs text-[#6b7280] capitalize">
+                      <span className="text-xs text-text-muted">•</span>
+                      <span className="text-xs text-text-muted capitalize">
                         Type: {request.serviceType}
                       </span>
                       {request.assignedTo && (
                         <>
-                          <span className="text-xs text-[#6b7280]">•</span>
-                          <span className="text-xs text-[#6b7280]">
+                          <span className="text-xs text-text-muted">•</span>
+                          <span className="text-xs text-text-muted">
                             Assigned to: {request.assignedTo}
                           </span>
                         </>
@@ -399,10 +411,10 @@ const TeamAnalyticsWidget = () => {
                     <span
                       className={`text-xs px-2 py-1 rounded-full ${
                         request.status === "completed"
-                          ? "bg-[#EEF2FF] text-[#2563eb]"
+                          ? "bg-blue-50 text-accent"
                           : request.status === "in_progress"
-                            ? "bg-blue-500/20 text-blue-400"
-                            : "bg-yellow-500/20 text-yellow-400"
+                            ? "bg-blue-50 text-blue-600"
+                            : "bg-yellow-50 text-yellow-600"
                       }`}
                     >
                       {request.status === "in_progress"
@@ -411,8 +423,8 @@ const TeamAnalyticsWidget = () => {
                           ? "Pending"
                           : request.status}
                     </span>
-                    <Calendar className="w-3 h-3 text-[#6b7280]" />
-                    <span className="text-xs text-[#6b7280]">
+                    <Calendar className="w-3 h-3 text-text-muted" />
+                    <span className="text-xs text-text-muted">
                       {new Date(request.createdAt).toLocaleDateString()}
                     </span>
                   </div>
@@ -428,15 +440,15 @@ const TeamAnalyticsWidget = () => {
           width: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: #F3F4F6;
+          background: #f3f4f6;
           border-radius: 10px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #D1D5DB;
+          background: #d1d5db;
           border-radius: 10px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: #9CA3AF;
+          background: #9ca3af;
         }
       `}</style>
     </div>

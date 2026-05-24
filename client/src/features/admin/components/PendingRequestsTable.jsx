@@ -24,28 +24,28 @@ const PendingRequestsTable = ({
   const getTypeColor = (type) => {
     switch (type) {
       case "internship":
-        return "bg-green-500/20 text-green-400 border border-green-500/30";
+        return "bg-green-50 text-green-600 border border-green-500/30";
       case "innovation":
-        return "bg-purple-500/20 text-purple-400 border border-purple-500/30";
+        return "bg-purple-50 text-purple-600 border border-purple-500/30";
       case "startup":
-        return "bg-orange-500/20 text-orange-400 border border-orange-500/30";
+        return "bg-orange-50 text-orange-600 border border-orange-500/30";
       case "service":
-        return "bg-blue-500/20 text-blue-400 border border-blue-500/30";
+        return "bg-blue-50 text-blue-600 border border-blue-500/30";
       default:
-        return "bg-gray-500/20 text-[#6b7280] border border-gray-500/30";
+        return "bg-gray-100 text-text-muted border border-gray-300";
     }
   };
 
   const getTypeIcon = (type) => {
     switch (type) {
       case "internship":
-        return <Briefcase className="w-4 h-4 text-green-400" />;
+        return <Briefcase className="w-4 h-4 text-green-600" />;
       case "innovation":
-        return <Lightbulb className="w-4 h-4 text-purple-400" />;
+        return <Lightbulb className="w-4 h-4 text-purple-600" />;
       case "startup":
-        return <Rocket className="w-4 h-4 text-orange-400" />;
+        return <Rocket className="w-4 h-4 text-orange-600" />;
       default:
-        return <FileText className="w-4 h-4 text-blue-400" />;
+        return <FileText className="w-4 h-4 text-blue-600" />;
     }
   };
 
@@ -81,7 +81,7 @@ const PendingRequestsTable = ({
   if (loading && !requests) {
     return (
       <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2563eb]"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent"></div>
       </div>
     );
   }
@@ -90,39 +90,41 @@ const PendingRequestsTable = ({
     <div>
       <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-[#111827]">Pending Requests</h2>
-          <p className="text-sm text-[#6b7280] mt-1">
+          <h2 className="text-2xl font-heading font-medium text-text-primary">
+            Pending Requests
+          </h2>
+          <p className="text-sm text-text-muted mt-1">
             Review and approve applications ({filteredRequests.length} pending)
           </p>
         </div>
         <div className="flex gap-3">
           <select
-            className="px-4 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all cursor-pointer shadow-sm"
+            className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all cursor-pointer shadow-sm"
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
           >
-            <option value="all" className="bg-white text-[#111827]">
+            <option value="all" className="bg-white text-text-primary">
               All Types
             </option>
-            <option value="internship" className="bg-white text-[#111827]">
+            <option value="internship" className="bg-white text-text-primary">
               Internship
             </option>
-            <option value="innovation" className="bg-white text-[#111827]">
+            <option value="innovation" className="bg-white text-text-primary">
               Innovation
             </option>
-            <option value="startup" className="bg-white text-[#111827]">
+            <option value="startup" className="bg-white text-text-primary">
               Startup
             </option>
-            <option value="service" className="bg-white text-[#111827]">
+            <option value="service" className="bg-white text-text-primary">
               Service
             </option>
           </select>
           <div className="relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7280]" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
             <input
               type="text"
               placeholder="Search by name or description..."
-              className="pl-9 pr-4 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm w-64"
+              className="pl-9 pr-4 py-2 bg-white border border-gray-300 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all shadow-sm w-64"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -136,7 +138,7 @@ const PendingRequestsTable = ({
             key={request._id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-5 hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] transition-all duration-300 group cursor-pointer"
+            className="bg-white border border-gray-200 shadow-sm rounded-xl p-5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 group cursor-pointer"
             onClick={() => onViewRequest(request)}
           >
             <div className="flex justify-between items-start">
@@ -150,7 +152,7 @@ const PendingRequestsTable = ({
                       {getTypeLabel(request.type)}
                     </span>
                   </div>
-                  <span className="text-xs text-[#6b7280] flex items-center gap-1">
+                  <span className="text-xs text-text-muted flex items-center gap-1">
                     <Calendar className="w-3 h-3" />
                     {new Date(request.createdAt).toLocaleDateString()}
                   </span>
@@ -158,10 +160,10 @@ const PendingRequestsTable = ({
                     <span
                       className={`text-xs px-2 py-1 rounded-full ${
                         request.metadata.priority === "urgent"
-                          ? "bg-red-500/20 text-red-500 border border-red-500/30"
+                          ? "bg-red-50 text-red-600 border border-red-500/30"
                           : request.metadata.priority === "high"
-                            ? "bg-orange-500/20 text-orange-400 border border-orange-500/30"
-                            : "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
+                            ? "bg-orange-50 text-orange-600 border border-orange-500/30"
+                            : "bg-yellow-50 text-yellow-600 border border-yellow-500/30"
                       }`}
                     >
                       {request.metadata.priority.toUpperCase()}
@@ -169,17 +171,17 @@ const PendingRequestsTable = ({
                   )}
                 </div>
 
-                <div className="flex items-center gap-2 mb-2">
-                  <User className="w-4 h-4 text-[#2563eb]" />
-                  <p className="font-medium text-[#111827]">
+                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                  <User className="w-4 h-4 text-accent" />
+                  <p className="font-medium text-text-primary">
                     {request.applicant?.fullName}
                   </p>
-                  <span className="text-xs text-[#6b7280]">
+                  <span className="text-xs text-text-muted">
                     ({request.applicant?.email})
                   </span>
                 </div>
 
-                <p className="text-sm text-[#6b7280] mt-1 line-clamp-2">
+                <p className="text-sm text-text-muted mt-1 line-clamp-2">
                   {request.metadata?.description ||
                     request.description ||
                     "No description provided"}
@@ -187,8 +189,8 @@ const PendingRequestsTable = ({
 
                 {request.relatedProfile?.ideaTitle && (
                   <div className="mt-2 flex items-center gap-2">
-                    <Lightbulb className="w-3 h-3 text-purple-400" />
-                    <p className="text-sm text-purple-400">
+                    <Lightbulb className="w-3 h-3 text-purple-600" />
+                    <p className="text-sm text-purple-600">
                       Idea: {request.relatedProfile.ideaTitle}
                     </p>
                   </div>
@@ -196,8 +198,8 @@ const PendingRequestsTable = ({
 
                 {request.relatedProfile?.companyName && (
                   <div className="mt-2 flex items-center gap-2">
-                    <Rocket className="w-3 h-3 text-orange-400" />
-                    <p className="text-sm text-orange-400">
+                    <Rocket className="w-3 h-3 text-orange-600" />
+                    <p className="text-sm text-orange-600">
                       Company: {request.relatedProfile.companyName}
                     </p>
                   </div>
@@ -205,8 +207,8 @@ const PendingRequestsTable = ({
 
                 {request.relatedProfile?.university?.name && (
                   <div className="mt-2 flex items-center gap-2">
-                    <Briefcase className="w-3 h-3 text-green-400" />
-                    <p className="text-sm text-green-400">
+                    <Briefcase className="w-3 h-3 text-green-600" />
+                    <p className="text-sm text-green-600">
                       University: {request.relatedProfile.university.name}
                     </p>
                   </div>
@@ -219,7 +221,7 @@ const PendingRequestsTable = ({
                     e.stopPropagation();
                     onViewRequest(request);
                   }}
-                  className="p-1.5 text-[#6b7280] hover:text-[#2563eb] hover:bg-[#EEF2FF] rounded-lg transition"
+                  className="p-1.5 text-text-muted hover:text-accent hover:bg-blue-50 rounded-lg transition"
                   title="View Details"
                 >
                   <Eye className="w-5 h-5" />
@@ -233,16 +235,16 @@ const PendingRequestsTable = ({
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center py-12 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl border border-[#E5E7EB]"
+            className="text-center py-12 bg-white shadow-sm rounded-xl border border-gray-200"
           >
-            <FileText className="w-16 h-16 text-[#9ca3af] mx-auto mb-4" />
-            <p className="text-[#6b7280]">No pending requests found</p>
+            <FileText className="w-16 h-16 text-text-muted mx-auto mb-4" />
+            <p className="text-text-secondary">No pending requests found</p>
             <button
               onClick={() => {
                 setSearchTerm("");
                 setFilterType("all");
               }}
-              className="mt-4 text-[#2563eb] hover:text-[#1d4ed8] transition"
+              className="mt-4 text-accent hover:text-blue-700 transition"
             >
               Clear filters
             </button>
@@ -251,7 +253,7 @@ const PendingRequestsTable = ({
       </div>
 
       {filteredRequests.length > 0 && (
-        <div className="mt-4 text-right text-sm text-[#6b7280]">
+        <div className="mt-4 text-right text-sm text-text-muted">
           Showing {filteredRequests.length} of {requests?.length || 0} pending
           requests
         </div>

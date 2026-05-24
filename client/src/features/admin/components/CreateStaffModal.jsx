@@ -171,56 +171,56 @@ const CreateStaffModal = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white rounded-2xl max-w-md w-full flex flex-col max-h-[90vh] border border-[#E5E7EB] shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+        className="bg-white rounded-2xl max-w-md w-full flex flex-col max-h-[90vh] border border-gray-200 shadow-xl"
       >
-        <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-sm z-10 rounded-t-2xl">
+        <div className="p-5 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10 rounded-t-2xl">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-[#EEF2FF] rounded-lg flex items-center justify-center border border-[#2563eb]/20">
+            <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center border border-accent/20">
               {isEditing ? (
-                <Edit className="w-4 h-4 text-[#2563eb]" />
+                <Edit className="w-4 h-4 text-accent" />
               ) : (
-                <UserPlus className="w-4 h-4 text-[#2563eb]" />
+                <UserPlus className="w-4 h-4 text-accent" />
               )}
             </div>
-            <h2 className="text-xl font-bold text-[#111827]">
+            <h2 className="text-xl font-heading font-medium text-text-primary">
               {isEditing ? "Edit Staff Member" : "Create Staff"}
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
+            className="p-1 hover:bg-gray-100 rounded-lg transition"
           >
-            <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
+            <X className="w-5 h-5 text-text-muted hover:text-text-primary" />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-5">
           <form onSubmit={handleSubmit} className="space-y-4" id="staff-form">
             {backendError && (
-              <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3">
+              <div className="bg-red-50 border border-red-500/30 rounded-lg p-3">
                 <div className="flex items-start gap-2">
-                  <AlertCircle className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
-                  <p className="text-sm text-red-500">{backendError}</p>
+                  <AlertCircle className="w-4 h-4 text-red-600 mt-0.5 shrink-0" />
+                  <p className="text-sm text-red-600">{backendError}</p>
                 </div>
               </div>
             )}
 
             <div>
-              <label className="block text-sm font-medium text-[#374151] mb-1">
+              <label className="block text-sm font-medium text-text-secondary mb-1">
                 Full Name <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                 <input
                   type="text"
                   required
-                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm ${
-                    errors.fullName ? "border-red-500" : "border-[#D1D5DB]"
+                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all shadow-sm ${
+                    errors.fullName ? "border-red-500" : "border-gray-300"
                   }`}
                   value={formData.fullName}
                   onChange={(e) =>
@@ -237,18 +237,18 @@ const CreateStaffModal = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[#374151] mb-1">
+              <label className="block text-sm font-medium text-text-secondary mb-1">
                 Email <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                 <input
                   type="email"
                   required
                   disabled={isEditing}
-                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm ${
-                    errors.email ? "border-red-500" : "border-[#D1D5DB]"
-                  } ${isEditing ? "opacity-60 cursor-not-allowed" : ""}`}
+                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all shadow-sm ${
+                    errors.email ? "border-red-500" : "border-gray-300"
+                  } ${isEditing ? "opacity-60 cursor-not-allowed bg-gray-50" : ""}`}
                   value={formData.email}
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   placeholder="john@example.com"
@@ -260,22 +260,22 @@ const CreateStaffModal = ({
                 </p>
               )}
               {isEditing && (
-                <p className="text-[#6b7280] text-xs mt-1">
+                <p className="text-text-muted text-xs mt-1">
                   Email cannot be changed after creation
                 </p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[#374151] mb-1">
+              <label className="block text-sm font-medium text-text-secondary mb-1">
                 Phone
               </label>
               <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                 <input
                   type="tel"
-                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm ${
-                    errors.phone ? "border-red-500" : "border-[#D1D5DB]"
+                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all shadow-sm ${
+                    errors.phone ? "border-red-500" : "border-gray-300"
                   }`}
                   value={formData.phone}
                   onChange={(e) => handleInputChange("phone", e.target.value)}
@@ -290,22 +290,26 @@ const CreateStaffModal = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[#374151] mb-1">
+              <label className="block text-sm font-medium text-text-secondary mb-1">
                 Position <span className="text-red-500">*</span>
               </label>
               <select
                 required
-                className={`w-full px-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm ${
-                  errors.position ? "border-red-500" : "border-[#D1D5DB]"
+                className={`w-full px-3 py-2 bg-white border rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all shadow-sm ${
+                  errors.position ? "border-red-500" : "border-gray-300"
                 }`}
                 value={formData.position}
                 onChange={(e) => handleInputChange("position", e.target.value)}
               >
-                <option value="" className="bg-white text-[#111827]">
+                <option value="" className="bg-white text-text-primary">
                   Select Position
                 </option>
                 {positions.map((p) => (
-                  <option key={p.value} value={p.value} className="bg-white text-[#111827]">
+                  <option
+                    key={p.value}
+                    value={p.value}
+                    className="bg-white text-text-primary"
+                  >
                     {p.label}
                   </option>
                 ))}
@@ -318,24 +322,28 @@ const CreateStaffModal = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[#374151] mb-1">
+              <label className="block text-sm font-medium text-text-secondary mb-1">
                 Directorate <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                 <select
                   required
-                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all shadow-sm ${
-                    errors.directorateId ? "border-red-500" : "border-[#D1D5DB]"
+                  className={`w-full pl-9 pr-3 py-2 bg-white border rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all shadow-sm ${
+                    errors.directorateId ? "border-red-500" : "border-gray-300"
                   }`}
                   value={formData.directorateId}
                   onChange={(e) => handleDirectorateChange(e.target.value)}
                 >
-                  <option value="" className="bg-white text-[#111827]">
+                  <option value="" className="bg-white text-text-primary">
                     Select Directorate
                   </option>
                   {directorates?.map((d) => (
-                    <option key={d._id} value={d._id} className="bg-white text-[#111827]">
+                    <option
+                      key={d._id}
+                      value={d._id}
+                      className="bg-white text-text-primary"
+                    >
                       {d.name}
                     </option>
                   ))}
@@ -349,29 +357,33 @@ const CreateStaffModal = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[#374151] mb-1">
-                Team <span className="text-[#6b7280]">(Optional)</span>
+              <label className="block text-sm font-medium text-text-secondary mb-1">
+                Team <span className="text-text-muted">(Optional)</span>
               </label>
               <div className="relative">
-                <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                 <select
-                  className="w-full pl-9 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+                  className="w-full pl-9 pr-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
                   value={formData.teamId}
                   onChange={(e) => handleInputChange("teamId", e.target.value)}
                   disabled={!formData.directorateId}
                 >
-                  <option value="" className="bg-white text-[#111827]">
+                  <option value="" className="bg-white text-text-primary">
                     Select Team
                   </option>
                   {teams.map((t) => (
-                    <option key={t._id} value={t._id} className="bg-white text-[#111827]">
+                    <option
+                      key={t._id}
+                      value={t._id}
+                      className="bg-white text-text-primary"
+                    >
                       {t.name}
                     </option>
                   ))}
                 </select>
               </div>
               {!formData.directorateId && (
-                <p className="text-[#6b7280] text-xs mt-1">
+                <p className="text-text-muted text-xs mt-1">
                   Select a directorate first to see available teams
                 </p>
               )}
@@ -379,13 +391,13 @@ const CreateStaffModal = ({
           </form>
         </div>
 
-        <div className="p-5 border-t border-[#E5E7EB] bg-[#F9FAFB] rounded-b-2xl sticky bottom-0">
+        <div className="p-5 border-t border-gray-200 bg-gray-50 rounded-b-2xl sticky bottom-0">
           <div className="flex gap-3">
             <button
               type="submit"
               form="staff-form"
               disabled={loading}
-              className="flex-1 bg-[#2563eb] text-white py-2.5 rounded-lg hover:bg-[#1d4ed8] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md flex items-center justify-center gap-2 font-medium"
+              className="flex-1 bg-accent text-white py-2.5 rounded-lg hover:bg-accent/90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md flex items-center justify-center gap-2 font-medium"
             >
               {loading ? (
                 <>
@@ -406,7 +418,7 @@ const CreateStaffModal = ({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 border border-[#D1D5DB] text-[#374151] py-2.5 rounded-lg hover:bg-[#F3F4F6] transition-all duration-200"
+              className="flex-1 border border-gray-300 text-text-secondary py-2.5 rounded-lg hover:bg-gray-50 transition-all duration-200"
             >
               Cancel
             </button>

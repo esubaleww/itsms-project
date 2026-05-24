@@ -61,28 +61,28 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
   const reviewedReports = reports?.filter((r) => r.status === "reviewed") || [];
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl max-w-5xl w-full max-h-[90vh] flex flex-col border border-[#E5E7EB] shadow-2xl"
+        className="bg-white shadow-lg rounded-2xl max-w-5xl w-full max-h-[90vh] flex flex-col border border-gray-200"
       >
-        <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-sm rounded-t-2xl">
+        <div className="p-5 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white rounded-t-2xl">
           <div>
-            <h2 className="text-xl font-bold text-[#111827]">
+            <h2 className="text-xl font-heading font-medium text-text-primary">
               Review Weekly Reports
             </h2>
-            <p className="text-sm text-[#6b7280]">
+            <p className="text-sm text-text-muted">
               {intern.intern?.fullName || intern.fullName} •{" "}
               {intern.university?.name || "University"}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
+            className="p-1 hover:bg-gray-100 rounded-lg transition"
           >
-            <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
+            <X className="w-5 h-5 text-text-muted hover:text-text-primary" />
           </button>
         </div>
 
@@ -90,8 +90,8 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="space-y-6">
               <div>
-                <h3 className="text-lg font-semibold text-[#111827] mb-3 flex items-center gap-2">
-                  <AlertCircle className="w-5 h-5 text-yellow-400" />
+                <h3 className="text-lg font-heading font-medium text-text-primary mb-3 flex items-center gap-2">
+                  <AlertCircle className="w-5 h-5 text-yellow-500" />
                   Pending Reports ({pendingReports.length})
                 </h3>
                 <div className="space-y-2 max-h-80 overflow-y-auto pr-2">
@@ -101,25 +101,25 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
                       onClick={() => setSelectedReport(report)}
                       className={`p-3 rounded-lg border cursor-pointer transition ${
                         selectedReport?.week === report.week
-                          ? "border-[#2563eb] bg-[#EEF2FF]"
-                          : "border-[#E5E7EB] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover:-translate-y-[3px] bg-[#F9FAFB] border border-[#E5E7EB]"
+                          ? "border-accent bg-blue-50"
+                          : "border-gray-200 hover:shadow-md hover:-translate-y-0.5 bg-gray-50"
                       }`}
                     >
                       <div className="flex justify-between items-center">
                         <div>
-                          <p className="font-medium text-[#111827]">
+                          <p className="font-medium text-text-primary">
                             Week {report.week}
                           </p>
-                          <p className="text-xs text-[#6b7280] mt-1 line-clamp-2">
+                          <p className="text-xs text-text-muted mt-1 line-clamp-2">
                             {report.content}
                           </p>
                         </div>
-                        <ChevronRight className="w-4 h-4 text-[#6b7280]" />
+                        <ChevronRight className="w-4 h-4 text-text-muted" />
                       </div>
                     </div>
                   ))}
                   {pendingReports.length === 0 && (
-                    <p className="text-[#6b7280] text-center py-4">
+                    <p className="text-text-muted text-center py-4">
                       No pending reports
                     </p>
                   )}
@@ -128,26 +128,26 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
 
               {reviewedReports.length > 0 && (
                 <div>
-                  <h3 className="text-lg font-semibold text-[#111827] mb-3 flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-[#2563eb]" />
+                  <h3 className="text-lg font-heading font-medium text-text-primary mb-3 flex items-center gap-2">
+                    <CheckCircle className="w-5 h-5 text-accent" />
                     Reviewed Reports ({reviewedReports.length})
                   </h3>
                   <div className="space-y-2 max-h-60 overflow-y-auto pr-2">
                     {reviewedReports.map((report) => (
                       <div
                         key={report.week}
-                        className="p-3 rounded-lg border border-[#E5E7EB] bg-[#F9FAFB]"
+                        className="p-3 rounded-lg border border-gray-200 bg-gray-50"
                       >
                         <div className="flex justify-between items-center">
                           <div>
-                            <p className="font-medium text-[#374151]">
+                            <p className="font-medium text-text-secondary">
                               Week {report.week}
                             </p>
-                            <p className="text-xs text-[#6b7280] mt-1">
+                            <p className="text-xs text-text-muted mt-1">
                               Rating: {report.rating}/5
                             </p>
                           </div>
-                          <span className="text-xs px-2 py-1 bg-[#EEF2FF] text-[#2563eb] rounded-full">
+                          <span className="text-xs px-2 py-1 bg-blue-50 text-accent rounded-full">
                             Reviewed
                           </span>
                         </div>
@@ -161,24 +161,24 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
             <div className="space-y-6">
               {selectedReport ? (
                 <>
-                  <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-5 border border-[#D1D5DB]">
+                  <div className="bg-gray-50 border border-gray-200 rounded-xl p-5">
                     <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-lg font-semibold text-[#111827]">
+                      <h3 className="text-lg font-heading font-medium text-text-primary">
                         Week {selectedReport.week} Report
                       </h3>
-                      <span className="text-xs px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full">
+                      <span className="text-xs px-2 py-1 bg-yellow-50 text-yellow-600 rounded-full">
                         Pending Review
                       </span>
                     </div>
 
                     <div className="space-y-4">
                       <div>
-                        <p className="text-sm font-medium text-[#374151] mb-2 flex items-center gap-2">
-                          <FileText className="w-4 h-4 text-[#2563eb]" />
+                        <p className="text-sm font-medium text-text-secondary mb-2 flex items-center gap-2">
+                          <FileText className="w-4 h-4 text-accent" />
                           What I did
                         </p>
-                        <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-lg p-3">
-                          <p className="text-[#111827] text-sm whitespace-pre-wrap">
+                        <div className="bg-white shadow-sm rounded-lg p-3 border border-gray-200">
+                          <p className="text-text-primary text-sm whitespace-pre-wrap">
                             {selectedReport.content || "No content"}
                           </p>
                         </div>
@@ -186,12 +186,12 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
 
                       {selectedReport.challenges && (
                         <div>
-                          <p className="text-sm font-medium text-[#374151] mb-2 flex items-center gap-2">
-                            <AlertCircle className="w-4 h-4 text-orange-400" />
+                          <p className="text-sm font-medium text-text-secondary mb-2 flex items-center gap-2">
+                            <AlertCircle className="w-4 h-4 text-orange-500" />
                             Challenges
                           </p>
-                          <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-lg p-3">
-                            <p className="text-[#111827] text-sm">
+                          <div className="bg-white shadow-sm rounded-lg p-3 border border-gray-200">
+                            <p className="text-text-primary text-sm">
                               {selectedReport.challenges}
                             </p>
                           </div>
@@ -200,12 +200,12 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
 
                       {selectedReport.learnings && (
                         <div>
-                          <p className="text-sm font-medium text-[#374151] mb-2 flex items-center gap-2">
-                            <Star className="w-4 h-4 text-[#2563eb]" />
+                          <p className="text-sm font-medium text-text-secondary mb-2 flex items-center gap-2">
+                            <Star className="w-4 h-4 text-accent" />
                             Learnings
                           </p>
-                          <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-lg p-3">
-                            <p className="text-[#111827] text-sm">
+                          <div className="bg-white shadow-sm rounded-lg p-3 border border-gray-200">
+                            <p className="text-text-primary text-sm">
                               {selectedReport.learnings}
                             </p>
                           </div>
@@ -214,19 +214,19 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
 
                       {selectedReport.nextPlan && (
                         <div>
-                          <p className="text-sm font-medium text-[#374151] mb-2 flex items-center gap-2">
-                            <Calendar className="w-4 h-4 text-blue-400" />
+                          <p className="text-sm font-medium text-text-secondary mb-2 flex items-center gap-2">
+                            <Calendar className="w-4 h-4 text-blue-500" />
                             Next Plan
                           </p>
-                          <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-lg p-3">
-                            <p className="text-[#111827] text-sm">
+                          <div className="bg-white shadow-sm rounded-lg p-3 border border-gray-200">
+                            <p className="text-text-primary text-sm">
                               {selectedReport.nextPlan}
                             </p>
                           </div>
                         </div>
                       )}
 
-                      <div className="flex items-center gap-4 pt-2 text-xs text-[#6b7280]">
+                      <div className="flex items-center gap-4 pt-2 text-xs text-text-muted">
                         <span className="flex items-center gap-1">
                           <Clock className="w-3 h-3" /> Hours:{" "}
                           {selectedReport.hoursWorked || 0}
@@ -241,25 +241,25 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
                     </div>
                   </div>
 
-                  <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-5 border border-[#D1D5DB]">
-                    <h3 className="text-lg font-semibold text-[#111827] mb-4">
+                  <div className="bg-gray-50 border border-gray-200 rounded-xl p-5">
+                    <h3 className="text-lg font-heading font-medium text-text-primary mb-4">
                       Review Report
                     </h3>
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-[#374151] mb-2">
+                        <label className="block text-sm font-medium text-text-secondary mb-2">
                           Feedback *
                         </label>
                         <textarea
                           rows={4}
                           value={feedback}
                           onChange={(e) => setFeedback(e.target.value)}
-                          className="w-full px-3 py-2 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                          className="w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                           placeholder="Provide detailed feedback..."
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-[#374151] mb-2">
+                        <label className="block text-sm font-medium text-text-secondary mb-2">
                           Rating *
                         </label>
                         <div className="flex gap-2">
@@ -268,7 +268,7 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
                               key={star}
                               type="button"
                               onClick={() => setRating(star)}
-                              className={`p-1 rounded-lg transition ${rating >= star ? "text-yellow-400" : "text-[#6b7280]"}`}
+                              className={`p-1 rounded-lg transition ${rating >= star ? "text-yellow-400" : "text-text-muted"}`}
                             >
                               <Star className="w-6 h-6 fill-current" />
                             </button>
@@ -278,7 +278,7 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
                       <button
                         onClick={handleReview}
                         disabled={loading}
-                        className="btn-institutional w-full py-2.5"
+                        className="btn-filled w-full py-2.5 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {loading ? (
                           <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent" />
@@ -292,9 +292,9 @@ const WeeklyReportReviewModal = ({ intern, reports, onClose, onReview }) => {
                   </div>
                 </>
               ) : (
-                <div className="text-center py-12 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl border border-[#D1D5DB]">
-                  <FileText className="w-12 h-12 text-[#6b7280] mx-auto mb-3" />
-                  <p className="text-[#6b7280]">Select a report to review</p>
+                <div className="text-center py-12 bg-gray-50 border border-gray-200 rounded-xl">
+                  <FileText className="w-12 h-12 text-text-muted mx-auto mb-3" />
+                  <p className="text-text-muted">Select a report to review</p>
                 </div>
               )}
             </div>

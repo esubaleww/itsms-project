@@ -92,7 +92,7 @@ const BrowseServicesPage = () => {
         icon: Users,
         color: "from-blue-500 to-cyan-500",
         bgColor: "bg-blue-500/10",
-        textColor: "text-blue-400",
+        textColor: "text-blue-600",
         borderColor: "border-blue-500/30",
         route: "/applications/apply/internship",
       });
@@ -105,7 +105,7 @@ const BrowseServicesPage = () => {
         icon: Lightbulb,
         color: "from-purple-500 to-pink-500",
         bgColor: "bg-purple-500/10",
-        textColor: "text-purple-400",
+        textColor: "text-purple-600",
         borderColor: "border-purple-500/30",
         route: "/applications/apply/innovation",
       });
@@ -118,7 +118,7 @@ const BrowseServicesPage = () => {
         icon: Rocket,
         color: "from-orange-500 to-red-500",
         bgColor: "bg-orange-500/10",
-        textColor: "text-orange-400",
+        textColor: "text-orange-600",
         borderColor: "border-orange-500/30",
         route: "/applications/apply/startup",
       });
@@ -131,7 +131,7 @@ const BrowseServicesPage = () => {
         icon: GraduationCap,
         color: "from-teal-500 to-emerald-500",
         bgColor: "bg-teal-500/10",
-        textColor: "text-teal-400",
+        textColor: "text-teal-600",
         borderColor: "border-teal-500/30",
         route: "/applications/apply/training",
       });
@@ -149,25 +149,25 @@ const BrowseServicesPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] py-8">
+    <div className="min-h-screen bg-gray-50 font-body py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between bg-[#FFFFFF] border-b border-[#E5E7EB] py-2 px-3 sm:px-5 lg:px-6 -mx-4 sm:-mx-6 lg:-mx-8 -mt-8 mb-8">
+        <div className="flex items-center justify-between sticky top-0 z-10 bg-white border-b border-gray-200 py-2 px-3 sm:px-5 lg:px-6 -mx-4 sm:-mx-6 lg:-mx-8 -mt-8 mb-8">
           <div className="flex items-center gap-2 text-xs">
             <Link
               to="/"
-              className="flex items-center gap-1 text-[#4b5563] hover:text-[#2563eb] transition"
+              className="flex items-center gap-1 text-text-muted hover:text-accent transition"
             >
               <Home className="w-3.5 h-3.5" />
               <span>Home</span>
             </Link>
-            <ChevronRight className="w-3 h-3 text-[#64748b]" />
-            <span className="text-[#334155]">Service Catalog</span>
+            <ChevronRight className="w-3 h-3 text-text-muted" />
+            <span className="text-text-secondary">Service Catalog</span>
           </div>
 
           {user && (
             <Link
               to="/dashboard"
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gray-50 border border-[#E5E7EB] text-[#334155] hover:text-[#2563eb] hover:border-[#2563eb]/30 transition-all duration-300 text-xs"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gray-50 border border-gray-200 text-text-secondary hover:text-accent hover:border-accent/30 transition-all duration-300 text-xs"
             >
               <LayoutDashboard className="w-3.5 h-3.5" />
               Dashboard
@@ -176,13 +176,13 @@ const BrowseServicesPage = () => {
         </div>
 
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center p-3 bg-[#2563eb] rounded-2xl mb-4">
+          <div className="inline-flex items-center justify-center p-3 bg-accent rounded-2xl mb-4">
             <Sparkles className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold text-[#111827] mb-3">
+          <h1 className="text-4xl font-heading font-medium text-text-primary mb-3">
             Service Catalog
           </h1>
-          <p className="text-[#374151] text-lg max-w-2xl mx-auto">
+          <p className="text-text-secondary text-lg max-w-2xl mx-auto">
             Browse and request technology services from the bureau
           </p>
         </div>
@@ -190,8 +190,8 @@ const BrowseServicesPage = () => {
         {!hasActiveProgram && availablePrograms.length > 0 && (
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-4">
-              <TrendingUp className="w-5 h-5 text-[#2563eb]" />
-              <h2 className="text-lg font-semibold text-[#111827]">
+              <TrendingUp className="w-5 h-5 text-accent" />
+              <h2 className="text-lg font-heading font-medium text-text-primary">
                 Available Programs
               </h2>
             </div>
@@ -211,13 +211,13 @@ const BrowseServicesPage = () => {
                         <ProgramIcon className="w-5 h-5 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h3 className={`font-semibold ${program.textColor}`}>
+                        <h3 className={`font-medium ${program.textColor}`}>
                           {program.title}
                         </h3>
-                        <p className="text-xs text-[#6b7280] mt-1 line-clamp-2">
+                        <p className="text-xs text-text-muted mt-1 line-clamp-2">
                           {program.description}
                         </p>
-                        <div className="mt-2 flex items-center gap-1 text-xs text-[#2563eb]">
+                        <div className="mt-2 flex items-center gap-1 text-xs text-accent">
                           Apply Now <ArrowRight className="w-3 h-3" />
                         </div>
                       </div>
@@ -231,19 +231,19 @@ const BrowseServicesPage = () => {
 
         {hasActiveProgram && (
           <div className="mb-8">
-            <div className="bg-[#EEF2FF] backdrop-blur-sm rounded-xl border border-[#2563eb]/30 p-4">
+            <div className="bg-blue-50 backdrop-blur-sm rounded-xl border border-accent/30 p-4">
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-[#EEF2FF] rounded-full flex items-center justify-center">
-                  <CheckCircle className="w-5 h-5 text-[#2563eb]" />
+                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                  <CheckCircle className="w-5 h-5 text-accent" />
                 </div>
                 <div>
-                  <p className="text-xs text-[#2563eb] font-medium">
+                  <p className="text-xs text-accent font-medium">
                     Your Active Program
                   </p>
-                  <h3 className="text-[#111827] font-semibold text-sm mt-1 capitalize">
+                  <h3 className="text-text-primary font-heading font-medium text-sm mt-1 capitalize">
                     {currentProgram}
                   </h3>
-                  <p className="text-xs text-[#6b7280] mt-1">
+                  <p className="text-xs text-text-muted mt-1">
                     You can still request services below.
                   </p>
                 </div>
@@ -254,21 +254,21 @@ const BrowseServicesPage = () => {
 
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted" />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search services..."
-              className="w-full pl-10 pr-4 py-2.5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/25 border border-[#E5E7EB] rounded-xl text-[#111827] placeholder-slate-500 focus:outline-none focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition"
+              className="w-full pl-10 pr-4 py-2.5 bg-white shadow-sm border border-gray-200 rounded-xl text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
             />
           </div>
           <div className="flex gap-3">
             <div className="relative">
-              <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="pl-9 pr-8 py-2.5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/25 border border-[#E5E7EB] rounded-xl text-[#111827] focus:outline-none focus:border-[#2563eb] appearance-none cursor-pointer"
+                className="pl-9 pr-8 py-2.5 bg-white shadow-sm border border-gray-200 rounded-xl text-text-primary focus:outline-none focus:border-accent appearance-none cursor-pointer"
               >
                 {categories.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -276,16 +276,16 @@ const BrowseServicesPage = () => {
                   </option>
                 ))}
               </select>
-              <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 rotate-90 pointer-events-none" />
+              <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted rotate-90 pointer-events-none" />
             </div>
 
-            <div className="flex bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/25 border border-[#E5E7EB] rounded-xl overflow-hidden">
+            <div className="flex bg-white shadow-sm border border-gray-200 rounded-xl overflow-hidden">
               <button
                 onClick={() => setViewMode("grid")}
                 className={`p-2 transition ${
                   viewMode === "grid"
-                    ? "bg-[#EEF2FF] text-[#2563eb]"
-                    : "text-slate-500 hover:text-[#374151]"
+                    ? "bg-blue-50 text-accent"
+                    : "text-text-muted hover:text-text-secondary"
                 }`}
                 title="Grid View"
               >
@@ -295,8 +295,8 @@ const BrowseServicesPage = () => {
                 onClick={() => setViewMode("list")}
                 className={`p-2 transition ${
                   viewMode === "list"
-                    ? "bg-[#EEF2FF] text-[#2563eb]"
-                    : "text-slate-500 hover:text-[#374151]"
+                    ? "bg-blue-50 text-accent"
+                    : "text-text-muted hover:text-text-secondary"
                 }`}
                 title="List View"
               >
@@ -308,7 +308,7 @@ const BrowseServicesPage = () => {
 
         {loading && (
           <div className="flex justify-center items-center py-20">
-            <Loader2 className="w-10 h-10 text-[#2563eb] animate-spin" />
+            <Loader2 className="w-10 h-10 text-accent animate-spin" />
           </div>
         )}
 
@@ -330,8 +330,8 @@ const BrowseServicesPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
                     className={`
-                      bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)]/50 backdrop-blur-sm rounded-xl border border-[#E5E7EB] 
-                      hover:border-[#2563eb]/50
+                      bg-white shadow-sm backdrop-blur-sm rounded-xl border border-gray-200 
+                      hover:border-accent/50
                       transition-all duration-300 group
                       ${viewMode === "list" ? "flex items-center p-4" : "p-5"}
                     `}
@@ -340,15 +340,15 @@ const BrowseServicesPage = () => {
                       <>
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 bg-[#EEF2FF] rounded-xl flex items-center justify-center group-hover:bg-[#DBEAFE] transition">
-                              <IconComponent className="w-6 h-6 text-[#2563eb]" />
+                            <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center group-hover:bg-blue-100 transition">
+                              <IconComponent className="w-6 h-6 text-accent" />
                             </div>
                             <div>
-                              <h3 className="font-bold text-[#111827] text-lg">
+                              <h3 className="font-heading font-medium text-text-primary text-lg">
                                 {service.name}
                               </h3>
                               {service.popular && (
-                                <span className="inline-flex items-center gap-1 text-xs text-[#2563eb]">
+                                <span className="inline-flex items-center gap-1 text-xs text-accent">
                                   <Sparkles className="w-3 h-3" /> Popular
                                 </span>
                               )}
@@ -356,23 +356,23 @@ const BrowseServicesPage = () => {
                           </div>
                           <Link
                             to={`/services/${service._id}`}
-                            className="p-1 text-slate-500 hover:text-[#2563eb] transition"
+                            className="p-1 text-text-muted hover:text-accent transition"
                             title="View Details"
                           >
                             <Eye className="w-5 h-5" />
                           </Link>
                         </div>
-                        <p className="text-sm text-[#6b7280] line-clamp-2 mb-4">
+                        <p className="text-sm text-text-muted line-clamp-2 mb-4">
                           {service.description}
                         </p>
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2 text-sm text-slate-500">
+                          <div className="flex items-center gap-2 text-sm text-text-muted">
                             <Clock className="w-4 h-4" />
                             <span>{service.estimatedTime}</span>
                           </div>
                           <Link
                             to={`/services/${service._id}`}
-                            className="text-sm text-[#2563eb] hover:text-[#1d4ed8] transition flex items-center gap-1"
+                            className="text-sm text-accent hover:text-blue-700 transition flex items-center gap-1"
                           >
                             View Details <ChevronRight className="w-4 h-4" />
                           </Link>
@@ -381,24 +381,24 @@ const BrowseServicesPage = () => {
                     ) : (
                       <>
                         <div className="flex items-center gap-4 flex-1">
-                          <div className="w-12 h-12 bg-[#EEF2FF] rounded-xl flex items-center justify-center group-hover:bg-[#DBEAFE] transition shrink-0">
-                            <IconComponent className="w-6 h-6 text-[#2563eb]" />
+                          <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center group-hover:bg-blue-100 transition shrink-0">
+                            <IconComponent className="w-6 h-6 text-accent" />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <h3 className="font-bold text-[#111827]">
+                              <h3 className="font-heading font-medium text-text-primary">
                                 {service.name}
                               </h3>
                               {service.popular && (
-                                <span className="inline-flex items-center gap-1 text-xs text-[#2563eb]">
+                                <span className="inline-flex items-center gap-1 text-xs text-accent">
                                   <Sparkles className="w-3 h-3" /> Popular
                                 </span>
                               )}
                             </div>
-                            <p className="text-sm text-[#6b7280] line-clamp-1 mt-1">
+                            <p className="text-sm text-text-muted line-clamp-1 mt-1">
                               {service.description}
                             </p>
-                            <div className="flex items-center gap-3 mt-1 text-xs text-slate-500">
+                            <div className="flex items-center gap-3 mt-1 text-xs text-text-muted">
                               <span className="flex items-center gap-1">
                                 <Clock className="w-3 h-3" />
                                 {service.estimatedTime}
@@ -408,7 +408,7 @@ const BrowseServicesPage = () => {
                         </div>
                         <Link
                           to={`/services/${service._id}`}
-                          className="ml-4 flex items-center gap-1 text-sm text-[#2563eb] hover:text-[#1d4ed8] transition"
+                          className="ml-4 flex items-center gap-1 text-sm text-accent hover:text-blue-700 transition"
                         >
                           View Details <ChevronRight className="w-4 h-4" />
                         </Link>
@@ -421,9 +421,9 @@ const BrowseServicesPage = () => {
 
             {services.length === 0 && (
               <div className="text-center py-20">
-                <Briefcase className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-                <p className="text-[#6b7280] text-lg">No services found</p>
-                <p className="text-slate-500 text-sm mt-1">
+                <Briefcase className="w-16 h-16 text-text-muted mx-auto mb-4" />
+                <p className="text-text-secondary text-lg">No services found</p>
+                <p className="text-text-muted text-sm mt-1">
                   Try adjusting your search or filter
                 </p>
                 <button
@@ -431,7 +431,7 @@ const BrowseServicesPage = () => {
                     setSearch("");
                     setCategory("all");
                   }}
-                  className="mt-4 text-[#2563eb] hover:text-[#1d4ed8] transition"
+                  className="mt-4 text-accent hover:text-blue-700 transition"
                 >
                   Clear all filters
                 </button>
@@ -447,8 +447,8 @@ const BrowseServicesPage = () => {
               onClick={() => setPage((p) => p - 1)}
               className={`px-4 py-2 rounded-lg border transition ${
                 !pagination.hasPrev
-                  ? "border-[#E5E7EB] text-slate-600 cursor-not-allowed"
-                  : "border-[#D1D5DB] text-[#374151] hover:bg-[#F3F4F6] hover:text-[#111827]"
+                  ? "border-gray-200 text-text-muted cursor-not-allowed"
+                  : "border-gray-300 text-text-secondary hover:bg-gray-50 hover:text-text-primary"
               }`}
             >
               Previous
@@ -474,8 +474,8 @@ const BrowseServicesPage = () => {
                       onClick={() => setPage(pageNum)}
                       className={`w-9 h-9 rounded-lg transition ${
                         pagination.page === pageNum
-                          ? "bg-[#2563eb] text-white"
-                          : "text-[#6b7280] hover:bg-[#F3F4F6]"
+                          ? "bg-accent text-white"
+                          : "text-text-muted hover:bg-gray-50"
                       }`}
                     >
                       {pageNum}
@@ -489,8 +489,8 @@ const BrowseServicesPage = () => {
               onClick={() => setPage((p) => p + 1)}
               className={`px-4 py-2 rounded-lg border transition ${
                 !pagination.hasNext
-                  ? "border-[#E5E7EB] text-slate-600 cursor-not-allowed"
-                  : "border-[#D1D5DB] text-[#374151] hover:bg-[#F3F4F6] hover:text-[#111827]"
+                  ? "border-gray-200 text-text-muted cursor-not-allowed"
+                  : "border-gray-300 text-text-secondary hover:bg-gray-50 hover:text-text-primary"
               }`}
             >
               Next
@@ -499,7 +499,7 @@ const BrowseServicesPage = () => {
         )}
 
         {pagination && (
-          <div className="text-center text-sm text-slate-500 mt-4">
+          <div className="text-center text-sm text-text-muted mt-4">
             Showing {services.length} of {pagination.total} services
           </div>
         )}

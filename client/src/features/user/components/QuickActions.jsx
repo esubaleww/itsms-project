@@ -20,13 +20,13 @@ const QuickActions = ({
       return {
         show: true,
         disabled: false,
-        icon: <GraduationCap className="w-5 h-5 text-[#2563eb]" />,
+        icon: <GraduationCap className="w-5 h-5 text-accent" />,
         title: "Apply for Program",
         description: "Internship, Innovation & more",
-        bgColor: "bg-[#EEF2FF]",
-        borderColor: "border-[#2563eb]/30",
-        hoverColor: "hover:bg-[#EEF2FF]",
-        textColor: "text-[#2563eb]",
+        bgColor: "bg-blue-50",
+        borderColor: "border-accent/30",
+        hoverColor: "hover:bg-blue-50",
+        textColor: "text-accent",
         tooltip: null,
       };
     }
@@ -39,13 +39,13 @@ const QuickActions = ({
       return {
         show: false,
         disabled: true,
-        icon: <CheckCircle className="w-5 h-5 text-[#2563eb]" />,
+        icon: <CheckCircle className="w-5 h-5 text-accent" />,
         title: "Program Active",
         description: "You're already enrolled",
-        bgColor: "bg-[#EEF2FF]",
-        borderColor: "border-[#2563eb]/30",
+        bgColor: "bg-blue-50",
+        borderColor: "border-accent/30",
         hoverColor: "",
-        textColor: "text-[#2563eb]",
+        textColor: "text-accent",
         tooltip: `You are already enrolled in an active ${programStatus} program.`,
       };
     }
@@ -54,13 +54,13 @@ const QuickActions = ({
       return {
         show: true,
         disabled: true,
-        icon: <Clock className="w-5 h-5 text-yellow-400" />,
+        icon: <Clock className="w-5 h-5 text-yellow-600" />,
         title: "Application Pending",
         description: "Your application is being reviewed",
-        bgColor: "bg-yellow-500/10",
+        bgColor: "bg-yellow-50",
         borderColor: "border-yellow-500/30",
-        hoverColor: "hover:bg-yellow-500/20",
-        textColor: "text-yellow-400",
+        hoverColor: "hover:bg-yellow-50",
+        textColor: "text-yellow-600",
         tooltip:
           "You already have a pending application. Please wait for review.",
       };
@@ -70,13 +70,13 @@ const QuickActions = ({
       return {
         show: true,
         disabled: false,
-        icon: <GraduationCap className="w-5 h-5 text-blue-400" />,
+        icon: <GraduationCap className="w-5 h-5 text-blue-600" />,
         title: "Apply for New Program",
         description: "You've completed your program",
-        bgColor: "bg-blue-500/10",
+        bgColor: "bg-blue-50",
         borderColor: "border-blue-500/30",
-        hoverColor: "hover:bg-blue-500/20",
-        textColor: "text-blue-400",
+        hoverColor: "hover:bg-blue-50",
+        textColor: "text-blue-600",
         tooltip: null,
       };
     }
@@ -85,13 +85,13 @@ const QuickActions = ({
       return {
         show: true,
         disabled: false,
-        icon: <GraduationCap className="w-5 h-5 text-orange-400" />,
+        icon: <GraduationCap className="w-5 h-5 text-orange-600" />,
         title: "Apply Again",
         description: "Your previous application was rejected",
-        bgColor: "bg-orange-500/10",
+        bgColor: "bg-orange-50",
         borderColor: "border-orange-500/30",
-        hoverColor: "hover:bg-orange-500/20",
-        textColor: "text-orange-400",
+        hoverColor: "hover:bg-orange-50",
+        textColor: "text-orange-600",
         tooltip: null,
       };
     }
@@ -99,13 +99,13 @@ const QuickActions = ({
     return {
       show: false,
       disabled: true,
-      icon: <AlertCircle className="w-5 h-5 text-[#6b7280]" />,
+      icon: <AlertCircle className="w-5 h-5 text-text-muted" />,
       title: "Cannot Apply",
       description: "Contact admin for assistance",
-      bgColor: "bg-gray-500/10",
-      borderColor: "border-gray-500/30",
-      hoverColor: "hover:bg-gray-500/20",
-      textColor: "text-[#6b7280]",
+      bgColor: "bg-gray-100",
+      borderColor: "border-gray-300",
+      hoverColor: "hover:bg-gray-100",
+      textColor: "text-text-muted",
       tooltip: "Please contact the administrator for assistance.",
     };
   };
@@ -116,30 +116,34 @@ const QuickActions = ({
     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
       <button
         onClick={onRequestService}
-        className="flex items-center gap-3 p-4 bg-blue-500/10 border border-blue-500/30 rounded-xl hover:bg-blue-500/20 transition-all duration-200 hover:scale-[1.02] group"
+        className="flex items-center gap-3 p-4 bg-blue-50 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 hover:scale-[1.02] group"
       >
-        <div className="p-2 bg-blue-500/20 rounded-lg">
+        <div className="p-2 bg-blue-100 rounded-lg">
           <PlusCircle className="w-5 h-5 text-blue-600" />
         </div>
         <div className="text-left">
-          <p className="font-semibold text-[#0f172a] text-sm">Request Service</p>
-          <p className="text-xs text-[#4b5563]">Get technical support</p>
+          <p className="font-heading font-medium text-text-primary text-sm">
+            Request Service
+          </p>
+          <p className="text-xs text-text-muted">Get technical support</p>
         </div>
-        <ChevronRight className="w-4 h-4 text-[#64748b] ml-auto group-hover:text-blue-400 transition" />
+        <ChevronRight className="w-4 h-4 text-text-muted ml-auto group-hover:text-blue-600 transition" />
       </button>
 
       <button
         onClick={onViewAllRequests}
-        className="flex items-center gap-3 p-4 bg-purple-500/10 border border-purple-500/30 rounded-xl hover:bg-purple-500/20 transition-all duration-200 hover:scale-[1.02] group"
+        className="flex items-center gap-3 p-4 bg-purple-50 border border-purple-200 rounded-xl hover:bg-purple-100 transition-all duration-200 hover:scale-[1.02] group"
       >
-        <div className="p-2 bg-purple-500/20 rounded-lg">
+        <div className="p-2 bg-purple-100 rounded-lg">
           <List className="w-5 h-5 text-purple-600" />
         </div>
         <div className="text-left">
-          <p className="font-semibold text-[#0f172a] text-sm">View All Requests</p>
-          <p className="text-xs text-[#4b5563]">Track your service tickets</p>
+          <p className="font-heading font-medium text-text-primary text-sm">
+            View All Requests
+          </p>
+          <p className="text-xs text-text-muted">Track your service tickets</p>
         </div>
-        <ChevronRight className="w-4 h-4 text-[#64748b] ml-auto group-hover:text-purple-400 transition" />
+        <ChevronRight className="w-4 h-4 text-text-muted ml-auto group-hover:text-purple-600 transition" />
       </button>
 
       {programButtonState.show && (
@@ -160,22 +164,22 @@ const QuickActions = ({
             </div>
             <div className="text-left">
               <p
-                className={`font-semibold text-[#0f172a] text-sm ${programButtonState.disabled ? "" : programButtonState.textColor}`}
+                className={`font-heading font-medium text-text-primary text-sm ${programButtonState.disabled ? "" : programButtonState.textColor}`}
               >
                 {programButtonState.title}
               </p>
-              <p className="text-xs text-[#4b5563]">
+              <p className="text-xs text-text-muted">
                 {programButtonState.description}
               </p>
             </div>
             {!programButtonState.disabled && (
               <ChevronRight
-                className={`w-4 h-4 text-[#6b7280] ml-auto transition group-hover:${programButtonState.textColor}`}
+                className={`w-4 h-4 text-text-muted ml-auto transition group-hover:${programButtonState.textColor}`}
               />
             )}
           </button>
           {programButtonState.disabled && programButtonState.tooltip && (
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tooltip:block bg-[#F9FAFB] text-[#111827] text-xs rounded-lg px-3 py-1.5 whitespace-nowrap z-10 shadow-lg">
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tooltip:block bg-gray-100 text-text-primary text-xs rounded-lg px-3 py-1.5 whitespace-nowrap z-10 shadow-md border border-gray-200">
               {programButtonState.tooltip}
             </div>
           )}

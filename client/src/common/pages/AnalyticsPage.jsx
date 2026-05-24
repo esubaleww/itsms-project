@@ -23,12 +23,12 @@ const AnalyticsPage = () => {
   };
 
   return (
-    <div className="bg-linear-to-b from-[#F9FAFB] to-[#F3F4F6] min-h-screen">
+    <div className="bg-linear-to-b from-gray-50 to-gray-100 min-h-screen font-body">
       <div className="space-y-6 p-5 sm:p-10">
         <div className="flex items-center gap-4 mb-6">
           <button
             onClick={() => navigate("/dashboard")}
-            className="flex items-center gap-2 text-[#6b7280] hover:text-[#2563eb] transition-colors group"
+            className="flex items-center gap-2 text-text-muted hover:text-accent transition-colors group"
           >
             <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
             <span>Back to Dashboard</span>

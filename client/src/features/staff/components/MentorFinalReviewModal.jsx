@@ -82,39 +82,39 @@ const MentorFinalReviewModal = ({ mentee, type, onClose, onSubmit }) => {
     mentee?.milestones?.filter((m) => m.status === "completed").length || 0;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col border border-[#E5E7EB] shadow-2xl"
+        className="bg-white shadow-lg rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col border border-gray-200"
       >
-        <div className="p-5 border-b border-[#E5E7EB] flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-sm">
+        <div className="p-5 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white">
           <div>
-            <h2 className="text-xl font-bold text-[#111827]">
+            <h2 className="text-xl font-heading font-medium text-text-primary">
               Final Review - {type === "innovator" ? "Innovator" : "Startup"}
             </h2>
-            <p className="text-sm text-[#6b7280]">{menteeName}</p>
+            <p className="text-sm text-text-muted">{menteeName}</p>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
+            className="p-1 hover:bg-gray-100 rounded-lg transition"
           >
-            <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
+            <X className="w-5 h-5 text-text-muted hover:text-text-primary" />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-5">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-[#374151] mb-1">
+              <label className="block text-sm font-medium text-text-secondary mb-1">
                 Overall Progress <span className="text-red-500">*</span>
               </label>
               <select
                 name="overallProgress"
                 value={formData.overallProgress}
                 onChange={handleChange}
-                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
               >
                 <option value="">Select progress level</option>
                 <option value="Excellent">
@@ -139,7 +139,7 @@ const MentorFinalReviewModal = ({ mentee, type, onClose, onSubmit }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[#374151] mb-1">
+              <label className="block text-sm font-medium text-text-secondary mb-1">
                 Strengths (comma separated)
               </label>
               <textarea
@@ -148,15 +148,15 @@ const MentorFinalReviewModal = ({ mentee, type, onClose, onSubmit }) => {
                 value={formData.strengths}
                 onChange={handleChange}
                 placeholder="e.g., Technical skills, Leadership, Problem solving"
-                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
               />
-              <p className="text-xs text-[#6b7280] mt-1">
+              <p className="text-xs text-text-muted mt-1">
                 Separate multiple strengths with commas
               </p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[#374151] mb-1">
+              <label className="block text-sm font-medium text-text-secondary mb-1">
                 Areas for Improvement (comma separated)
               </label>
               <textarea
@@ -165,9 +165,9 @@ const MentorFinalReviewModal = ({ mentee, type, onClose, onSubmit }) => {
                 value={formData.areasForImprovement}
                 onChange={handleChange}
                 placeholder="e.g., Time management, Communication, Documentation"
-                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
               />
-              <p className="text-xs text-[#6b7280] mt-1">
+              <p className="text-xs text-text-muted mt-1">
                 Separate multiple areas with commas
               </p>
             </div>
@@ -175,7 +175,7 @@ const MentorFinalReviewModal = ({ mentee, type, onClose, onSubmit }) => {
             {type === "startup" && (
               <>
                 <div>
-                  <label className="block text-sm font-medium text-[#374151] mb-1">
+                  <label className="block text-sm font-medium text-text-secondary mb-1">
                     Milestones Completed
                   </label>
                   <input
@@ -185,23 +185,23 @@ const MentorFinalReviewModal = ({ mentee, type, onClose, onSubmit }) => {
                     onChange={handleChange}
                     min="0"
                     max={totalMilestones}
-                    className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                    className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                   />
-                  <p className="text-xs text-[#6b7280] mt-1">
+                  <p className="text-xs text-text-muted mt-1">
                     Total milestones: {totalMilestones} | Completed:{" "}
                     {completedMilestones}
                   </p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#374151] mb-1">
+                  <label className="block text-sm font-medium text-text-secondary mb-1">
                     Investment Readiness <span className="text-red-500">*</span>
                   </label>
                   <select
                     name="investmentReadiness"
                     value={formData.investmentReadiness}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                    className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                   >
                     <option value="">Select readiness level</option>
                     <option value="Not Ready">
@@ -228,14 +228,14 @@ const MentorFinalReviewModal = ({ mentee, type, onClose, onSubmit }) => {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-[#374151] mb-1">
+              <label className="block text-sm font-medium text-text-secondary mb-1">
                 Recommendation <span className="text-red-500">*</span>
               </label>
               <select
                 name="recommendation"
                 value={formData.recommendation}
                 onChange={handleChange}
-                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
               >
                 <option value="">Select recommendation</option>
                 <option value="Graduate">Graduate from program</option>
@@ -251,7 +251,7 @@ const MentorFinalReviewModal = ({ mentee, type, onClose, onSubmit }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[#374151] mb-1">
+              <label className="block text-sm font-medium text-text-secondary mb-1">
                 Additional Comments
               </label>
               <textarea
@@ -260,25 +260,25 @@ const MentorFinalReviewModal = ({ mentee, type, onClose, onSubmit }) => {
                 value={formData.comments}
                 onChange={handleChange}
                 placeholder="Any additional feedback..."
-                className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] placeholder-[#9ca3af] focus:outline-none focus:border-[#2563eb]"
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
               />
             </div>
           </form>
         </div>
 
-        <div className="p-5 border-t border-[#E5E7EB] bg-white/90 backdrop-blur-sm rounded-b-2xl">
+        <div className="p-5 border-t border-gray-200 bg-white rounded-b-2xl">
           <div className="flex gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 border border-[#D1D5DB] text-[#374151] py-2.5 rounded-lg hover:bg-[#F3F4F6] transition"
+              className="flex-1 border border-gray-300 text-text-secondary py-2.5 rounded-lg hover:bg-gray-50 transition"
             >
               Cancel
             </button>
             <button
               onClick={handleSubmit}
               disabled={loading}
-              className="flex-1 bg-linear-to-r from-purple-600 to-pink-600 text-[#111827] py-2.5 rounded-lg hover:from-purple-700 hover:to-pink-700 transition disabled:opacity-50 flex items-center justify-center gap-2"
+              className="flex-1 bg-accent hover:bg-accent/90 text-white py-2.5 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-md"
             >
               {loading ? (
                 <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent" />

@@ -14,14 +14,14 @@ const AssignTaskModal = ({ onClose, onSubmit, members }) => {
   const [loading, setLoading] = useState(false);
 
   const priorities = [
-    { value: "low", label: "Low", color: "bg-gray-500/20 text-[#6b7280]" },
+    { value: "low", label: "Low", color: "bg-gray-100 text-text-muted" },
     {
       value: "medium",
       label: "Medium",
-      color: "bg-yellow-500/20 text-yellow-400",
+      color: "bg-yellow-50 text-yellow-600",
     },
-    { value: "high", label: "High", color: "bg-orange-500/20 text-orange-400" },
-    { value: "urgent", label: "Urgent", color: "bg-red-500/20 text-red-500" },
+    { value: "high", label: "High", color: "bg-orange-50 text-orange-600" },
+    { value: "urgent", label: "Urgent", color: "bg-red-50 text-red-600" },
   ];
 
   const validate = () => {
@@ -48,29 +48,31 @@ const AssignTaskModal = ({ onClose, onSubmit, members }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-lg max-h-[90vh] overflow-hidden border border-[#E5E7EB]"
+        className="bg-white shadow-lg rounded-2xl w-full max-w-lg max-h-[90vh] overflow-hidden border border-gray-200"
       >
-        <div className="flex justify-between items-center p-5 border-b border-[#E5E7EB]">
+        <div className="flex justify-between items-center p-5 border-b border-gray-200">
           <div className="flex items-center gap-2">
-            <Send className="w-5 h-5 text-[#2563eb]" />
-            <h2 className="text-xl font-bold text-[#111827]">Assign Task</h2>
+            <Send className="w-5 h-5 text-accent" />
+            <h2 className="text-xl font-heading font-medium text-text-primary">
+              Assign Task
+            </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
+            className="p-1 hover:bg-gray-100 rounded-lg transition"
           >
-            <X className="w-5 h-5 text-[#6b7280]" />
+            <X className="w-5 h-5 text-text-muted hover:text-text-primary" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-5 space-y-4 overflow-y-auto">
           <div>
-            <label className="block text-sm font-medium text-[#374151] mb-1">
+            <label className="block text-sm font-medium text-text-secondary mb-1">
               Task Title *
             </label>
             <input
@@ -79,7 +81,9 @@ const AssignTaskModal = ({ onClose, onSubmit, members }) => {
               onChange={(e) =>
                 setFormData({ ...formData, title: e.target.value })
               }
-              className={`w-full px-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] ${errors.title ? "border-red-500" : "border-[#D1D5DB]"}`}
+              className={`w-full px-3 py-2 bg-white border rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all ${
+                errors.title ? "border-red-500" : "border-gray-300"
+              }`}
               placeholder="Enter task title"
             />
             {errors.title && (
@@ -88,7 +92,7 @@ const AssignTaskModal = ({ onClose, onSubmit, members }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#374151] mb-1">
+            <label className="block text-sm font-medium text-text-secondary mb-1">
               Description *
             </label>
             <textarea
@@ -97,7 +101,9 @@ const AssignTaskModal = ({ onClose, onSubmit, members }) => {
               onChange={(e) =>
                 setFormData({ ...formData, description: e.target.value })
               }
-              className={`w-full px-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] ${errors.description ? "border-red-500" : "border-[#D1D5DB]"}`}
+              className={`w-full px-3 py-2 bg-white border rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all ${
+                errors.description ? "border-red-500" : "border-gray-300"
+              }`}
               placeholder="Describe the task..."
             />
             {errors.description && (
@@ -106,7 +112,7 @@ const AssignTaskModal = ({ onClose, onSubmit, members }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#374151] mb-1">
+            <label className="block text-sm font-medium text-text-secondary mb-1">
               Assign To *
             </label>
             <select
@@ -114,7 +120,9 @@ const AssignTaskModal = ({ onClose, onSubmit, members }) => {
               onChange={(e) =>
                 setFormData({ ...formData, assignedTo: e.target.value })
               }
-              className={`w-full px-3 py-2 bg-white border rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb] ${errors.assignedTo ? "border-red-500" : "border-[#D1D5DB]"}`}
+              className={`w-full px-3 py-2 bg-white border rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all ${
+                errors.assignedTo ? "border-red-500" : "border-gray-300"
+              }`}
             >
               <option value="">Select team member</option>
               {members?.map((member) => (
@@ -129,7 +137,7 @@ const AssignTaskModal = ({ onClose, onSubmit, members }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#374151] mb-1">
+            <label className="block text-sm font-medium text-text-secondary mb-1">
               Priority
             </label>
             <div className="flex gap-2">
@@ -140,7 +148,11 @@ const AssignTaskModal = ({ onClose, onSubmit, members }) => {
                   onClick={() =>
                     setFormData({ ...formData, priority: p.value })
                   }
-                  className={`flex-1 px-3 py-2 rounded-lg text-sm transition ${formData.priority === p.value ? p.color + " ring-2 ring-offset-1 ring-emerald-500" : "bg-[#F9FAFB] border border-[#E5E7EB] text-[#6b7280] hover:bg-[#F3F4F6]"}`}
+                  className={`flex-1 px-3 py-2 rounded-lg text-sm transition ${
+                    formData.priority === p.value
+                      ? p.color + " ring-2 ring-offset-1 ring-accent"
+                      : "bg-gray-50 border border-gray-200 text-text-muted hover:bg-gray-100"
+                  }`}
                 >
                   {p.label}
                 </button>
@@ -149,7 +161,7 @@ const AssignTaskModal = ({ onClose, onSubmit, members }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#374151] mb-1">
+            <label className="block text-sm font-medium text-text-secondary mb-1">
               Deadline
             </label>
             <input
@@ -158,17 +170,17 @@ const AssignTaskModal = ({ onClose, onSubmit, members }) => {
               onChange={(e) =>
                 setFormData({ ...formData, deadline: e.target.value })
               }
-              className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="btn-institutional w-full py-2.5 disabled:opacity-50"
+            className="btn-filled w-full py-2.5 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
-              <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+              <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
             ) : (
               <>
                 <Send className="w-4 h-4" /> Assign Task

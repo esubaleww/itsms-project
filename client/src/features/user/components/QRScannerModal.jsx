@@ -155,18 +155,20 @@ const QRScannerModal = ({ onClose, onSuccess }) => {
         }
       `}</style>
 
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
-        <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-md border border-[#E5E7EB]">
-          <div className="flex justify-between items-center p-5 border-b border-[#E5E7EB]">
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="bg-white shadow-lg rounded-2xl w-full max-w-md border border-gray-200">
+          <div className="flex justify-between items-center p-5 border-b border-gray-200">
             <div className="flex items-center gap-2">
-              <Camera className="w-5 h-5 text-[#2563eb]" />
-              <h2 className="text-xl font-bold text-[#111827]">Scan QR Code</h2>
+              <Camera className="w-5 h-5 text-accent" />
+              <h2 className="text-xl font-heading font-medium text-text-primary">
+                Scan QR Code
+              </h2>
             </div>
             <button
               onClick={onClose}
-              className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
+              className="p-1 hover:bg-gray-100 rounded-lg transition"
             >
-              <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
+              <X className="w-5 h-5 text-text-muted hover:text-text-primary" />
             </button>
           </div>
 
@@ -174,8 +176,8 @@ const QRScannerModal = ({ onClose, onSuccess }) => {
             {status === "scanning" && (
               <>
                 <div id="qr-reader" className="w-full"></div>
-                <div className="mt-4 p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
-                  <p className="text-xs text-blue-400 text-center">
+                <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                  <p className="text-xs text-blue-600 text-center">
                     Position the QR code within the frame to mark attendance
                   </p>
                 </div>
@@ -184,9 +186,11 @@ const QRScannerModal = ({ onClose, onSuccess }) => {
 
             {status === "processing" && (
               <div className="text-center py-12">
-                <Loader2 className="w-16 h-16 text-[#2563eb] animate-spin mx-auto mb-4" />
-                <h3 className="text-[#111827] font-semibold mb-2">Processing...</h3>
-                <p className="text-[#6b7280] text-sm">
+                <Loader2 className="w-16 h-16 text-accent animate-spin mx-auto mb-4" />
+                <h3 className="text-text-primary font-heading font-medium mb-2">
+                  Processing...
+                </h3>
+                <p className="text-text-muted text-sm">
                   Recording your attendance
                 </p>
               </div>
@@ -194,11 +198,11 @@ const QRScannerModal = ({ onClose, onSuccess }) => {
 
             {status === "success" && (
               <div className="text-center py-12">
-                <CheckCircle className="w-16 h-16 text-[#2563eb] mx-auto mb-4" />
-                <h3 className="text-[#111827] font-semibold mb-2">
+                <CheckCircle className="w-16 h-16 text-accent mx-auto mb-4" />
+                <h3 className="text-text-primary font-heading font-medium mb-2">
                   Attendance Recorded!
                 </h3>
-                <p className="text-[#6b7280] text-sm">
+                <p className="text-text-muted text-sm">
                   Your attendance has been successfully recorded
                 </p>
               </div>
@@ -207,17 +211,17 @@ const QRScannerModal = ({ onClose, onSuccess }) => {
             {status === "error" && (
               <div className="text-center py-12">
                 <XCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-                <h3 className="text-[#111827] font-semibold mb-2">
+                <h3 className="text-text-primary font-heading font-medium mb-2">
                   Cannot Mark Attendance
                 </h3>
-                <p className="text-red-500 text-sm">{errorMessage}</p>
+                <p className="text-red-600 text-sm">{errorMessage}</p>
                 <button
                   onClick={() => {
                     setStatus("scanning");
                     setErrorMessage("");
                     window.location.reload();
                   }}
-                  className="btn-institutional mt-4 px-4 py-2"
+                  className="btn-filled mt-4 px-4 py-2"
                 >
                   Try Again
                 </button>

@@ -57,51 +57,53 @@ const SessionManagementModal = ({ trainee, onClose, onRefresh }) => {
     if (session.attended) {
       return {
         label: "Attended",
-        color: "bg-[#EEF2FF] text-[#2563eb]",
+        color: "bg-blue-50 text-accent",
         icon: CheckCircle,
       };
     }
     if (sessionDate < now) {
       return {
         label: "Missed",
-        color: "bg-red-500/20 text-red-500",
+        color: "bg-red-50 text-red-600",
         icon: XCircle,
       };
     }
     return {
       label: "Upcoming",
-      color: "bg-[#EEF2FF] text-[#2563eb]",
+      color: "bg-blue-50 text-accent",
       icon: Calendar,
     };
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col border border-[#E5E7EB] shadow-2xl"
+        className="bg-white shadow-lg rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col border border-gray-200"
       >
-        <div className="flex justify-between items-center p-5 border-b border-[#E5E7EB]">
+        <div className="flex justify-between items-center p-5 border-b border-gray-200">
           <div>
-            <h2 className="text-xl font-bold text-[#111827]">Manage Sessions</h2>
-            <p className="text-sm text-[#6b7280]">
+            <h2 className="text-xl font-heading font-medium text-text-primary">
+              Manage Sessions
+            </h2>
+            <p className="text-sm text-text-muted">
               {trainee?.trainee?.fullName || trainee?.fullName || "Trainee"}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-[#F3F4F6] rounded-lg transition"
+            className="p-1 hover:bg-gray-100 rounded-lg transition"
           >
-            <X className="w-5 h-5 text-[#6b7280] hover:text-[#111827]" />
+            <X className="w-5 h-5 text-text-muted hover:text-text-primary" />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-5 space-y-5">
           <button
             onClick={() => setShowForm(!showForm)}
-            className="btn-institutional w-full py-3"
+            className="btn-filled w-full py-3"
           >
             <Plus className="w-4 h-4" />
             {showForm ? "Cancel" : "Add New Session"}
@@ -113,7 +115,7 @@ const SessionManagementModal = ({ trainee, onClose, onRefresh }) => {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-4 border border-[#E5E7EB] space-y-4"
+                className="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-4"
               >
                 <input
                   type="text"
@@ -122,22 +124,22 @@ const SessionManagementModal = ({ trainee, onClose, onRefresh }) => {
                   onChange={(e) =>
                     setFormData({ ...formData, title: e.target.value })
                   }
-                  className="w-full px-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                  className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                 />
                 <div className="grid grid-cols-2 gap-3">
                   <div className="relative">
-                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                     <input
                       type="date"
                       value={formData.date}
                       onChange={(e) =>
                         setFormData({ ...formData, date: e.target.value })
                       }
-                      className="w-full pl-9 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                      className="w-full pl-9 pr-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                     />
                   </div>
                   <div className="relative">
-                    <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                    <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                     <input
                       type="number"
                       placeholder="Duration (hours)"
@@ -145,12 +147,12 @@ const SessionManagementModal = ({ trainee, onClose, onRefresh }) => {
                       onChange={(e) =>
                         setFormData({ ...formData, duration: e.target.value })
                       }
-                      className="w-full pl-9 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                      className="w-full pl-9 pr-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                     />
                   </div>
                 </div>
                 <div className="relative">
-                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7280]" />
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                   <input
                     type="text"
                     placeholder="Location (optional)"
@@ -158,13 +160,13 @@ const SessionManagementModal = ({ trainee, onClose, onRefresh }) => {
                     onChange={(e) =>
                       setFormData({ ...formData, location: e.target.value })
                     }
-                    className="w-full pl-9 pr-3 py-2 bg-white border border-[#D1D5DB] rounded-lg text-[#111827] focus:outline-none focus:border-[#2563eb]"
+                    className="w-full pl-9 pr-3 py-2 bg-white border border-gray-300 rounded-lg text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                   />
                 </div>
                 <button
                   onClick={handleSubmit}
                   disabled={!formData.title || !formData.date || loading}
-                  className="btn-institutional w-full py-2 disabled:opacity-50"
+                  className="btn-filled w-full py-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
@@ -180,11 +182,15 @@ const SessionManagementModal = ({ trainee, onClose, onRefresh }) => {
           </AnimatePresence>
 
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-[#111827]">All Sessions</h3>
+            <h3 className="text-sm font-heading font-medium text-text-primary">
+              All Sessions
+            </h3>
             {sessions.length === 0 ? (
-              <div className="text-center py-8 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl">
-                <Calendar className="w-10 h-10 text-[#9ca3af] mx-auto mb-2" />
-                <p className="text-[#6b7280] text-sm">No sessions created yet</p>
+              <div className="text-center py-8 bg-gray-50 border border-gray-200 rounded-xl">
+                <Calendar className="w-10 h-10 text-text-muted mx-auto mb-2" />
+                <p className="text-text-muted text-sm">
+                  No sessions created yet
+                </p>
               </div>
             ) : (
               sessions.map((session, idx) => {
@@ -193,12 +199,12 @@ const SessionManagementModal = ({ trainee, onClose, onRefresh }) => {
                 return (
                   <div
                     key={idx}
-                    className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4 border border-[#E5E7EB]"
+                    className="bg-gray-50 border border-gray-200 rounded-lg p-4"
                   >
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <h4 className="font-medium text-[#111827]">
+                          <h4 className="font-heading font-medium text-text-primary">
                             {session.title}
                           </h4>
                           <span
@@ -208,7 +214,7 @@ const SessionManagementModal = ({ trainee, onClose, onRefresh }) => {
                             {status.label}
                           </span>
                         </div>
-                        <div className="space-y-1 text-xs text-[#6b7280]">
+                        <div className="space-y-1 text-xs text-text-muted">
                           <div className="flex items-center gap-2">
                             <Calendar className="w-3 h-3" />
                             <span>
@@ -236,24 +242,16 @@ const SessionManagementModal = ({ trainee, onClose, onRefresh }) => {
                               setSelectedSession(session);
                               setShowQRModal(true);
                             }}
-                            className="p-1.5 text-[#2563eb] hover:text-[#1d4ed8]"
+                            className="p-1.5 text-accent hover:text-blue-700"
                             title="Generate QR Code"
                           >
                             <QrCode className="w-4 h-4" />
                           </button>
                         )}
-                        {session.attended && session.certificate && (
-                          <button
-                            className="p-1.5 text-blue-400 hover:text-blue-300"
-                            title="View Certificate"
-                          >
-                            <FileText className="w-4 h-4" />
-                          </button>
-                        )}
                       </div>
                     </div>
                     {session.attendedAt && (
-                      <p className="text-xs text-[#2563eb]/70 mt-2">
+                      <p className="text-xs text-accent/70 mt-2">
                         Attended on{" "}
                         {new Date(session.attendedAt).toLocaleString()}
                       </p>
@@ -265,10 +263,10 @@ const SessionManagementModal = ({ trainee, onClose, onRefresh }) => {
           </div>
         </div>
 
-        <div className="p-5 border-t border-[#E5E7EB]">
+        <div className="p-5 border-t border-gray-200">
           <button
             onClick={onClose}
-            className="w-full border border-[#D1D5DB] text-[#374151] py-2.5 rounded-lg hover:bg-[#F3F4F6] transition"
+            className="w-full border border-gray-300 text-text-secondary py-2.5 rounded-lg hover:bg-gray-50 transition"
           >
             Close
           </button>

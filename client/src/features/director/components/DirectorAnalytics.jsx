@@ -17,6 +17,8 @@ import {
   Zap,
   Calendar,
   AlertTriangle,
+  ArrowLeft,
+  BarChart3,
 } from "lucide-react";
 import {
   AreaChart,
@@ -34,6 +36,7 @@ import {
   Legend,
 } from "recharts";
 import { useDirectorAnalytics } from "../../../hooks/useDirectorAnalytics";
+import { useNavigate } from "react-router-dom";
 
 const CHART_COLORS = {
   primary: "#2563EB",
@@ -45,23 +48,30 @@ const CHART_COLORS = {
   indigo: "#6366F1",
   cyan: "#06B6D4",
   orange: "#F97316",
+  green: "#10B981",
+  teal: "#14B8A6",
+  rose: "#F43F5E",
+  violet: "#8B5CF6",
 };
 
 const colorMap = {
-  emerald: "text-[#2563eb]",
-  blue: "text-blue-400",
-  purple: "text-purple-400",
-  amber: "text-amber-400",
+  emerald: "text-accent",
+  blue: "text-blue-600",
+  purple: "text-purple-600",
+  amber: "text-amber-600",
+  teal: "text-teal-600",
+  rose: "text-rose-600",
 };
 
 const DirectorAnalytics = () => {
+  const navigate = useNavigate();
   const { analytics, loading, fetchAnalytics } = useDirectorAnalytics();
+  const directorateType = analytics?.directorate?.type;
 
   useEffect(() => {
     fetchAnalytics();
   }, []);
 
-  
   const enhancedTeams = useMemo(() => {
     return (analytics?.teamPerformance || []).map((team) => ({
       ...team,
@@ -69,7 +79,6 @@ const DirectorAnalytics = () => {
     }));
   }, [analytics]);
 
-  
   const alerts = useMemo(() => {
     const list = [];
 
@@ -92,7 +101,6 @@ const DirectorAnalytics = () => {
     return list;
   }, [analytics, enhancedTeams]);
 
-  
   const riskyRequests = useMemo(() => {
     return (analytics?.recentRequests || []).filter(
       (r) => r.status !== "completed",
@@ -102,44 +110,42 @@ const DirectorAnalytics = () => {
   if (loading && !analytics?.weeklyActivity?.length) {
     return (
       <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2563eb]"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent"></div>
       </div>
     );
   }
 
-  
   const metrics = [
     {
       title: "Completion Rate",
       value: `${analytics?.completionRate || 0}%`,
       icon: TrendingUp,
-      color: "#10B981",
+      color: CHART_COLORS.green,
       change: "Overall performance",
     },
     {
       title: "Total Requests",
       value: analytics?.totalRequests || 0,
       icon: Briefcase,
-      color: "#2563eb",
+      color: CHART_COLORS.primary,
       change: "All requests",
     },
     {
       title: "Completed",
       value: analytics?.completedRequests || 0,
       icon: CheckCircle,
-      color: "#059669",
+      color: CHART_COLORS.teal,
       change: "Successfully completed",
     },
     {
       title: "Active Teams",
       value: analytics?.teamPerformance?.length || 0,
       icon: Users,
-      color: "#6366F1",
+      color: CHART_COLORS.purple,
       change: "Working teams",
     },
   ];
 
-  
   const getDirectorateMetrics = () => {
     const type = analytics?.directorate?.type;
     if (type === "internship") {
@@ -211,7 +217,6 @@ const DirectorAnalytics = () => {
 
   const directorateMetrics = getDirectorateMetrics();
 
-  
   const requestDistributionWithColors = (
     analytics?.requestDistribution || []
   ).map((item, i) => ({
@@ -226,12 +231,11 @@ const DirectorAnalytics = () => {
     fill: Object.values(CHART_COLORS)[i % Object.values(CHART_COLORS).length],
   }));
 
-  
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-[#E5E7EB] rounded-lg p-3 shadow-lg">
-          <p className="text-[#111827] text-sm font-medium mb-2">{label}</p>
+        <div className="bg-white shadow-sm border border-gray-200 rounded-lg p-3">
+          <p className="text-text-primary text-sm font-medium mb-2">{label}</p>
           {payload.map((item, idx) => (
             <p key={idx} className="text-xs" style={{ color: item.color }}>
               {item.name}: {item.value}
@@ -243,8 +247,32 @@ const DirectorAnalytics = () => {
     return null;
   };
 
+  if (directorateType !== "service") {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 bg-white rounded-xl border border-gray-200 shadow-sm">
+        <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+          <BarChart3 className="w-10 h-10 text-text-muted" />
+        </div>
+        <h2 className="text-xl font-heading font-medium text-text-primary mb-2">
+          Analytics Not Available
+        </h2>
+        <p className="text-text-muted text-center max-w-md mb-6">
+          Analytics dashboard is only available for Service Directorate. Your
+          directorate ({directorateType}) does not have service request metrics.
+        </p>
+        <button
+          onClick={() => navigate("/director")}
+          className="flex items-center gap-2 px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent/90 transition"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Dashboard
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-body">
       {alerts.length > 0 && (
         <div className="space-y-2">
           {alerts.map((alert, i) => (
@@ -253,8 +281,8 @@ const DirectorAnalytics = () => {
               className={`p-3 rounded-lg flex items-center gap-2 text-sm
                 ${
                   alert.type === "danger"
-                    ? "bg-red-500/10 text-red-500 border border-red-500/20"
-                    : "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
+                    ? "bg-red-50 text-red-600 border border-red-500/30"
+                    : "bg-yellow-50 text-yellow-600 border border-yellow-500/30"
                 }`}
             >
               <AlertTriangle className="w-4 h-4" />
@@ -271,22 +299,29 @@ const DirectorAnalytics = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="bg-white rounded-xl p-6 border border-[#E5E7EB] shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-300 group cursor-pointer"
+            className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer"
           >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-[#6b7280] text-sm font-medium">{metric.title}</p>
-                <p className="text-[#111827] text-3xl font-bold mt-1">{metric.value}</p>
+                <p className="text-text-muted text-sm font-medium">
+                  {metric.title}
+                </p>
+                <p className="text-text-primary text-3xl font-bold mt-1">
+                  {metric.value}
+                </p>
                 <div className="flex items-center gap-1 mt-2">
-                  <Activity className="w-3 h-3 text-[#2563eb]" />
-                  <p className="text-[#6b7280] text-xs">{metric.change}</p>
+                  <Activity className="w-3 h-3 text-accent" />
+                  <p className="text-text-muted text-xs">{metric.change}</p>
                 </div>
               </div>
-              <div 
+              <div
                 className="p-3 rounded-xl transition-colors group-hover:scale-110 duration-300"
                 style={{ backgroundColor: `${metric.color}10` }}
               >
-                <metric.icon className="w-6 h-6" style={{ color: metric.color }} />
+                <metric.icon
+                  className="w-6 h-6"
+                  style={{ color: metric.color }}
+                />
               </div>
             </div>
           </motion.div>
@@ -301,36 +336,47 @@ const DirectorAnalytics = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 + 0.3 }}
-              className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB] hover:border-[#2563eb]/50 transition-all duration-300"
+              className="bg-white shadow-sm rounded-xl p-6 border border-gray-200 hover:border-accent/50 transition-all duration-300"
             >
               <div className="flex items-center gap-2 mb-2">
                 <metric.icon className={`w-5 h-5 ${colorMap[metric.color]}`} />
-                <span className="text-[#6b7280] text-sm">{metric.label}</span>
+                <span className="text-text-muted text-sm">{metric.label}</span>
               </div>
-              <p className="text-2xl font-bold text-[#111827]">{metric.value}</p>
+              <p className="text-2xl font-bold text-text-primary">
+                {metric.value}
+              </p>
             </motion.div>
           ))}
         </div>
       )}
 
-      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
+      <div className="bg-white shadow-sm rounded-xl p-6 border border-gray-200">
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-          <h3 className="text-[#111827] font-semibold flex items-center gap-2">
-            <Activity className="w-5 h-5 text-[#2563eb]" />
+          <h3 className="text-text-primary font-heading font-medium flex items-center gap-2">
+            <Activity className="w-5 h-5 text-accent" />
             Weekly Activity
           </h3>
-          <div className="flex items-center gap-3 text-xs">
+          <div className="flex items-center gap-4 text-xs">
             <span className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-[#2563eb] rounded-full" />
-              <span className="text-[#6b7280]">Requests</span>
+              <div
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: CHART_COLORS.primary }}
+              />
+              <span className="text-text-muted">Requests</span>
             </span>
             <span className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-blue-500 rounded-full" />
-              <span className="text-[#6b7280]">Completed</span>
+              <div
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: CHART_COLORS.teal }}
+              />
+              <span className="text-text-muted">Completed</span>
             </span>
             <span className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-yellow-500 rounded-full" />
-              <span className="text-[#6b7280]">In Progress</span>
+              <div
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: CHART_COLORS.warning }}
+              />
+              <span className="text-text-muted">In Progress</span>
             </span>
           </div>
         </div>
@@ -339,12 +385,28 @@ const DirectorAnalytics = () => {
             <AreaChart data={analytics?.weeklyActivity || []}>
               <defs>
                 <linearGradient id="colorRequests" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#2563EB" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#2563EB" stopOpacity={0} />
+                  <stop
+                    offset="5%"
+                    stopColor={CHART_COLORS.primary}
+                    stopOpacity={0.3}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor={CHART_COLORS.primary}
+                    stopOpacity={0}
+                  />
                 </linearGradient>
                 <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
+                  <stop
+                    offset="5%"
+                    stopColor={CHART_COLORS.teal}
+                    stopOpacity={0.3}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor={CHART_COLORS.teal}
+                    stopOpacity={0}
+                  />
                 </linearGradient>
                 <linearGradient
                   id="colorInProgress"
@@ -353,8 +415,16 @@ const DirectorAnalytics = () => {
                   x2="0"
                   y2="1"
                 >
-                  <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#F59E0B" stopOpacity={0} />
+                  <stop
+                    offset="5%"
+                    stopColor={CHART_COLORS.warning}
+                    stopOpacity={0.3}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor={CHART_COLORS.warning}
+                    stopOpacity={0}
+                  />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
@@ -368,10 +438,16 @@ const DirectorAnalytics = () => {
                 tick={{ fill: "#6B7280", fontSize: 12 }}
               />
               <Tooltip content={<CustomTooltip />} />
+              <Legend
+                wrapperStyle={{ paddingTop: 10 }}
+                formatter={(value) => (
+                  <span className="text-text-secondary text-xs">{value}</span>
+                )}
+              />
               <Area
                 type="monotone"
                 dataKey="requests"
-                stroke="#2563EB"
+                stroke={CHART_COLORS.primary}
                 strokeWidth={2}
                 fill="url(#colorRequests)"
                 name="Requests"
@@ -379,7 +455,7 @@ const DirectorAnalytics = () => {
               <Area
                 type="monotone"
                 dataKey="completed"
-                stroke="#3B82F6"
+                stroke={CHART_COLORS.teal}
                 strokeWidth={2}
                 fill="url(#colorCompleted)"
                 name="Completed"
@@ -387,7 +463,7 @@ const DirectorAnalytics = () => {
               <Area
                 type="monotone"
                 dataKey="inProgress"
-                stroke="#F59E0B"
+                stroke={CHART_COLORS.warning}
                 strokeWidth={2}
                 fill="url(#colorInProgress)"
                 name="In Progress"
@@ -397,9 +473,9 @@ const DirectorAnalytics = () => {
         </div>
       </div>
 
-      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
-        <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
-          <PieChart className="w-5 h-5 text-[#2563eb]" />
+      <div className="bg-white shadow-sm rounded-xl p-6 border border-gray-200">
+        <h3 className="text-text-primary font-heading font-medium mb-4 flex items-center gap-2">
+          <PieChart className="w-5 h-5 text-accent" />
           Request Distribution
         </h3>
         <div className="w-full h-80">
@@ -438,7 +514,7 @@ const DirectorAnalytics = () => {
                 }}
               />
               <Legend
-                wrapperStyle={{ color: "#F3F4F6", fontSize: "12px" }}
+                wrapperStyle={{ color: "#374151", fontSize: "12px" }}
                 iconType="circle"
               />
             </RePieChart>
@@ -446,9 +522,9 @@ const DirectorAnalytics = () => {
         </div>
       </div>
 
-      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
-        <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
-          <Target className="w-5 h-5 text-[#2563eb]" />
+      <div className="bg-white shadow-sm rounded-xl p-6 border border-gray-200">
+        <h3 className="text-text-primary font-heading font-medium mb-4 flex items-center gap-2">
+          <Target className="w-5 h-5 text-accent" />
           Request Status
         </h3>
         <div className="w-full h-80">
@@ -458,7 +534,7 @@ const DirectorAnalytics = () => {
               layout="vertical"
               margin={{ left: 100 }}
             >
-              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
               <XAxis
                 type="number"
                 stroke="#9CA3AF"
@@ -468,16 +544,16 @@ const DirectorAnalytics = () => {
                 type="category"
                 dataKey="name"
                 stroke="#9CA3AF"
-                tick={{ fill: "#9CA3AF", fontSize: 12 }}
+                tick={{ fill: "#374151", fontSize: 12 }}
                 width={100}
               />
               <Tooltip
                 contentStyle={{
                   backgroundColor: "#ffffff",
-                  borderColor: "#2563EB",
+                  borderColor: "#E5E7EB",
                   borderRadius: "8px",
                   padding: "12px 16px",
-                  border: "1px solid #2563EB",
+                  border: "1px solid #E5E7EB",
                 }}
                 labelStyle={{
                   color: "#111827",
@@ -493,7 +569,7 @@ const DirectorAnalytics = () => {
                   padding: "4px 0",
                 }}
                 cursor={{
-                  stroke: "#2563EB",
+                  stroke: CHART_COLORS.primary,
                   strokeWidth: 2,
                   strokeDasharray: "3 3",
                 }}
@@ -508,9 +584,9 @@ const DirectorAnalytics = () => {
         </div>
       </div>
 
-      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
-        <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
-          <Users className="w-5 h-5 text-[#2563eb]" />
+      <div className="bg-white shadow-sm rounded-xl p-6 border border-gray-200">
+        <h3 className="text-text-primary font-heading font-medium mb-4 flex items-center gap-2">
+          <Users className="w-5 h-5 text-accent" />
           Team Performance
         </h3>
         <div className="space-y-3">
@@ -518,40 +594,42 @@ const DirectorAnalytics = () => {
             enhancedTeams.map((team, idx) => (
               <div
                 key={idx}
-                className="p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg hover:bg-[#F3F4F6] transition-all duration-300"
+                className="p-4 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-all duration-300"
               >
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-[#111827] font-medium">{team.name}</span>
-                  <span className="text-[#2563eb] text-sm font-semibold">
+                  <span className="text-text-primary font-medium">
+                    {team.name}
+                  </span>
+                  <span className="text-accent text-sm font-medium">
                     {team.completionRate}%
                   </span>
                 </div>
-                <div className="flex justify-between text-xs text-[#6b7280] mb-2">
+                <div className="flex justify-between text-xs text-text-muted mb-2">
                   <span>{team.members} members</span>
                   <span>
                     {team.completedRequests}/{team.totalRequests} tasks
                   </span>
                   <span>Load: {team.load.toFixed(1)}/member</span>
                 </div>
-                <div className="w-full bg-[#E5E7EB] rounded-full h-1.5">
+                <div className="w-full bg-gray-200 rounded-full h-1.5">
                   <div
-                    className="bg-[#2563eb] h-1.5 rounded-full"
+                    className="bg-accent h-1.5 rounded-full"
                     style={{ width: `${team.completionRate}%` }}
                   />
                 </div>
               </div>
             ))
           ) : (
-            <div className="text-center py-8 text-[#6b7280]">
+            <div className="text-center py-8 text-text-muted">
               No teams found in your directorate
             </div>
           )}
         </div>
       </div>
 
-      <div className="bg-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl p-6 border border-[#E5E7EB]">
-        <h3 className="text-[#111827] font-semibold mb-4 flex items-center gap-2">
-          <AlertTriangle className="w-5 h-5 text-amber-400" />
+      <div className="bg-white shadow-sm rounded-xl p-6 border border-gray-200">
+        <h3 className="text-text-primary font-heading font-medium mb-4 flex items-center gap-2">
+          <AlertTriangle className="w-5 h-5 text-amber-500" />
           Active / Risky Requests
         </h3>
         <div className="space-y-3 max-h-96 overflow-y-auto">
@@ -559,24 +637,24 @@ const DirectorAnalytics = () => {
             riskyRequests.map((request, idx) => (
               <div
                 key={idx}
-                className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg hover:bg-[#F3F4F6] transition gap-2"
+                className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition gap-2"
               >
                 <div className="flex-1">
-                  <p className="text-[#111827] text-sm font-medium">
+                  <p className="text-text-primary text-sm font-medium">
                     {request.title}
                   </p>
                   <div className="flex flex-wrap gap-2 mt-1">
-                    <span className="text-xs text-[#6b7280]">
+                    <span className="text-xs text-text-muted">
                       From: {request.applicant}
                     </span>
-                    <span className="text-xs text-[#6b7280]">•</span>
-                    <span className="text-xs text-[#6b7280] capitalize">
+                    <span className="text-xs text-text-muted">•</span>
+                    <span className="text-xs text-text-muted capitalize">
                       Type: {request.serviceType}
                     </span>
                     {request.assignedTeam && (
                       <>
-                        <span className="text-xs text-[#6b7280]">•</span>
-                        <span className="text-xs text-[#6b7280]">
+                        <span className="text-xs text-text-muted">•</span>
+                        <span className="text-xs text-text-muted">
                           Team: {request.assignedTeam}
                         </span>
                       </>
@@ -587,10 +665,10 @@ const DirectorAnalytics = () => {
                   <span
                     className={`text-xs px-2 py-1 rounded-full ${
                       request.status === "completed"
-                        ? "bg-[#EEF2FF] text-[#2563eb]"
+                        ? "bg-teal-50 text-teal-600"
                         : request.status === "in_progress"
                           ? "bg-blue-100 text-blue-600"
-                          : "bg-yellow-100 text-yellow-600"
+                          : "bg-yellow-50 text-yellow-600"
                     }`}
                   >
                     {request.status === "in_progress"
@@ -599,15 +677,15 @@ const DirectorAnalytics = () => {
                         ? "Pending"
                         : request.status}
                   </span>
-                  <Calendar className="w-3 h-3 text-[#6b7280]" />
-                  <span className="text-xs text-[#6b7280]">
+                  <Calendar className="w-3 h-3 text-text-muted" />
+                  <span className="text-xs text-text-muted">
                     {new Date(request.createdAt).toLocaleDateString()}
                   </span>
                 </div>
               </div>
             ))
           ) : (
-            <div className="text-center py-8 text-[#6b7280]">
+            <div className="text-center py-8 text-text-muted">
               No active risky requests
             </div>
           )}

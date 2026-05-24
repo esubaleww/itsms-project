@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Eye, File, Image, FileText } from "lucide-react";
+import { Eye, File, Image, FileText, X } from "lucide-react";
 
 const DocumentItem = ({ file, label, onRemove, showDownload = true }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -37,12 +37,12 @@ const DocumentItem = ({ file, label, onRemove, showDownload = true }) => {
   };
 
   const getFileIcon = () => {
-    if (isImage) return <Image className="w-5 h-5 text-[#2563eb]" />;
+    if (isImage) return <Image className="w-5 h-5 text-accent" />;
     if (mimeType.includes("pdf"))
       return <FileText className="w-5 h-5 text-red-500" />;
     if (mimeType.includes("word") || mimeType.includes("document"))
-      return <FileText className="w-5 h-5 text-blue-400" />;
-    return <File className="w-5 h-5 text-[#6b7280]" />;
+      return <FileText className="w-5 h-5 text-blue-500" />;
+    return <File className="w-5 h-5 text-text-muted" />;
   };
 
   const openDocument = () => {
@@ -61,17 +61,17 @@ const DocumentItem = ({ file, label, onRemove, showDownload = true }) => {
   return (
     <div
       onClick={openDocument}
-      className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-4 hover:bg-[#F3F4F6] transition-all cursor-pointer group"
+      className="bg-gray-50 border border-gray-200 rounded-lg p-4 hover:bg-gray-100 transition-all cursor-pointer group"
     >
       <div className="flex items-start gap-3">
         <div className="shrink-0 mt-1">{getFileIcon()}</div>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between flex-wrap gap-2">
-            <p className="text-[#111827] font-medium truncate">{fileName}</p>
+            <p className="text-text-primary font-medium truncate">{fileName}</p>
             <div className="flex items-center gap-2">
               {fileSize && (
-                <span className="text-xs text-[#6b7280]">
+                <span className="text-xs text-text-muted">
                   {formatFileSize(fileSize)}
                 </span>
               )}
@@ -80,7 +80,7 @@ const DocumentItem = ({ file, label, onRemove, showDownload = true }) => {
                   e.stopPropagation();
                   openDocument();
                 }}
-                className="p-1.5 text-blue-400 hover:text-blue-300 rounded-lg transition"
+                className="p-1.5 text-blue-500 hover:text-blue-600 rounded-lg transition"
                 title="View"
               >
                 <Eye className="w-4 h-4" />
@@ -105,7 +105,7 @@ const DocumentItem = ({ file, label, onRemove, showDownload = true }) => {
               e.stopPropagation();
               setIsExpanded(!isExpanded);
             }}
-            className="text-xs text-[#6b7280] hover:text-[#6b7280] mt-1 block truncate"
+            className="text-xs text-text-muted hover:text-text-secondary mt-1 block truncate"
           >
             {isExpanded ? fileUrl : `${fileUrl.substring(0, 60)}...`}
           </button>
@@ -115,7 +115,7 @@ const DocumentItem = ({ file, label, onRemove, showDownload = true }) => {
               <img
                 src={fileUrl}
                 alt={fileName}
-                className="max-h-48 rounded-lg object-contain border border-[#D1D5DB]"
+                className="max-h-48 rounded-lg object-contain border border-gray-300"
               />
             </div>
           )}
