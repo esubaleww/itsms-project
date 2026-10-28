@@ -6,7 +6,6 @@ A full-stack web platform designed to help the **Amhara National Regional State 
 ![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=nodedotjs&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-5-000000?logo=express&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/Database-MongoDB-47A248?logo=mongodb&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-blue)
 
 > **Project status:** Update this badge/description to reflect the real deployment status. Do not describe the system as production-ready unless it has been deployed and validated in its intended environment.
 
@@ -26,9 +25,6 @@ A full-stack web platform designed to help the **Amhara National Regional State 
 - [API Documentation](#api-documentation)
 - [Testing](#testing)
 - [Security Notes](#security-notes)
-- [Screenshots](#screenshots)
-- [Contributing](#contributing)
-- [License](#license)
 
 ---
 
@@ -106,18 +102,18 @@ The system is intended to replace fragmented, paper-based workflows with a centr
 ITSMS uses a frontend/backend architecture. The React client communicates with an Express REST API. The API handles request routing, authentication and authorization middleware, controllers, business logic, and persistence through Mongoose and MongoDB. External services such as Cloudinary and SMTP are used for file storage and email when configured.
 
 ```mermaid
-flowchart TB
+flowchart TD
     U["Users and Bureau Staff"]
-    FE["Frontend<br/>React · Vite · Tailwind CSS"]
-    API["REST API<br/>Node.js · Express"]
-    MW["Middleware<br/>Authentication · RBAC · Validation · Errors"]
-    CTRL["Routes and Controllers<br/>HTTP Request Handling"]
-    SVC["Service Layer<br/>Application and Workflow Logic"]
-    DB["Data Layer<br/>Mongoose · MongoDB"]
-    EXT["External Services<br/>Cloudinary · SMTP Email"]
+    FE["Frontend: React, Vite, Tailwind CSS"]
+    API["REST API: Node.js and Express"]
+    MW["Middleware: Authentication, RBAC, Validation"]
+    CTRL["Routes and Controllers"]
+    SVC["Service Layer: Business Logic"]
+    DB["Database: Mongoose and MongoDB"]
+    EXT["External Services: Cloudinary and SMTP"]
 
     U --> FE
-    FE -->|"HTTP / JSON"| API
+    FE --> API
     API --> MW
     MW --> CTRL
     CTRL --> SVC
