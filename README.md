@@ -277,8 +277,8 @@ Install the tools and services required by the current codebase:
 Replace the URL below with the actual public repository URL.
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
-cd YOUR-REPOSITORY
+git clone https://github.com/esubaleww/itsms-project.git
+cd itsms-project
 ```
 
 ### 2. Install backend dependencies
