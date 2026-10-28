@@ -1,12 +1,14 @@
 # ITSMS — Innovation and Technology Service Management System
 
-> A comprehensive web-based platform that digitizes, automates, and manages all services of the Amhara National Regional State Innovation and Technology Bureau (ANRS ITB).
+A full-stack web platform designed to help the **Amhara National Regional State Innovation and Technology Bureau (ANRS ITB)** manage service requests, program applications, approvals, documents, team workflows, reporting, and audit records in one place.
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
-![Status](https://img.shields.io/badge/status-production--ready-green)
-![License](https://img.shields.io/badge/license-MIT-lightgrey)
-![Node](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
-![React](https://img.shields.io/badge/react-19-blue)
+![React](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-5-000000?logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-47A248?logo=mongodb&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-blue)
+
+> **Project status:** Update this badge/description to reflect the real deployment status. Do not describe the system as production-ready unless it has been deployed and validated in its intended environment.
 
 ---
 
@@ -19,327 +21,245 @@
 - [User Roles](#user-roles)
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Environment Variables](#environment-variables)
-  - [Running the Application](#running-the-application)
+- [Environment Variables](#environment-variables)
+- [Running the Application](#running-the-application)
 - [API Documentation](#api-documentation)
-- [Database Models](#database-models)
 - [Testing](#testing)
-- [Deployment](#deployment)
+- [Security Notes](#security-notes)
 - [Screenshots](#screenshots)
 - [Contributing](#contributing)
 - [License](#license)
-- [Acknowledgements](#acknowledgements)
-- [Contact](#contact)
 
 ---
 
 ## Overview
 
-The **Innovation and Technology Service Management System (ITSMS)** is a full-stack web application developed for the **Amhara National Regional State Innovation and Technology Bureau (ANRS ITB)**. The Bureau, established under **Proclamation No. 296/2025**, is mandated to lead the region's digital transformation through digital infrastructure management, innovation incubation, technology transfer, cybersecurity monitoring, and digital literacy programs.
+The **Innovation and Technology Service Management System (ITSMS)** is a web application developed for the **Amhara National Regional State Innovation and Technology Bureau (ANRS ITB)**.
 
-Before ITSMS, most of the Bureau's services relied on manual, paper-based processes that were slow, error-prone, and difficult to track. ITSMS digitizes and automates these services, providing a centralized platform for managing applications, service requests, approvals, team workflows, document storage, reporting, analytics, and auditing.
+The system is intended to replace fragmented, paper-based workflows with a centralized digital platform. It supports program applications, technology service requests, multi-level review and approval, document handling, staff and team coordination, reports, notifications, and activity auditing.
 
-### Project Goals
+### Project objectives
 
-- **Digitize** all manual paper-based processes
-- **Automate** multi-level approval workflows
-- **Centralize** document and data management
-- **Provide** real-time notifications and analytics
-- **Ensure** accountability through complete audit trails
-- **Enable** role-based access for 10+ user types
-
----
+- Digitize service and program application processes.
+- Make application and service-request statuses easier to track.
+- Support review and approval workflows across relevant roles.
+- Centralize document and record management.
+- Improve coordination between directorates, team leads, and staff.
+- Provide reporting and analytics to support monitoring.
+- Maintain audit records for important system actions.
 
 ## Key Features
 
-### 🔐 Authentication & Authorization
-- JWT-based authentication with secure token management
-- Email verification for new registrations
-- Password reset via email
-- Role-Based Access Control (RBAC) for 10+ user roles
-- bcrypt password hashing
-- Rate limiting and input validation
+### Authentication and access control
+- JWT-based authentication.
+- Email verification and password-reset workflows, where configured.
+- Password hashing with `bcryptjs`.
+- Role-based access control (RBAC).
+- Request validation and rate limiting.
 
-### 📋 Application Management
-- Multi-step application forms for:
-  - **Internship** programs
-  - **Innovation** programs
-  - **Startup** programs
-  - **Training** programs
-- Document upload via Cloudinary
-- Application status tracking
-- Admin approval workflows
-- Automated routing to directorates
+### Program application management
+- Applications for internship, innovation, startup, and training programs.
+- Application status tracking and review workflows.
+- Supporting-document uploads through Cloudinary, when configured.
+- Administrative review and routing.
 
-### 🛠️ Service Requests
-- Submit technology service requests
-- Document upload support
-- Priority assignment
-- Status tracking from submission to completion
-- Task assignment to team members
+### Technology service requests
+- Submit and track service requests.
+- Attach supporting documents.
+- Assign requests or tasks to responsible staff.
+- Track progress through the service workflow.
 
-### 👥 Team & Directorate Management
-- Create and manage directorates
-- Assign team leads and members
-- Task assignment and tracking
-- Team performance metrics
-- Staff management
+### Organization and team workflows
+- Manage directorates, teams, and staff.
+- Assign tasks and follow their progress.
+- Support role-specific dashboards and responsibilities.
 
-### 📊 Reporting & Analytics
-- Multi-level report generation (interns, innovators, startups, trainees, team leads, directors)
-- Report submission, review, approval, and feedback
-- Analytics dashboard with Area, Pie, and Bar charts
-- Application trends and program progress visualization
-- Team performance insights
-- Export capabilities
+### Reports and analytics
+- Submit, review, and provide feedback on reports.
+- Display application, program, or team information through dashboard charts.
+- Support management monitoring and reporting.
 
-### 📄 Document Management
-- Secure file upload via Cloudinary
-- Document storage, retrieval, and download
-- Version tracking
-- Access control
+### Documents and notifications
+- Upload and retrieve supporting documents.
+- Send email notifications through Nodemailer, when SMTP is configured.
+- Provide in-app notifications and status updates where implemented.
 
-### 🔔 Notification System
-- In-app notifications
-- Email notifications via Nodemailer
-- Status change alerts
-- Task assignment notifications
-- Report review notifications
+### QR-code attendance
+- Generate QR codes for training sessions.
+- Scan codes to record trainee attendance.
+- Review attendance history, where enabled.
 
-### 📱 QR Code Attendance
-- Trainer generates QR codes for sessions
-- Trainees scan QR codes to mark attendance
-- Real-time attendance validation
-- Attendance history tracking
+### Audit trail
+- Record important system actions and approval decisions.
+- Help administrators review activity and accountability.
 
-### 📝 Audit Trail
-- Complete logging of all system actions
-- User activity tracking
-- Approval/rejection records
-- System access visibility
-- Accountability for all actions
+### Responsive interface
+- React-based interface designed for desktop, tablet, and mobile screens.
+- Tailwind CSS styling and Framer Motion animations.
 
-### 📱 Responsive Design
-- Works on desktop, tablet, and mobile
-- Cross-browser compatible (Chrome, Firefox, Edge)
-- Modern UI with Framer Motion animations
-- Accessible and intuitive interface
+> Feature availability depends on the implementation and environment configuration. Keep this list aligned with what is actually present and working in the repository.
 
 ---
 
 ## System Architecture
 
-ITSMS follows **Clean Architecture** principles with clear separation of concerns:
-+-------------------------------------------------------------+
-|                     FRONTEND (React 19)                     |
-|  +--------------+--------------+--------------+-----------+ |
-|  | Public Pages |  Auth Pages  |  Dashboards  |   Forms   | |
-|  | Landing      |  Login       |  Admin       |  Multi-   | |
-|  | Service Cat. |  Register    |  Director    |  step     | |
-|  | News         |  Password    |  Team Lead   |  Forms    | |
-|  |              |  Reset       |  Staff       |           | |
-|  |              |  Email Verify|  User        |           | |
-|  +--------------+--------------+--------------+-----------+ |
-+-------------------------------------------------------------+
-|                    API LAYER (Express 5)                    |
-|  /api/auth  /api/admin  /api/dir  /api/team  /api/service  |
-+-------------------------------------------------------------+
-|                   BUSINESS LOGIC (Services)                 |
-|  Auth Service | Application Service | Admin Service | Director |
-+-------------------------------------------------------------+
-|                     DATABASE (MongoDB)                      |
-|  Users | Requests | Profiles | Reports | Teams | Logs      |
-+-------------------------------------------------------------+
-### Architectural Patterns
-- **Clean Architecture** — Separation of concerns across layers
-- **MVC Pattern** — Models, Views (routes), Controllers
-- **Repository Pattern** — Abstracted database access via Mongoose
-- **Middleware Pattern** — Auth, RBAC, validation, error handling
-- **Service Layer** — Business logic isolated from controllers
+ITSMS uses a frontend/backend architecture. The React client communicates with an Express REST API. The API handles request routing, authentication and authorization middleware, controllers, business logic, and persistence through Mongoose and MongoDB. External services such as Cloudinary and SMTP are used for file storage and email when configured.
+
+```mermaid
+flowchart TB
+    U["Users and Bureau Staff"]
+    FE["Frontend<br/>React · Vite · Tailwind CSS"]
+    API["REST API<br/>Node.js · Express"]
+    MW["Middleware<br/>Authentication · RBAC · Validation · Errors"]
+    CTRL["Routes and Controllers<br/>HTTP Request Handling"]
+    SVC["Service Layer<br/>Application and Workflow Logic"]
+    DB["Data Layer<br/>Mongoose · MongoDB"]
+    EXT["External Services<br/>Cloudinary · SMTP Email"]
+
+    U --> FE
+    FE -->|"HTTP / JSON"| API
+    API --> MW
+    MW --> CTRL
+    CTRL --> SVC
+    SVC --> DB
+    SVC --> EXT
+```
+
+### Request flow
+
+1. A user interacts with the React frontend.
+2. The frontend sends an HTTP request to the Express API.
+3. Middleware performs applicable authentication, authorization, validation, and error-handling tasks.
+4. Routes and controllers handle the request and call business logic.
+5. The service/data layer reads or updates MongoDB through Mongoose.
+6. The API returns a response to the frontend.
+
+### Architectural patterns
+
+The codebase is organized around separation of concerns. The following descriptions should only be retained where they match the implementation:
+
+- **Controller / route separation:** HTTP endpoints are separated from request-handling logic.
+- **Middleware pattern:** Shared request processing, such as authentication and validation.
+- **Service layer:** Business logic is placed in service modules where used.
+- **Data models:** Mongoose models describe and validate application data.
+
+Do not claim strict **Clean Architecture** or a **Repository Pattern** unless the source code genuinely implements those patterns. Using folders named `services` or `models` alone does not establish a particular architecture.
 
 ---
 
 ## Technology Stack
 
-### Frontend
-| Technology | Version | Purpose |
+| Area | Technology | Purpose |
 |---|---|---|
-| React | 19.2.4 | UI framework |
-| Vite | 8.0.0 | Build tool |
-| Tailwind CSS | 4.2.2 | Utility-first styling |
-| Framer Motion | 12.38.0 | Animations |
-| Recharts | 3.8.0 | Data visualization |
-| Zustand | 5.0.12 | State management |
-| Axios | 1.13.6 | HTTP client |
-| React Router DOM | 7.13.1 | Client-side routing |
-| Lucide React | 0.577.0 | Icon library |
-| Fontsource | — | Web fonts (Inter, Calistoga) |
-| html5-qrcode | 2.3.8 | QR code scanning |
-| qrcode | 1.5.4 | QR code generation |
+| Frontend | React | User interface |
+| Frontend tooling | Vite | Development server and build tooling |
+| Styling | Tailwind CSS | Utility-first styling |
+| Animation | Framer Motion | UI animation |
+| Charts | Recharts | Data visualization |
+| State management | Zustand | Client-side state |
+| HTTP client | Axios | API communication |
+| Routing | React Router | Client-side navigation |
+| Backend | Node.js and Express | REST API and server logic |
+| Database | MongoDB | Persistent data storage |
+| ODM | Mongoose | MongoDB models and data access |
+| Authentication | JSON Web Tokens (JWT) | Token-based authentication |
+| Password security | bcryptjs | Password hashing |
+| File storage | Cloudinary | Uploaded file storage |
+| Email | Nodemailer | Email delivery |
+| API testing | Postman | Endpoint testing |
+| Version control | Git and GitHub | Source control |
 
-### Backend
-| Technology | Version | Purpose |
-|---|---|---|
-| Node.js | 18+ | Runtime environment |
-| Express | 5.2.1 | Web framework |
-| MongoDB | 9.3.1 | Database |
-| Mongoose | 9.3.1 | MongoDB ODM |
-| JWT | 9.0.3 | Authentication |
-| bcryptjs | 3.0.3 | Password hashing |
-| Nodemailer | 8.0.2 | Email sending |
-| Cloudinary | 2.9.0 | File storage |
-| Helmet | 8.1.0 | Security headers |
-| CORS | 2.8.6 | Cross-origin support |
-| express-rate-limit | 8.3.1 | Rate limiting |
-| express-validator | 7.3.1 | Input validation |
-| Multer | 2.1.1 | File upload |
-| html-pdf | 1.5.0 | PDF generation |
-
-### Testing & DevOps
-| Technology | Purpose |
-|---|---|
-| Postman | API endpoint testing |
-| MongoDB Compass | Database verification |
-| Browser DevTools | Debugging and network monitoring |
-| Chrome / Firefox / Edge | Cross-browser UI testing |
-| Git / GitHub | Version control |
+For exact package versions, consult `frontend/package.json` and `backend/package.json`. The MongoDB server version is configured separately from the Mongoose npm package version, so they should not be listed as though they are the same thing.
 
 ---
 
 ## User Roles
 
-ITSMS supports **10+ user roles**, each with specific permissions and dashboard views:
+The application is designed to support different access levels. Confirm the names and permissions against the current implementation.
 
-| Role | Access Level | Key Permissions |
-|---|---|---|
-| **Guest / User** | Unauthenticated | View public portal, service catalog, announcements |
-| **Registered User** | Authenticated | Apply for programs, submit service requests, track status |
-| **Intern** | Program Participant | Submit weekly reports, view advisor, track progress |
-| **Innovator** | Program Participant | Update milestones, view mentor, track innovation |
-| **Startup** | Program Participant | Track growth metrics, view mentor, milestone updates |
-| **Trainee** | Program Participant | View training schedule, QR attendance |
-| **Staff** | Employee | Complete assigned tasks, view reviews, update profile |
-| **Team Lead** | Team Manager | Assign tasks, submit team reports, view analytics |
-| **Director** | Directorate Manager | Manage teams, review reports, assign staff |
-| **Admin** | Full System | Manage all aspects: users, directorates, approvals, audit logs |
+| Role | Typical responsibilities |
+|---|---|
+| Guest | View public pages and announcements |
+| Registered user | Submit applications or service requests and track their status |
+| Intern | Access internship-related information and submit required reports |
+| Innovator | Track innovation-program progress and milestones |
+| Startup participant | Track startup-program progress and milestones |
+| Trainee | View training information and attendance records |
+| Staff | Handle assigned tasks and update work progress |
+| Team lead | Coordinate team work and review team reports |
+| Director | Oversee directorate workflows and review submissions |
+| Administrator | Manage system configuration, users, workflows, and audit records |
 
-### Role Hierarchy & Workflows
-User → Admin → Director → Team Lead → Staff
-│
-├── Intern → Advisor → Director
-├── Innovator → Mentor → Director
-├── Startup → Mentor → Director
-└── Trainee → Trainer → Director
+### Example workflow
 
+```text
+Applicant / Requester
+        |
+        v
+Application or Service Request
+        |
+        v
+Review and Approval
+        |
+        v
+Assignment to Responsible Team
+        |
+        v
+Work, Status Updates, and Completion
+```
+
+The exact sequence may differ by application type and request category; document the actual workflow if it has additional steps.
 
 ---
 
 ## Project Structure
-itsms/
-|-- backend/
-|   |-- config/
-|   |   |-- db.js
-|   |   |-- cloudinary.js
-|   |   `-- email.js
-|   |-- controllers/
-|   |   |-- authController.js
-|   |   |-- applicationController.js
-|   |   |-- adminController.js
-|   |   |-- directorController.js
-|   |   |-- teamController.js
-|   |   |-- staffController.js
-|   |   `-- serviceController.js
-|   |-- middleware/
-|   |   |-- auth.js
-|   |   |-- rbac.js
-|   |   |-- validate.js
-|   |   |-- upload.js
-|   |   `-- errorHandler.js
-|   |-- models/
-|   |   |-- User.js
-|   |   |-- Request.js
-|   |   |-- Report.js
-|   |   |-- Directorate.js
-|   |   |-- Team.js
-|   |   |-- ServiceCatalog.js
-|   |   |-- Notification.js
-|   |   |-- AuditLog.js
-|   |   |-- Announcement.js
-|   |   |-- InternProfile.js
-|   |   |-- InnovatorProfile.js
-|   |   |-- StartupProfile.js
-|   |   |-- TrainingProfile.js
-|   |   |-- RequesterProfile.js
-|   |   |-- Milestone.js
-|   |   |-- Session.js
-|   |   `-- Task.js
-|   |-- routes/
-|   |   |-- authRoutes.js
-|   |   |-- applicationRoutes.js
-|   |   |-- adminRoutes.js
-|   |   |-- directorRoutes.js
-|   |   |-- teamRoutes.js
-|   |   |-- staffRoutes.js
-|   |   |-- serviceRoutes.js
-|   |   `-- notificationRoutes.js
-|   |-- services/
-|   |   |-- authService.js
-|   |   |-- applicationService.js
-|   |   |-- adminService.js
-|   |   |-- directorService.js
-|   |   |-- notificationService.js
-|   |   `-- analyticsService.js
-|   |-- utils/
-|   |   |-- generateToken.js
-|   |   |-- sendEmail.js
-|   |   `-- helpers.js
-|   |-- .env.example
-|   |-- package.json
-|   `-- server.js
-|-- frontend/
-|   |-- public/
-|   |-- src/
-|   |   |-- api/
-|   |   |   |-- axios.js
-|   |   |   |-- authApi.js
-|   |   |   |-- applicationApi.js
-|   |   |   |-- adminApi.js
-|   |   |   `-- ...
-|   |   |-- components/
-|   |   |   |-- common/
-|   |   |   |-- layout/
-|   |   |   |-- forms/
-|   |   |   `-- charts/
-|   |   |-- pages/
-|   |   |   |-- public/
-|   |   |   |-- auth/
-|   |   |   |-- dashboards/
-|   |   |   |-- admin/
-|   |   |   |-- director/
-|   |   |   |-- team/
-|   |   |   |-- staff/
-|   |   |   `-- user/
-|   |   |-- store/
-|   |   |   |-- authStore.js
-|   |   |   |-- notificationStore.js
-|   |   |   `-- uiStore.js
-|   |   |-- utils/
-|   |   |   |-- constants.js
-|   |   |   |-- formatters.js
-|   |   |   `-- validators.js
-|   |   |-- App.jsx
-|   |   |-- main.jsx
-|   |   `-- index.css
-|   |-- index.html
-|   |-- vite.config.js
-|   |-- tailwind.config.js
-|   `-- package.json  
-|-- .gitignore
-|-- README.md
-`-- LICENSE
 
+The tree below is a **reference overview** based on the documented organization. Before publishing, compare it with the actual repository and remove, rename, or add entries so every path shown exists.
+
+```text
+itsms/
+├── backend/
+│   ├── config/             # Database, email, and external-service setup
+│   ├── controllers/        # Request-handling logic
+│   ├── middleware/         # Authentication, authorization, validation, etc.
+│   ├── models/             # Mongoose data models
+│   ├── routes/             # API route definitions
+│   ├── services/           # Business logic, where separated
+│   ├── utils/              # Shared utilities
+│   ├── .env.example        # Example environment configuration
+│   ├── package.json
+│   └── server.js           # Backend entry point
+│
+├── frontend/
+│   ├── public/              # Static assets
+│   ├── src/
+│   │   ├── api/             # API client and endpoint functions
+│   │   ├── components/      # Reusable UI components
+│   │   ├── pages/           # Page-level views
+│   │   ├── store/           # Client-side state stores
+│   │   ├── utils/           # Shared frontend utilities
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
+│   ├── index.html
+│   ├── vite.config.js
+│   └── package.json
+├── .gitignore
+├── README.md
+└── LICENSE
+```
+
+### Main directories
+
+- `backend/routes/`: Defines API endpoints.
+- `backend/controllers/`: Coordinates incoming requests and responses.
+- `backend/services/`: Contains business logic if the project uses a service layer.
+- `backend/models/`: Defines MongoDB data models through Mongoose.
+- `backend/middleware/`: Provides shared request-processing logic.
+- `frontend/src/api/`: Centralizes communication with the backend.
+- `frontend/src/components/`: Contains reusable interface components.
+- `frontend/src/pages/`: Organizes page-level views.
+- `frontend/src/store/`: Holds client-side state management.
 
 ---
 
@@ -347,82 +267,127 @@ itsms/
 
 ### Prerequisites
 
-Before you begin, ensure you have the following installed:
+Install the tools and services required by the current codebase:
 
-- **Node.js** (v18 or higher) — [Download](https://nodejs.org/)
-- **npm** (v9 or higher) or **yarn**
-- **MongoDB** (v6 or higher) — [Download](https://www.mongodb.com/try/download/community) or use [MongoDB Atlas](https://www.mongodb.com/atlas)
-- **Git** — [Download](https://git-scm.com/)
-- **Cloudinary Account** — [Sign up](https://cloudinary.com/)
-- **Email Account** (Gmail or SMTP) for Nodemailer
+- [Node.js](https://nodejs.org/) (use the version supported by the project)
+- npm, included with Node.js, or the package manager specified by the repository
+- [MongoDB](https://www.mongodb.com/try/download/community) locally or [MongoDB Atlas](https://www.mongodb.com/atlas)
+- [Git](https://git-scm.com/)
+- A [Cloudinary](https://cloudinary.com/) account if file uploads use Cloudinary
+- SMTP credentials if email features are enabled
 
-### Installation
+### 1. Clone the repository
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/your-username/itsms.git
-   cd itsms
-   
-2. **Install backend dependencies**
-   ```bash
-   cd backend
-   npm install
+Replace the URL below with the actual public repository URL.
 
-3. **Install frontend dependencies**
+```bash
+git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
+cd YOUR-REPOSITORY
+```
 
-   ```bash
-   cd ../frontend
-   npm install
+### 2. Install backend dependencies
 
-**Environment Variables**
-**Backend — backend/.env**
-## Create a .env file in the backend/ directory:
+```bash
+cd backend
+npm install
+```
 
-*env*
+### 3. Install frontend dependencies
+
+```bash
+cd ../frontend
+npm install
+```
+
+### 4. Configure environment variables
+
+Create `backend/.env` and add the variables required by the backend. Use the example below as a starting point, then verify the exact variable names by checking the configuration code and `.env.example`.
+
+## Environment Variables
+
+Example configuration:
+
+```env
 # Server
 PORT=5000
 NODE_ENV=development
 
 # Database
 MONGODB_URI=mongodb://localhost:27017/itsms
-# Or for MongoDB Atlas:
-# MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/itsms
 
-# JWT
-JWT_SECRET=your_super_secret_jwt_key_here
+# Authentication
+JWT_SECRET=replace_with_a_long_random_secret
 JWT_EXPIRES_IN=7d
 
-# Email (Nodemailer)
+# Email / SMTP
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USER=your-email@gmail.com
-SMTP_PASS=your-app-password
-EMAIL_FROM=ITSMS <your-email@gmail.com>
+SMTP_USER=your-email@example.com
+SMTP_PASS=your-email-app-password
+EMAIL_FROM=ITSMS <your-email@example.com>
 
 # Cloudinary
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 
-# Frontend URL (for email links)
+# Frontend URL used for links or CORS, if required
 CLIENT_URL=http://localhost:5173
+```
 
-# Rate Limiting
-RATE_LIMIT_WINDOW_MS=900000
-RATE_LIMIT_MAX=100
+### 5. Run the application
 
-**Running the Application**
-## Development Mode
-## Start the backend:
+Open two terminals from the repository root.
 
-    ```bash
-    cd backend
-    npm run dev
-## The backend will run on http://localhost:5000
+**Terminal 1 — backend**
 
-## Start the frontend (in a new terminal):
+```bash
+cd backend
+npm run dev
+```
 
-    ```bash
-    cd frontend
-    npm run dev
-## The frontend will run on http://localhost:5173
+**Terminal 2 — frontend**
+
+```bash
+cd frontend
+npm run dev
+```
+
+The documented local development addresses are:
+
+- Frontend: `http://localhost:5173`
+- Backend: `http://localhost:5000`
+
+These addresses assume the default ports are configured as shown. If a command fails, check the scripts in each `package.json` and the backend's environment configuration.
+
+---
+
+## Testing
+
+The project documentation identifies the following tools for manual verification:
+
+- **Postman:** Test API endpoints and authentication flows.
+- **MongoDB Compass:** Inspect stored data during development.
+- **Browser DevTools:** Check client errors, network requests, and responsive layouts.
+- **Chrome, Firefox, and Edge:** Check browser compatibility.
+
+Add automated test instructions here if the repository includes a test suite. Do not claim automated test coverage unless tests exist and have been run.
+
+## Security Notes
+
+- Keep `.env` files and secrets out of version control.
+- Use strong, unique secrets for JWT signing.
+- Validate and authorize protected API requests on the server, not only in the frontend.
+- Apply least-privilege access to database and cloud-service credentials.
+- Configure CORS, rate limiting, and security headers for the intended deployment.
+- Use HTTPS in deployed environments.
+- Review file-upload type and size restrictions before accepting user uploads.
+---
+
+## Acknowledgements
+
+Developed in the context of work for the **Amhara National Regional State Innovation and Technology Bureau (ANRS ITB)**.
+
+## Contact
+
+For project questions, use the contact details or repository links maintained by the project owner.
