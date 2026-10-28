@@ -133,26 +133,25 @@ Before ITSMS, most of the Bureau's services relied on manual, paper-based proces
 
 ITSMS follows **Clean Architecture** principles with clear separation of concerns:
 ┌─────────────────────────────────────────────────────────────┐
-│ FRONTEND (React 19) │
-│ ┌──────────────┬──────────────┬──────────────┬───────────┐ │
-│ │ Public Pages │ Auth Pages │ Dashboards │ Forms │ │
-│ │ Landing │ Login │ Admin │ Multi- │ │
-│ │ Service Cat. │ Register │ Director │ step │ │
-│ │ News │ Password │ Team Lead │ Forms │ │
-│ │ │ Reset │ Staff │ │ │
-│ │ │ Email Verify│ User │ │ │
-│ └──────────────┴──────────────┴──────────────┴───────────┘ │
+│                     FRONTEND (React 19)                      │
+│  ┌──────────────┬──────────────┬──────────────┬───────────┐ │
+│  │ Public Pages │  Auth Pages  │  Dashboards  │   Forms   │ │
+│  │ Landing      │  Login       │  Admin       │  Multi-   │ │
+│  │ Service Cat. │  Register    │  Director    │  step     │ │
+│  │ News         │  Password    │  Team Lead   │  Forms    │ │
+│  │              │  Reset       │  Staff       │           │ │
+│  │              │  Email Verify│  User        │           │ │
+│  └──────────────┴──────────────┴──────────────┴───────────┘ │
 ├─────────────────────────────────────────────────────────────┤
-│ API LAYER (Express 5) │
-│ /api/auth /api/admin /api/dir /api/team /api/service │
+│                    API LAYER (Express 5)                     │
+│  /api/auth  /api/admin  /api/dir  /api/team  /api/service   │
 ├─────────────────────────────────────────────────────────────┤
-│ BUSINESS LOGIC (Services) │
-│ Auth Service │ Application Service │ Admin Service │ Director│
+│                   BUSINESS LOGIC (Services)                  │
+│  Auth Service │ Application Service │ Admin Service │ Director│
 ├─────────────────────────────────────────────────────────────┤
-│ DATABASE (MongoDB) │
-│ Users │ Requests │ Profiles │ Reports │ Teams │ Logs │
+│                     DATABASE (MongoDB)                       │
+│  Users │ Requests │ Profiles │ Reports │ Teams │ Logs       │
 └─────────────────────────────────────────────────────────────┘
-
 
 ### Architectural Patterns
 - **Clean Architecture** — Separation of concerns across layers
@@ -240,136 +239,105 @@ User → Admin → Director → Team Lead → Staff
 
 ## Project Structure
 itsms/
-├── backend/
-│ ├── config/
-│ │ ├── db.js # MongoDB connection
-│ │ ├── cloudinary.js # Cloudinary configuration
-│ │ └── email.js # Nodemailer configuration
-│ ├── controllers/
-│ │ ├── authController.js
-│ │ ├── applicationController.js
-│ │ ├── adminController.js
-│ │ ├── directorController.js
-│ │ ├── teamController.js
-│ │ ├── staffController.js
-│ │ └── serviceController.js
-│ ├── middleware/
-│ │ ├── auth.js # JWT verification
-│ │ ├── rbac.js # Role-based access control
-│ │ ├── validate.js # Input validation
-│ │ ├── upload.js # Multer + Cloudinary
-│ │ └── errorHandler.js
-│ ├── models/
-│ │ ├── User.js
-│ │ ├── Request.js
-│ │ ├── Report.js
-│ │ ├── Directorate.js
-│ │ ├── Team.js
-│ │ ├── ServiceCatalog.js
-│ │ ├── Notification.js
-│ │ ├── AuditLog.js
-│ │ ├── Announcement.js
-│ │ ├── InternProfile.js
-│ │ ├── InnovatorProfile.js
-│ │ ├── StartupProfile.js
-│ │ ├── TrainingProfile.js
-│ │ ├── RequesterProfile.js
-│ │ ├── Milestone.js
-│ │ ├── Session.js
-│ │ └── Task.js
-│ ├── routes/
-│ │ ├── authRoutes.js
-│ │ ├── applicationRoutes.js
-│ │ ├── adminRoutes.js
-│ │ ├── directorRoutes.js
-│ │ ├── teamRoutes.js
-│ │ ├── staffRoutes.js
-│ │ ├── serviceRoutes.js
-│ │ └── notificationRoutes.js
-│ ├── services/
-│ │ ├── authService.js
-│ │ ├── applicationService.js
-│ │ ├── adminService.js
-│ │ ├── directorService.js
-│ │ ├── notificationService.js
-│ │ └── analyticsService.js
-│ ├── utils/
-│ │ ├── generateToken.js
-│ │ ├── sendEmail.js
-│ │ └── helpers.js
-│ ├── .env.example
-│ ├── package.json
-│ └── server.js
+├── backend/                        # Express 5 backend application
+│   ├── config/                     # Configuration files
+│   │   ├── db.js                   # MongoDB connection
+│   │   ├── cloudinary.js           # Cloudinary configuration
+│   │   └── email.js                # Nodemailer configuration
+│   ├── controllers/                # Route controllers
+│   │   ├── authController.js
+│   │   ├── applicationController.js
+│   │   ├── adminController.js
+│   │   ├── directorController.js
+│   │   ├── teamController.js
+│   │   ├── staffController.js
+│   │   └── serviceController.js
+│   ├── middleware/                 # Custom middleware
+│   │   ├── auth.js                 # JWT verification
+│   │   ├── rbac.js                 # Role-based access control
+│   │   ├── validate.js             # Input validation
+│   │   ├── upload.js               # Multer + Cloudinary
+│   │   └── errorHandler.js         # Global error handler
+│   ├── models/                     # 17 Mongoose models
+│   │   ├── User.js
+│   │   ├── Request.js
+│   │   ├── Report.js
+│   │   ├── Directorate.js
+│   │   ├── Team.js
+│   │   ├── ServiceCatalog.js
+│   │   ├── Notification.js
+│   │   ├── AuditLog.js
+│   │   ├── Announcement.js
+│   │   ├── InternProfile.js
+│   │   ├── InnovatorProfile.js
+│   │   ├── StartupProfile.js
+│   │   ├── TrainingProfile.js
+│   │   ├── RequesterProfile.js
+│   │   ├── Milestone.js
+│   │   ├── Session.js
+│   │   └── Task.js
+│   ├── routes/                     # API route definitions
+│   │   ├── authRoutes.js
+│   │   ├── applicationRoutes.js
+│   │   ├── adminRoutes.js
+│   │   ├── directorRoutes.js
+│   │   ├── teamRoutes.js
+│   │   ├── staffRoutes.js
+│   │   ├── serviceRoutes.js
+│   │   └── notificationRoutes.js
+│   ├── services/                   # Business logic layer
+│   │   ├── authService.js
+│   │   ├── applicationService.js
+│   │   ├── adminService.js
+│   │   ├── directorService.js
+│   │   ├── notificationService.js
+│   │   └── analyticsService.js
+│   ├── utils/                      # Helper functions
+│   │   ├── generateToken.js
+│   │   ├── sendEmail.js
+│   │   └── helpers.js
+│   ├── .env.example                # Environment variable template
+│   ├── package.json
+│   └── server.js                   # Entry point
 │
-├── frontend/
-│ ├── public/
-│ ├── src/
-│ │ ├── api/
-│ │ │ ├── axios.js
-│ │ │ ├── authApi.js
-│ │ │ ├── applicationApi.js
-│ │ │ ├── adminApi.js
-│ │ │ └── ...
-│ │ ├── components/
-│ │ │ ├── common/
-│ │ │ │ ├── Button.jsx
-│ │ │ │ ├── Input.jsx
-│ │ │ │ ├── Modal.jsx
-│ │ │ │ ├── Table.jsx
-│ │ │ │ └── ...
-│ │ │ ├── layout/
-│ │ │ │ ├── Navbar.jsx
-│ │ │ │ ├── Sidebar.jsx
-│ │ │ │ └── Footer.jsx
-│ │ │ ├── forms/
-│ │ │ │ ├── InternshipForm.jsx
-│ │ │ │ ├── InnovationForm.jsx
-│ │ │ │ ├── StartupForm.jsx
-│ │ │ │ ├── TrainingForm.jsx
-│ │ │ │ └── ServiceRequestForm.jsx
-│ │ │ ├── charts/
-│ │ │ │ ├── AreaChart.jsx
-│ │ │ │ ├── PieChart.jsx
-│ │ │ │ └── BarChart.jsx
-│ │ │ └── ...
-│ │ ├── pages/
-│ │ │ ├── public/
-│ │ │ │ ├── Landing.jsx
-│ │ │ │ ├── ServiceCatalog.jsx
-│ │ │ │ ├── News.jsx
-│ │ │ │ └── ...
-│ │ │ ├── auth/
-│ │ │ │ ├── Login.jsx
-│ │ │ │ ├── Register.jsx
-│ │ │ │ ├── VerifyEmail.jsx
-│ │ │ │ ├── ForgotPassword.jsx
-│ │ │ │ └── ResetPassword.jsx
-│ │ │ ├── dashboards/
-│ │ │ │ ├── AdminDashboard.jsx
-│ │ │ │ ├── DirectorDashboard.jsx
-│ │ │ │ ├── TeamLeadDashboard.jsx
-│ │ │ │ ├── StaffDashboard.jsx
-│ │ │ │ └── UserDashboard.jsx
-│ │ │ ├── admin/
-│ │ │ ├── director/
-│ │ │ ├── team/
-│ │ │ ├── staff/
-│ │ │ └── user/
-│ │ ├── store/
-│ │ │ ├── authStore.js
-│ │ │ ├── notificationStore.js
-│ │ │ └── uiStore.js
-│ │ ├── utils/
-│ │ │ ├── constants.js
-│ │ │ ├── formatters.js
-│ │ │ └── validators.js
-│ │ ├── App.jsx
-│ │ ├── main.jsx
-│ │ └── index.css
-│ ├── index.html
-│ ├── vite.config.js
-│ ├── tailwind.config.js
-│ └── package.json
+├── frontend/                       # React 19 frontend application
+│   ├── public/                     # Static assets
+│   ├── src/
+│   │   ├── api/                    # Axios API clients
+│   │   │   ├── axios.js
+│   │   │   ├── authApi.js
+│   │   │   ├── applicationApi.js
+│   │   │   ├── adminApi.js
+│   │   │   └── ...
+│   │   ├── components/             # Reusable UI components
+│   │   │   ├── common/             # Button, Input, Modal, Table
+│   │   │   ├── layout/             # Navbar, Sidebar, Footer
+│   │   │   ├── forms/              # Application forms
+│   │   │   └── charts/             # Area, Pie, Bar charts
+│   │   ├── pages/                  # Page components
+│   │   │   ├── public/             # Landing, Service Catalog, News
+│   │   │   ├── auth/               # Login, Register, Verify, Reset
+│   │   │   ├── dashboards/         # Admin, Director, Team Lead, Staff, User
+│   │   │   ├── admin/              # Admin sub-pages
+│   │   │   ├── director/           # Director sub-pages
+│   │   │   ├── team/               # Team Lead sub-pages
+│   │   │   ├── staff/              # Staff sub-pages
+│   │   │   └── user/               # User sub-pages
+│   │   ├── store/                  # Zustand state stores
+│   │   │   ├── authStore.js
+│   │   │   ├── notificationStore.js
+│   │   │   └── uiStore.js
+│   │   ├── utils/                  # Helper functions
+│   │   │   ├── constants.js
+│   │   │   ├── formatters.js
+│   │   │   └── validators.js
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
+│   ├── index.html
+│   ├── vite.config.js
+│   ├── tailwind.config.js
+│   └── package.json
 ├── .gitignore
 ├── README.md
 └── LICENSE
